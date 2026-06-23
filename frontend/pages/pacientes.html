@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - Nyvora</title>
+
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <img src="../assets/logonyvora.png" alt="Nyvora">
+            </div>
+
+            <nav>
+
+                <ul>
+
+                    <li>
+                        <a href="dashboard.html">📊 Dashboard</a>
+                    </li>
+
+                    <li class="active">
+                        <a href="pacientes.html">👥 Pacientes</a>
+                    </li>
+
+                    <li>
+                        <a href="#">📈 Métricas</a>
+                    </li>
+
+                    <li>
+                        <a href="#">📋 Historial</a>
+                    </li>
+
+                    <li>
+                        <a href="#">🚨 Alertas</a>
+                    </li>
+
+                    <li>
+                        <a href="#">⚙️ Configuración</a>
+                    </li>
+
+                    <li>
+                        <a href="../login.html">🚪 Cerrar Sesión</a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+        <main class="content">
+
+            <div class="header">
+
+                <div>
+                    <h1>Pacientes</h1>
+
+                    <p>
+                        Gestiona y consulta los pacientes registrados
+                    </p>
+                </div>
+
+                <button class="btn-primary">
+                    + Nuevo Paciente
+                </button>
+
+            </div>
+
+            <!-- KPIs -->
+
+            <div class="kpi-cards">
+
+                <div class="card">
+                    <div class="icon">👥</div>
+                    <h2>128</h2>
+                    <p>Pacientes</p>
+                    <small>Total registrados</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">💚</div>
+                    <h2>112</h2>
+                    <p>Activos</p>
+                    <small>Seguimiento vigente</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">📊</div>
+                    <h2>14</h2>
+                    <p>Seguimiento</p>
+                    <small>Requieren control</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">⚪</div>
+                    <h2>2</h2>
+                    <p>Inactivos</p>
+                    <small>Sin actividad reciente</small>
+                </div>
+
+            </div>
+
+            <!-- BUSCADOR -->
+
+            <div class="panel">
+
+                <input
+                    type="text"
+                    placeholder="Buscar paciente..."
+                    class="search-box">
+
+            </div>
+
+            <br>
+
+            <!-- TABLA -->
+
+            <div class="panel">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Edad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>María Gómez</td>
+                            <td>maria@nyvora.com</td>
+                            <td>34</td>
+
+                            <td>
+                                <span class="badge success">
+                                    Activo
+                                </span>
+                            </td>
+
+                            <td>
+                                <a href="#" class="action-link">👁 Ver</a>
+                                |
+                                <a href="#" class="action-link">✏ Editar</a>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Carlos Vargas</td>
+                            <td>carlos@nyvora.com</td>
+                            <td>42</td>
+
+                            <td>
+                                <span class="badge warning">
+                                    Seguimiento
+                                </span>
+                            </td>
+
+                            <td>
+                                👁 Ver | ✏ Editar
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Ana Rodríguez</td>
+                            <td>ana@nyvora.com</td>
+                            <td>29</td>
+
+                            <td>
+                                <span class="badge success">
+                                    Activo
+                                </span>
+                            </td>
+
+                            <td>
+                                👁 Ver | ✏ Editar
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
