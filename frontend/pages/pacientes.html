@@ -2,211 +2,524 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacientes - Nyvora</title>
+
+    <title>Pacientes | Nyvora</title>
 
     <link rel="stylesheet" href="../css/dashboard.css">
+
 </head>
 
 <body>
 
-    <div class="dashboard">
+<div class="dashboard">
 
-        <aside class="sidebar">
+    <aside class="sidebar">
 
-            <div class="logo">
-                <img src="../assets/logonyvora.png" alt="Nyvora">
+        <div class="logo">
+            <img src="../assets/logonyvora.png" alt="Nyvora">
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="dashboard.html">📊 Dashboard</a>
+                </li>
+
+                <li class="active">
+                    <a href="pacientes.html">👥 Pacientes</a>
+                </li>
+
+                <li>
+                    <a href="#">📈 Métricas</a>
+                </li>
+
+                <li>
+                    <a href="#">📋 Historial</a>
+                </li>
+
+                <li>
+                    <a href="#">🚨 Alertas</a>
+                </li>
+
+                <li>
+                    <a href="#">⚙️ Configuración</a>
+                </li>
+
+                <li>
+                    <a href="../login.html">🚪 Cerrar Sesión</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="header">
+
+            <div>
+
+                <h1>Gestión de Pacientes</h1>
+
+                <p>
+                    Administración y seguimiento clínico de pacientes registrados.
+                </p>
+
             </div>
 
-            <nav>
+            <div class="welcome">
 
-                <ul>
+                <h3>Dr. Espitaleta</h3>
 
-                    <li>
-                        <a href="dashboard.html">📊 Dashboard</a>
-                    </li>
+                <span>
+                    Viernes 26 Junio 2026
+                </span>
 
-                    <li class="active">
-                        <a href="pacientes.html">👥 Pacientes</a>
-                    </li>
+            </div>
 
-                    <li>
-                        <a href="#">📈 Métricas</a>
-                    </li>
+        </div>
 
-                    <li>
-                        <a href="#">📋 Historial</a>
-                    </li>
+        <div class="panel">
 
-                    <li>
-                        <a href="#">🚨 Alertas</a>
-                    </li>
+            <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap;">
 
-                    <li>
-                        <a href="#">⚙️ Configuración</a>
-                    </li>
+                <input
+                    class="search-box"
+                    type="text"
+                    placeholder="🔍 Buscar paciente por nombre...">
 
-                    <li>
-                        <a href="../login.html">🚪 Cerrar Sesión</a>
-                    </li>
+                <select class="search-box" style="max-width:180px;">
 
-                </ul>
+                    <option>Estado</option>
+                    <option>Activo</option>
+                    <option>Seguimiento</option>
+                    <option>Inactivo</option>
 
-            </nav>
+                </select>
 
-        </aside>
+                <select class="search-box" style="max-width:180px;">
 
-        <main class="content">
+                    <option>Ordenar</option>
+                    <option>Nombre</option>
+                    <option>Edad</option>
+                    <option>Último control</option>
 
-            <div class="header">
-
-                <div>
-                    <h1>Pacientes</h1>
-
-                    <p>
-                        Gestiona y consulta los pacientes registrados
-                    </p>
-                </div>
+                </select>
 
                 <button class="btn-primary">
-                    + Nuevo Paciente
+
+                    ➕ Registrar Paciente
+
                 </button>
 
             </div>
 
-            <!-- KPIs -->
+        </div>
 
-            <div class="kpi-cards">
+        <br>
 
-                <div class="card">
-                    <div class="icon">👥</div>
-                    <h2>128</h2>
-                    <p>Pacientes</p>
-                    <small>Total registrados</small>
-                </div>
+        <section class="kpi-cards">
 
-                <div class="card">
-                    <div class="icon">💚</div>
-                    <h2>112</h2>
-                    <p>Activos</p>
-                    <small>Seguimiento vigente</small>
-                </div>
+            <div class="card">
 
-                <div class="card">
-                    <div class="icon">📊</div>
-                    <h2>14</h2>
-                    <p>Seguimiento</p>
-                    <small>Requieren control</small>
-                </div>
+                <div class="icon">👥</div>
 
-                <div class="card">
-                    <div class="icon">⚪</div>
-                    <h2>2</h2>
-                    <p>Inactivos</p>
-                    <small>Sin actividad reciente</small>
-                </div>
+                <h2>128</h2>
+
+                <p>Pacientes Registrados</p>
+
+                <small>Total del sistema</small>
 
             </div>
 
-            <!-- BUSCADOR -->
+            <div class="card">
 
-            <div class="panel">
+                <div class="icon">💚</div>
 
-                <input
-                    type="text"
-                    placeholder="Buscar paciente..."
-                    class="search-box">
+                <h2>112</h2>
+
+                <p>Pacientes Activos</p>
+
+                <small>Seguimiento vigente</small>
 
             </div>
 
-            <br>
+            <div class="card">
 
-            <!-- TABLA -->
+                <div class="icon">📅</div>
+
+                <h2>18</h2>
+
+                <p>Próximos Controles</p>
+
+                <small>Durante la semana</small>
+
+            </div>
+
+            <div class="card">
+
+                <div class="icon">⚠️</div>
+
+                <h2>7</h2>
+
+                <p>Alertas Clínicas</p>
+
+                <small>Requieren revisión</small>
+
+            </div>
+
+        </section>
+
+        <div class="panel">
+
+            <h2>Listado General de Pacientes</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Paciente</th>
+
+                        <th>Edad</th>
+
+                        <th>Peso Inicial</th>
+
+                        <th>Último Control</th>
+
+                        <th>Estado</th>
+
+                        <th>Expediente</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>👤 María Gómez</td>
+
+                        <td>34</td>
+
+                        <td>82 kg</td>
+
+                        <td>Hoy</td>
+
+                        <td>
+
+                            <span class="badge success">
+
+                                🟢 Activo
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>👤 Carlos Vargas</td>
+
+                        <td>42</td>
+
+                        <td>96 kg</td>
+
+                        <td>Ayer</td>
+
+                        <td>
+
+                            <span class="badge warning">
+
+                                🟡 Seguimiento
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>👤 Ana Rodríguez</td>
+
+                        <td>29</td>
+
+                        <td>68 kg</td>
+
+                        <td>20 Jun</td>
+
+                        <td>
+
+                            <span class="badge success">
+
+                                🟢 Activo
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                                        <tr>
+
+                        <td>👤 Diego Soto</td>
+
+                        <td>37</td>
+
+                        <td>88 kg</td>
+
+                        <td>18 Jun</td>
+
+                        <td>
+
+                            <span class="badge danger">
+
+                                🔴 Inactivo
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>👤 Laura Méndez</td>
+
+                        <td>31</td>
+
+                        <td>70 kg</td>
+
+                        <td>15 Jun</td>
+
+                        <td>
+
+                            <span class="badge success">
+
+                                🟢 Activo
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>👤 José Hernández</td>
+
+                        <td>46</td>
+
+                        <td>94 kg</td>
+
+                        <td>13 Jun</td>
+
+                        <td>
+
+                            <span class="badge warning">
+
+                                🟡 Seguimiento
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="action-link">
+
+                                👁 Abrir Expediente
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <br>
+
+        <section class="dashboard-grid">
 
             <div class="panel">
+
+                <h2>Actividad Reciente</h2>
 
                 <table>
 
-                    <thead>
+                    <tr>
 
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Edad</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
+                        <th>Hora</th>
 
-                    </thead>
+                        <th>Actividad</th>
 
-                    <tbody>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>María Gómez</td>
-                            <td>maria@nyvora.com</td>
-                            <td>34</td>
+                        <td>09:15</td>
 
-                            <td>
-                                <span class="badge success">
-                                    Activo
-                                </span>
-                            </td>
+                        <td>María Gómez completó su control nutricional.</td>
 
-                            <td>
-                                <a href="#" class="action-link">👁 Ver</a>
-                                |
-                                <a href="#" class="action-link">✏ Editar</a>
-                            </td>
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td>10:40</td>
 
-                            <td>Carlos Vargas</td>
-                            <td>carlos@nyvora.com</td>
-                            <td>42</td>
+                        <td>Nuevo paciente registrado.</td>
 
-                            <td>
-                                <span class="badge warning">
-                                    Seguimiento
-                                </span>
-                            </td>
+                    </tr>
 
-                            <td>
-                                👁 Ver | ✏ Editar
-                            </td>
+                    <tr>
 
-                        </tr>
+                        <td>11:25</td>
 
-                        <tr>
+                        <td>Carlos Vargas actualizó sus métricas.</td>
 
-                            <td>Ana Rodríguez</td>
-                            <td>ana@nyvora.com</td>
-                            <td>29</td>
+                    </tr>
 
-                            <td>
-                                <span class="badge success">
-                                    Activo
-                                </span>
-                            </td>
+                    <tr>
 
-                            <td>
-                                👁 Ver | ✏ Editar
-                            </td>
+                        <td>12:10</td>
 
-                        </tr>
+                        <td>Se generó una alerta por IMC elevado.</td>
 
-                    </tbody>
+                    </tr>
 
                 </table>
 
             </div>
 
-        </main>
+            <div class="panel">
 
-    </div>
+                <h2>Resumen Clínico</h2>
+
+                <table>
+
+                    <tr>
+
+                        <th>Indicador</th>
+
+                        <th>Valor</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Pacientes registrados</td>
+
+                        <td>128</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Controles esta semana</td>
+
+                        <td>18</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Alertas activas</td>
+
+                        <td>7</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Promedio IMC</td>
+
+                        <td>24.8</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Seguimientos pendientes</td>
+
+                        <td>12</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
 
 </body>
 
