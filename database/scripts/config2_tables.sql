@@ -34,6 +34,9 @@ CREATE TABLE users (
 
 
 -- Tabla de pacientes
+-- Información general de cada paciente.
+-- user_id representa el usuario que registra
+-- o administra al paciente.
 CREATE TABLE patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
 

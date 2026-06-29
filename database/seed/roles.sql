@@ -1,5 +1,8 @@
 USE nyvora_db;
 
-INSERT INTO roles (name) VALUES
-('ADMIN'),
-('USER');
+-- Roles iniciales del sistema.
+
+INSERT INTO roles (name, description)
+VALUES
+    ('ADMIN', 'Administrador de la plataforma'),
+    ('USER', 'Usuario encargado de registrar y consultar pacientes');
