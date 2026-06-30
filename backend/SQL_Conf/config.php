@@ -1,16 +1,11 @@
 <?php
 // config.php - Conexión a la base de datos con PDO
 
-/*
- 
- * Si tú no vas a crear la base de datos, comparte este bloque (o los
- * archivos .sql del repo) con quien sí lo haga.
- */
 
 $host = '127.0.0.1';
 $db   = 'nyvora_db';
-$user = 'root';      // <-- cambia esto por tu usuario de MySQL
-$pass = '';           // <-- cambia esto por tu contraseña de MySQL
+$user = 'root';    
+$pass = '';       
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
