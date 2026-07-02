@@ -4,9 +4,23 @@
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | Espitaleta Wellness</title>
+    <title>Dashboard | Nyvora</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="../css/dashboard.css">
 
@@ -16,10 +30,14 @@
 
 <div class="dashboard">
 
+    <!-- Sidebar -->
+
     <aside class="sidebar">
 
         <div class="logo">
-            <img src="../assets/logo.png" alt="Espitaleta Wellness">
+
+            <img src="../assets/logonyvora.png" alt="Nyvora">
+
         </div>
 
         <nav>
@@ -27,31 +45,87 @@
             <ul>
 
                 <li class="active">
-                    <a href="dashboard.html">📊 Dashboard</a>
+
+                    <a href="dashboard.html">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        Dashboard
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="pacientes.html">👥 Pacientes</a>
+
+                    <a href="pacientes.html">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        Pacientes
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="#">📈 Métricas</a>
+
+                    <a href="#">
+
+                        <i class="fa-solid fa-weight-scale"></i>
+
+                        Métricas
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="#">📋 Historial</a>
+
+                    <a href="#">
+
+                        <i class="fa-solid fa-folder-open"></i>
+
+                        Historial
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="#">🚨 Alertas</a>
+
+                    <a href="#">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        Alertas
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="#">⚙️ Configuración</a>
+
+                    <a href="#">
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        Configuración
+
+                    </a>
+
                 </li>
 
                 <li>
-                    <a href="../login.html">🚪 Cerrar Sesión</a>
+
+                    <a href="../login.html">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        Cerrar Sesión
+
+                    </a>
+
                 </li>
 
             </ul>
@@ -59,6 +133,8 @@
         </nav>
 
     </aside>
+
+    <!-- Contenido -->
 
     <main class="content">
 
@@ -69,37 +145,51 @@
                 <h1>Panel de Control</h1>
 
                 <p>
+
                     Resumen general de pacientes e indicadores clínicos.
+
                 </p>
 
             </div>
 
             <div class="welcome">
 
-                <h3>👨‍⚕️ Dr. Espitaleta</h3>
+                <h3>
+
+                    Dr. Hernández C.
+
+                </h3>
 
                 <span>
-                    Viernes, 26 de junio de 2026
+
+                    Viernes, 02 de julio de 2026
+
                 </span>
 
             </div>
 
         </div>
 
-        <!-- Barra superior -->
+        <!-- Barra Superior -->
 
         <div class="panel">
 
-            <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap;">
+            <div
+                style="display:flex;
+                gap:15px;
+                align-items:center;
+                flex-wrap:wrap;">
 
                 <input
                     class="search-box"
                     type="text"
-                    placeholder="🔍 Buscar paciente...">
+                    placeholder="Buscar paciente...">
 
                 <button class="btn-primary">
 
-                    ➕ Registrar Paciente
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Registrar Paciente
 
                 </button>
 
@@ -115,9 +205,15 @@
 
             <div class="card">
 
-                <div class="icon">👥</div>
+                <div class="card-header">
 
-                <h2>128</h2>
+                    <div class="icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <h2>128</h2>
+
+                </div>
 
                 <p>Pacientes Registrados</p>
 
@@ -127,9 +223,15 @@
 
             <div class="card">
 
-                <div class="icon">📊</div>
+                <div class="card-header">
 
-                <h2>532</h2>
+                    <div class="icon">
+                        <i class="fa-solid fa-weight-scale"></i>
+                    </div>
+
+                    <h2>532</h2>
+
+                </div>
 
                 <p>Métricas Registradas</p>
 
@@ -139,9 +241,15 @@
 
             <div class="card">
 
-                <div class="icon">🚨</div>
+                <div class="card-header">
 
-                <h2>12</h2>
+                    <div class="icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <h2>12</h2>
+
+                </div>
 
                 <p>Alertas Clínicas</p>
 
@@ -151,9 +259,15 @@
 
             <div class="card">
 
-                <div class="icon">📈</div>
+                <div class="card-header">
 
-                <h2>94%</h2>
+                    <div class="icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <h2>94%</h2>
+
+                </div>
 
                 <p>Seguimiento Completo</p>
 
@@ -193,7 +307,7 @@
 
                         <tr>
 
-                            <td>👤 María Gómez</td>
+                            <td>María Gómez</td>
 
                             <td>34</td>
 
@@ -203,7 +317,7 @@
 
                                 <span class="badge success">
 
-                                    🟢 Activo
+                                    Activo
 
                                 </span>
 
@@ -213,7 +327,9 @@
 
                                 <a href="#" class="action-link">
 
-                                    👁 Abrir
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    Abrir
 
                                 </a>
 
@@ -223,7 +339,7 @@
 
                         <tr>
 
-                            <td>👤 Carlos Vargas</td>
+                            <td>Carlos Vargas</td>
 
                             <td>42</td>
 
@@ -233,7 +349,7 @@
 
                                 <span class="badge warning">
 
-                                    🟡 Seguimiento
+                                    Seguimiento
 
                                 </span>
 
@@ -243,7 +359,9 @@
 
                                 <a href="#" class="action-link">
 
-                                    👁 Abrir
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    Abrir
 
                                 </a>
 
@@ -253,7 +371,7 @@
 
                         <tr>
 
-                            <td>👤 Ana Rodríguez</td>
+                            <td>Ana Rodríguez</td>
 
                             <td>29</td>
 
@@ -263,7 +381,7 @@
 
                                 <span class="badge success">
 
-                                    🟢 Activo
+                                    Activo
 
                                 </span>
 
@@ -273,37 +391,9 @@
 
                                 <a href="#" class="action-link">
 
-                                    👁 Abrir
+                                    <i class="fa-solid fa-eye"></i>
 
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                                                <tr>
-
-                            <td>👤 Diego Soto</td>
-
-                            <td>37</td>
-
-                            <td>18 Jun</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    🔴 Inactivo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    👁 Abrir
+                                    Abrir
 
                                 </a>
 
@@ -313,17 +403,17 @@
 
                         <tr>
 
-                            <td>👤 Laura Méndez</td>
+                            <td>Diego Soto</td>
 
-                            <td>31</td>
+                            <td>37</td>
 
-                            <td>15 Jun</td>
+                            <td>18 Jun</td>
 
                             <td>
 
-                                <span class="badge success">
+                                <span class="badge danger">
 
-                                    🟢 Activo
+                                    Inactivo
 
                                 </span>
 
@@ -333,7 +423,41 @@
 
                                 <a href="#" class="action-link">
 
-                                    👁 Abrir
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    Abrir
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Laura Méndez</td>
+
+                            <td>31</td>
+
+                            <td>15 Jun</td>
+
+                            <td>
+
+                                <span class="badge success">
+
+                                    Activo
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <a href="#" class="action-link">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    Abrir
 
                                 </a>
 
@@ -368,8 +492,8 @@
                     </thead>
 
                     <tbody>
-
-                        <tr>
+                    
+                                            <tr>
 
                             <td>Carlos Vargas</td>
 
@@ -379,7 +503,7 @@
 
                                 <span class="badge danger">
 
-                                    🔴 Alta
+                                    Alta
 
                                 </span>
 
@@ -397,7 +521,7 @@
 
                                 <span class="badge warning">
 
-                                    🟡 Media
+                                    Media
 
                                 </span>
 
@@ -415,7 +539,7 @@
 
                                 <span class="badge success">
 
-                                    🟢 Baja
+                                    Baja
 
                                 </span>
 
@@ -465,7 +589,7 @@
 
                         <td>Control Nutricional</td>
 
-                        <td>Dr. Espitaleta</td>
+                        <td>Dr. José Montero</td>
 
                     </tr>
 
@@ -477,7 +601,7 @@
 
                         <td>Seguimiento IMC</td>
 
-                        <td>Dr. Espitaleta</td>
+                        <td>Dr. José Montero</td>
 
                     </tr>
 
@@ -489,7 +613,7 @@
 
                         <td>Valoración General</td>
 
-                        <td>Dr. Espitaleta</td>
+                        <td>Dr. José Montero</td>
 
                     </tr>
 
@@ -501,7 +625,7 @@
 
                         <td>Control de Peso</td>
 
-                        <td>Dr. Espitaleta</td>
+                        <td>Dr. José Montero</td>
 
                     </tr>
 
