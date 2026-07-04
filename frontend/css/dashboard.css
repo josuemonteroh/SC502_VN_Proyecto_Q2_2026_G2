@@ -881,3 +881,57 @@ button{
     }
 
 }
+
+
+/* CSS DE MÉTRICAS */
+.metricas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 30px;
+    margin-top: 25px;
+}
+
+.metricas-grid .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.metricas-grid .form-group.full {
+    grid-column: span 3;
+}
+
+.metricas-grid label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #0E7A6E;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.metricas-grid i {
+    font-size: 16px;
+}
+
+/* IMC READONLY */
+.imc-readonly {
+    background: #E5E7EB;
+    cursor: not-allowed;
+}
+
+/* BOTÓN DERECHA */
+.button-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-large {
+    padding: 18px 32px;
+    font-size: 17px;
+    border-radius: 14px;
+    background: #0F766E;
+}
+
+.btn-large:hover {
+    background: #0C5F56;
+}
