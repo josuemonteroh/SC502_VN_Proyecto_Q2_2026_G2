@@ -538,3 +538,49 @@ button:hover{
     }
 
 }
+
+/* Selector de Idioma
+   Permite cambiar el idioma del sistema.
+*/
+
+.language-selector{
+
+    position:absolute;
+
+    top:35px;
+
+    right:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.language-selector i{
+
+    color:#0E7A6E;
+
+    font-size:18px;
+
+}
+
+.language-selector select{
+
+    border:none;
+
+    background:transparent;
+
+    color:#334155;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    outline:none;
+
+}

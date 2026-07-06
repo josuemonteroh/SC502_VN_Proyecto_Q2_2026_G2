@@ -160,11 +160,7 @@
 
                 </h3>
 
-                <span>
-
-                    Viernes, 02 de julio de 2026
-
-                </span>
+                <span id="current-date"></span>
 
             </div>
 
@@ -635,9 +631,45 @@
 
         </div>
 
-    </main>
+        </main>
 
-</div>
+    </div>
+
+    <script>
+
+        function actualizarFechaHora(){
+
+            const ahora = new Date();
+
+            const opcionesFecha = {
+
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+
+            };
+
+            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
+
+            const hora = ahora.toLocaleTimeString("es-CR", {
+
+                hour: "2-digit",
+                minute: "2-digit"
+
+            });
+
+            document.getElementById("current-date").innerHTML =
+
+                `${fecha}<br>${hora}`;
+
+        }
+
+        actualizarFechaHora();
+
+        setInterval(actualizarFechaHora,1000);
+
+    </script>
 
 </body>
 

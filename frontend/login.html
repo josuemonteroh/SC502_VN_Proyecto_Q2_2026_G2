@@ -38,13 +38,15 @@
 
                 <div class="info-card">
 
-                    <h2>
+                    <h2 data-lang="platform_title">
+
                         Plataforma Inteligente
                         <br>
                         de Seguimiento Nutricional
+
                     </h2>
 
-                    <p>
+                    <p data-lang="platform_description">
 
                         Gestiona pacientes, registra métricas biométricas y
                         administra el seguimiento nutricional desde una única
@@ -58,7 +60,11 @@
 
                             <i class="fa-solid fa-user-doctor"></i>
 
-                            Seguimiento integral de pacientes
+                            <span data-lang="feature_1">
+
+                                Seguimiento integral de pacientes
+
+                            </span>
 
                         </li>
 
@@ -66,7 +72,11 @@
 
                             <i class="fa-solid fa-chart-line"></i>
 
-                            Registro de métricas nutricionales
+                            <span data-lang="feature_2">
+
+                                Registro de métricas nutricionales
+
+                            </span>
 
                         </li>
 
@@ -74,7 +84,11 @@
 
                             <i class="fa-solid fa-folder-open"></i>
 
-                            Historial clínico organizado
+                            <span data-lang="feature_3">
+
+                                Historial clínico organizado
+
+                            </span>
 
                         </li>
 
@@ -82,7 +96,11 @@
 
                             <i class="fa-solid fa-shield-halved"></i>
 
-                            Información protegida y segura
+                            <span data-lang="feature_4">
+
+                                Información protegida y segura
+
+                            </span>
 
                         </li>
 
@@ -94,124 +112,189 @@
 
         </div>
 
-        <!-- Panel Derecho -->
+    <!-- Panel Derecho -->
 
-        <div class="right-panel">
+    <div class="right-panel">
 
-            <div class="login-card">
+        <div class="login-card">
 
-                <h2>Bienvenido</h2>
+            <!-- Selector de Idioma -->
 
-                <p>
+            <div class="language-selector">
 
-                    Inicie sesión para acceder a la plataforma Nyvora.
+                <i class="fa-solid fa-language"></i>
 
-                </p>
+                <select
+                    id="language-select"
+                    onchange="setLanguage(this.value)">
 
-                <form action="pages/dashboard.html" method="POST">
+                    <option value="es">Español</option>
 
-                    <label for="email">
+                    <option value="en">English</option>
 
-                        Correo electrónico
+                </select>
 
-                    </label>
+            </div>
 
-                    <div class="input-group">
+            <h2 data-lang="login_title">
 
-                        <i class="fa-regular fa-envelope"></i>
+                Bienvenido
+
+            </h2>
+
+            <p data-lang="login_subtitle">
+
+                Inicie sesión para acceder a la plataforma Nyvora.
+
+            </p>
+
+            <form>
+
+                <!-- Correo -->
+
+                <label
+                    for="email"
+                    data-lang="email_label">
+
+                    Correo electrónico
+
+                </label>
+
+                <div class="input-group">
+
+                    <i class="fa-regular fa-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        data-placeholder="email_placeholder"
+                        placeholder="Ingrese su correo electrónico"
+                        required>
+
+                </div>
+
+                <!-- Contraseña -->
+
+                <label
+                    for="password"
+                    data-lang="password_label">
+
+                    Contraseña
+
+                </label>
+
+                <div class="input-group">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        data-placeholder="password_placeholder"
+                        placeholder="Ingrese su contraseña"
+                        required>
+
+                </div>
+
+                <!-- Opciones -->
+
+                <div class="login-options">
+
+                    <label class="remember">
 
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Ingrese su correo electrónico"
-                            required>
+                            type="checkbox"
+                            name="remember">
 
-                    </div>
-
-                    <label for="password">
-
-                        Contraseña
-
-                    </label>
-
-                    <div class="input-group">
-
-                        <i class="fa-solid fa-lock"></i>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Ingrese su contraseña"
-                            required>
-
-                    </div>
-
-                    <div class="login-options">
-
-                        <label class="remember">
-
-                            <input
-                                type="checkbox"
-                                name="remember">
+                        <span data-lang="remember_me">
 
                             Mantener mi sesión iniciada
 
-                        </label>
+                        </span>
 
-                        <a href="#">
+                    </label>
 
-                            ¿Olvidó su contraseña?
+                    <a
+                        href="#"
+                        data-lang="forgot_password">
 
-                        </a>
-
-                    </div>
-
-                    <button type="submit">
-
-                        Iniciar Sesión
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </button>
-
-                </form>
-
-                <div class="register-link">
-
-                    ¿Necesita acceso?
-
-                    <a href="#">
-
-                        Solicitar acceso
+                        ¿Olvidó su contraseña?
 
                     </a>
 
                 </div>
 
-                <div class="footer">
+                <!-- Botón -->
 
-                    <small>
+                <button
+                    type="button"
+                    onclick="window.location.href='pages/dashboard.html'">
 
-                        Versión 1.0.0
+                    <span data-lang="login_button">
 
-                    </small>
+                        Iniciar Sesión
 
-                    <small>
+                    </span>
 
-                        © 2026 Nyvora | Universidad Fidélitas
+                    <i class="fa-solid fa-arrow-right"></i>
 
-                    </small>
+                </button>
 
-                </div>
+            </form>
+
+            <!-- Solicitar Acceso -->
+
+            <div class="register-link">
+
+                <span data-lang="need_access">
+
+                    ¿Necesita acceso?
+
+                </span>
+
+                <a
+                    href="#"
+                    data-lang="request_access">
+
+                    Solicitar acceso
+
+                </a>
 
             </div>
 
-        </div>
+                <!-- Footer -->
 
-    </div>
+                            <div class="footer">
+
+                                <small data-lang="version">
+
+                                    Versión 1.0.0
+
+                                </small>
+
+                                <small data-lang="footer">
+
+                                    © 2026 Nyvora | Universidad Fidélitas
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Sistema de Idiomas -->
+
+        <script src="js/language.js"></script>
 
 </body>
 
 </html>
+
+
+        

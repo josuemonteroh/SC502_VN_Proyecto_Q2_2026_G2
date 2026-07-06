@@ -1,8 +1,39 @@
+/*
+    NYVORA SC-502
+
+    Hoja de estilos principal del sistema.
+
+    Este archivo contiene los estilos compartidos por:
+
+    • Dashboard
+    • Pacientes
+    • Métricas
+    • Historial
+    • Alertas
+    • Configuración
+
+    Los módulos reutilizan los mismos componentes
+    visuales para mantener una interfaz consistente
+    en toda la aplicación.
+*/
+
+/* Reset
+   Reinicia márgenes, rellenos y el modelo de caja.
+*/
+
 *{
+
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
+
 }
+
+/* Body
+   Configuración general de la página.
+*/
 
 body{
 
@@ -16,6 +47,10 @@ body{
 
 }
 
+/* Layout
+   Estructura principal del sistema.
+*/
+
 .dashboard{
 
     display:flex;
@@ -24,7 +59,9 @@ body{
 
 }
 
-/* Sidebar */
+/* Sidebar
+   Menú lateral principal del sistema.
+*/
 
 .sidebar{
 
@@ -49,7 +86,9 @@ body{
 
 }
 
-/* Logo */
+/* Logo
+   Imagen institucional de NYVORA.
+*/
 
 .logo{
 
@@ -71,7 +110,9 @@ body{
 
 }
 
-/* Menú */
+/* Menú
+   Opciones de navegación del sistema.
+*/
 
 .sidebar nav{
 
@@ -143,7 +184,9 @@ body{
 
 }
 
-/* Contenido */
+/* Contenido
+   Área principal donde se muestran los módulos.
+*/
 
 .content{
 
@@ -153,7 +196,9 @@ body{
 
 }
 
-/* Header */
+/* Header
+   Encabezado principal de cada módulo.
+*/
 
 .header{
 
@@ -213,7 +258,9 @@ body{
 
 }
 
-/* Panel */
+/* Panel
+   Contenedor reutilizable para los módulos.
+*/
 
 .panel{
 
@@ -235,7 +282,9 @@ body{
 
 }
 
-/* Buscador */
+/* Buscador
+   Campos de búsqueda y formularios.
+*/
 
 .search-box{
 
@@ -263,7 +312,9 @@ body{
 
 }
 
-/* Botón Principal */
+/* Botón Principal
+   Botón principal utilizado en el sistema.
+*/
 
 .btn-primary{
 
@@ -311,7 +362,9 @@ body{
 
 }
 
-/* Tarjetas KPI */
+/* Tarjetas KPI
+   Indicadores principales del Dashboard.
+*/
 
 .kpi-cards{
 
@@ -347,7 +400,9 @@ body{
 
 }
 
-/* Encabezado KPI */
+/* Encabezado KPI
+   Organización del icono y la información.
+*/
 
 .card-header{
 
@@ -361,7 +416,9 @@ body{
 
 }
 
-/* Icono */
+/* Icono KPI
+   Icono representativo del indicador.
+*/
 
 .card .icon{
 
@@ -391,7 +448,9 @@ body{
 
 }
 
-/* Número */
+/* Valor KPI
+   Número principal del indicador.
+*/
 
 .card h2{
 
@@ -407,7 +466,9 @@ body{
 
 }
 
-/* Título */
+/* Título KPI
+   Nombre del indicador mostrado.
+*/
 
 .card p{
 
@@ -421,7 +482,9 @@ body{
 
 }
 
-/* Descripción */
+/* Descripción KPI
+   Información complementaria del indicador.
+*/
 
 .card small{
 
@@ -433,7 +496,9 @@ body{
 
 }
 
-/* Dashboard Grid */
+/* Dashboard Grid
+   Distribuye los paneles principales del Dashboard.
+*/
 
 .dashboard-grid{
 
@@ -447,7 +512,9 @@ body{
 
 }
 
-/* Títulos de Panel */
+/* Títulos de Panel
+   Encabezados utilizados en cada panel.
+*/
 
 .panel h2{
 
@@ -461,7 +528,9 @@ body{
 
 }
 
-/* Tablas */
+/* Tablas
+   Estilos generales para las tablas del sistema.
+*/
 
 table{
 
@@ -517,7 +586,9 @@ tbody tr:hover{
 
 }
 
-/* Badges */
+/* Badges
+   Estados utilizados en los diferentes módulos.
+*/
 
 .badge{
 
@@ -561,7 +632,9 @@ tbody tr:hover{
 
 }
 
-/* Enlaces */
+/* Enlaces
+   Acciones disponibles dentro de las tablas.
+*/
 
 .action-link{
 
@@ -593,7 +666,9 @@ tbody tr:hover{
 
 }
 
-/* Iconos */
+/* Iconos
+   Centra los iconos reutilizados en la interfaz.
+*/
 
 .icon{
 
@@ -605,7 +680,9 @@ tbody tr:hover{
 
 }
 
-/* Inputs */
+/* Inputs
+   Fuente utilizada por los campos del formulario.
+*/
 
 input{
 
@@ -619,7 +696,9 @@ button{
 
 }
 
-/* Separación */
+/* Separación
+   Espaciado entre paneles y tablas.
+*/
 
 .panel table{
 
@@ -633,7 +712,9 @@ button{
 
 }
 
-/* Responsive */
+/* Responsive
+   Ajusta la interfaz para diferentes tamaños de pantalla.
+*/
 
 @media(max-width:1200px){
 
@@ -807,7 +888,9 @@ button{
 
 }
 
-/* Scroll */
+/* Scroll
+   Personaliza la barra de desplazamiento.
+*/
 
 ::-webkit-scrollbar{
 
@@ -835,7 +918,9 @@ button{
 
 }
 
-/* Selección */
+/* Selección
+   Color al seleccionar texto.
+*/
 
 ::selection{
 
@@ -845,7 +930,9 @@ button{
 
 }
 
-/* Animaciones */
+/* Animaciones
+   Efectos visuales reutilizados en la interfaz.
+*/
 
 .card,
 .panel,
@@ -882,56 +969,283 @@ button{
 
 }
 
+/* Métricas
+   Estilos exclusivos del módulo de métricas.
+*/
 
-/* CSS DE MÉTRICAS */
-.metricas-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px 30px;
-    margin-top: 25px;
+.metricas-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px 30px;
+
+    margin-top:25px;
+
 }
 
-.metricas-grid .form-group {
-    display: flex;
-    flex-direction: column;
+.metricas-grid .form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
 }
 
-.metricas-grid .form-group.full {
-    grid-column: span 3;
+.metricas-grid .form-group.full{
+
+    grid-column:span 3;
+
 }
 
-.metricas-grid label {
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #0E7A6E;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.metricas-grid label{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:#0E7A6E;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
 }
 
-.metricas-grid i {
-    font-size: 16px;
+.metricas-grid i{
+
+    font-size:16px;
+
 }
 
-/* IMC READONLY */
-.imc-readonly {
-    background: #E5E7EB;
-    cursor: not-allowed;
+/* IMC Readonly
+   Apariencia para el campo calculado automáticamente.
+*/
+
+.imc-readonly{
+
+    background:#E5E7EB;
+
+    cursor:not-allowed;
+
 }
 
-/* BOTÓN DERECHA */
-.button-right {
-    display: flex;
-    justify-content: flex-end;
+/* Botón Derecha
+   Alinea el botón principal al final del formulario.
+*/
+
+.button-right{
+
+    display:flex;
+
+    justify-content:flex-end;
+
 }
 
-.btn-large {
-    padding: 18px 32px;
-    font-size: 17px;
-    border-radius: 14px;
-    background: #0F766E;
+.btn-large{
+
+    padding:18px 32px;
+
+    font-size:17px;
+
+    border-radius:14px;
+
+    background:#0F766E;
+
 }
 
-.btn-large:hover {
-    background: #0C5F56;
+.btn-large:hover{
+
+    background:#0C5F56;
+
 }
+
+/* Historial
+   Filtros utilizados en el historial clínico.
+*/
+
+.history-filters{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr auto;
+
+    gap:20px;
+
+    align-items:end;
+
+}
+
+.filter-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.filter-group label{
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+.filter-button{
+
+    display:flex;
+
+    align-items:flex-end;
+
+}
+
+.filter-button .btn-primary{
+
+    width:100%;
+
+    height:48px;
+
+}
+
+/* Información del Paciente
+   Resumen general del expediente clínico.
+*/
+
+.patient-summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px 60px;
+
+    margin-top:20px;
+
+}
+
+.summary-item{
+
+    display:grid;
+
+    grid-template-columns:220px auto;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:15px 0;
+
+    border-bottom:1px solid #E2E8F0;
+
+}
+
+.summary-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#64748B;
+
+    font-weight:600;
+
+}
+
+.summary-item strong{
+
+    color:#0F172A;
+
+    font-weight:600;
+
+}
+
+.summary-item .badge{
+
+    width:auto;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:6px 16px;
+
+}
+
+/* Observaciones Clínicas
+   Lista de recomendaciones y seguimiento del paciente.
+*/
+
+.clinical-notes{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-top:25px;
+
+}
+
+.note-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:14px;
+
+}
+
+.note-item i{
+
+    color:#0E7A6E;
+
+    font-size:18px;
+
+    width:22px;
+
+    margin-top:3px;
+
+}
+
+.note-item p{
+
+    margin:0;
+
+    color:#334155;
+
+    line-height:1.6;
+
+}
+
+/* Responsive Historial
+   Ajusta la distribución en pantallas pequeñas.
+*/
+
+@media(max-width:1100px){
+
+    .history-filters{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .patient-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Nyvora | Historial Clínico</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+        href="../css/dashboard.css">
+
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+
+                <img
+                    src="../assets/logonyvora.png"
+                    alt="Nyvora">
+
+            </div>
+
+            <nav>
+
+                <ul>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="pacientes.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            Pacientes
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="metricas.html">
+
+                            <i class="fa-solid fa-weight-scale"></i>
+
+                            Métricas
+
+                        </a>
+
+                    </li>
+
+                    <li class="active">
+
+                        <a href="historial.html">
+
+                            <i class="fa-solid fa-folder-open"></i>
+
+                            Historial
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="alertas.html">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            Alertas
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            <i class="fa-solid fa-gear"></i>
+
+                            Configuración
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="../login.html">
+
+                            <i class="fa-solid fa-right-from-bracket"></i>
+
+                            Cerrar Sesión
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+        <!-- Contenido -->
+
+        <main class="content">
+
+            <!-- Header -->
+
+            <div class="header">
+
+                <div>
+
+                    <h1>
+
+                        Historial Clínico
+
+                    </h1>
+
+                    <p>
+
+                        Consulte el historial clínico y la evolución biométrica de los pacientes registrados.
+
+                    </p>
+
+                </div>
+
+                <div class="welcome">
+
+                    <h3>
+
+                        Dr. Hernández C.
+
+                    </h3>
+
+                    <span id="current-date"></span>
+
+                </div>
+
+            </div>
+
+                        <!-- Consultar Historial -->
+
+            <div class="panel">
+
+                <h2>
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    Consultar Historial
+
+                </h2>
+
+                <div class="history-filters">
+
+                    <div class="filter-group patient-filter">
+
+                        <label for="paciente">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Paciente
+
+                        </label>
+
+                        <select
+                            id="paciente"
+                            class="search-box">
+
+                            <option value="" selected disabled>
+
+                                Seleccione un paciente
+
+                            </option>
+
+                            <option>María Gómez</option>
+
+                            <option>Carlos Vargas</option>
+
+                            <option>Ana Rodríguez</option>
+
+                            <option>Diego Soto</option>
+
+                            <option>Laura Méndez</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="filter-group">
+
+                        <label for="desde">
+
+                            <i class="fa-solid fa-calendar-days"></i>
+
+                            Desde
+
+                        </label>
+
+                        <input
+                            type="date"
+                            id="desde"
+                            class="search-box">
+
+                    </div>
+
+                    <div class="filter-group">
+
+                        <label for="hasta">
+
+                            <i class="fa-solid fa-calendar-days"></i>
+
+                            Hasta
+
+                        </label>
+
+                        <input
+                            type="date"
+                            id="hasta"
+                            class="search-box">
+
+                    </div>
+
+                    <div class="filter-button">
+
+                        <button class="btn-primary">
+
+                            <i class="fa-solid fa-filter"></i>
+
+                            Consultar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- Información General -->
+
+            <div class="panel">
+
+                <h2>
+
+                    <i class="fa-solid fa-id-card"></i>
+
+                    Información General del Paciente
+
+                </h2>
+
+                <div class="patient-summary">
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Nombre
+
+                        </span>
+
+                        <strong>María Gómez</strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-cake-candles"></i>
+
+                            Edad
+
+                        </span>
+
+                        <strong>34 años</strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-user-doctor"></i>
+
+                            Nutricionista
+
+                        </span>
+
+                        <strong>Dr. Hernández C.</strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-bullseye"></i>
+
+                            Objetivo
+
+                        </span>
+
+                        <strong>Reducción de peso</strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Estado
+
+                        </span>
+
+                        <span class="badge success">
+
+                            Activo
+
+                        </span>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span class="summary-title">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                            Último Control
+
+                        </span>
+
+                        <strong>06 Jul 2026</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+                        <!-- Evolución Biométrica -->
+
+            <div class="panel">
+
+                <h2>
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    Evolución Biométrica
+
+                </h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Fecha</th>
+
+                            <th>Peso</th>
+
+                            <th>IMC</th>
+
+                            <th>Grasa Corporal</th>
+
+                            <th>Frecuencia Cardíaca</th>
+
+                            <th>Horas de Sueño</th>
+
+                            <th>Pasos Diarios</th>
+
+                            <th>Observación</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>06 Jul 2026</td>
+
+                            <td>80.2 kg</td>
+
+                            <td>24.8</td>
+
+                            <td>22.1 %</td>
+
+                            <td>72 bpm</td>
+
+                            <td>7.5 h</td>
+
+                            <td>8,540</td>
+
+                            <td>
+
+                                <span class="badge success">
+
+                                    Evolución Positiva
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>29 Jun 2026</td>
+
+                            <td>80.9 kg</td>
+
+                            <td>25.1</td>
+
+                            <td>22.6 %</td>
+
+                            <td>73 bpm</td>
+
+                            <td>7.2 h</td>
+
+                            <td>8,120</td>
+
+                            <td>
+
+                                <span class="badge success">
+
+                                    Estable
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>22 Jun 2026</td>
+
+                            <td>81.5 kg</td>
+
+                            <td>25.4</td>
+
+                            <td>23.0 %</td>
+
+                            <td>75 bpm</td>
+
+                            <td>6.8 h</td>
+
+                            <td>7,650</td>
+
+                            <td>
+
+                                <span class="badge warning">
+
+                                    Seguimiento
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>15 Jun 2026</td>
+
+                            <td>82.1 kg</td>
+
+                            <td>25.8</td>
+
+                            <td>23.7 %</td>
+
+                            <td>76 bpm</td>
+
+                            <td>6.5 h</td>
+
+                            <td>7,180</td>
+
+                            <td>
+
+                                <span class="badge warning">
+
+                                    Seguimiento
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>08 Jun 2026</td>
+
+                            <td>82.8 kg</td>
+
+                            <td>26.0</td>
+
+                            <td>24.1 %</td>
+
+                            <td>77 bpm</td>
+
+                            <td>6.3 h</td>
+
+                            <td>6,940</td>
+
+                            <td>
+
+                                <span class="badge danger">
+
+                                    Requiere Atención
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <br>
+
+                        <!-- Paneles Informativos -->
+
+            <section class="dashboard-grid">
+
+                <!-- Observaciones Clínicas -->
+
+                <div class="panel">
+
+                    <h2>
+
+                        <i class="fa-solid fa-notes-medical"></i>
+
+                        Observaciones Clínicas
+
+                    </h2>
+
+                    <div class="clinical-notes">
+
+                        <div class="note-item">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            <p>
+
+                                El paciente presenta una reducción progresiva del peso corporal desde el primer control.
+
+                            </p>
+
+                        </div>
+
+                        <div class="note-item">
+
+                            <i class="fa-solid fa-bed"></i>
+
+                            <p>
+
+                                Se observa una mejora en las horas promedio de sueño durante las últimas semanas.
+
+                            </p>
+
+                        </div>
+
+                        <div class="note-item">
+
+                            <i class="fa-solid fa-person-walking"></i>
+
+                            <p>
+
+                                El promedio de pasos diarios ha incrementado de forma constante.
+
+                            </p>
+
+                        </div>
+
+                        <div class="note-item">
+
+                            <i class="fa-solid fa-utensils"></i>
+
+                            <p>
+
+                                Se recomienda mantener el plan nutricional y continuar con los controles periódicos.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Actividad Reciente -->
+
+                <div class="panel">
+
+                    <h2>
+
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+
+                        Actividad Reciente
+
+                    </h2>
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Fecha</th>
+
+                                <th>Actividad</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>06 Jul 2026</td>
+
+                                <td>Se registró un nuevo control biométrico.</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>29 Jun 2026</td>
+
+                                <td>Actualización del peso corporal.</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>22 Jun 2026</td>
+
+                                <td>Registro de seguimiento nutricional.</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>15 Jun 2026</td>
+
+                                <td>Evaluación clínica completada.</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>08 Jun 2026</td>
+
+                                <td>Creación del expediente del paciente.</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Fecha y Hora -->
+
+    <script>
+
+        function actualizarFechaHora(){
+
+            const ahora = new Date();
+
+            const opcionesFecha = {
+
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+
+            };
+
+            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
+
+            const hora = ahora.toLocaleTimeString("es-CR", {
+
+                hour: "2-digit",
+                minute: "2-digit"
+
+            });
+
+            document.getElementById("current-date").innerHTML =
+
+                `${fecha}<br>${hora}`;
+
+        }
+
+        actualizarFechaHora();
+
+        setInterval(actualizarFechaHora,1000);
+
+    </script>
+
+</body>
+
+</html>
+
