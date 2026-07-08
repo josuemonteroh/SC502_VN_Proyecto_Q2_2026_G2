@@ -215,13 +215,7 @@
 
                             </option>
 
-                            <option>María Gómez</option>
 
-                            <option>Carlos Vargas</option>
-
-                            <option>Ana Rodríguez</option>
-
-                            <option>Laura Méndez</option>
 
                         </select>
 
@@ -441,47 +435,11 @@
 
     </div>
 
-    <!-- Fecha y Hora -->
-
-    <script>
-
-        function actualizarFechaHora(){
-
-            const ahora = new Date();
-
-            const opcionesFecha = {
-
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-
-            };
-
-            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
-
-            const hora = ahora.toLocaleTimeString("es-CR", {
-
-                hour: "2-digit",
-                minute: "2-digit"
-
-            });
-
-            document.getElementById("current-date").innerHTML =
-
-                `${fecha}<br>${hora}`;
-
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora,1000);
-
-    </script>
-
     <!-- JavaScript -->
 
-    <script src="../js/metricas.js"></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/common.js" defer></script>
+    <script src="../js/metricas.js" defer></script>
 
 </body>
 
