@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 parseInt(b.querySelectorAll("td")[1].textContent)
             );
         } else if (criterio === "ultimo control") {
-            // Orden simple basado en el texto tal cual aparece (Hoy, Ayer, fechas)
+            // Orden simple basado en el texto 
             const prioridad = { "hoy": 0, "ayer": 1 };
             filasOrdenables.sort((a, b) => {
                 const textoA = normalizar(a.querySelectorAll("td")[3].textContent);
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return valorA - valorB;
             });
         } else {
-            return; // "Ordenar" (opción por defecto) no reordena
+            return; // Ordenar
         }
 
         filasOrdenables.forEach((fila) => tbody.appendChild(fila));
@@ -119,3 +119,5 @@ document.addEventListener("DOMContentLoaded", () => {
     selectOrden.addEventListener("change", ordenarPacientes);
 
 });
+
+
