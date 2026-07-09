@@ -212,7 +212,8 @@
                             type="text"
                             id="buscarPaciente"
                             class="search-box"
-                            placeholder="Buscar paciente...">
+                            placeholder="Buscar paciente..."
+                            autocomplete="off">
 
                     </div>
 
@@ -277,6 +278,7 @@
                     <div class="filter-button">
 
                         <button
+                            type="button"
                             class="btn-primary">
 
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -329,216 +331,6 @@
 
                     <tbody>
 
-                        <tr>
-
-                            <td>María Gómez</td>
-
-                            <td>IMC superior al objetivo establecido.</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Alta
-
-                                </span>
-
-                            </td>
-
-                            <td>06 Jul 2026</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Pendiente
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Ver Detalle
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Carlos Vargas</td>
-
-                            <td>Frecuencia cardíaca fuera del rango esperado.</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Alta
-
-                                </span>
-
-                            </td>
-
-                            <td>05 Jul 2026</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    En Seguimiento
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Ver Detalle
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Ana Rodríguez</td>
-
-                            <td>Disminución en las horas promedio de sueño.</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Media
-
-                                </span>
-
-                            </td>
-
-                            <td>04 Jul 2026</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Resuelta
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Ver Detalle
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Laura Méndez</td>
-
-                            <td>Baja actividad física registrada.</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Media
-
-                                </span>
-
-                            </td>
-
-                            <td>03 Jul 2026</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Pendiente
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Ver Detalle
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Diego Soto</td>
-
-                            <td>Incremento significativo del peso corporal.</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Alta
-
-                                </span>
-
-                            </td>
-
-                            <td>02 Jul 2026</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    En Seguimiento
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Ver Detalle
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
                     </tbody>
 
                 </table>
@@ -547,7 +339,7 @@
 
             <br>
 
-                        <!-- Paneles Informativos -->
+            <!-- Paneles Informativos -->
 
             <section class="dashboard-grid">
 
@@ -571,7 +363,7 @@
 
                                 <th>Total de Alertas</th>
 
-                                <td>18</td>
+                                <td>0</td>
 
                             </tr>
 
@@ -583,7 +375,7 @@
 
                                     <span class="badge warning">
 
-                                        6
+                                        0
 
                                     </span>
 
@@ -599,7 +391,7 @@
 
                                     <span class="badge danger">
 
-                                        4
+                                        0
 
                                     </span>
 
@@ -615,7 +407,7 @@
 
                                     <span class="badge success">
 
-                                        8
+                                        0
 
                                     </span>
 
@@ -629,7 +421,7 @@
 
                 </div>
 
-                <!-- Actividad Reciente -->
+                                <!-- Actividad Reciente -->
 
                 <div class="panel">
 
@@ -643,87 +435,19 @@
 
                     <table>
 
+                        <thead>
+
+                            <tr>
+
+                                <th>Fecha</th>
+
+                                <th>Actividad</th>
+
+                            </tr>
+
+                        </thead>
+
                         <tbody>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>06 Jul 2026</strong>
-
-                                </td>
-
-                                <td>
-
-                                    Se generó una alerta por IMC elevado para María Gómez.
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>05 Jul 2026</strong>
-
-                                </td>
-
-                                <td>
-
-                                    Carlos Vargas ingresó a seguimiento clínico.
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>04 Jul 2026</strong>
-
-                                </td>
-
-                                <td>
-
-                                    Se resolvió una alerta de horas de sueño.
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>03 Jul 2026</strong>
-
-                                </td>
-
-                                <td>
-
-                                    Nueva alerta por baja actividad física.
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>02 Jul 2026</strong>
-
-                                </td>
-
-                                <td>
-
-                                    Actualización automática del estado de una alerta.
-
-                                </td>
-
-                            </tr>
 
                         </tbody>
 
@@ -737,52 +461,23 @@
 
     </div>
 
-    <!-- Fecha y Hora -->
-
-    <script>
-
-        function actualizarFechaHora(){
-
-            const ahora = new Date();
-
-            const opcionesFecha = {
-
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-
-            };
-
-            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
-
-            const hora = ahora.toLocaleTimeString("es-CR",{
-
-                hour:"2-digit",
-
-                minute:"2-digit"
-
-            });
-
-            document.getElementById("current-date").innerHTML=
-
-                `${fecha}<br>${hora}`;
-
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora,1000);
-
-    </script>
+    <!-- JavaScript -->
 
     <script src="../js/data.js" defer></script>
+
     <script src="../js/common.js" defer></script>
+
+    <script src="../js/language.js" defer></script>
+
     <script src="../js/alertas.js" defer></script>
 
 </body>
 
 </html>
+
+
+
+
 
 
 

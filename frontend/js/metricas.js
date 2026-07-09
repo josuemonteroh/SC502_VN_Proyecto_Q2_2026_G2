@@ -1,173 +1,292 @@
-// FORMULARIO DE REGISTRO
-const formMetricas = document.getElementById("form-metricas");
+"use strict";
 
-const selectPaciente = document.getElementById("paciente");
+/* Métricas */
 
-const inputPeso = document.getElementById("peso");
-const inputImc = document.getElementById("imc");
+document.addEventListener("DOMContentLoaded", () => {
 
-const tablaMetricas = document.getElementById("tabla-metricas");
+    /* Controles */
 
+    const formMetricas = document.getElementById("form-metricas");
 
-// CARGAR PACIENTES EN EL SELECT
-function cargarPacientes() {
-    const pacientes = nyvoraGetPatients();
+    const selectPaciente = document.getElementById("paciente");
 
-    selectPaciente.innerHTML = `
-        <option value="" selected disabled>
-            Seleccione un paciente
-        </option>
-    `;
+    const inputPeso = document.getElementById("peso");
 
-    pacientes.forEach(paciente => {
-        if (paciente.isActive) {
-            selectPaciente.innerHTML += `
-                <option value="${paciente.id}">
-                    ${paciente.fullName}
-                </option>
-            `;
+    const inputImc = document.getElementById("imc");
+
+    const tablaMetricas = document.getElementById("tabla-metricas");
+
+    /* Cargar pacientes */
+
+    function cargarPacientes() {
+
+        const pacientes = nyvoraGetPatients();
+
+        selectPaciente.innerHTML = `
+
+            <option value="" selected disabled>
+
+                Seleccione un paciente
+
+            </option>
+
+        `;
+
+        pacientes.forEach((paciente) => {
+
+            if (paciente.isActive) {
+
+                selectPaciente.innerHTML += `
+
+                    <option value="${paciente.id}">
+
+                        ${nyvoraEscapeHtml(paciente.fullName)}
+
+                    </option>
+
+                `;
+
+            }
+
+        });
+
+    }
+
+    /* Calcular IMC */
+
+    function calcularIMC() {
+
+        const pacienteId = selectPaciente.value;
+
+        const peso = parseFloat(inputPeso.value);
+
+        const paciente = nyvoraGetPatientById(pacienteId);
+
+        if (!paciente || !peso || !paciente.heightM) {
+
+            inputImc.value = "";
+
+            return;
+
         }
-    });
-}
 
+        const imc = peso / (paciente.heightM * paciente.heightM);
 
-// CALCULAR IMC
-function calcularIMC() {
-    const pacienteId = selectPaciente.value;
-    const peso = parseFloat(inputPeso.value);
+        inputImc.value = imc.toFixed(1);
 
-    const paciente = nyvoraGetPatientById(pacienteId);
+    }
 
-    if (!paciente || !peso || !paciente.heightM) {
+        /* Guardar métricas */
+
+    formMetricas.addEventListener("submit", (e) => {
+
+        e.preventDefault();
+
+        const pacienteId = selectPaciente.value;
+
+        const peso = parseFloat(inputPeso.value);
+
+        if (!pacienteId) {
+
+            alert("Seleccione un paciente.");
+
+            return;
+
+        }
+
+        if (isNaN(peso) || peso <= 0) {
+
+            alert("Ingrese un peso válido.");
+
+            inputPeso.focus();
+
+            return;
+
+        }
+
+        nyvoraAddMetric({
+
+            patientId: pacienteId,
+
+            measurementDate: new Date().toISOString(),
+
+            weightKg: peso,
+
+            bmi: parseFloat(inputImc.value),
+
+            bodyFatPercentage: parseFloat(
+                document.getElementById("grasa").value
+            ) || null,
+
+            heartRate: parseInt(
+                document.getElementById("fc").value,
+                10
+            ) || null,
+
+            sleepHours: parseFloat(
+                document.getElementById("sueno").value
+            ) || null,
+
+            steps: parseInt(
+                document.getElementById("pasos").value,
+                10
+            ) || null
+
+        });
+
+        alert("Métricas registradas correctamente.");
+
+        formMetricas.reset();
+
         inputImc.value = "";
-        return;
-    }
 
-    const imc = peso / (paciente.heightM * paciente.heightM);
+        renderMetricas();
 
-    inputImc.value = imc.toFixed(1);
-}
-
-
-// GUARDAR MÉTRICAS
-formMetricas.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const pacienteId = selectPaciente.value;
-    const peso = parseFloat(inputPeso.value);
-
-    if (!pacienteId) {
-        alert("Seleccione un paciente.");
-        return;
-    }
-
-    if (!peso || peso <= 0) {
-        alert("Ingrese un peso válido.");
-        return;
-    }
-
-    nyvoraAddMetric({
-        patientId: pacienteId,
-        measurementDate: new Date().toISOString(),
-
-        weightKg: peso,
-        bmi: parseFloat(document.getElementById("imc").value),
-
-        bodyFatPercentage: parseFloat(
-            document.getElementById("grasa").value
-        ) || null,
-
-        heartRate: parseInt(
-            document.getElementById("fc").value
-        ) || null,
-
-        sleepHours: parseFloat(
-            document.getElementById("sueno").value
-        ) || null,
-
-        steps: parseInt(
-            document.getElementById("pasos").value
-        ) || null
     });
 
-    alert("Métricas registradas correctamente.");
+        /* Mostrar métricas */
 
-    formMetricas.reset();
+    function renderMetricas(lista = nyvoraGetMetrics()) {
+
+        tablaMetricas.innerHTML = "";
+
+        if (lista.length === 0) {
+
+            tablaMetricas.innerHTML = `
+
+                <tr>
+
+                    <td colspan="8"
+                        style="text-align:center; padding:1rem; color:#888;">
+
+                        No hay métricas registradas.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+        lista.forEach((metrica) => {
+
+            const paciente = nyvoraGetPatientById(
+                metrica.patientId
+            );
+
+            const fila = document.createElement("tr");
+
+            fila.innerHTML = `
+
+                <td>
+
+                    ${nyvoraFormatDate(metrica.measurementDate)}
+
+                </td>
+
+                <td>
+
+                    ${paciente
+                        ? nyvoraEscapeHtml(paciente.fullName)
+                        : "Paciente no encontrado"}
+
+                </td>
+
+                <td>
+
+                    ${metrica.weightKg ?? "—"} kg
+
+                </td>
+
+                <td>
+
+                    ${metrica.bmi ?? "—"}
+
+                </td>
+
+                <td>
+
+                    ${metrica.bodyFatPercentage ?? "—"} %
+
+                </td>
+
+                <td>
+
+                    ${metrica.heartRate ?? "—"} bpm
+
+                </td>
+
+                <td>
+
+                    ${metrica.sleepHours ?? "—"} h
+
+                </td>
+
+                <td>
+
+                    ${metrica.steps?.toLocaleString() ?? "—"}
+
+                </td>
+
+            `;
+
+            tablaMetricas.appendChild(fila);
+
+        });
+
+    }
+
+        /* Filtrar por fecha */
+
+    document.getElementById("btn-filtrar").addEventListener("click", () => {
+
+        const desde = document.getElementById("fecha-desde").value;
+
+        const hasta = document.getElementById("fecha-hasta").value;
+
+        let metricas = nyvoraGetMetrics();
+
+        if (desde) {
+
+            metricas = metricas.filter((metrica) =>
+                metrica.measurementDate.slice(0, 10) >= desde
+            );
+
+        }
+
+        if (hasta) {
+
+            metricas = metricas.filter((metrica) =>
+                metrica.measurementDate.slice(0, 10) <= hasta
+            );
+
+        }
+
+        renderMetricas(metricas);
+
+    });
+
+    /* Eventos */
+
+    inputPeso.addEventListener("input", calcularIMC);
+
+    selectPaciente.addEventListener("change", calcularIMC);
+
+    /* Actualización */
+
+    window.addEventListener(
+        "nyvora:data-changed",
+        () => renderMetricas()
+    );
+
+    /* Inicialización */
+
+    cargarPacientes();
 
     renderMetricas();
+
 });
 
-
-// MOSTRAR TABLA DE MÉTRICAS
-function renderMetricas(lista = nyvoraGetMetrics()) {
-    tablaMetricas.innerHTML = "";
-
-    if (lista.length === 0) {
-        tablaMetricas.innerHTML = `
-            <tr>
-                <td colspan="8">
-                    No hay métricas registradas.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-    lista.forEach(metrica => {
-        const paciente = nyvoraGetPatientById(metrica.patientId);
-
-        const fecha = new Date(metrica.measurementDate)
-            .toLocaleDateString("es-CR");
-
-        const fila = document.createElement("tr");
-
-        fila.innerHTML = `
-            <td>${fecha}</td>
-            <td>${paciente ? paciente.fullName : "Paciente no encontrado"}</td>
-            <td>${metrica.weightKg ?? "—"} kg</td>
-            <td>${metrica.bmi ?? "—"}</td>
-            <td>${metrica.bodyFatPercentage ?? "—"} %</td>
-            <td>${metrica.heartRate ?? "—"} bpm</td>
-            <td>${metrica.sleepHours ?? "—"} h</td>
-            <td>${metrica.steps ?? "—"}</td>
-        `;
-
-        tablaMetricas.appendChild(fila);
-    });
-}
-
-
-// FILTRO POR FECHA
-document.getElementById("btn-filtrar").addEventListener("click", () => {
-    const desde = document.getElementById("fecha-desde").value;
-    const hasta = document.getElementById("fecha-hasta").value;
-
-    let metricas = nyvoraGetMetrics();
-
-    if (desde) {
-        metricas = metricas.filter(metrica => {
-            return metrica.measurementDate.slice(0, 10) >= desde;
-        });
-    }
-
-    if (hasta) {
-        metricas = metricas.filter(metrica => {
-            return metrica.measurementDate.slice(0, 10) <= hasta;
-        });
-    }
-
-    renderMetricas(metricas);
-});
-
-
-// EVENTOS PARA EL IMC
-inputPeso.addEventListener("input", calcularIMC);
-
-selectPaciente.addEventListener("change", calcularIMC);
-
-
-// CARGA INICIAL
-cargarPacientes();
-
-renderMetricas();

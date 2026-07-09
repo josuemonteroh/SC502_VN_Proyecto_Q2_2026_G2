@@ -29,7 +29,6 @@
     <div class="container">
 
         <!-- Panel Izquierdo -->
-
         <div class="left-panel">
 
             <div class="branding">
@@ -39,69 +38,43 @@
                 <div class="info-card">
 
                     <h2 data-lang="platform_title">
-
                         Plataforma Inteligente
                         <br>
                         de Seguimiento Nutricional
-
                     </h2>
 
                     <p data-lang="platform_description">
-
-                        Gestiona pacientes, registra métricas biométricas y
-                        administra el seguimiento nutricional desde una única
-                        plataforma.
-
+                        Gestiona pacientes, registra métricas biométricas y administra el seguimiento nutricional desde una única plataforma.
                     </p>
 
                     <ul class="features">
 
                         <li>
-
                             <i class="fa-solid fa-user-doctor"></i>
-
                             <span data-lang="feature_1">
-
                                 Seguimiento integral de pacientes
-
                             </span>
-
                         </li>
 
                         <li>
-
                             <i class="fa-solid fa-chart-line"></i>
-
                             <span data-lang="feature_2">
-
                                 Registro de métricas nutricionales
-
                             </span>
-
                         </li>
 
                         <li>
-
                             <i class="fa-solid fa-folder-open"></i>
-
                             <span data-lang="feature_3">
-
                                 Historial clínico organizado
-
                             </span>
-
                         </li>
 
                         <li>
-
                             <i class="fa-solid fa-shield-halved"></i>
-
                             <span data-lang="feature_4">
-
                                 Información protegida y segura
-
                             </span>
-
                         </li>
 
                     </ul>
@@ -112,189 +85,154 @@
 
         </div>
 
-    <!-- Panel Derecho -->
+        <!-- Panel Derecho -->
+        <div class="right-panel">
 
-    <div class="right-panel">
+            <div class="login-card">
 
-        <div class="login-card">
+                <!-- Selector de Idioma -->
+                <div class="language-selector">
 
-            <!-- Selector de Idioma -->
+                    <i class="fa-solid fa-language"></i>
 
-            <div class="language-selector">
+                    <select
+                        id="language-select"
+                        onchange="setLanguage(this.value)">
 
-                <i class="fa-solid fa-language"></i>
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
 
-                <select
-                    id="language-select"
-                    onchange="setLanguage(this.value)">
-
-                    <option value="es">Español</option>
-
-                    <option value="en">English</option>
-
-                </select>
-
-            </div>
-
-            <h2 data-lang="login_title">
-
-                Bienvenido
-
-            </h2>
-
-            <p data-lang="login_subtitle">
-
-                Inicie sesión para acceder a la plataforma Nyvora.
-
-            </p>
-
-            <form>
-
-                <!-- Correo -->
-
-                <label
-                    for="email"
-                    data-lang="email_label">
-
-                    Correo electrónico
-
-                </label>
-
-                <div class="input-group">
-
-                    <i class="fa-regular fa-envelope"></i>
-
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        data-placeholder="email_placeholder"
-                        placeholder="Ingrese su correo electrónico"
-                        required>
+                    </select>
 
                 </div>
 
-                <!-- Contraseña -->
+                <h2 data-lang="login_title">
+                    Bienvenido
+                </h2>
 
-                <label
-                    for="password"
-                    data-lang="password_label">
+                <p data-lang="login_subtitle">
+                    Inicie sesión para acceder a la plataforma Nyvora.
+                </p>
 
-                    Contraseña
+                <!-- Formulario -->
+                <form id="login-form">
 
-                </label>
+                    <!-- Correo -->
+                    <label
+                        for="email"
+                        data-lang="email_label">
+                        Correo electrónico
+                    </label>
 
-                <div class="input-group">
+                    <div class="input-group">
 
-                    <i class="fa-solid fa-lock"></i>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        data-placeholder="password_placeholder"
-                        placeholder="Ingrese su contraseña"
-                        required>
-
-                </div>
-
-                <!-- Opciones -->
-
-                <div class="login-options">
-
-                    <label class="remember">
+                        <i class="fa-regular fa-envelope"></i>
 
                         <input
-                            type="checkbox"
-                            name="remember">
+                            type="email"
+                            id="email"
+                            name="email"
+                            data-placeholder="email_placeholder"
+                            placeholder="Ingrese su correo electrónico"
+                            required>
 
-                        <span data-lang="remember_me">
+                    </div>
 
-                            Mantener mi sesión iniciada
+                    <!-- Contraseña -->
+                    <label
+                        for="password"
+                        data-lang="password_label">
+                        Contraseña
+                    </label>
 
+                    <div class="input-group">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            data-placeholder="password_placeholder"
+                            placeholder="Ingrese su contraseña"
+                            required>
+
+                    </div>
+
+                    <!-- Opciones -->
+                    <div class="login-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                name="remember">
+
+                            <span data-lang="remember_me">
+                                Mantener mi sesión iniciada
+                            </span>
+
+                        </label>
+
+                        <a
+                            href="#"
+                            data-lang="forgot_password">
+                            ¿Olvidó su contraseña?
+                        </a>
+
+                    </div>
+
+                    <!-- Botón -->
+                    <button type="submit">
+
+                        <span data-lang="login_button">
+                            Iniciar Sesión
                         </span>
 
-                    </label>
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+                <!-- Solicitar Acceso -->
+                <div class="register-link">
+
+                    <span data-lang="need_access">
+                        ¿Necesita acceso?
+                    </span>
 
                     <a
                         href="#"
-                        data-lang="forgot_password">
-
-                        ¿Olvidó su contraseña?
-
+                        data-lang="request_access">
+                        Solicitar acceso
                     </a>
 
                 </div>
 
-                <!-- Botón -->
-
-                <button
-                    type="button"
-                    onclick="window.location.href='pages/dashboard.html'">
-
-                    <span data-lang="login_button">
-
-                        Iniciar Sesión
-
-                    </span>
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </button>
-
-            </form>
-
-            <!-- Solicitar Acceso -->
-
-            <div class="register-link">
-
-                <span data-lang="need_access">
-
-                    ¿Necesita acceso?
-
-                </span>
-
-                <a
-                    href="#"
-                    data-lang="request_access">
-
-                    Solicitar acceso
-
-                </a>
-
-            </div>
-
                 <!-- Footer -->
+                <div class="footer">
 
-                            <div class="footer">
+                    <small data-lang="version">
+                        Versión 1.0.0
+                    </small>
 
-                                <small data-lang="version">
-
-                                    Versión 1.0.0
-
-                                </small>
-
-                                <small data-lang="footer">
-
-                                    © 2026 Nyvora | Universidad Fidélitas
-
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <small data-lang="footer">
+                        © 2026 Nyvora | Universidad Fidélitas
+                    </small>
 
                 </div>
 
-                <!-- Sistema de Idiomas -->
+            </div>
 
-        <script src="js/language.js"></script>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/language.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
 
 </html>
-
-
-        

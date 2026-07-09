@@ -207,7 +207,8 @@
 
                         <select
                             id="paciente"
-                            class="search-box">
+                            class="search-box"
+                            required>
 
                             <option value="" selected disabled>
 
@@ -237,7 +238,9 @@
                             type="number"
                             id="peso"
                             class="search-box"
-                            step="0.1">
+                            step="0.1"
+                            min="0"
+                            required>
 
                     </div>
 
@@ -257,7 +260,8 @@
                             type="number"
                             id="grasa"
                             class="search-box"
-                            step="0.1">
+                            step="0.1"
+                            min="0">
 
                     </div>
 
@@ -296,7 +300,9 @@
                         <input
                             type="number"
                             id="fc"
-                            class="search-box">
+                            class="search-box"
+                            min="0">
+
 
                     </div>
 
@@ -316,7 +322,8 @@
                             type="number"
                             id="sueno"
                             class="search-box"
-                            step="0.1">
+                            step="0.1"
+                            min="0">
 
                     </div>
 
@@ -335,7 +342,8 @@
                         <input
                             type="number"
                             id="pasos"
-                            class="search-box">
+                            class="search-box"
+                            min="0">
 
                     </div>
 
@@ -384,6 +392,7 @@
                         class="search-box">
 
                     <button
+                        type="button"
                         class="btn-primary"
                         id="btn-filtrar">
 
@@ -439,6 +448,7 @@
 
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
     <script src="../js/metricas.js" defer></script>
 
 </body>

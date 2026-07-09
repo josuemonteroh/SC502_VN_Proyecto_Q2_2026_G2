@@ -190,7 +190,8 @@
                     <input
                         class="search-box"
                         type="text"
-                        placeholder="Buscar paciente por nombre...">
+                        placeholder="Buscar paciente por nombre..."
+                        autocomplete="off">
 
                     <select
                         class="search-box"
@@ -214,7 +215,9 @@
 
                     </select>
 
-                    <button class="btn-primary">
+                    <button
+                        type="button"
+                        class="btn-primary">
 
                         <i class="fa-solid fa-user-plus"></i>
 
@@ -242,11 +245,7 @@
 
                         </div>
 
-                        <h2>
-
-                            128
-
-                        </h2>
+                        <h2>0</h2>
 
                     </div>
 
@@ -274,11 +273,7 @@
 
                         </div>
 
-                        <h2>
-
-                            112
-
-                        </h2>
+                        <h2>0</h2>
 
                     </div>
 
@@ -306,11 +301,7 @@
 
                         </div>
 
-                        <h2>
-
-                            18
-
-                        </h2>
+                        <h2>0</h2>
 
                     </div>
 
@@ -338,11 +329,7 @@
 
                         </div>
 
-                        <h2>
-
-                            7
-
-                        </h2>
+                        <h2>0</h2>
 
                     </div>
 
@@ -396,246 +383,6 @@
 
                     <tbody>
 
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                María Gómez
-
-                            </td>
-
-                            <td>34</td>
-
-                            <td>82 kg</td>
-
-                            <td>Hoy</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                Carlos Vargas
-
-                            </td>
-
-                            <td>42</td>
-
-                            <td>96 kg</td>
-
-                            <td>Ayer</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Seguimiento
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                Ana Rodríguez
-
-                            </td>
-
-                            <td>29</td>
-
-                            <td>68 kg</td>
-
-                            <td>20 Jun</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                Diego Soto
-
-                            </td>
-
-                            <td>37</td>
-
-                            <td>88 kg</td>
-
-                            <td>18 Jun</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Inactivo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                Laura Méndez
-
-                            </td>
-
-                            <td>31</td>
-
-                            <td>70 kg</td>
-
-                            <td>15 Jun</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <i class="fa-solid fa-user"></i>
-
-                                José Hernández
-
-                            </td>
-
-                            <td>46</td>
-
-                            <td>94 kg</td>
-
-                            <td>13 Jun</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Seguimiento
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir Expediente
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
                     </tbody>
 
                 </table>
@@ -658,45 +405,53 @@
 
                     <table>
 
-                        <tr>
+                        <thead>
 
-                            <th>Hora</th>
+                            <tr>
 
-                            <th>Actividad</th>
+                                <th>Hora</th>
 
-                        </tr>
+                                <th>Actividad</th>
 
-                        <tr>
+                            </tr>
 
-                            <td>09:15</td>
+                        </thead>
 
-                            <td>María Gómez completó su control nutricional.</td>
+                        <tbody>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>09:15</td>
 
-                            <td>10:40</td>
+                                <td>María Gómez completó su control nutricional.</td>
 
-                            <td>Nuevo paciente registrado.</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>10:40</td>
 
-                            <td>11:25</td>
+                                <td>Nuevo paciente registrado.</td>
 
-                            <td>Carlos Vargas actualizó sus métricas.</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>11:25</td>
 
-                            <td>12:10</td>
+                                <td>Carlos Vargas actualizó sus métricas.</td>
 
-                            <td>Se generó una alerta por IMC elevado.</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
+
+                                <td>12:10</td>
+
+                                <td>Se generó una alerta por IMC elevado.</td>
+
+                            </tr>
+
+                        </tbody>
 
                     </table>
 
@@ -712,53 +467,61 @@
 
                     <table>
 
-                        <tr>
+                        <thead>
 
-                            <th>Indicador</th>
+                            <tr>
 
-                            <th>Valor</th>
+                                <th>Indicador</th>
 
-                        </tr>
+                                <th>Valor</th>
 
-                        <tr>
+                            </tr>
 
-                            <td>Pacientes registrados</td>
+                        </thead>
 
-                            <td>128</td>
+                        <tbody>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>Pacientes registrados</td>
 
-                            <td>Controles esta semana</td>
+                                <td>128</td>
 
-                            <td>18</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>Controles esta semana</td>
 
-                            <td>Alertas activas</td>
+                                <td>18</td>
 
-                            <td>7</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>Alertas activas</td>
 
-                            <td>Promedio IMC</td>
+                                <td>7</td>
 
-                            <td>24.8</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
 
-                        <tr>
+                                <td>Promedio IMC</td>
 
-                            <td>Seguimientos pendientes</td>
+                                <td>24.8</td>
 
-                            <td>12</td>
+                            </tr>
 
-                        </tr>
+                            <tr>
+
+                                <td>Seguimientos pendientes</td>
+
+                                <td>12</td>
+
+                            </tr>
+
+                        </tbody>
 
                     </table>
 
@@ -770,48 +533,20 @@
 
     </div>
 
-    <script>
-
-        function actualizarFechaHora(){
-
-            const ahora = new Date();
-
-            const opcionesFecha = {
-
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-
-            };
-
-            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
-
-            const hora = ahora.toLocaleTimeString("es-CR", {
-
-                hour: "2-digit",
-                minute: "2-digit"
-
-            });
-
-            document.getElementById("current-date").innerHTML =
-
-                `${fecha}<br>${hora}`;
-
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora,1000);
-
-    </script>
+    <!-- JavaScript -->
 
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
     <script src="../js/pacientes.js" defer></script>
-    
 
 </body>
 
 </html>
+
+
+
+
+
+
 

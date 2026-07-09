@@ -208,23 +208,14 @@
 
                         <select
                             id="paciente"
-                            class="search-box">
+                            class="search-box"
+                            required>
 
                             <option value="" selected disabled>
 
                                 Seleccione un paciente
 
                             </option>
-
-                            <option>María Gómez</option>
-
-                            <option>Carlos Vargas</option>
-
-                            <option>Ana Rodríguez</option>
-
-                            <option>Diego Soto</option>
-
-                            <option>Laura Méndez</option>
 
                         </select>
 
@@ -266,7 +257,9 @@
 
                     <div class="filter-button">
 
-                        <button class="btn-primary">
+                        <button
+                            type="button"
+                            class="btn-primary">
 
                             <i class="fa-solid fa-filter"></i>
 
@@ -306,7 +299,7 @@
 
                         </span>
 
-                        <strong>María Gómez</strong>
+                        <strong>Sin seleccionar</strong>
 
                     </div>
 
@@ -320,7 +313,7 @@
 
                         </span>
 
-                        <strong>34 años</strong>
+                        <strong>--</strong>
 
                     </div>
 
@@ -334,7 +327,7 @@
 
                         </span>
 
-                        <strong>Dr. Hernández C.</strong>
+                        <strong>--</strong>
 
                     </div>
 
@@ -348,7 +341,7 @@
 
                         </span>
 
-                        <strong>Reducción de peso</strong>
+                        <strong>--</strong>
 
                     </div>
 
@@ -362,9 +355,9 @@
 
                         </span>
 
-                        <span class="badge success">
+                        <span class="badge warning">
 
-                            Activo
+                            --
 
                         </span>
 
@@ -380,7 +373,7 @@
 
                         </span>
 
-                        <strong>06 Jul 2026</strong>
+                        <strong>--</strong>
 
                     </div>
 
@@ -430,146 +423,6 @@
 
                     <tbody>
 
-                        <tr>
-
-                            <td>06 Jul 2026</td>
-
-                            <td>80.2 kg</td>
-
-                            <td>24.8</td>
-
-                            <td>22.1 %</td>
-
-                            <td>72 bpm</td>
-
-                            <td>7.5 h</td>
-
-                            <td>8,540</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Evolución Positiva
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>29 Jun 2026</td>
-
-                            <td>80.9 kg</td>
-
-                            <td>25.1</td>
-
-                            <td>22.6 %</td>
-
-                            <td>73 bpm</td>
-
-                            <td>7.2 h</td>
-
-                            <td>8,120</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Estable
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>22 Jun 2026</td>
-
-                            <td>81.5 kg</td>
-
-                            <td>25.4</td>
-
-                            <td>23.0 %</td>
-
-                            <td>75 bpm</td>
-
-                            <td>6.8 h</td>
-
-                            <td>7,650</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Seguimiento
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>15 Jun 2026</td>
-
-                            <td>82.1 kg</td>
-
-                            <td>25.8</td>
-
-                            <td>23.7 %</td>
-
-                            <td>76 bpm</td>
-
-                            <td>6.5 h</td>
-
-                            <td>7,180</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Seguimiento
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>08 Jun 2026</td>
-
-                            <td>82.8 kg</td>
-
-                            <td>26.0</td>
-
-                            <td>24.1 %</td>
-
-                            <td>77 bpm</td>
-
-                            <td>6.3 h</td>
-
-                            <td>6,940</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Requiere Atención
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
                     </tbody>
 
                 </table>
@@ -578,7 +431,7 @@
 
             <br>
 
-                        <!-- Paneles Informativos -->
+            <!-- Paneles Informativos -->
 
             <section class="dashboard-grid">
 
@@ -596,59 +449,81 @@
 
                     <div class="clinical-notes">
 
-                        <div class="note-item">
+                    </div>
 
-                            <i class="fa-solid fa-circle-check"></i>
+                </div>
 
-                            <p>
+                            <!-- Evolución Biométrica -->
 
-                                El paciente presenta una reducción progresiva del peso corporal desde el primer control.
+            <div class="panel">
 
-                            </p>
+                <h2>
 
-                        </div>
+                    <i class="fa-solid fa-chart-line"></i>
 
-                        <div class="note-item">
+                    Evolución Biométrica
 
-                            <i class="fa-solid fa-bed"></i>
+                </h2>
 
-                            <p>
+                <table>
 
-                                Se observa una mejora en las horas promedio de sueño durante las últimas semanas.
+                    <thead>
 
-                            </p>
+                        <tr>
 
-                        </div>
+                            <th>Fecha</th>
 
-                        <div class="note-item">
+                            <th>Peso</th>
 
-                            <i class="fa-solid fa-person-walking"></i>
+                            <th>IMC</th>
 
-                            <p>
+                            <th>Grasa Corporal</th>
 
-                                El promedio de pasos diarios ha incrementado de forma constante.
+                            <th>Frecuencia Cardíaca</th>
 
-                            </p>
+                            <th>Horas de Sueño</th>
 
-                        </div>
+                            <th>Pasos Diarios</th>
 
-                        <div class="note-item">
+                            <th>Observación</th>
 
-                            <i class="fa-solid fa-utensils"></i>
+                        </tr>
 
-                            <p>
+                    </thead>
 
-                                Se recomienda mantener el plan nutricional y continuar con los controles periódicos.
+                    <tbody>
 
-                            </p>
+                    </tbody>
 
-                        </div>
+                </table>
+
+            </div>
+
+            <br>
+
+            <!-- Paneles Informativos -->
+
+            <section class="dashboard-grid">
+
+                <!-- Observaciones Clínicas -->
+
+                <div class="panel">
+
+                    <h2>
+
+                        <i class="fa-solid fa-notes-medical"></i>
+
+                        Observaciones Clínicas
+
+                    </h2>
+
+                    <div class="clinical-notes">
 
                     </div>
 
                 </div>
 
-                <!-- Actividad Reciente -->
+                                <!-- Actividad Reciente -->
 
                 <div class="panel">
 
@@ -676,46 +551,6 @@
 
                         <tbody>
 
-                            <tr>
-
-                                <td>06 Jul 2026</td>
-
-                                <td>Se registró un nuevo control biométrico.</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>29 Jun 2026</td>
-
-                                <td>Actualización del peso corporal.</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>22 Jun 2026</td>
-
-                                <td>Registro de seguimiento nutricional.</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>15 Jun 2026</td>
-
-                                <td>Evaluación clínica completada.</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>08 Jun 2026</td>
-
-                                <td>Creación del expediente del paciente.</td>
-
-                            </tr>
-
                         </tbody>
 
                     </table>
@@ -728,49 +563,20 @@
 
     </div>
 
-    <!-- Fecha y Hora -->
-
-    <script>
-
-        function actualizarFechaHora(){
-
-            const ahora = new Date();
-
-            const opcionesFecha = {
-
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-
-            };
-
-            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
-
-            const hora = ahora.toLocaleTimeString("es-CR", {
-
-                hour: "2-digit",
-                minute: "2-digit"
-
-            });
-
-            document.getElementById("current-date").innerHTML =
-
-                `${fecha}<br>${hora}`;
-
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora,1000);
-
-    </script>
+    <!-- JavaScript -->
 
     <script src="../js/data.js" defer></script>
+
     <script src="../js/common.js" defer></script>
+
+    <script src="../js/language.js" defer></script>
+
     <script src="../js/historial.js" defer></script>
 
 </body>
 
 </html>
+
+
+
 
