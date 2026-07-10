@@ -6,25 +6,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Elementos del DOM */
 
-    const searchBox = document.querySelector(".panel .search-box");
-    const btnRegistrar = document.querySelector(".panel .btn-primary");
-    const tablaPacientes = document.querySelectorAll(".dashboard-grid .panel table")[0];
-    const tbodyPacientes = tablaPacientes.querySelector("tbody");
-    const tablaAlertas = document.querySelectorAll(".dashboard-grid .panel table")[1];
-    const tbodyAlertas = tablaAlertas.querySelector("tbody");
-    const kpiCards = document.querySelectorAll(".kpi-cards .card");
+    const tablaPacientes =
+        document.querySelectorAll(".dashboard-grid .panel table")[0];
 
-    /* Función para normalizar texto */
+    const tbodyPacientes =
+        tablaPacientes.querySelector("tbody");
 
-    function normalizar(texto) {
+    const tablaAlertas =
+        document.querySelectorAll(".dashboard-grid .panel table")[1];
 
-        return String(texto)
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .trim();
+    const tbodyAlertas =
+        tablaAlertas.querySelector("tbody");
 
-    }
+    const kpiCards =
+        document.querySelectorAll(".kpi-cards .card");
+
+    /* Gráficos */
+
+    let weightChart = null;
+
+    let statusChart = null;
+
+    let alertChart = null;
 
     /* Información de estados */
 
@@ -33,55 +36,79 @@ document.addEventListener("DOMContentLoaded", () => {
         const mapa = {
 
             ACTIVO: {
+
                 texto: "Activo",
+
                 clase: "success"
+
             },
 
             SEGUIMIENTO: {
+
                 texto: "Seguimiento",
+
                 clase: "warning"
+
             },
 
             INACTIVO: {
+
                 texto: "Inactivo",
+
                 clase: "danger"
+
             }
 
         };
 
         return mapa[status] || {
+
             texto: status,
+
             clase: "warning"
+
         };
 
     }
 
-    /* Información de prioridad de alerta */
+    /* Información de prioridad */
 
     function prioridadInfo(priority) {
 
         const mapa = {
 
             ALTA: {
+
                 texto: "Alta",
+
                 clase: "danger"
+
             },
 
             MEDIA: {
+
                 texto: "Media",
+
                 clase: "warning"
+
             },
 
             BAJA: {
+
                 texto: "Baja",
+
                 clase: "success"
+
             }
 
         };
 
         return mapa[priority] || {
+
             texto: priority,
+
             clase: "warning"
+
         };
 
     }
@@ -90,28 +117,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function crearFilaPaciente(paciente) {
 
-        const ultima = nyvoraGetLatestMetric(paciente.id);
-        const estado = estadoInfo(paciente.status);
-        const fila = document.createElement("tr");
+        const ultima =
+            nyvoraGetLatestMetric(paciente.id);
+
+        const estado =
+            estadoInfo(paciente.status);
+
+        const fila =
+            document.createElement("tr");
 
         fila.innerHTML = `
+
             <td>
+
                 <i class="fa-solid fa-user"></i>
+
                 ${nyvoraEscapeHtml(paciente.fullName)}
+
             </td>
-            <td>${paciente.age ?? "N/D"}</td>
-            <td>${ultima ? nyvoraFormatDate(ultima.measurementDate) : "Sin controles"}</td>
+
             <td>
+
+                ${paciente.age ?? "N/D"}
+
+            </td>
+
+            <td>
+
+                ${ultima
+                    ? nyvoraFormatDate(ultima.measurementDate)
+                    : "Sin controles"}
+
+            </td>
+
+            <td>
+
                 <span class="badge ${estado.clase}">
+
                     ${estado.texto}
+
                 </span>
+
             </td>
+
             <td>
-                <a href="pacientes.html" class="action-link">
-                    <i class="fa-solid fa-eye"></i>
-                    Abrir
+
+                <a
+                    href="metricas.html"
+                    class="action-link">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    Ver
+
                 </a>
+
             </td>
+
         `;
 
         return fila;
@@ -122,22 +184,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function crearFilaAlerta(alerta) {
 
-        const paciente = nyvoraGetPatientById(alerta.patientId);
-        const prioridad = prioridadInfo(alerta.priority);
-        const fila = document.createElement("tr");
+        const paciente =
+            nyvoraGetPatientById(alerta.patientId);
+
+        const prioridad =
+            prioridadInfo(alerta.priority);
+
+        const fila =
+            document.createElement("tr");
 
         fila.innerHTML = `
+
             <td>
-                ${paciente ? nyvoraEscapeHtml(paciente.fullName) : "Paciente desconocido"}
+
+                ${paciente
+                    ? nyvoraEscapeHtml(paciente.fullName)
+                    : "Paciente desconocido"}
+
             </td>
+
             <td>
+
                 ${nyvoraEscapeHtml(alerta.message)}
+
             </td>
+
             <td>
+
                 <span class="badge ${prioridad.clase}">
+
                     ${prioridad.texto}
+
                 </span>
+
             </td>
+
         `;
 
         return fila;
@@ -148,64 +229,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function actualizarKPIs() {
 
-        const pacientes = nyvoraGetPatients();
-        const metricas = nyvoraGetMetrics();
-        const alertas = nyvoraGetAlerts().filter((a) => a.status === "ACTIVE");
+        const pacientes =
+            nyvoraGetPatients();
 
-        const kpiDatos = [
+        const metricas =
+            nyvoraGetMetrics();
+
+        const alertas =
+            nyvoraGetAlerts().filter(
+
+                alerta => alerta.status === "ACTIVE"
+
+            );
+
+        const pacientesActivos =
+            pacientes.filter(
+
+                paciente => paciente.status === "ACTIVO"
+
+            ).length;
+
+        const datos = [
+
             pacientes.length,
+
             metricas.length,
+
             alertas.length,
-            pacientes.length > 0
+
+            pacientes.length
                 ? Math.round(
-                    (pacientes.filter((p) => p.status === "ACTIVO").length /
-                        pacientes.length) *
-                    100
+                    (pacientesActivos / pacientes.length) * 100
                 )
                 : 0
+
         ];
 
         kpiCards.forEach((card, index) => {
 
-            const h2 = card.querySelector("h2");
+            const value =
+                card.querySelector("h2");
 
-            if (h2) {
+            if (!value) return;
 
-                h2.textContent = index === 3 ? kpiDatos[index] + "%" : kpiDatos[index];
-
-            }
+            value.textContent =
+                index === 3
+                    ? `${datos[index]}%`
+                    : datos[index];
 
         });
 
     }
 
-    /* Cargar pacientes recientes */
+        /* Cargar pacientes */
 
-    function cargarPacientes(filtro = "") {
+    function cargarPacientes() {
 
         tbodyPacientes.innerHTML = "";
 
-        const pacientes = nyvoraGetPatients();
-        const filtrados = filtro
-            ? pacientes.filter((p) =>
-                normalizar(p.fullName).includes(normalizar(filtro))
-            )
-            : pacientes;
+        const pacientes =
+            nyvoraGetPatients();
 
-        const recientes = filtrados.slice(0, 5);
+        const recientes =
+            pacientes.slice(0, 5);
 
-        if (recientes.length === 0) {
+        if (!recientes.length) {
 
-            const fila = document.createElement("tr");
-            fila.innerHTML = `<td colspan="5" style="text-align: center; color: #999;">No hay pacientes</td>`;
-            tbodyPacientes.appendChild(fila);
+            tbodyPacientes.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5" style="text-align:center;color:#999;">
+
+                        No hay pacientes registrados.
+
+                    </td>
+
+                </tr>
+
+            `;
+
             return;
 
         }
 
         recientes.forEach((paciente) => {
 
-            tbodyPacientes.appendChild(crearFilaPaciente(paciente));
+            tbodyPacientes.appendChild(
+
+                crearFilaPaciente(paciente)
+
+            );
 
         });
 
@@ -217,73 +331,410 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tbodyAlertas.innerHTML = "";
 
-        const alertas = nyvoraGetAlerts()
-            .filter((a) => a.status === "ACTIVE")
-            .slice(0, 5);
+        const alertas =
 
-        if (alertas.length === 0) {
+            nyvoraGetAlerts()
 
-            const fila = document.createElement("tr");
-            fila.innerHTML = `<td colspan="3" style="text-align: center; color: #999;">No hay alertas</td>`;
-            tbodyAlertas.appendChild(fila);
+                .filter((alerta) =>
+
+                    alerta.status === "ACTIVE"
+
+                )
+
+                .slice(0, 5);
+
+        if (!alertas.length) {
+
+            tbodyAlertas.innerHTML = `
+
+                <tr>
+
+                    <td colspan="3" style="text-align:center;color:#999;">
+
+                        No hay alertas activas.
+
+                    </td>
+
+                </tr>
+
+            `;
+
             return;
 
         }
 
         alertas.forEach((alerta) => {
 
-            tbodyAlertas.appendChild(crearFilaAlerta(alerta));
+            tbodyAlertas.appendChild(
+
+                crearFilaAlerta(alerta)
+
+            );
 
         });
 
     }
 
-    /* Cargar datos iniciales */
+    /* Cargar datos */
 
     function cargarDatos() {
 
         actualizarKPIs();
+
         cargarPacientes();
+
         cargarAlertas();
 
-    }
-
-    /* Event listeners */
-
-    if (searchBox) {
-
-        searchBox.addEventListener("input", (e) => {
-
-            cargarPacientes(e.target.value);
-
-        });
+        cargarGraficos();
 
     }
 
-    if (btnRegistrar) {
+    /* Cargar gráficos */
 
-        btnRegistrar.addEventListener("click", () => {
+    function cargarGraficos() {
 
-            window.location.href = "pacientes.html";
+        const pacientes =
+            nyvoraGetPatients();
 
-        });
+        const metricas =
+            nyvoraGetMetrics();
 
-    }
+        const alertas =
+            nyvoraGetAlerts();
 
-    /* Escuchar cambios de datos */
+        /* Evolución del peso */
 
-    window.addEventListener("nyvora:data-changed", (e) => {
+        const historialPeso =
 
-        if (e.detail.type === "patients" || e.detail.type === "metrics" || e.detail.type === "alerts") {
+            [...metricas]
 
-            cargarDatos();
+                .sort((a, b) =>
+
+                    nyvoraBuildDate(a.measurementDate) -
+
+                    nyvoraBuildDate(b.measurementDate)
+
+                )
+
+                .slice(-10);
+
+        const pesoLabels =
+
+            historialPeso.map((m) =>
+
+                nyvoraFormatDate(m.measurementDate)
+
+            );
+
+        const pesoData =
+
+            historialPeso.map((m) =>
+
+                m.weightKg
+
+            );
+
+        if (weightChart) {
+
+            weightChart.destroy();
 
         }
 
-    });
+        weightChart = new Chart(
 
-    /* Cargar datos al iniciar */
+            document.getElementById("weightChart"),
+
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: pesoLabels,
+
+                    datasets: [
+
+                        {
+
+                            label: "Peso (kg)",
+
+                            data: pesoData,
+
+                            borderWidth: 2,
+
+                            tension: .35,
+
+                            fill: false
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display: false
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+        /* Pacientes por estado */
+
+        const activos =
+
+            pacientes.filter(
+
+                p => p.status === "ACTIVO"
+
+            ).length;
+
+        const seguimiento =
+
+            pacientes.filter(
+
+                p => p.status === "SEGUIMIENTO"
+
+            ).length;
+
+        const inactivos =
+
+            pacientes.filter(
+
+                p => p.status === "INACTIVO"
+
+            ).length;
+
+                    if (statusChart) {
+
+            statusChart.destroy();
+
+        }
+
+        statusChart = new Chart(
+
+            document.getElementById("statusChart"),
+
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+
+                        "Activos",
+
+                        "Seguimiento",
+
+                        "Inactivos"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            data: [
+
+                                activos,
+
+                                seguimiento,
+
+                                inactivos
+
+                            ]
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display: true,
+
+                            position: "bottom"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+        /* Alertas por prioridad */
+
+        const altas =
+
+            alertas.filter(
+
+                a => a.priority === "ALTA"
+
+            ).length;
+
+        const medias =
+
+            alertas.filter(
+
+                a => a.priority === "MEDIA"
+
+            ).length;
+
+        const bajas =
+
+            alertas.filter(
+
+                a => a.priority === "BAJA"
+
+            ).length;
+
+        if (alertChart) {
+
+            alertChart.destroy();
+
+        }
+
+        alertChart = new Chart(
+
+            document.getElementById("alertChart"),
+
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+
+                        "Alta",
+
+                        "Media",
+
+                        "Baja"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            label: "Alertas",
+
+                            data: [
+
+                                altas,
+
+                                medias,
+
+                                bajas
+
+                            ],
+
+                            borderWidth: 1
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display: false
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                precision: 0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    }
+
+    /* Escuchar cambios */
+
+    window.addEventListener(
+
+        "nyvora:data-changed",
+
+        (e) => {
+
+            if (
+
+                e.detail.type === "patients" ||
+
+                e.detail.type === "metrics" ||
+
+                e.detail.type === "alerts"
+
+            ) {
+
+                cargarDatos();
+
+            }
+
+        }
+
+    );
+
+    /* Inicializar Dashboard */
 
     cargarDatos();
 
 });
+

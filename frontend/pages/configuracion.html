@@ -1,379 +1,510 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Configuración | Nyvora</title>
 
     <!-- Google Fonts -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
 
-    <link rel="stylesheet"
+    <link
+        rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <!-- Estilos -->
+
+    <link
+        rel="stylesheet"
+        href="../css/dashboard.css">
 
 </head>
 
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
+        <!-- Sidebar -->
 
-    <aside class="sidebar">
+        <aside class="sidebar">
 
-        <div class="logo">
+            <div class="logo">
 
-            <img src="../assets/logonyvora.png" alt="Nyvora">
+                <img
+                    src="../assets/logonyvora.png"
+                    alt="Nyvora">
 
-        </div>
+            </div>
 
-        <nav>
+            <nav>
 
-            <ul>
+                <ul>
 
-                <li>
+                    <li>
 
-                    <a href="dashboard.html">
+                        <a href="dashboard.html">
 
-                        <i class="fa-solid fa-chart-line"></i>
+                            <i class="fa-solid fa-chart-line"></i>
 
-                        Dashboard
+                            Dashboard
 
-                    </a>
+                        </a>
 
-                </li>
+                    </li>
 
-                <li>
+                    <li>
 
-                    <a href="pacientes.html">
+                        <a href="pacientes.html">
 
-                        <i class="fa-solid fa-users"></i>
+                            <i class="fa-solid fa-users"></i>
 
-                        Pacientes
+                            Pacientes
 
-                    </a>
+                        </a>
 
-                </li>
+                    </li>
 
-                <li>
+                    <li>
 
-                    <a href="metricas.html">
+                        <a href="metricas.html">
 
-                        <i class="fa-solid fa-weight-scale"></i>
+                            <i class="fa-solid fa-weight-scale"></i>
 
-                        Métricas
+                            Métricas
 
-                    </a>
+                        </a>
 
-                </li>
+                    </li>
 
-                <li>
+                    <li>
 
-                    <a href="historial.html">
+                        <a href="historial.html">
 
-                        <i class="fa-solid fa-folder-open"></i>
+                            <i class="fa-solid fa-folder-open"></i>
 
-                        Historial
+                            Historial
 
-                    </a>
+                        </a>
 
-                </li>
+                    </li>
 
-                <li>
+                    <li>
 
-                    <a href="alertas.html">
+                        <a href="alertas.html">
 
-                        <i class="fa-solid fa-triangle-exclamation"></i>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
 
-                        Alertas
+                            Alertas
 
-                    </a>
+                        </a>
 
-                </li>
+                    </li>
 
-                <li class="active">
+                    <li class="active">
 
-                    <a href="configuracion.html">
+                        <a href="configuracion.html">
 
-                        <i class="fa-solid fa-gear"></i>
+                            <i class="fa-solid fa-gear"></i>
+
+                            Configuración
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="../login.html">
+
+                            <i class="fa-solid fa-right-from-bracket"></i>
+
+                            Cerrar Sesión
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+        <!-- Contenido -->
+
+        <main class="content">
+
+            <!-- Encabezado -->
+
+            <header class="header">
+
+                <div>
+
+                    <h1>
 
                         Configuración
 
-                    </a>
+                    </h1>
 
-                </li>
+                    <p>
 
-                <li>
-
-                    <a href="../login.html">
-
-                        <i class="fa-solid fa-right-from-bracket"></i>
-
-                        Cerrar Sesión
-
-                    </a>
-
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </aside>
-
-    <!-- Contenido -->
-
-    <main class="content">
-
-        <div class="header">
-
-            <div>
-
-                <h1>Configuración</h1>
-
-                <p>Administra tu perfil y preferencias del sistema.</p>
-
-            </div>
-
-            <div class="welcome">
-
-                <h3 id="user-name">Dr. Usuario</h3>
-
-                <span id="current-date"></span>
-
-            </div>
-
-        </div>
-
-        <!-- Perfil de Usuario -->
-
-        <div class="panel">
-
-            <h2>
-                <i class="fa-solid fa-user-circle"></i>
-                Mi Perfil
-            </h2>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Nombre Completo</label>
-
-                    <input 
-                        type="text" 
-                        id="profile-fullname" 
-                        readonly 
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: not-allowed;">
-
-                </div>
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Correo Electrónico</label>
-
-                    <input 
-                        type="email" 
-                        id="profile-email" 
-                        readonly 
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: not-allowed;">
-
-                </div>
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Rol</label>
-
-                    <input 
-                        type="text" 
-                        id="profile-role" 
-                        readonly 
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: not-allowed;">
-
-                </div>
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Fecha de Ingreso</label>
-
-                    <input 
-                        type="text" 
-                        id="profile-joindate" 
-                        readonly 
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: not-allowed;">
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <br>
-
-        <!-- Configuraciones Generales -->
-
-        <div class="panel">
-
-            <h2>
-                <i class="fa-solid fa-sliders"></i>
-                Configuraciones Generales
-            </h2>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Idioma</label>
-
-                    <select id="config-language" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">
-
-                        <option value="es-CR">Español (Costa Rica)</option>
-
-                        <option value="en-US">English (United States)</option>
-
-                        <option value="pt-BR">Português (Brasil)</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Formato de Fecha</label>
-
-                    <select id="config-dateformat" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">
-
-                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-
-                        <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-
-                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;">Notificaciones</label>
-
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-
-                        <input type="checkbox" id="config-notifications" checked>
-
-                        <span>Habilitar notificaciones</span>
-
-                    </label>
-
-                </div>
-
-            </div>
-
-            <div style="margin-top: 20px; text-align: right;">
-
-                <button id="btn-guardar-config" class="btn-primary" style="padding: 10px 20px; cursor: pointer;">
-
-                    <i class="fa-solid fa-check"></i>
-                    Guardar Cambios
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <br>
-
-        <!-- Información del Sistema -->
-
-        <div class="panel">
-
-            <h2>
-                <i class="fa-solid fa-info-circle"></i>
-                Acerca de Nyvora
-            </h2>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-
-                <div>
-
-                    <p style="margin: 0 0 10px 0; color: #666;">
-
-                        <strong>Aplicación:</strong> Nyvora - Sistema de Gestión Clínica
-
-                    </p>
-
-                    <p style="margin: 0 0 10px 0; color: #666;">
-
-                        <strong>Versión:</strong> 1.0.0
-
-                    </p>
-
-                    <p style="margin: 0 0 10px 0; color: #666;">
-
-                        <strong>Última Actualización:</strong> <span id="last-update">Junio 2026</span>
+                        Administra tu perfil y preferencias del sistema.
 
                     </p>
 
                 </div>
 
-                <div>
+                <div class="welcome">
 
-                    <p style="margin: 0 0 10px 0; color: #666;">
+                    <h3 id="user-name">
 
-                        <strong>Desarrollado por:</strong> Grupo 2 - FIDE
+                        Dr. Hernández C
 
-                    </p>
+                    </h3>
 
-                    <p style="margin: 0 0 10px 0; color: #666;">
-
-                        <strong>Período:</strong> Q2 2026
-
-                    </p>
-
-                    <p style="margin: 0 0 10px 0; color: #666;">
-
-                        <strong>Proyectos:</strong> SC502_VN
-
-                    </p>
+                    <span id="current-date"></span>
 
                 </div>
 
-            </div>
+            </header>
 
-            <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+                        <!-- Perfil de Usuario -->
 
-            <p style="color: #999; font-size: 13px; margin: 0;">
+            <section class="panel">
 
-                Nyvora es un sistema integral de gestión de pacientes y métricas clínicas diseñado para profesionales de la salud.
+                <h2>
 
-                Utiliza tecnologías modernas para garantizar seguridad, eficiencia y facilidad de uso en entornos clínicos.
+                    <i class="fa-solid fa-user-circle"></i>
 
-            </p>
+                    Mi Perfil
 
-        </div>
+                </h2>
 
-    </main>
+                <div class="settings-grid">
 
-</div>
+                    <div class="form-group">
 
-<script src="../js/data.js" defer></script>
-<script src="../js/common.js" defer></script>
-<script src="../js/configuracion.js" defer></script>
+                        <label
+                            for="profile-fullname"
+                            class="settings-label">
+
+                            Nombre Completo
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profile-fullname"
+                            class="settings-input settings-readonly"
+                            readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label
+                            for="profile-email"
+                            class="settings-label">
+
+                            Correo Electrónico
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="profile-email"
+                            class="settings-input settings-readonly"
+                            readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label
+                            for="profile-role"
+                            class="settings-label">
+
+                            Rol
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profile-role"
+                            class="settings-input settings-readonly"
+                            readonly>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label
+                            for="profile-joindate"
+                            class="settings-label">
+
+                            Fecha de Ingreso
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profile-joindate"
+                            class="settings-input settings-readonly"
+                            readonly>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="panel">
+
+                <h2>
+
+                    <i class="fa-solid fa-sliders"></i>
+
+                    Configuraciones Generales
+
+                </h2>
+
+                <div class="settings-grid">
+
+                    <div class="form-group">
+
+                        <label
+                            for="config-language"
+                            class="settings-label">
+
+                            Idioma
+
+                        </label>
+
+                        <select
+                            id="config-language"
+                            class="settings-input">
+
+                            <option value="es-CR">
+
+                                Español (Costa Rica)
+
+                            </option>
+
+                            <option value="en-US">
+
+                                English (United States)
+
+                            </option>
+
+                            <option value="pt-BR">
+
+                                Português (Brasil)
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label
+                            for="config-dateformat"
+                            class="settings-label">
+
+                            Formato de Fecha
+
+                        </label>
+
+                        <select
+                            id="config-dateformat"
+                            class="settings-input">
+
+                            <option value="DD/MM/YYYY">
+
+                                DD/MM/YYYY
+
+                            </option>
+
+                            <option value="MM/DD/YYYY">
+
+                                MM/DD/YYYY
+
+                            </option>
+
+                            <option value="YYYY-MM-DD">
+
+                                YYYY-MM-DD
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="checkbox-label">
+
+                            <input
+                                type="checkbox"
+                                id="config-notifications"
+                                checked>
+
+                            <span>
+
+                                Habilitar notificaciones
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="settings-actions">
+
+                    <button
+                        id="btn-guardar-config"
+                        class="btn-primary">
+
+                        <i class="fa-solid fa-check"></i>
+
+                        Guardar Cambios
+
+                    </button>
+
+                </div>
+
+            </section>
+
+                        <!-- Información del Sistema -->
+
+            <section class="panel">
+
+                <h2>
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Acerca de Nyvora
+
+                </h2>
+
+                <div class="settings-grid">
+
+                    <div>
+
+                        <p class="settings-text">
+
+                            <strong>Aplicación:</strong>
+
+                            Nyvora - Sistema de Gestión Clínica
+
+                        </p>
+
+                        <p class="settings-text">
+
+                            <strong>Versión:</strong>
+
+                            1.0.0
+
+                        </p>
+
+                        <p class="settings-text">
+
+                            <strong>Última Actualización:</strong>
+
+                            <span id="last-update">
+
+                                Junio 2026
+
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="settings-text">
+
+                            <strong>Desarrollado por:</strong>
+
+                            Grupo 2 - FIDE
+
+                        </p>
+
+                        <p class="settings-text">
+
+                            <strong>Período:</strong>
+
+                            Q2 2026
+
+                        </p>
+
+                        <p class="settings-text">
+
+                            <strong>Proyecto:</strong>
+
+                            SC-502 Ambiente Web Cliente/Servidor
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr class="settings-divider">
+
+                <p class="settings-description">
+
+                    Nyvora es un sistema integral para la gestión de pacientes,
+                    métricas clínicas y seguimiento nutricional. Su objetivo es
+                    facilitar el monitoreo de la información clínica mediante una
+                    interfaz moderna, intuitiva y orientada a profesionales de la
+                    salud.
+
+                </p>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Scripts -->
+
+    <script src="../js/data.js"></script>
+
+    <script src="../js/common.js"></script>
+
+    <script src="../js/configuracion.js"></script>
 
 </body>
 
 </html>
+
+
+
