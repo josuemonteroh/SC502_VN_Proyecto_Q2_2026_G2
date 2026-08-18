@@ -37,7 +37,7 @@ try {
 
     echo json_encode([
         "success" => false,
-        "message" => "Error al consultar las alertas."
+        "message" => "Error al consultar las alertas.",
+        "error" => $e->getMessage()
     ]);
 }
-?>

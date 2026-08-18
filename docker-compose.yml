@@ -34,6 +34,21 @@ services:
       - "3307:3306"
     volumes:
       - nyvora_mysql_data:/var/lib/mysql
+      - ./database/scripts:/docker-entrypoint-initdb.d
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: nyvora_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8082:80"
+    depends_on:
+      - database
 
 volumes:
   nyvora_mysql_data:
