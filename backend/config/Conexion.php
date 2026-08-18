@@ -13,20 +13,8 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
-            $conexion = new PDO(
-                $dsn,
-                $this->user,
-                $this->pass,
-                $opciones
-            );
-
-            return $conexion;
-
-        } catch (PDOException $e) {
-
-            die("Error de conexión: " . $e->getMessage());
-
-        }
-    }
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    die('Error de conexión: ' . $e->getMessage());
 }
-?>

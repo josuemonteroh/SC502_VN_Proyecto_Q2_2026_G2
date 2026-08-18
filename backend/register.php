@@ -1,5 +1,5 @@
 <?php
-require 'SQL_Conf/config.php';
+require __DIR__ . '/config/Conexion.php';
  
 $errores = [];
 $exito = false;

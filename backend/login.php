@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require __DIR__ . '/SQL_Conf/config.php';
+require __DIR__ . '/config/Conexion.php';
 
 if (!empty($_SESSION['usuario_id'])) {
     header('Location: ../frontend/pages/dashboard.html');
