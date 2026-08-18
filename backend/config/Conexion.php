@@ -1,20 +1,41 @@
 <?php
-$host = 'mysql-demo';
-$db   = 'nyvora_db';
-$user = 'root';
-$pass = 'root';
-$charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+class Conexion {
 
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+    private $host = "database";
+    private $db = "nyvora_db";
+    private $user = "root";
+    private $pass = "root";
+    private $charset = "utf8mb4";
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    die('Error de conexión: ' . $e->getMessage());
+    public function conectar() {
+
+        try {
+
+            $dsn = "mysql:host=" . $this->host .
+                   ";dbname=" . $this->db .
+                   ";charset=" . $this->charset;
+
+            $opciones = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ];
+
+            $conexion = new PDO(
+                $dsn,
+                $this->user,
+                $this->pass,
+                $opciones
+            );
+
+            return $conexion;
+
+        } catch (PDOException $e) {
+
+            die("Error de conexión: " . $e->getMessage());
+
+        }
+    }
 }
+?>
