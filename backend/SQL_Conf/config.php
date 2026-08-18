@@ -24,6 +24,3 @@ try {
 
 // Iniciar sesión en todas las páginas que incluyan este archivo
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
