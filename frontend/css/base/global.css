@@ -1,0 +1,178 @@
+/* Estilos generales */
+
+/* Variables de diseño */
+
+:root{
+
+    /* Color primario (marca) */
+    --color-primary:#0E7A6E;
+    --color-primary-hover:#0B655C;
+
+    /* Texto */
+    --color-text:#1F2937;
+    --color-text-heading:#111827;
+    --color-text-muted:#64748B;
+    --color-text-subtle:#94A3B8;
+
+    /* Fondos */
+    --color-bg-page:#F4F7FB;
+    --color-bg-panel:#FFFFFF;
+    --color-bg-hover:#F8FAFC;
+
+    /* Bordes */
+    --color-border:#D6DCE5;
+    --color-border-light:#E2E8F0;
+
+    /* Estados (badges) */
+    --color-success-bg:#DCFCE7;
+    --color-success-text:#166534;
+    --color-warning-bg:#FEF3C7;
+    --color-warning-text:#92400E;
+    --color-danger-bg:#FEE2E2;
+    --color-danger-text:#991B1B;
+
+    /* Sombras */
+    --shadow-panel:0 12px 30px rgba(0,0,0,.08);
+    --shadow-panel-hover:0 18px 40px rgba(0,0,0,.10);
+
+    /* Radios */
+    --radius-sm:12px;
+    --radius-md:16px;
+    --radius-lg:18px;
+    --radius-xl:20px;
+
+    /* Transición estándar */
+    --transition-base:.30s;
+
+    /* Tipografía */
+    --font-base:'Inter',sans-serif;
+
+}
+
+/* Reset
+   Reinicia márgenes, rellenos y el modelo de caja.
+*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+/* Body
+   Configuración general de la página.
+*/
+
+body{
+
+    font-family:var(--font-base);
+
+    background:var(--color-bg-page);
+
+    color:var(--color-text);
+
+    overflow-x:hidden;
+
+}
+
+/* Fuente en formularios
+   Los inputs y botones no heredan la fuente
+   del body por defecto en todos los navegadores.
+*/
+
+input{
+
+    font-family:var(--font-base);
+
+}
+
+button{
+
+    font-family:var(--font-base);
+
+}
+
+/* Scroll
+   Personaliza la barra de desplazamiento.
+*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#EDF2F7;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-primary);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-primary-hover);
+
+}
+
+/* Selección
+   Color al seleccionar texto.
+*/
+
+::selection{
+
+    background:var(--color-primary);
+
+    color:white;
+
+}
+
+/* Animaciones
+   Efectos visuales reutilizados en toda la interfaz.
+*/
+
+.card,
+.panel,
+.sidebar li a,
+.btn-primary{
+
+    transition:all var(--transition-base) ease;
+
+}
+
+.content{
+
+    animation:fadeIn .45s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(12px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

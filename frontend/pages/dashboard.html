@@ -5,675 +5,413 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | Nyvora</title>
+    <title>Nyvora | Dashboard</title>
 
     <!-- Google Fonts -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/forms.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/dashboard.css">
+
+    <!-- Chart.js -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
+        <!-- Sidebar -->
 
-    <aside class="sidebar">
+        <aside class="sidebar">
 
-        <div class="logo">
+            <div class="logo">
 
-            <img src="../assets/logonyvora.png" alt="Nyvora">
+                <img src="../assets/logonyvora.png"
+                    alt="Nyvora">
 
-        </div>
+            </div>
 
-        <nav>
+            <nav>
 
-            <ul>
+                <ul>
 
-                <li class="active">
+                    <li class="active">
 
-                    <a href="dashboard.html">
+                        <a href="dashboard.html">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="pacientes.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            Pacientes
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="metricas.html">
+
+                            <i class="fa-solid fa-weight-scale"></i>
+
+                            Métricas
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="historial.html">
+
+                            <i class="fa-solid fa-folder-open"></i>
+
+                            Historial
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="alertas.html">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            Alertas
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="configuracion.html">
+
+                            <i class="fa-solid fa-gear"></i>
+
+                            Configuración
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="../login.html">
+
+                            <i class="fa-solid fa-right-from-bracket"></i>
+
+                            Cerrar Sesión
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+        <!-- Contenido -->
+
+        <main class="content">
+
+            <!-- Header -->
+
+            <div class="header">
+
+                <div>
+
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Resumen general del seguimiento clínico y biométrico.
+                    </p>
+
+                </div>
+
+                <div class="welcome">
+
+                    <h3>Bienvenido</h3>
+
+                    <span id="current-date"></span>
+
+                </div>
+
+            </div>
+
+            <!-- KPI -->
+
+            <section class="kpi-cards">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                        <h2>0</h2>
+
+                    </div>
+
+                    <p>Pacientes Registrados</p>
+
+                    <small>
+                        Total de pacientes en Nyvora
+                    </small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-weight-scale"></i>
+
+                        </div>
+
+                        <h2>0</h2>
+
+                    </div>
+
+                    <p>Mediciones Registradas</p>
+
+                    <small>
+                        Registros biométricos almacenados
+                    </small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                        <h2>0</h2>
+
+                    </div>
+
+                    <p>Alertas Activas</p>
+
+                    <small>
+                        Alertas pendientes de seguimiento
+                    </small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                        </div>
+
+                        <h2>0%</h2>
+
+                    </div>
+
+                    <p>Pacientes Activos</p>
+
+                    <small>
+                        Porcentaje bajo seguimiento activo
+                    </small>
+
+                </div>
+
+            </section>
+
+            <!-- Gráficos -->
+
+            <section class="charts-grid">
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
 
                         <i class="fa-solid fa-chart-line"></i>
 
-                        Dashboard
+                        Evolución de Peso
 
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="pacientes.html">
-
-                        <i class="fa-solid fa-users"></i>
-
-                        Pacientes
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="metricas.html">
-
-                        <i class="fa-solid fa-weight-scale"></i>
-
-                        Métricas
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="#">
-
-                        <i class="fa-solid fa-folder-open"></i>
-
-                        Historial
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="#">
-
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-
-                        Alertas
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="#">
-
-                        <i class="fa-solid fa-gear"></i>
-
-                        Configuración
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="../login.html">
-
-                        <i class="fa-solid fa-right-from-bracket"></i>
-
-                        Cerrar Sesión
-
-                    </a>
-
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </aside>
-
-    <!-- Contenido -->
-
-    <main class="content">
-
-        <div class="header">
-
-            <div>
-
-                <h1>Panel de Control</h1>
-
-                <p>
-
-                    Resumen general de pacientes e indicadores clínicos.
-
-                </p>
-
-            </div>
-
-            <div class="welcome">
-
-                <h3>
-
-                    Dr. Hernández C.
-
-                </h3>
-
-                <span id="current-date"></span>
-
-            </div>
-
-        </div>
-
-        <!-- Barra Superior -->
-
-        <div class="panel">
-
-            <div
-                style="display:flex;
-                gap:15px;
-                align-items:center;
-                flex-wrap:wrap;">
-
-                <input
-                    class="search-box"
-                    type="text"
-                    placeholder="Buscar paciente...">
-
-                <button class="btn-primary">
-
-                    <i class="fa-solid fa-user-plus"></i>
-
-                    Registrar Paciente
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <br>
-
-        <!-- KPI -->
-
-        <section class="kpi-cards">
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <div class="icon">
-                        <i class="fa-solid fa-users"></i>
                     </div>
 
-                    <h2>128</h2>
+                    <canvas id="weightChart"></canvas>
 
                 </div>
 
-                <p>Pacientes Registrados</p>
+                <div class="chart-card">
 
-                <small>Total del sistema</small>
+                    <div class="chart-header">
 
-            </div>
+                        <i class="fa-solid fa-chart-pie"></i>
 
-            <div class="card">
+                        Pacientes por Estado
 
-                <div class="card-header">
-
-                    <div class="icon">
-                        <i class="fa-solid fa-weight-scale"></i>
                     </div>
 
-                    <h2>532</h2>
+                    <canvas id="statusChart"></canvas>
 
                 </div>
 
-                <p>Métricas Registradas</p>
+                <div class="chart-card">
 
-                <small>Actualizado hoy</small>
+                    <div class="chart-header">
 
-            </div>
+                        <i class="fa-solid fa-chart-column"></i>
 
-            <div class="card">
+                        Alertas por Prioridad
 
-                <div class="card-header">
-
-                    <div class="icon">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
 
-                    <h2>12</h2>
+                    <canvas id="alertChart"></canvas>
 
                 </div>
 
-                <p>Alertas Clínicas</p>
+            </section>
 
-                <small>Requieren revisión</small>
+            <!-- Tablas -->
 
-            </div>
+            <section class="dashboard-grid">
 
-            <div class="card">
+                <!-- Pacientes -->
 
-                <div class="card-header">
+                <div class="panel">
 
-                    <div class="icon">
-                        <i class="fa-solid fa-chart-line"></i>
+                    <h2>
+                        Pacientes Recientes
+                    </h2>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Paciente</th>
+
+                                    <th>Edad</th>
+
+                                    <th>Último Control</th>
+
+                                    <th>Estado</th>
+
+                                    <th>Acción</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+
+                        </table>
+
                     </div>
-
-                    <h2>94%</h2>
 
                 </div>
 
-                <p>Seguimiento Completo</p>
+                <!-- Alertas -->
 
-                <small>Meta mensual</small>
+                <div class="panel">
 
-            </div>
+                    <h2>
+                        Alertas Recientes
+                    </h2>
 
-        </section>
+                    <div class="table-container">
 
-        <section class="dashboard-grid">
+                        <table>
 
-            <div class="panel">
+                            <thead>
 
-                <h2>Últimos Pacientes</h2>
+                                <tr>
 
-                <table>
+                                    <th>Paciente</th>
 
-                    <thead>
+                                    <th>Alerta</th>
 
-                        <tr>
+                                    <th>Prioridad</th>
 
-                            <th>Paciente</th>
+                                </tr>
 
-                            <th>Edad</th>
+                            </thead>
 
-                            <th>Último Control</th>
+                            <tbody>
 
-                            <th>Estado</th>
+                            </tbody>
 
-                            <th>Expediente</th>
+                        </table>
 
-                        </tr>
+                    </div>
 
-                    </thead>
+                </div>
 
-                    <tbody>
-
-                        <tr>
-
-                            <td>María Gómez</td>
-
-                            <td>34</td>
-
-                            <td>Hoy</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Carlos Vargas</td>
-
-                            <td>42</td>
-
-                            <td>Ayer</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Seguimiento
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Ana Rodríguez</td>
-
-                            <td>29</td>
-
-                            <td>20 Jun</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Diego Soto</td>
-
-                            <td>37</td>
-
-                            <td>18 Jun</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Inactivo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Laura Méndez</td>
-
-                            <td>31</td>
-
-                            <td>15 Jun</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Activo
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="action-link">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                    Abrir
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <div class="panel">
-
-                <h2>Alertas Recientes</h2>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Paciente</th>
-
-                            <th>Alerta</th>
-
-                            <th>Prioridad</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-                    
-                                            <tr>
-
-                            <td>Carlos Vargas</td>
-
-                            <td>Peso fuera de rango</td>
-
-                            <td>
-
-                                <span class="badge danger">
-
-                                    Alta
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>María Gómez</td>
-
-                            <td>Control pendiente</td>
-
-                            <td>
-
-                                <span class="badge warning">
-
-                                    Media
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Ana Rodríguez</td>
-
-                            <td>Actualización completada</td>
-
-                            <td>
-
-                                <span class="badge success">
-
-                                    Baja
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-        <br>
-
-        <div class="panel">
-
-            <h2>Próximos Controles</h2>
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Hora</th>
-
-                        <th>Paciente</th>
-
-                        <th>Consulta</th>
-
-                        <th>Profesional</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>09:00</td>
-
-                        <td>María Gómez</td>
-
-                        <td>Control Nutricional</td>
-
-                        <td>Dr. José Montero</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>10:30</td>
-
-                        <td>Carlos Vargas</td>
-
-                        <td>Seguimiento IMC</td>
-
-                        <td>Dr. José Montero</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>11:45</td>
-
-                        <td>Ana Rodríguez</td>
-
-                        <td>Valoración General</td>
-
-                        <td>Dr. José Montero</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>14:00</td>
-
-                        <td>Laura Méndez</td>
-
-                        <td>Control de Peso</td>
-
-                        <td>Dr. José Montero</td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
+            </section>
 
         </main>
 
     </div>
 
-    <script>
+    <!-- JavaScript -->
 
-        function actualizarFechaHora(){
-
-            const ahora = new Date();
-
-            const opcionesFecha = {
-
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-
-            };
-
-            const fecha = ahora.toLocaleDateString("es-CR", opcionesFecha);
-
-            const hora = ahora.toLocaleTimeString("es-CR", {
-
-                hour: "2-digit",
-                minute: "2-digit"
-
-            });
-
-            document.getElementById("current-date").innerHTML =
-
-                `${fecha}<br>${hora}`;
-
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora,1000);
-
-    </script>
-
-    <script src="../js/data.js" defer></script>
-    <script src="../js/common.js" defer></script>
-    
+    <script src="../js/common.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/dashboard.js"></script>
 
 </body>
 

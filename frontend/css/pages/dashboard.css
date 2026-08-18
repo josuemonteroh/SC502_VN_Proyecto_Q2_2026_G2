@@ -1,0 +1,96 @@
+/* Estilos del dashboard */
+
+.charts-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+    margin-top:25px;
+
+    align-items:start;
+
+}
+
+.chart-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:var(--color-bg-panel);
+
+    border:1px solid #E5E7EB;
+
+    border-radius:var(--radius-lg);
+
+    padding:18px;
+
+    box-shadow:var(--shadow-panel);
+
+}
+
+.chart-card:first-child{
+
+    grid-column:1 / 3;
+
+}
+
+.chart-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:18px;
+
+    color:var(--color-primary);
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+.chart-header i{
+
+    color:var(--color-primary);
+
+}
+
+.chart-card canvas{
+
+    width:100% !important;
+
+    height:260px !important;
+
+}
+
+.chart-card:not(:first-child) canvas{
+
+    height:210px !important;
+
+}
+
+/* Responsive
+*/
+
+@media(max-width:992px){
+
+    .charts-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .chart-card:first-child{
+
+        grid-column:auto;
+
+    }
+
+}
