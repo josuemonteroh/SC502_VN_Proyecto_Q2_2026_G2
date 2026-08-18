@@ -1,3 +1,4 @@
+USE nyvora_db;
 -- Índice para consultar el historial de métricas
 -- de un paciente ordenado por fecha.
 CREATE INDEX idx_measurements_patient_date

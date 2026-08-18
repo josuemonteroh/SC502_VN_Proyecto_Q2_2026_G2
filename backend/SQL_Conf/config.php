@@ -1,11 +1,8 @@
 <?php
-// config.php - Conexión a la base de datos con PDO
-
-
-$host = '127.0.0.1';
+$host = 'mysql-demo';
 $db   = 'nyvora_db';
-$user = 'root';    
-$pass = '';       
+$user = 'root';
+$pass = 'root';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -20,10 +17,4 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
     die('Error de conexión: ' . $e->getMessage());
-}
-
-// Iniciar sesión en todas las páginas que incluyan este archivo
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
