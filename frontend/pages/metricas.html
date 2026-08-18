@@ -2,236 +2,130 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Nyvora | Métricas Biométricas</title>
 
     <!-- Google Fonts -->
-
-    <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
-
-    <link rel="stylesheet"
-        href="../css/dashboard.css">
-
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/forms.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/metricas.css">
 </head>
 
 <body>
-
     <div class="dashboard">
 
         <!-- Sidebar -->
-
         <aside class="sidebar">
-
             <div class="logo">
-
-                <img src="../assets/logonyvora.png"
-                    alt="Nyvora">
-
+                <img src="../assets/logonyvora.png" alt="Nyvora">
             </div>
 
             <nav>
-
                 <ul>
-
                     <li>
-
                         <a href="dashboard.html">
-
                             <i class="fa-solid fa-chart-line"></i>
-
                             Dashboard
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="pacientes.html">
-
                             <i class="fa-solid fa-users"></i>
-
                             Pacientes
-
                         </a>
-
                     </li>
 
                     <li class="active">
-
                         <a href="metricas.html">
-
                             <i class="fa-solid fa-weight-scale"></i>
-
                             Métricas
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="historial.html">
-
                             <i class="fa-solid fa-folder-open"></i>
-
                             Historial
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="alertas.html">
-
                             <i class="fa-solid fa-triangle-exclamation"></i>
-
                             Alertas
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="configuracion.html">
-
                             <i class="fa-solid fa-gear"></i>
-
                             Configuración
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="../login.html">
-
                             <i class="fa-solid fa-right-from-bracket"></i>
-
                             Cerrar Sesión
-
                         </a>
-
                     </li>
-
                 </ul>
-
             </nav>
-
         </aside>
 
         <!-- Contenido -->
-
         <main class="content">
 
             <!-- Header -->
-
             <div class="header">
-
                 <div>
-
-                    <h1>
-
-                        Métricas Biométricas
-
-                    </h1>
-
-                    <p>
-
-                        Registro y consulta de métricas biométricas de los pacientes.
-
-                    </p>
-
+                    <h1>Métricas Biométricas</h1>
+                    <p>Registro y consulta de métricas biométricas de los pacientes.</p>
                 </div>
 
                 <div class="welcome">
-
-                    <h3>
-
-                        Dr. Hernández C.
-
-                    </h3>
-
+                    <h3>Dr. Hernández C.</h3>
                     <span id="current-date"></span>
-
                 </div>
-
             </div>
 
-                        <!-- Panel de Registro -->
-
+            <!-- Registro de métricas -->
             <div class="panel">
-
-                <h2>
-
-                    Registrar Métricas
-
-                </h2>
+                <h2>Registrar Métricas</h2>
 
                 <form id="form-metricas" class="metricas-grid">
 
                     <!-- Paciente -->
-
                     <div class="form-group full">
-
                         <label for="paciente">
-
                             <i class="fa-solid fa-user"></i>
-
                             Paciente
-
                         </label>
 
-                        <select
-                            id="paciente"
-                            class="search-box"
-                            required>
-
-                            <option value="" selected disabled>
-
-                                Seleccione un paciente
-
-                            </option>
-
-
-
+                        <select id="paciente" class="search-box" required>
+                            <option value="" selected disabled>Seleccione un paciente</option>
                         </select>
-
                     </div>
 
                     <!-- Peso -->
-
                     <div class="form-group">
-
                         <label for="peso">
-
                             <i class="fa-solid fa-scale-balanced"></i>
-
                             Peso (kg)
-
                         </label>
 
                         <input
@@ -241,19 +135,13 @@
                             step="0.1"
                             min="0"
                             required>
-
                     </div>
 
-                    <!-- Grasa Corporal -->
-
+                    <!-- Grasa corporal -->
                     <div class="form-group">
-
                         <label for="grasa">
-
                             <i class="fa-solid fa-dna"></i>
-
                             Grasa Corporal (%)
-
                         </label>
 
                         <input
@@ -262,19 +150,13 @@
                             class="search-box"
                             step="0.1"
                             min="0">
-
                     </div>
 
                     <!-- IMC -->
-
                     <div class="form-group">
-
                         <label for="imc">
-
                             <i class="fa-solid fa-chart-line"></i>
-
                             IMC
-
                         </label>
 
                         <input
@@ -282,19 +164,13 @@
                             id="imc"
                             class="search-box imc-readonly"
                             readonly>
-
                     </div>
 
-                    <!-- Frecuencia Cardíaca -->
-
+                    <!-- Frecuencia cardíaca -->
                     <div class="form-group">
-
                         <label for="fc">
-
                             <i class="fa-solid fa-heart"></i>
-
                             Frecuencia Cardíaca (bpm)
-
                         </label>
 
                         <input
@@ -302,20 +178,13 @@
                             id="fc"
                             class="search-box"
                             min="0">
-
-
                     </div>
 
-                    <!-- Horas de Sueño -->
-
+                    <!-- Horas de sueño -->
                     <div class="form-group">
-
                         <label for="sueno">
-
                             <i class="fa-solid fa-moon"></i>
-
                             Horas de Sueño
-
                         </label>
 
                         <input
@@ -324,19 +193,13 @@
                             class="search-box"
                             step="0.1"
                             min="0">
-
                     </div>
 
                     <!-- Pasos -->
-
                     <div class="form-group">
-
                         <label for="pasos">
-
                             <i class="fa-solid fa-shoe-prints"></i>
-
                             Pasos Diarios
-
                         </label>
 
                         <input
@@ -344,43 +207,23 @@
                             id="pasos"
                             class="search-box"
                             min="0">
-
                     </div>
 
-                    <!-- Botón -->
-
+                    <!-- Acción -->
                     <div class="form-group full button-right">
-
-                        <button
-                            type="submit"
-                            class="btn-primary btn-large">
-
+                        <button type="submit" class="btn-primary btn-large">
                             <i class="fa-solid fa-floppy-disk"></i>
-
                             Guardar Métricas
-
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
 
-            <br>
-
-                        <!-- Histórico de Métricas -->
-
+            <!-- Histórico de métricas -->
             <div class="panel">
-
-                <h2>
-
-                    Histórico de Métricas
-
-                </h2>
+                <h2>Histórico de Métricas</h2>
 
                 <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:20px;">
-
                     <input
                         type="date"
                         id="fecha-desde"
@@ -391,66 +234,38 @@
                         id="fecha-hasta"
                         class="search-box">
 
-                    <button
-                        type="button"
-                        class="btn-primary"
-                        id="btn-filtrar">
-
+                    <button type="button" class="btn-primary" id="btn-filtrar">
                         <i class="fa-solid fa-filter"></i>
-
                         Filtrar
-
                     </button>
-
                 </div>
 
                 <table>
-
                     <thead>
-
                         <tr>
-
                             <th>Fecha</th>
-
                             <th>Paciente</th>
-
                             <th>Peso</th>
-
                             <th>IMC</th>
-
                             <th>Grasa Corporal</th>
-
                             <th>Frecuencia Cardíaca</th>
-
                             <th>Horas de Sueño</th>
-
                             <th>Pasos</th>
-
                         </tr>
-
                     </thead>
-
                     <tbody id="tabla-metricas">
-
                         <!-- JavaScript carga la información -->
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </main>
-
     </div>
 
     <!-- JavaScript -->
-
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
     <script src="../js/metricas.js" defer></script>
-
 </body>
 
 </html>

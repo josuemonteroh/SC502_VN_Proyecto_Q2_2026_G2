@@ -1,0 +1,242 @@
+/* Estilos de tarjetas y paneles */
+
+/* Paneles generales */
+
+.panel{
+
+    background:var(--color-bg-panel);
+
+    padding:25px;
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-panel);
+
+    transition:var(--transition-base);
+
+}
+
+.panel:hover{
+
+    box-shadow:var(--shadow-panel-hover);
+
+}
+
+.panel h2{
+
+    color:var(--color-primary);
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+.panel table{
+
+    margin-top:10px;
+
+}
+
+.panel + .panel{
+
+    margin-top:25px;
+
+}
+
+/* Tarjetas KPI
+   Indicadores principales mostrados en tarjetas.
+*/
+
+.kpi-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:24px;
+
+    margin:35px 0;
+
+}
+
+.card{
+
+    background:var(--color-bg-panel);
+
+    border-radius:var(--radius-xl);
+
+    padding:30px;
+
+    box-shadow:var(--shadow-panel);
+
+    transition:var(--transition-base);
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--shadow-panel-hover);
+
+}
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:24px;
+
+}
+
+.card .icon{
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:var(--radius-md);
+
+    background:rgba(14,122,110,.10);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-shrink:0;
+
+}
+
+.card .icon i{
+
+    color:var(--color-primary);
+
+    font-size:28px;
+
+}
+
+.card h2{
+
+    margin:0;
+
+    font-size:46px;
+
+    font-weight:700;
+
+    color:var(--color-primary);
+
+    line-height:1;
+
+}
+
+.card p{
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:var(--color-text);
+
+    margin-bottom:8px;
+
+}
+
+.card small{
+
+    font-size:14px;
+
+    color:var(--color-text-subtle);
+
+    display:block;
+
+}
+
+/* Icono genérico
+   Centra iconos reutilizados fuera de las tarjetas KPI.
+*/
+
+.icon{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* Grid de paneles
+   Distribuye paneles relacionados en dos columnas
+   (usado en dashboard, pacientes, historial y alertas).
+*/
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+    margin-top:25px;
+
+    margin-bottom:25px;
+
+    align-items:start;
+
+}
+
+.dashboard-grid .panel{
+
+    align-self:start;
+
+}
+
+/* Responsive
+   Ajusta tarjetas y grid en pantallas menores.
+*/
+
+@media(max-width:1200px){
+
+    .kpi-cards{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:992px){
+
+    .dashboard-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .panel{
+
+        padding:20px;
+
+    }
+
+    .kpi-cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

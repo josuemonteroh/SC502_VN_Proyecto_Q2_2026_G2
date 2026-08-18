@@ -1,37 +1,44 @@
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
+    <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | Nyvora</title>
+    <title>Nyvora | Dashboard</title>
 
-    <link
-        rel="preconnect"
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
         href="https://fonts.googleapis.com">
 
-    <link
-        rel="preconnect"
+    <link rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <link
-        rel="stylesheet"
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="../css/dashboard.css">
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/forms.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/dashboard.css">
+
+    <!-- Chart.js -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -45,8 +52,7 @@
 
             <div class="logo">
 
-                <img
-                    src="../assets/logonyvora.png"
+                <img src="../assets/logonyvora.png"
                     alt="Nyvora">
 
             </div>
@@ -149,41 +155,31 @@
 
         <main class="content">
 
-            <!-- Encabezado -->
+            <!-- Header -->
 
-            <header class="header">
+            <div class="header">
 
                 <div>
 
-                    <h1>
-
-                        Dashboard
-
-                    </h1>
+                    <h1>Dashboard</h1>
 
                     <p>
-
-                        Plataforma Inteligente de Seguimiento Nutricional
-
+                        Resumen general del seguimiento clínico y biométrico.
                     </p>
 
                 </div>
 
                 <div class="welcome">
 
-                    <h3>
-
-                        Dr. Hernández C.
-
-                    </h3>
+                    <h3>Bienvenido</h3>
 
                     <span id="current-date"></span>
 
                 </div>
 
-            </header>
+            </div>
 
-            <!-- Indicadores -->
+            <!-- KPI -->
 
             <section class="kpi-cards">
 
@@ -201,16 +197,10 @@
 
                     </div>
 
-                    <p>
-
-                        Pacientes Registrados
-
-                    </p>
+                    <p>Pacientes Registrados</p>
 
                     <small>
-
-                        Total del sistema
-
+                        Total de pacientes en Nyvora
                     </small>
 
                 </div>
@@ -229,16 +219,10 @@
 
                     </div>
 
-                    <p>
-
-                        Métricas Registradas
-
-                    </p>
+                    <p>Mediciones Registradas</p>
 
                     <small>
-
-                        Información actualizada
-
+                        Registros biométricos almacenados
                     </small>
 
                 </div>
@@ -257,16 +241,10 @@
 
                     </div>
 
-                    <p>
-
-                        Alertas Activas
-
-                    </p>
+                    <p>Alertas Activas</p>
 
                     <small>
-
-                        Requieren seguimiento
-
+                        Alertas pendientes de seguimiento
                     </small>
 
                 </div>
@@ -285,221 +263,143 @@
 
                     </div>
 
-                    <p>
-
-                        Seguimiento Completo
-
-                    </p>
+                    <p>Pacientes Activos</p>
 
                     <small>
-
-                        Pacientes activos
-
+                        Porcentaje bajo seguimiento activo
                     </small>
 
                 </div>
 
             </section>
 
-                        <!-- Análisis General -->
+            <!-- Gráficos -->
 
-            <section class="panel chart-panel">
+            <section class="charts-grid">
 
-                <h2>
+                <div class="chart-card">
 
-                    <i class="fa-solid fa-chart-line"></i>
+                    <div class="chart-header">
 
-                    Análisis General
+                        <i class="fa-solid fa-chart-line"></i>
 
-                </h2>
-
-                <div class="charts-grid">
-
-                    <div class="chart-card chart-wide">
-
-                        <div class="chart-header">
-
-                            <i class="fa-solid fa-chart-line"></i>
-
-                            <span>
-
-                                Evolución del Peso
-
-                            </span>
-
-                        </div>
-
-                        <canvas id="weightChart"></canvas>
+                        Evolución de Peso
 
                     </div>
 
-                    <div class="chart-card">
+                    <canvas id="weightChart"></canvas>
 
-                        <div class="chart-header">
+                </div>
 
-                            <i class="fa-solid fa-users"></i>
+                <div class="chart-card">
 
-                            <span>
+                    <div class="chart-header">
 
-                                Pacientes por Estado
+                        <i class="fa-solid fa-chart-pie"></i>
 
-                            </span>
-
-                        </div>
-
-                        <canvas id="statusChart"></canvas>
+                        Pacientes por Estado
 
                     </div>
 
-                    <div class="chart-card">
+                    <canvas id="statusChart"></canvas>
 
-                        <div class="chart-header">
+                </div>
 
-                            <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="chart-card">
 
-                            <span>
+                    <div class="chart-header">
 
-                                Alertas por Prioridad
+                        <i class="fa-solid fa-chart-column"></i>
 
-                            </span>
-
-                        </div>
-
-                        <canvas id="alertChart"></canvas>
+                        Alertas por Prioridad
 
                     </div>
+
+                    <canvas id="alertChart"></canvas>
 
                 </div>
 
             </section>
 
-            <!-- Próximos Controles -->
-
-            <section class="panel">
-
-                <h2>
-
-                    <i class="fa-solid fa-calendar-check"></i>
-
-                    Próximos Controles
-
-                </h2>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Hora</th>
-
-                            <th>Paciente</th>
-
-                            <th>Consulta</th>
-
-                            <th>Profesional</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="upcomingAppointments">
-
-                        <tr>
-
-                            <td colspan="4" class="empty-table">
-
-                                No hay controles programados.
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </section>
-
-                        <!-- Información Principal -->
+            <!-- Tablas -->
 
             <section class="dashboard-grid">
 
-                <!-- Últimos Pacientes -->
+                <!-- Pacientes -->
 
-                <section class="panel">
+                <div class="panel">
 
                     <h2>
-
-                        <i class="fa-solid fa-users"></i>
-
-                        Últimos Pacientes
-
+                        Pacientes Recientes
                     </h2>
 
-                    <table>
+                    <div class="table-container">
 
-                        <thead>
+                        <table>
 
-                            <tr>
+                            <thead>
 
-                                <th>Paciente</th>
+                                <tr>
 
-                                <th>Edad</th>
+                                    <th>Paciente</th>
 
-                                <th>Último Control</th>
+                                    <th>Edad</th>
 
-                                <th>Estado</th>
+                                    <th>Último Control</th>
 
-                                <th>Métricas</th>
+                                    <th>Estado</th>
 
-                            </tr>
+                                    <th>Acción</th>
 
-                        </thead>
+                                </tr>
 
-                        <tbody>
+                            </thead>
 
-                        </tbody>
+                            <tbody>
 
-                    </table>
+                            </tbody>
 
-                </section>
+                        </table>
 
-                <!-- Alertas Recientes -->
+                    </div>
 
-                <section class="panel">
+                </div>
+
+                <!-- Alertas -->
+
+                <div class="panel">
 
                     <h2>
-
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-
                         Alertas Recientes
-
                     </h2>
 
-                    <table>
+                    <div class="table-container">
 
-                        <thead>
+                        <table>
 
-                            <tr>
+                            <thead>
 
-                                <th>Paciente</th>
+                                <tr>
 
-                                <th>Descripción</th>
+                                    <th>Paciente</th>
 
-                                <th>Prioridad</th>
+                                    <th>Alerta</th>
 
-                            </tr>
+                                    <th>Prioridad</th>
 
-                        </thead>
+                                </tr>
 
-                        <tbody>
+                            </thead>
 
-                        </tbody>
+                            <tbody>
 
-                    </table>
+                            </tbody>
 
-                </section>
+                        </table>
+
+                    </div>
+
+                </div>
 
             </section>
 
@@ -507,23 +407,12 @@
 
     </div>
 
-    <!-- Librerías -->
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Datos Compartidos -->
-
-    <script src="../js/data.js"></script>
+    <!-- JavaScript -->
 
     <script src="../js/common.js"></script>
-
-    <!-- Dashboard -->
-
+    <script src="../js/data.js"></script>
     <script src="../js/dashboard.js"></script>
 
 </body>
 
 </html>
-
-
-

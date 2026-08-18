@@ -3,326 +3,197 @@
 /* Alertas */
 
 document.addEventListener("DOMContentLoaded", () => {
-
     /* Controles */
 
-    const inputPaciente =
-        document.getElementById("buscarPaciente");
-
-    const selectPrioridad =
-        document.getElementById("prioridad");
-
-    const selectEstado =
-        document.getElementById("estado");
-
-    const btnBuscar =
-        document.querySelector(".btn-primary");
+    const inputPaciente = document.getElementById("buscarPaciente");
+    const selectPrioridad = document.getElementById("prioridad");
+    const selectEstado = document.getElementById("estado");
+    const btnBuscar = document.querySelector(".btn-primary");
 
     /* Tabla */
 
-    const tabla =
-        document.querySelectorAll(".panel table")[0];
-
-    const tbody =
-        tabla.querySelector("tbody");
+    const tabla = document.querySelectorAll(".panel table")[0];
+    const tbody = tabla.querySelector("tbody");
 
     /* Paneles */
 
     const resumenValores =
-        document.querySelectorAll(
-            ".dashboard-grid .panel"
-        )[0]?.querySelectorAll("td");
+        document.querySelectorAll(".dashboard-grid .panel")[0]
+            ?.querySelectorAll("td");
 
     const actividadReciente =
-        document.querySelectorAll(
-            ".dashboard-grid .panel"
-        )[1]?.querySelector("tbody");
+        document.querySelectorAll(".dashboard-grid .panel")[1]
+            ?.querySelector("tbody");
 
-    /* Normalizar texto */
+    /* Utilidades */
 
     function normalizar(texto) {
-
         return String(texto)
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .trim();
-
     }
 
-    /* Prioridad */
-
     function prioridadInfo(priority) {
-
         const mapa = {
-
             ALTA: {
-
                 texto: "Alta",
-
                 clase: "danger"
-
             },
-
             MEDIA: {
-
                 texto: "Media",
-
                 clase: "warning"
-
             },
-
             BAJA: {
-
                 texto: "Baja",
-
                 clase: "success"
-
             }
-
         };
 
         return mapa[priority] || {
-
             texto: priority,
-
             clase: "warning"
-
         };
-
     }
-
-    /* Estado */
 
     function estadoInfo(status) {
-
         return status === "RESOLVED"
-
             ? {
-
                 texto: "Resuelta",
-
                 clase: "success"
-
             }
-
             : {
-
                 texto: "Pendiente",
-
                 clase: "warning"
-
             };
-
     }
 
-        /* Crear fila */
+    /* Crear fila */
 
     function crearFilaAlerta(alerta) {
-
-        const paciente =
-            nyvoraGetPatientById(alerta.patientId);
-
-        const prioridad =
-            prioridadInfo(alerta.priority);
-
-        const estado =
-            estadoInfo(alerta.status);
-
-        const fila =
-            document.createElement("tr");
+        const paciente = nyvoraGetPatientById(alerta.patientId);
+        const prioridad = prioridadInfo(alerta.priority);
+        const estado = estadoInfo(alerta.status);
+        const fila = document.createElement("tr");
 
         fila.dataset.patientId = alerta.patientId;
 
         fila.innerHTML = `
-
             <td>
-
-                ${paciente
-                    ? nyvoraEscapeHtml(paciente.fullName)
-                    : "Paciente no encontrado"}
-
+                ${
+                    paciente
+                        ? nyvoraEscapeHtml(paciente.fullName)
+                        : "Paciente no encontrado"
+                }
             </td>
-
+            <td>${nyvoraEscapeHtml(alerta.message)}</td>
             <td>
-
-                ${nyvoraEscapeHtml(alerta.message)}
-
-            </td>
-
-            <td>
-
                 <span class="badge ${prioridad.clase}">
-
                     ${prioridad.texto}
-
                 </span>
-
             </td>
-
+            <td>${nyvoraFormatDate(alerta.createdAt)}</td>
             <td>
-
-                ${nyvoraFormatDate(alerta.createdAt)}
-
-            </td>
-
-            <td>
-
                 <span class="badge ${estado.clase}">
-
                     ${estado.texto}
-
                 </span>
-
             </td>
-
             <td>
-
                 <a href="#" class="action-link">
-
                     <i class="fa-solid fa-eye"></i>
-
                     Ver Detalle
-
                 </a>
-
             </td>
-
         `;
 
         fila.querySelector(".action-link").addEventListener("click", (e) => {
-
             e.preventDefault();
 
             if (paciente) {
-
-                window.location.href =
-                    `historial.html?id=${paciente.id}`;
-
+                window.location.href = `historial.html?id=${paciente.id}`;
             }
-
         });
 
         return fila;
-
     }
 
     /* Renderizar tabla */
 
     function renderTabla() {
-
         let alertas = nyvoraGetAlerts();
 
-        /* Buscar paciente */
-
-        const busqueda =
-            normalizar(inputPaciente.value);
+        const busqueda = normalizar(inputPaciente.value);
 
         if (busqueda) {
-
             alertas = alertas.filter((alerta) => {
+                const paciente = nyvoraGetPatientById(alerta.patientId);
 
-                const paciente =
-                    nyvoraGetPatientById(alerta.patientId);
-
-                return paciente &&
-                    normalizar(paciente.fullName)
-                        .includes(busqueda);
-
+                return (
+                    paciente &&
+                    normalizar(paciente.fullName).includes(busqueda)
+                );
             });
-
         }
-
-        /* Filtrar prioridad */
 
         if (selectPrioridad.value) {
-
-            alertas = alertas.filter((alerta) =>
-
-                prioridadInfo(alerta.priority).texto ===
-                selectPrioridad.value
-
+            alertas = alertas.filter(
+                (alerta) =>
+                    prioridadInfo(alerta.priority).texto ===
+                    selectPrioridad.value
             );
-
         }
 
-        /* Filtrar estado */
-
         if (selectEstado.value) {
-
-            const buscado =
-                normalizar(selectEstado.value);
+            const buscado = normalizar(selectEstado.value);
 
             alertas = alertas.filter((alerta) => {
-
-                const texto =
-                    normalizar(
-                        estadoInfo(alerta.status).texto
-                    );
+                const texto = normalizar(
+                    estadoInfo(alerta.status).texto
+                );
 
                 if (buscado === "en seguimiento") {
-
                     return texto === "pendiente";
-
                 }
 
                 return texto === buscado;
-
             });
-
         }
 
         tbody.innerHTML = "";
 
         if (alertas.length === 0) {
-
             tbody.innerHTML = `
-
                 <tr>
-
                     <td colspan="6"
                         style="text-align:center; padding:1rem; color:#888;">
-
                         No se encontraron alertas con los filtros seleccionados.
-
                     </td>
-
                 </tr>
-
             `;
-
             return;
-
         }
 
         alertas.forEach((alerta) => {
-
-            tbody.appendChild(
-                crearFilaAlerta(alerta)
-            );
-
+            tbody.appendChild(crearFilaAlerta(alerta));
         });
-
     }
 
-        /* Resumen */
+    /* Resumen */
 
     function renderResumen() {
-
         if (!resumenValores) {
-
             return;
-
         }
 
         const todas = nyvoraGetAlerts();
 
-        const pendientes = todas.filter((alerta) =>
-            alerta.status !== "RESOLVED"
+        const pendientes = todas.filter(
+            (alerta) => alerta.status !== "RESOLVED"
         ).length;
 
-        const resueltas = todas.filter((alerta) =>
-            alerta.status === "RESOLVED"
+        const resueltas = todas.filter(
+            (alerta) => alerta.status === "RESOLVED"
         ).length;
 
         resumenValores[0].textContent = todas.length;
@@ -338,17 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
         resumenValores[3]
             .querySelector(".badge")
             .textContent = resueltas;
-
     }
 
     /* Actividad reciente */
 
     function renderActividadReciente() {
-
         if (!actividadReciente) {
-
             return;
-
         }
 
         const recientes = nyvoraGetAlerts().slice(0, 5);
@@ -356,91 +223,52 @@ document.addEventListener("DOMContentLoaded", () => {
         actividadReciente.innerHTML = "";
 
         recientes.forEach((alerta) => {
-
-            const paciente =
-                nyvoraGetPatientById(alerta.patientId);
-
+            const paciente = nyvoraGetPatientById(alerta.patientId);
             const fila = document.createElement("tr");
 
             fila.innerHTML = `
-
                 <td>
-
-                    <strong>
-
-                        ${nyvoraFormatDate(alerta.createdAt)}
-
-                    </strong>
-
+                    <strong>${nyvoraFormatDate(alerta.createdAt)}</strong>
                 </td>
-
                 <td>
-
                     ${nyvoraEscapeHtml(alerta.type)}
                     —
-                    ${paciente
-                        ? nyvoraEscapeHtml(paciente.fullName)
-                        : ""}
-
+                    ${
+                        paciente
+                            ? nyvoraEscapeHtml(paciente.fullName)
+                            : ""
+                    }
                 </td>
-
             `;
 
             actividadReciente.appendChild(fila);
-
         });
-
     }
 
     /* Actualizar interfaz */
 
     function renderTodo() {
-
         renderTabla();
-
         renderResumen();
-
         renderActividadReciente();
-
     }
 
     /* Eventos */
 
     btnBuscar.addEventListener("click", (e) => {
-
         e.preventDefault();
-
         renderTabla();
-
     });
 
-    inputPaciente.addEventListener(
-        "input",
-        renderTabla
-    );
-
-    selectPrioridad.addEventListener(
-        "change",
-        renderTabla
-    );
-
-    selectEstado.addEventListener(
-        "change",
-        renderTabla
-    );
+    inputPaciente.addEventListener("input", renderTabla);
+    selectPrioridad.addEventListener("change", renderTabla);
+    selectEstado.addEventListener("change", renderTabla);
 
     /* Actualización */
 
-    window.addEventListener(
-        "nyvora:data-changed",
-        renderTodo
-    );
+    window.addEventListener("nyvora:data-changed", renderTodo);
 
     /* Inicialización */
 
     renderTodo();
-
 });
-
-
-

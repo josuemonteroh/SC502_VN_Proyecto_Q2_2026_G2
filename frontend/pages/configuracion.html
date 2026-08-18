@@ -1,510 +1,281 @@
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Configuración | Nyvora</title>
+    <title>Nyvora | Historial Clínico</title>
 
     <!-- Google Fonts -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <!-- Estilos -->
-
-    <link
-        rel="stylesheet"
-        href="../css/dashboard.css">
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/forms.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/historial.css">
 </head>
 
 <body>
-
     <div class="dashboard">
 
         <!-- Sidebar -->
-
         <aside class="sidebar">
-
             <div class="logo">
-
-                <img
-                    src="../assets/logonyvora.png"
-                    alt="Nyvora">
-
+                <img src="../assets/logonyvora.png" alt="Nyvora">
             </div>
 
             <nav>
-
                 <ul>
-
                     <li>
-
                         <a href="dashboard.html">
-
                             <i class="fa-solid fa-chart-line"></i>
-
                             Dashboard
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="pacientes.html">
-
                             <i class="fa-solid fa-users"></i>
-
                             Pacientes
-
                         </a>
-
                     </li>
 
                     <li>
-
                         <a href="metricas.html">
-
                             <i class="fa-solid fa-weight-scale"></i>
-
                             Métricas
-
                         </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="historial.html">
-
-                            <i class="fa-solid fa-folder-open"></i>
-
-                            Historial
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="alertas.html">
-
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-
-                            Alertas
-
-                        </a>
-
                     </li>
 
                     <li class="active">
-
-                        <a href="configuracion.html">
-
-                            <i class="fa-solid fa-gear"></i>
-
-                            Configuración
-
+                        <a href="historial.html">
+                            <i class="fa-solid fa-folder-open"></i>
+                            Historial
                         </a>
-
                     </li>
 
                     <li>
-
-                        <a href="../login.html">
-
-                            <i class="fa-solid fa-right-from-bracket"></i>
-
-                            Cerrar Sesión
-
+                        <a href="alertas.html">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Alertas
                         </a>
-
                     </li>
 
+                    <li>
+                        <a href="configuracion.html">
+                            <i class="fa-solid fa-gear"></i>
+                            Configuración
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../login.html">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Cerrar Sesión
+                        </a>
+                    </li>
                 </ul>
-
             </nav>
-
         </aside>
 
         <!-- Contenido -->
-
         <main class="content">
 
-            <!-- Encabezado -->
-
-            <header class="header">
-
+            <!-- Header -->
+            <div class="header">
                 <div>
-
-                    <h1>
-
-                        Configuración
-
-                    </h1>
-
-                    <p>
-
-                        Administra tu perfil y preferencias del sistema.
-
-                    </p>
-
+                    <h1>Historial Clínico</h1>
+                    <p>Consulte el historial clínico y la evolución biométrica de los pacientes registrados.</p>
                 </div>
 
                 <div class="welcome">
-
-                    <h3 id="user-name">
-
-                        Dr. Hernández C
-
-                    </h3>
-
+                    <h3>Dr. Hernández C.</h3>
                     <span id="current-date"></span>
-
                 </div>
+            </div>
 
-            </header>
-
-                        <!-- Perfil de Usuario -->
-
-            <section class="panel">
-
+            <!-- Consulta de historial -->
+            <div class="panel">
                 <h2>
-
-                    <i class="fa-solid fa-user-circle"></i>
-
-                    Mi Perfil
-
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Consultar Historial
                 </h2>
 
-                <div class="settings-grid">
-
-                    <div class="form-group">
-
-                        <label
-                            for="profile-fullname"
-                            class="settings-label">
-
-                            Nombre Completo
-
+                <div class="history-filters">
+                    <div class="filter-group patient-filter">
+                        <label for="paciente">
+                            <i class="fa-solid fa-user"></i>
+                            Paciente
                         </label>
 
-                        <input
-                            type="text"
-                            id="profile-fullname"
-                            class="settings-input settings-readonly"
-                            readonly>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label
-                            for="profile-email"
-                            class="settings-label">
-
-                            Correo Electrónico
-
-                        </label>
-
-                        <input
-                            type="email"
-                            id="profile-email"
-                            class="settings-input settings-readonly"
-                            readonly>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label
-                            for="profile-role"
-                            class="settings-label">
-
-                            Rol
-
-                        </label>
-
-                        <input
-                            type="text"
-                            id="profile-role"
-                            class="settings-input settings-readonly"
-                            readonly>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label
-                            for="profile-joindate"
-                            class="settings-label">
-
-                            Fecha de Ingreso
-
-                        </label>
-
-                        <input
-                            type="text"
-                            id="profile-joindate"
-                            class="settings-input settings-readonly"
-                            readonly>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            <section class="panel">
-
-                <h2>
-
-                    <i class="fa-solid fa-sliders"></i>
-
-                    Configuraciones Generales
-
-                </h2>
-
-                <div class="settings-grid">
-
-                    <div class="form-group">
-
-                        <label
-                            for="config-language"
-                            class="settings-label">
-
-                            Idioma
-
-                        </label>
-
-                        <select
-                            id="config-language"
-                            class="settings-input">
-
-                            <option value="es-CR">
-
-                                Español (Costa Rica)
-
-                            </option>
-
-                            <option value="en-US">
-
-                                English (United States)
-
-                            </option>
-
-                            <option value="pt-BR">
-
-                                Português (Brasil)
-
-                            </option>
-
+                        <select id="paciente" class="search-box" required>
+                            <option value="" selected disabled>Seleccione un paciente</option>
                         </select>
-
                     </div>
 
-                    <div class="form-group">
-
-                        <label
-                            for="config-dateformat"
-                            class="settings-label">
-
-                            Formato de Fecha
-
+                    <div class="filter-group">
+                        <label for="desde">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Desde
                         </label>
 
-                        <select
-                            id="config-dateformat"
-                            class="settings-input">
-
-                            <option value="DD/MM/YYYY">
-
-                                DD/MM/YYYY
-
-                            </option>
-
-                            <option value="MM/DD/YYYY">
-
-                                MM/DD/YYYY
-
-                            </option>
-
-                            <option value="YYYY-MM-DD">
-
-                                YYYY-MM-DD
-
-                            </option>
-
-                        </select>
-
+                        <input
+                            type="date"
+                            id="desde"
+                            class="search-box">
                     </div>
 
-                    <div class="form-group">
-
-                        <label class="checkbox-label">
-
-                            <input
-                                type="checkbox"
-                                id="config-notifications"
-                                checked>
-
-                            <span>
-
-                                Habilitar notificaciones
-
-                            </span>
-
+                    <div class="filter-group">
+                        <label for="hasta">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Hasta
                         </label>
 
+                        <input
+                            type="date"
+                            id="hasta"
+                            class="search-box">
                     </div>
 
+                    <div class="filter-button">
+                        <button type="button" class="btn-primary">
+                            <i class="fa-solid fa-filter"></i>
+                            Consultar
+                        </button>
+                    </div>
                 </div>
+            </div>
 
-                <div class="settings-actions">
-
-                    <button
-                        id="btn-guardar-config"
-                        class="btn-primary">
-
-                        <i class="fa-solid fa-check"></i>
-
-                        Guardar Cambios
-
-                    </button>
-
-                </div>
-
-            </section>
-
-                        <!-- Información del Sistema -->
-
-            <section class="panel">
-
+            <!-- Información general -->
+            <div class="panel">
                 <h2>
-
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    Acerca de Nyvora
-
+                    <i class="fa-solid fa-id-card"></i>
+                    Información General del Paciente
                 </h2>
 
-                <div class="settings-grid">
-
-                    <div>
-
-                        <p class="settings-text">
-
-                            <strong>Aplicación:</strong>
-
-                            Nyvora - Sistema de Gestión Clínica
-
-                        </p>
-
-                        <p class="settings-text">
-
-                            <strong>Versión:</strong>
-
-                            1.0.0
-
-                        </p>
-
-                        <p class="settings-text">
-
-                            <strong>Última Actualización:</strong>
-
-                            <span id="last-update">
-
-                                Junio 2026
-
-                            </span>
-
-                        </p>
-
+                <div class="patient-summary">
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-user"></i>
+                            Nombre
+                        </span>
+                        <strong>Sin seleccionar</strong>
                     </div>
 
-                    <div>
-
-                        <p class="settings-text">
-
-                            <strong>Desarrollado por:</strong>
-
-                            Grupo 2 - FIDE
-
-                        </p>
-
-                        <p class="settings-text">
-
-                            <strong>Período:</strong>
-
-                            Q2 2026
-
-                        </p>
-
-                        <p class="settings-text">
-
-                            <strong>Proyecto:</strong>
-
-                            SC-502 Ambiente Web Cliente/Servidor
-
-                        </p>
-
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-cake-candles"></i>
+                            Edad
+                        </span>
+                        <strong>--</strong>
                     </div>
 
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            Nutricionista
+                        </span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-bullseye"></i>
+                            Objetivo
+                        </span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Estado
+                        </span>
+                        <span class="badge warning">--</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-title">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Último Control
+                        </span>
+                        <strong>--</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evolución biométrica -->
+            <div class="panel">
+                <h2>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Evolución Biométrica
+                </h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Peso</th>
+                            <th>IMC</th>
+                            <th>Grasa Corporal</th>
+                            <th>Frecuencia Cardíaca</th>
+                            <th>Horas de Sueño</th>
+                            <th>Pasos Diarios</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Paneles informativos -->
+            <section class="dashboard-grid">
+
+                <!-- Observaciones clínicas -->
+                <div class="panel">
+                    <h2>
+                        <i class="fa-solid fa-notes-medical"></i>
+                        Observaciones Clínicas
+                    </h2>
+
+                    <div class="clinical-notes"></div>
                 </div>
 
-                <hr class="settings-divider">
+                <!-- Actividad reciente -->
+                <div class="panel">
+                    <h2>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        Actividad Reciente
+                    </h2>
 
-                <p class="settings-description">
-
-                    Nyvora es un sistema integral para la gestión de pacientes,
-                    métricas clínicas y seguimiento nutricional. Su objetivo es
-                    facilitar el monitoreo de la información clínica mediante una
-                    interfaz moderna, intuitiva y orientada a profesionales de la
-                    salud.
-
-                </p>
-
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Actividad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </section>
-
         </main>
-
     </div>
 
-    <!-- Scripts -->
-
-    <script src="../js/data.js"></script>
-
-    <script src="../js/common.js"></script>
-
-    <script src="../js/configuracion.js"></script>
-
+    <!-- JavaScript -->
+    <script src="../js/data.js" defer></script>
+    <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
+    <script src="../js/historial.js" defer></script>
 </body>
 
 </html>
-
-
-

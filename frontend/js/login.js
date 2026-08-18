@@ -3,7 +3,6 @@
 /* Login */
 
 document.addEventListener("DOMContentLoaded", () => {
-
     const form = document.getElementById("login-form");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const PASSWORD = "Grupo2";
 
     form.addEventListener("submit", (e) => {
-
         e.preventDefault();
 
         const user = email.value.trim();
@@ -59,32 +57,20 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (remember.checked) {
-            localStorage.setItem(
-                "nyvora_remember_email",
-                user
-            );
+            localStorage.setItem("nyvora_remember_email", user);
         } else {
-            localStorage.removeItem(
-                "nyvora_remember_email"
-            );
+            localStorage.removeItem("nyvora_remember_email");
         }
 
         window.location.href = "pages/dashboard.html";
-
     });
 
     /* Recordar correo */
 
-    const rememberedEmail = localStorage.getItem(
-        "nyvora_remember_email"
-    );
+    const rememberedEmail = localStorage.getItem("nyvora_remember_email");
 
     if (rememberedEmail) {
-
         email.value = rememberedEmail;
-
         remember.checked = true;
-
     }
-
 });

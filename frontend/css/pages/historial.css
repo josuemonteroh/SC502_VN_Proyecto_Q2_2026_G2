@@ -1,0 +1,130 @@
+/* Estilos del historial clínico */
+
+/* Filtros compartidos con alertas */
+
+/* Información del paciente */
+
+.patient-summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px 60px;
+
+    margin-top:20px;
+
+}
+
+.summary-item{
+
+    display:grid;
+
+    grid-template-columns:220px auto;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:15px 0;
+
+    border-bottom:1px solid var(--color-border-light);
+
+}
+
+.summary-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--color-text-muted);
+
+    font-weight:600;
+
+}
+
+.summary-item strong{
+
+    color:#0F172A;
+
+    font-weight:600;
+
+}
+
+.summary-item .badge{
+
+    width:auto;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:6px 16px;
+
+}
+
+/* Observaciones Clínicas
+   Lista de recomendaciones y seguimiento del paciente.
+*/
+
+.clinical-notes{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-top:25px;
+
+}
+
+.note-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:14px;
+
+}
+
+.note-item i{
+
+    color:var(--color-primary);
+
+    font-size:18px;
+
+    width:22px;
+
+    margin-top:3px;
+
+}
+
+.note-item p{
+
+    margin:0;
+
+    color:#334155;
+
+    line-height:1.6;
+
+}
+
+/* Responsive
+*/
+
+@media(max-width:1100px){
+
+    .patient-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
