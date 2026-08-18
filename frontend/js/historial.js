@@ -3,6 +3,7 @@
 /* Historial */
 
 document.addEventListener("DOMContentLoaded", () => {
+
     /* Controles */
 
     const selectPaciente = document.getElementById("paciente");
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tablaEvolucion = document.querySelectorAll(".panel table")[0];
     const tbodyEvolucion = tablaEvolucion.querySelector("tbody");
     const notasContenedor = document.querySelector(".clinical-notes");
+
     const actividadReciente =
         document.querySelectorAll(".dashboard-grid .panel")[1]
             ?.querySelector("tbody");
@@ -23,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Estado */
 
     function estadoInfo(status) {
+
         const mapa = {
             ACTIVO: {
                 texto: "Activo",
@@ -47,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Cargar pacientes */
 
     function poblarSelectPacientes() {
+
         const pacientes = nyvoraGetPatients();
 
         selectPaciente.innerHTML = `
@@ -56,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         pacientes.forEach((paciente) => {
+
             const opcion = document.createElement("option");
 
             opcion.value = paciente.id;
@@ -68,12 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Resumen del paciente */
 
     function renderResumen(paciente) {
+
         const ultima = nyvoraGetLatestMetric(paciente.id);
         const estado = estadoInfo(paciente.status);
 
         resumen.querySelector(
             ".summary-item:nth-child(1) strong"
-        ).textContent = nyvoraEscapeHtml(paciente.fullName);
+        ).textContent = paciente.fullName;
 
         resumen.querySelector(
             ".summary-item:nth-child(2) strong"
@@ -88,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resumen.querySelector(
             ".summary-item:nth-child(4) strong"
         ).textContent = paciente.conditionGeneral
-            ? nyvoraEscapeHtml(paciente.conditionGeneral)
+            ? paciente.conditionGeneral
             : "Sin definir";
 
         const badgeEstado = resumen.querySelector(
@@ -108,7 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Observación automática */
 
     function observacionAutomatica(actual, anterior) {
+
         if (!anterior) {
+
             return {
                 texto: "Primer Registro",
                 clase: "success"
@@ -116,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (actual.weightKg < anterior.weightKg) {
+
             return {
                 texto: "Evolución Positiva",
                 clase: "success"
@@ -123,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (actual.weightKg > anterior.weightKg) {
+
             return {
                 texto: "Requiere Atención",
                 clase: "danger"
@@ -137,79 +147,148 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Evolución biométrica */
 
-    function renderTabla(paciente) {
+    async function renderTabla(paciente) {
+
         const desde = inputDesde.value
-            ? new Date(inputDesde.value)
+            ? new Date(inputDesde.value + "T00:00:00")
             : null;
 
         const hasta = inputHasta.value
-            ? new Date(inputHasta.value)
+            ? new Date(inputHasta.value + "T23:59:59")
             : null;
 
-        const registros = nyvoraGetMetrics(paciente.id).filter((registro) => {
-            const fecha = nyvoraBuildDate(registro.measurementDate);
+        try {
 
-            if (desde && fecha < desde) {
-                return false;
+            const respuesta = await fetch(
+                `../../backend/historial.php?patient_id=${encodeURIComponent(paciente.id)}`
+            );
+
+            if (!respuesta.ok) {
+                throw new Error("Error en la comunicación con el servidor.");
             }
 
-            if (hasta && fecha > hasta) {
-                return false;
+            const resultado = await respuesta.json();
+
+            if (!resultado.success) {
+                throw new Error(resultado.message);
             }
 
-            return true;
-        });
+            const registros = resultado.data.filter((registro) => {
 
-        tbodyEvolucion.innerHTML = "";
+                const fecha = nyvoraBuildDate(
+                    registro.measurementDate
+                );
 
-        if (registros.length === 0) {
+                if (desde && fecha < desde) {
+                    return false;
+                }
+
+                if (hasta && fecha > hasta) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            tbodyEvolucion.innerHTML = "";
+
+            if (registros.length === 0) {
+
+                tbodyEvolucion.innerHTML = `
+                    <tr>
+                        <td colspan="8"
+                            style="text-align:center; padding:1rem; color:#888;">
+                            No hay registros para el rango de fechas seleccionado.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            registros.forEach((registro, indice) => {
+
+                const anterior = registros[indice + 1];
+
+                const observacion = observacionAutomatica(
+                    registro,
+                    anterior
+                );
+
+                const bmi =
+                    registro.bmi ??
+                    nyvoraCalculateBMI(
+                        registro.weightKg,
+                        paciente.heightM
+                    ) ??
+                    "N/D";
+
+                const fila = document.createElement("tr");
+
+                fila.innerHTML = `
+                    <td>${nyvoraFormatDate(registro.measurementDate)}</td>
+
+                    <td>
+                        ${registro.weightKg ?? "N/D"} kg
+                    </td>
+
+                    <td>
+                        ${bmi}
+                    </td>
+
+                    <td>
+                        ${registro.bodyFatPercentage ?? "N/D"} %
+                    </td>
+
+                    <td>
+                        ${registro.heartRate ?? "N/D"} bpm
+                    </td>
+
+                    <td>
+                        ${registro.sleepHours ?? "N/D"} h
+                    </td>
+
+                    <td>
+                        ${
+                            registro.steps !== null &&
+                            registro.steps !== undefined
+                                ? Number(registro.steps).toLocaleString()
+                                : "N/D"
+                        }
+                    </td>
+
+                    <td>
+                        <span class="badge ${observacion.clase}">
+                            ${observacion.texto}
+                        </span>
+                    </td>
+                `;
+
+                tbodyEvolucion.appendChild(fila);
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error al consultar el historial:",
+                error
+            );
+
             tbodyEvolucion.innerHTML = `
                 <tr>
                     <td colspan="8"
-                        style="text-align:center; padding:1rem; color:#888;">
-                        No hay registros para el rango de fechas seleccionado.
+                        style="text-align:center; padding:1rem; color:#d00;">
+                        Error al consultar el historial.
                     </td>
                 </tr>
             `;
-            return;
         }
-
-        registros.forEach((registro, indice) => {
-            const anterior = registros[indice + 1];
-            const observacion = observacionAutomatica(registro, anterior);
-
-            const bmi =
-                registro.bmi ??
-                nyvoraCalculateBMI(
-                    registro.weightKg,
-                    paciente.heightM
-                ) ??
-                "N/D";
-
-            const fila = document.createElement("tr");
-
-            fila.innerHTML = `
-                <td>${nyvoraFormatDate(registro.measurementDate)}</td>
-                <td>${registro.weightKg ?? "N/D"} kg</td>
-                <td>${bmi}</td>
-                <td>${registro.bodyFatPercentage ?? "N/D"} %</td>
-                <td>${registro.heartRate ?? "N/D"} bpm</td>
-                <td>${registro.sleepHours ?? "N/D"} h</td>
-                <td>${registro.steps?.toLocaleString() ?? "N/D"}</td>
-                <td>
-                    <span class="badge ${observacion.clase}">
-                        ${observacion.texto}
-                    </span>
-                </td>
-            `;
-
-            tbodyEvolucion.appendChild(fila);
-        });
     }
 
     /* Observaciones */
 
     function renderNotas(paciente) {
+
         if (!notasContenedor) {
             return;
         }
@@ -217,6 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
         notasContenedor.innerHTML = `
             <div class="note-item">
                 <i class="fa-solid fa-notes-medical"></i>
+
                 <p>
                     ${
                         paciente.observations
@@ -231,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Actividad reciente */
 
     function renderActividad(paciente) {
+
         if (!actividadReciente) {
             return;
         }
@@ -240,6 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
         actividadReciente.innerHTML = "";
 
         if (registros.length === 0) {
+
             actividadReciente.innerHTML = `
                 <tr>
                     <td colspan="2">
@@ -247,15 +329,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                 </tr>
             `;
+
             return;
         }
 
         registros.forEach((registro) => {
+
             const fila = document.createElement("tr");
 
             fila.innerHTML = `
-                <td>${nyvoraFormatDate(registro.measurementDate)}</td>
-                <td>Se registró un control biométrico.</td>
+                <td>
+                    ${nyvoraFormatDate(registro.measurementDate)}
+                </td>
+
+                <td>
+                    Se registró un control biométrico.
+                </td>
             `;
 
             actividadReciente.appendChild(fila);
@@ -264,38 +353,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Cargar paciente */
 
-    function cargarPaciente(id) {
+    async function cargarPaciente(id) {
+
         const paciente = nyvoraGetPatientById(id);
 
         if (!paciente) {
-            console.warn(`No se encontró un paciente con id "${id}".`);
+
+            console.warn(
+                `No se encontró un paciente con id "${id}".`
+            );
+
             return;
         }
 
         renderResumen(paciente);
-        renderTabla(paciente);
+
+        await renderTabla(paciente);
+
         renderNotas(paciente);
+
         renderActividad(paciente);
     }
 
     /* Eventos */
 
-    btnConsultar.addEventListener("click", (e) => {
+    btnConsultar.addEventListener("click", async (e) => {
+
         e.preventDefault();
 
         if (!selectPaciente.value) {
+
             alert(
                 "Por favor seleccione un paciente para consultar su historial."
             );
+
             return;
         }
 
-        cargarPaciente(selectPaciente.value);
+        await cargarPaciente(selectPaciente.value);
     });
 
-    selectPaciente.addEventListener("change", () => {
+    selectPaciente.addEventListener("change", async () => {
+
         if (selectPaciente.value) {
-            cargarPaciente(selectPaciente.value);
+            await cargarPaciente(selectPaciente.value);
         }
     });
 
@@ -303,19 +404,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     poblarSelectPacientes();
 
-    const parametros = new URLSearchParams(window.location.search);
+    const parametros = new URLSearchParams(
+        window.location.search
+    );
+
     const idDesdeURL = parametros.get("id");
 
-    if (idDesdeURL && nyvoraGetPatientById(idDesdeURL)) {
+    if (
+        idDesdeURL &&
+        nyvoraGetPatientById(idDesdeURL)
+    ) {
+
         selectPaciente.value = idDesdeURL;
+
         cargarPaciente(idDesdeURL);
     }
 
     /* Actualización */
 
-    window.addEventListener("nyvora:data-changed", () => {
-        if (selectPaciente.value) {
-            cargarPaciente(selectPaciente.value);
+    window.addEventListener(
+        "nyvora:data-changed",
+        () => {
+
+            if (selectPaciente.value) {
+                cargarPaciente(selectPaciente.value);
+            }
         }
-    });
+    );
+
 });
