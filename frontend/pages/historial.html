@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Métricas Biométricas</title>
+    <title>Nyvora | Historial Clínico</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/base/global.css">
@@ -21,20 +25,22 @@
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/forms.css">
     <link rel="stylesheet" href="../css/components/table.css">
-    <link rel="stylesheet" href="../css/pages/metricas.css">
 </head>
 
 <body>
+
     <div class="dashboard">
 
         <!-- Sidebar -->
         <aside class="sidebar">
+
             <div class="logo">
                 <img src="../assets/logonyvora.png" alt="Nyvora">
             </div>
 
             <nav>
                 <ul>
+
                     <li>
                         <a href="dashboard.html">
                             <i class="fa-solid fa-chart-line"></i>
@@ -49,14 +55,14 @@
                         </a>
                     </li>
 
-                    <li class="active">
+                    <li>
                         <a href="metricas.html">
                             <i class="fa-solid fa-weight-scale"></i>
                             Métricas
                         </a>
                     </li>
 
-                    <li>
+                    <li class="active">
                         <a href="historial.html">
                             <i class="fa-solid fa-folder-open"></i>
                             Historial
@@ -83,8 +89,10 @@
                             Cerrar Sesión
                         </a>
                     </li>
+
                 </ul>
             </nav>
+
         </aside>
 
         <!-- Contenido -->
@@ -92,183 +100,262 @@
 
             <!-- Header -->
             <div class="header">
+
                 <div>
-                    <h1>Métricas Biométricas</h1>
-                    <p>Registro y consulta de métricas biométricas de los pacientes.</p>
+                    <h1>Historial Clínico</h1>
+
+                    <p>
+                        Consulte el historial biométrico y la evolución
+                        clínica de los pacientes.
+                    </p>
                 </div>
 
                 <div class="welcome">
                     <h3>Dr. Hernández C.</h3>
                     <span id="current-date"></span>
                 </div>
+
             </div>
 
-            <!-- Registro de métricas -->
+            <!-- Filtros -->
             <div class="panel">
-                <h2>Registrar Métricas</h2>
 
-                <form id="form-metricas" class="metricas-grid">
+                <h2>
+                    <i class="fa-solid fa-filter"></i>
+                    Consultar Historial
+                </h2>
+
+                <div class="history-filters">
 
                     <!-- Paciente -->
-                    <div class="form-group full">
+                    <div class="filter-group patient-filter">
+
                         <label for="paciente">
                             <i class="fa-solid fa-user"></i>
                             Paciente
                         </label>
 
-                        <select id="paciente" class="search-box" required>
-                            <option value="" selected disabled>Seleccione un paciente</option>
+                        <select
+                            id="paciente"
+                            class="search-box">
+
+                            <option
+                                value=""
+                                selected
+                                disabled>
+                                Seleccione un paciente
+                            </option>
+
                         </select>
+
                     </div>
 
-                    <!-- Peso -->
-                    <div class="form-group">
-                        <label for="peso">
-                            <i class="fa-solid fa-scale-balanced"></i>
-                            Peso (kg)
+                    <!-- Desde -->
+                    <div class="filter-group">
+
+                        <label for="desde">
+                            <i class="fa-solid fa-calendar"></i>
+                            Desde
                         </label>
 
                         <input
-                            type="number"
-                            id="peso"
-                            class="search-box"
-                            step="0.1"
-                            min="0"
-                            required>
+                            type="date"
+                            id="desde"
+                            class="search-box">
+
                     </div>
 
-                    <!-- Grasa corporal -->
-                    <div class="form-group">
-                        <label for="grasa">
-                            <i class="fa-solid fa-dna"></i>
-                            Grasa Corporal (%)
+                    <!-- Hasta -->
+                    <div class="filter-group">
+
+                        <label for="hasta">
+                            <i class="fa-solid fa-calendar"></i>
+                            Hasta
                         </label>
 
                         <input
-                            type="number"
-                            id="grasa"
-                            class="search-box"
-                            step="0.1"
-                            min="0">
-                    </div>
+                            type="date"
+                            id="hasta"
+                            class="search-box">
 
-                    <!-- IMC -->
-                    <div class="form-group">
-                        <label for="imc">
-                            <i class="fa-solid fa-chart-line"></i>
-                            IMC
-                        </label>
-
-                        <input
-                            type="number"
-                            id="imc"
-                            class="search-box imc-readonly"
-                            readonly>
-                    </div>
-
-                    <!-- Frecuencia cardíaca -->
-                    <div class="form-group">
-                        <label for="fc">
-                            <i class="fa-solid fa-heart"></i>
-                            Frecuencia Cardíaca (bpm)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="fc"
-                            class="search-box"
-                            min="0">
-                    </div>
-
-                    <!-- Horas de sueño -->
-                    <div class="form-group">
-                        <label for="sueno">
-                            <i class="fa-solid fa-moon"></i>
-                            Horas de Sueño
-                        </label>
-
-                        <input
-                            type="number"
-                            id="sueno"
-                            class="search-box"
-                            step="0.1"
-                            min="0">
-                    </div>
-
-                    <!-- Pasos -->
-                    <div class="form-group">
-                        <label for="pasos">
-                            <i class="fa-solid fa-shoe-prints"></i>
-                            Pasos Diarios
-                        </label>
-
-                        <input
-                            type="number"
-                            id="pasos"
-                            class="search-box"
-                            min="0">
                     </div>
 
                     <!-- Acción -->
-                    <div class="form-group full button-right">
-                        <button type="submit" class="btn-primary btn-large">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar Métricas
+                    <div class="filter-button">
+
+                        <button
+                            type="button"
+                            class="btn-primary">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Consultar
+
                         </button>
+
                     </div>
-                </form>
-            </div>
 
-            <!-- Histórico de métricas -->
-            <div class="panel">
-                <h2>Histórico de Métricas</h2>
-
-                <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:20px;">
-                    <input
-                        type="date"
-                        id="fecha-desde"
-                        class="search-box">
-
-                    <input
-                        type="date"
-                        id="fecha-hasta"
-                        class="search-box">
-
-                    <button type="button" class="btn-primary" id="btn-filtrar">
-                        <i class="fa-solid fa-filter"></i>
-                        Filtrar
-                    </button>
                 </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Paciente</th>
-                            <th>Peso</th>
-                            <th>IMC</th>
-                            <th>Grasa Corporal</th>
-                            <th>Frecuencia Cardíaca</th>
-                            <th>Horas de Sueño</th>
-                            <th>Pasos</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-metricas">
-                        <!-- JavaScript carga la información -->
-                    </tbody>
-                </table>
             </div>
+
+            <!-- Resumen del paciente -->
+            <div class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-user"></i>
+                    Resumen del Paciente
+                </h2>
+
+                <div class="patient-summary">
+
+                    <div class="summary-item">
+                        <span>Paciente</span>
+                        <strong>N/D</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Edad</span>
+                        <strong>N/D</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Médico</span>
+                        <strong>Dr. Hernández C.</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Condición General</span>
+                        <strong>Sin definir</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Estado</span>
+                        <span class="badge warning">
+                            N/D
+                        </span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Último Control</span>
+                        <strong>Sin controles</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Evolución biométrica -->
+            <div class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Evolución Biométrica
+                </h2>
+
+                <div style="overflow-x:auto;">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Peso</th>
+                                <th>IMC</th>
+                                <th>Grasa Corporal</th>
+                                <th>Frecuencia Cardíaca</th>
+                                <th>Horas de Sueño</th>
+                                <th>Pasos</th>
+                                <th>Observación</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td
+                                    colspan="8"
+                                    style="text-align:center; padding:1rem; color:#888;">
+                                    Seleccione un paciente para consultar su historial.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Paneles inferiores -->
+            <section class="dashboard-grid">
+
+                <!-- Observaciones clínicas -->
+                <div class="panel">
+
+                    <h2>
+                        <i class="fa-solid fa-notes-medical"></i>
+                        Observaciones Clínicas
+                    </h2>
+
+                    <div class="clinical-notes">
+
+                        <div class="note-item">
+
+                            <i class="fa-solid fa-notes-medical"></i>
+
+                            <p>
+                                Seleccione un paciente para consultar
+                                sus observaciones.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Actividad reciente -->
+                <div class="panel">
+
+                    <h2>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        Actividad Reciente
+                    </h2>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Actividad</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td colspan="2">
+                                    Sin actividad registrada.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
         </main>
+
     </div>
 
     <!-- JavaScript -->
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
-    <script src="../js/metricas.js" defer></script>
+    <script src="../js/historial.js" defer></script>
+
 </body>
 
 </html>
-
-
-
