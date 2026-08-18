@@ -18,3 +18,6 @@ try {
 } catch (PDOException $e) {
     die('Error de conexión: ' . $e->getMessage());
 }
+
+// Iniciar sesión en todas las páginas que incluyan este archivo
+
