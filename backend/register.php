@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require __DIR__ . '/config/Conexion.php';
  
 $errores = [];
 $exito = false;
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Hashea la contraseña antes de guardarla 
                 $hash = password_hash($password, PASSWORD_DEFAULT);
  
-                $stmt = $pdo->prepare('INSERT INTO users (role_id, name, email, password_hash) VALUES (?, ?, ?, ?)');
+                $stmt = $pdo->prepare('INSERT INTO users (role_id, full_name, email, password_hash) VALUES (?, ?, ?, ?)');
                 $stmt->execute([$rol['id'], $nombre, $email, $hash]);
  
                 $exito = true;

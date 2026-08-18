@@ -1,12 +1,10 @@
-version: '3.8'
+#services:
 
-services:
+#  frontend:
+#    container_name: nyvora_frontend
 
-  frontend:
-    container_name: nyvora_frontend
+#  backend:
+#    container_name: nyvora_backend
 
-  backend:
-    container_name: nyvora_backend
-
-  database:
-    container_name: nyvora_database
+#  database:
+#    container_name: nyvora_database
