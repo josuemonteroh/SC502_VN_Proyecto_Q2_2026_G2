@@ -10,10 +10,15 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/base/global.css">
@@ -24,234 +29,469 @@
 </head>
 
 <body>
+
     <div class="dashboard">
 
         <!-- Sidebar -->
         <aside class="sidebar">
+
             <div class="logo">
-                <img src="../assets/logonyvora.png" alt="Nyvora">
+                <img
+                    src="../assets/logonyvora.png"
+                    alt="Nyvora">
             </div>
 
             <nav>
                 <ul>
+
                     <li>
                         <a href="dashboard.html">
                             <i class="fa-solid fa-chart-line"></i>
-                            Dashboard
+                            <span data-lang="dashboard">
+                                Dashboard
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="pacientes.html">
                             <i class="fa-solid fa-users"></i>
-                            Pacientes
+                            <span data-lang="patients">
+                                Pacientes
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="metricas.html">
                             <i class="fa-solid fa-weight-scale"></i>
-                            Métricas
+                            <span data-lang="metrics">
+                                Métricas
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="historial.html">
                             <i class="fa-solid fa-folder-open"></i>
-                            Historial
+                            <span data-lang="history">
+                                Historial
+                            </span>
                         </a>
                     </li>
 
                     <li class="active">
                         <a href="alertas.html">
                             <i class="fa-solid fa-triangle-exclamation"></i>
-                            Alertas
+                            <span data-lang="alerts">
+                                Alertas
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="configuracion.html">
                             <i class="fa-solid fa-gear"></i>
-                            Configuración
+                            <span data-lang="settings">
+                                Configuración
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="../login.html">
                             <i class="fa-solid fa-right-from-bracket"></i>
-                            Cerrar Sesión
+                            <span data-lang="logout">
+                                Cerrar Sesión
+                            </span>
                         </a>
                     </li>
+
                 </ul>
             </nav>
+
         </aside>
+
 
         <!-- Contenido -->
         <main class="content">
 
             <!-- Header -->
             <div class="header">
+
                 <div>
-                    <h1>Alertas Clínicas</h1>
-                    <p>Monitoree pacientes con indicadores clínicos que requieren atención o seguimiento.</p>
+
+                    <h1 data-lang="alerts_title">
+                        Alertas Clínicas
+                    </h1>
+
+                    <p data-lang="alerts_subtitle">
+                        Monitoree pacientes con indicadores clínicos que requieren atención o seguimiento.
+                    </p>
+
                 </div>
 
                 <div class="welcome">
-                    <h3>Dr. Hernández C.</h3>
+
+                    <h3>
+                        Dr. Hernández C.
+                    </h3>
+
                     <span id="current-date"></span>
+
                 </div>
+
             </div>
+
 
             <!-- Filtros -->
             <div class="panel">
+
                 <h2>
+
                     <i class="fa-solid fa-filter"></i>
-                    Filtrar Alertas
+
+                    <span data-lang="filter">
+                        Filtrar Alertas
+                    </span>
+
                 </h2>
+
 
                 <div class="history-filters">
 
                     <!-- Paciente -->
                     <div class="filter-group patient-filter">
+
                         <label for="buscarPaciente">
+
                             <i class="fa-solid fa-user"></i>
-                            Paciente
+
+                            <span data-lang="patient">
+                                Paciente
+                            </span>
+
                         </label>
+
 
                         <input
                             type="text"
                             id="buscarPaciente"
                             class="search-box"
+                            data-placeholder="search_patient"
                             placeholder="Buscar paciente..."
                             autocomplete="off">
+
                     </div>
+
 
                     <!-- Prioridad -->
                     <div class="filter-group">
+
                         <label for="prioridad">
+
                             <i class="fa-solid fa-circle-exclamation"></i>
-                            Prioridad
+
+                            <span data-lang="priority">
+                                Prioridad
+                            </span>
+
                         </label>
 
-                        <select id="prioridad" class="search-box">
-                            <option value="">Todas</option>
-                            <option>Alta</option>
-                            <option>Media</option>
-                            <option>Baja</option>
+
+                        <select
+                            id="prioridad"
+                            class="search-box">
+
+                            <option
+                                value=""
+                                data-lang="all_priorities">
+                                Todas
+                            </option>
+
+                            <option
+                                value="Alta"
+                                data-lang="high">
+                                Alta
+                            </option>
+
+                            <option
+                                value="Media"
+                                data-lang="medium">
+                                Media
+                            </option>
+
+                            <option
+                                value="Baja"
+                                data-lang="low">
+                                Baja
+                            </option>
+
                         </select>
+
                     </div>
+
 
                     <!-- Estado -->
                     <div class="filter-group">
+
                         <label for="estado">
+
                             <i class="fa-solid fa-list-check"></i>
-                            Estado
+
+                            <span data-lang="status">
+                                Estado
+                            </span>
+
                         </label>
 
-                        <select id="estado" class="search-box">
-                            <option value="">Todos</option>
-                            <option>Pendiente</option>
-                            <option>En Seguimiento</option>
-                            <option>Resuelta</option>
+
+                        <select
+                            id="estado"
+                            class="search-box">
+
+                            <option
+                                value=""
+                                data-lang="all_status">
+                                Todos
+                            </option>
+
+                            <option
+                                value="Pendiente"
+                                data-lang="pending">
+                                Pendiente
+                            </option>
+
+                            <option
+                                value="En Seguimiento">
+                                En Seguimiento
+                            </option>
+
+                            <option
+                                value="Resuelta"
+                                data-lang="resolved">
+                                Resuelta
+                            </option>
+
                         </select>
+
                     </div>
+
 
                     <!-- Acción -->
                     <div class="filter-button">
-                        <button type="button" class="btn-primary">
+
+                        <button
+                            type="button"
+                            class="btn-primary">
+
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            Buscar
+
+                            <span data-lang="search">
+                                Buscar
+                            </span>
+
                         </button>
+
                     </div>
+
                 </div>
+
             </div>
+
 
             <!-- Listado de alertas -->
             <div class="panel">
+
                 <h2>
+
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    Alertas Registradas
+
+                    <span data-lang="alerts_title">
+                        Alertas Registradas
+                    </span>
+
                 </h2>
 
+
                 <table>
+
                     <thead>
+
                         <tr>
-                            <th>Paciente</th>
-                            <th>Alerta</th>
-                            <th>Prioridad</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th>Acción</th>
+
+                            <th data-lang="patient">
+                                Paciente
+                            </th>
+
+                            <th data-lang="alert_message">
+                                Alerta
+                            </th>
+
+                            <th data-lang="priority">
+                                Prioridad
+                            </th>
+
+                            <th data-lang="date">
+                                Fecha
+                            </th>
+
+                            <th data-lang="status">
+                                Estado
+                            </th>
+
+                            <th data-lang="actions">
+                                Acción
+                            </th>
+
                         </tr>
+
                     </thead>
+
                     <tbody></tbody>
+
                 </table>
+
             </div>
+
 
             <!-- Paneles informativos -->
             <section class="dashboard-grid">
 
+
                 <!-- Resumen de alertas -->
                 <div class="panel">
+
                     <h2>
+
                         <i class="fa-solid fa-clipboard-list"></i>
-                        Resumen de Alertas
+
+                        <span>
+                            Resumen de Alertas
+                        </span>
+
                     </h2>
 
+
                     <table>
+
                         <tbody>
+
                             <tr>
-                                <th>Total de Alertas</th>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <th>Alertas Pendientes</th>
+
+                                <th>
+                                    Total de Alertas
+                                </th>
+
                                 <td>
-                                    <span class="badge warning">0</span>
+                                    0
                                 </td>
+
                             </tr>
+
+
                             <tr>
-                                <th>En Seguimiento</th>
+
+                                <th>
+                                    Alertas Pendientes
+                                </th>
+
                                 <td>
-                                    <span class="badge danger">0</span>
+                                    <span class="badge warning">
+                                        0
+                                    </span>
                                 </td>
+
                             </tr>
+
+
                             <tr>
-                                <th>Resueltas</th>
+
+                                <th>
+                                    En Seguimiento
+                                </th>
+
                                 <td>
-                                    <span class="badge success">0</span>
+                                    <span class="badge danger">
+                                        0
+                                    </span>
                                 </td>
+
                             </tr>
+
+
+                            <tr>
+
+                                <th>
+                                    Resueltas
+                                </th>
+
+                                <td>
+                                    <span class="badge success">
+                                        0
+                                    </span>
+                                </td>
+
+                            </tr>
+
                         </tbody>
+
                     </table>
+
                 </div>
+
 
                 <!-- Actividad reciente -->
                 <div class="panel">
+
                     <h2>
+
                         <i class="fa-solid fa-clock-rotate-left"></i>
-                        Actividad Reciente
+
+                        <span data-lang="recent_activity">
+                            Actividad Reciente
+                        </span>
+
                     </h2>
 
+
                     <table>
+
                         <thead>
+
                             <tr>
-                                <th>Fecha</th>
-                                <th>Actividad</th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th>
+                                    Actividad
+                                </th>
+
                             </tr>
+
                         </thead>
+
                         <tbody></tbody>
+
                     </table>
+
                 </div>
+
             </section>
+
         </main>
+
     </div>
+
 
     <!-- JavaScript -->
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
     <script src="../js/alertas.js" defer></script>
+
 </body>
 
 </html>

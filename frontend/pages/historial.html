@@ -10,6 +10,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -44,49 +45,63 @@
                     <li>
                         <a href="dashboard.html">
                             <i class="fa-solid fa-chart-line"></i>
-                            Dashboard
+                            <span data-lang="dashboard">
+                                Dashboard
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="pacientes.html">
                             <i class="fa-solid fa-users"></i>
-                            Pacientes
+                            <span data-lang="patients">
+                                Pacientes
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="metricas.html">
                             <i class="fa-solid fa-weight-scale"></i>
-                            Métricas
+                            <span data-lang="metrics">
+                                Métricas
+                            </span>
                         </a>
                     </li>
 
                     <li class="active">
                         <a href="historial.html">
                             <i class="fa-solid fa-folder-open"></i>
-                            Historial
+                            <span data-lang="history">
+                                Historial
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="alertas.html">
                             <i class="fa-solid fa-triangle-exclamation"></i>
-                            Alertas
+                            <span data-lang="alerts">
+                                Alertas
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="configuracion.html">
                             <i class="fa-solid fa-gear"></i>
-                            Configuración
+                            <span data-lang="settings">
+                                Configuración
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="../login.html">
                             <i class="fa-solid fa-right-from-bracket"></i>
-                            Cerrar Sesión
+                            <span data-lang="logout">
+                                Cerrar Sesión
+                            </span>
                         </a>
                     </li>
 
@@ -95,6 +110,7 @@
 
         </aside>
 
+
         <!-- Contenido -->
         <main class="content">
 
@@ -102,28 +118,45 @@
             <div class="header">
 
                 <div>
-                    <h1>Historial Clínico</h1>
+
+                    <h1 data-lang="history_title">
+                        Historial Clínico
+                    </h1>
 
                     <p>
-                        Consulte el historial biométrico y la evolución
-                        clínica de los pacientes.
+                        <span data-lang="history_subtitle">
+                            Consulte el historial biométrico y la evolución clínica de los pacientes.
+                        </span>
                     </p>
+
                 </div>
 
                 <div class="welcome">
-                    <h3>Dr. Hernández C.</h3>
+
+                    <h3>
+                        Dr. Hernández C.
+                    </h3>
+
                     <span id="current-date"></span>
+
                 </div>
 
             </div>
+
 
             <!-- Filtros -->
             <div class="panel">
 
                 <h2>
+
                     <i class="fa-solid fa-filter"></i>
-                    Consultar Historial
+
+                    <span data-lang="patient_history">
+                        Consultar Historial
+                    </span>
+
                 </h2>
+
 
                 <div class="history-filters">
 
@@ -131,9 +164,15 @@
                     <div class="filter-group patient-filter">
 
                         <label for="paciente">
+
                             <i class="fa-solid fa-user"></i>
-                            Paciente
+
+                            <span data-lang="patient">
+                                Paciente
+                            </span>
+
                         </label>
+
 
                         <select
                             id="paciente"
@@ -142,21 +181,31 @@
                             <option
                                 value=""
                                 selected
-                                disabled>
+                                disabled
+                                data-lang="select_patient">
+
                                 Seleccione un paciente
+
                             </option>
 
                         </select>
 
                     </div>
 
+
                     <!-- Desde -->
                     <div class="filter-group">
 
                         <label for="desde">
+
                             <i class="fa-solid fa-calendar"></i>
-                            Desde
+
+                            <span data-lang="from">
+                                Desde
+                            </span>
+
                         </label>
+
 
                         <input
                             type="date"
@@ -165,13 +214,20 @@
 
                     </div>
 
+
                     <!-- Hasta -->
                     <div class="filter-group">
 
                         <label for="hasta">
+
                             <i class="fa-solid fa-calendar"></i>
-                            Hasta
+
+                            <span data-lang="to">
+                                Hasta
+                            </span>
+
                         </label>
+
 
                         <input
                             type="date"
@@ -179,6 +235,7 @@
                             class="search-box">
 
                     </div>
+
 
                     <!-- Acción -->
                     <div class="filter-button">
@@ -188,7 +245,10 @@
                             class="btn-primary">
 
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            Consultar
+
+                            <span data-lang="consult">
+                                Consultar
+                            </span>
 
                         </button>
 
@@ -198,85 +258,182 @@
 
             </div>
 
+
             <!-- Resumen del paciente -->
             <div class="panel">
 
                 <h2>
+
                     <i class="fa-solid fa-user"></i>
-                    Resumen del Paciente
+
+                    <span data-lang="patient_summary">
+                        Resumen del Paciente
+                    </span>
+
                 </h2>
+
 
                 <div class="patient-summary">
 
                     <div class="summary-item">
-                        <span>Paciente</span>
-                        <strong>N/D</strong>
+
+                        <span data-lang="patient">
+                            Paciente
+                        </span>
+
+                        <strong>
+                            N/D
+                        </strong>
+
                     </div>
 
-                    <div class="summary-item">
-                        <span>Edad</span>
-                        <strong>N/D</strong>
-                    </div>
 
                     <div class="summary-item">
-                        <span>Médico</span>
-                        <strong>Dr. Hernández C.</strong>
+
+                        <span data-lang="age">
+                            Edad
+                        </span>
+
+                        <strong>
+                            N/D
+                        </strong>
+
                     </div>
 
-                    <div class="summary-item">
-                        <span>Condición General</span>
-                        <strong>Sin definir</strong>
-                    </div>
 
                     <div class="summary-item">
-                        <span>Estado</span>
+
+                        <span>
+                            Médico
+                        </span>
+
+                        <strong>
+                            Dr. Hernández C.
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span data-lang="general_condition">
+                            Condición General
+                        </span>
+
+                        <strong>
+                            Sin definir
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span data-lang="status">
+                            Estado
+                        </span>
+
                         <span class="badge warning">
                             N/D
                         </span>
+
                     </div>
 
+
                     <div class="summary-item">
-                        <span>Último Control</span>
-                        <strong>Sin controles</strong>
+
+                        <span data-lang="last_control">
+                            Último Control
+                        </span>
+
+                        <strong>
+                            Sin controles
+                        </strong>
+
                     </div>
 
                 </div>
 
             </div>
 
+
             <!-- Evolución biométrica -->
             <div class="panel">
 
                 <h2>
+
                     <i class="fa-solid fa-chart-line"></i>
-                    Evolución Biométrica
+
+                    <span data-lang="evolution">
+                        Evolución Biométrica
+                    </span>
+
                 </h2>
+
 
                 <div style="overflow-x:auto;">
 
                     <table>
 
                         <thead>
+
                             <tr>
-                                <th>Fecha</th>
-                                <th>Peso</th>
-                                <th>IMC</th>
-                                <th>Grasa Corporal</th>
-                                <th>Frecuencia Cardíaca</th>
-                                <th>Horas de Sueño</th>
-                                <th>Pasos</th>
-                                <th>Observación</th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th data-lang="weight">
+                                    Peso
+                                </th>
+
+                                <th data-lang="bmi">
+                                    IMC
+                                </th>
+
+                                <th data-lang="body_fat">
+                                    Grasa Corporal
+                                </th>
+
+                                <th data-lang="heart_rate">
+                                    Frecuencia Cardíaca
+                                </th>
+
+                                <th data-lang="sleep_hours">
+                                    Horas de Sueño
+                                </th>
+
+                                <th data-lang="steps">
+                                    Pasos
+                                </th>
+
+                                <th data-lang="observations">
+                                    Observación
+                                </th>
+
                             </tr>
+
                         </thead>
 
+
                         <tbody>
+
                             <tr>
+
                                 <td
                                     colspan="8"
-                                    style="text-align:center; padding:1rem; color:#888;">
+                                    style="
+                                        text-align:center;
+                                        padding:1rem;
+                                        color:#888;
+                                    ">
+
                                     Seleccione un paciente para consultar su historial.
+
                                 </td>
+
                             </tr>
+
                         </tbody>
 
                     </table>
@@ -285,16 +442,24 @@
 
             </div>
 
+
             <!-- Paneles inferiores -->
             <section class="dashboard-grid">
+
 
                 <!-- Observaciones clínicas -->
                 <div class="panel">
 
                     <h2>
+
                         <i class="fa-solid fa-notes-medical"></i>
-                        Observaciones Clínicas
+
+                        <span data-lang="clinical_notes">
+                            Observaciones Clínicas
+                        </span>
+
                     </h2>
+
 
                     <div class="clinical-notes">
 
@@ -303,8 +468,7 @@
                             <i class="fa-solid fa-notes-medical"></i>
 
                             <p>
-                                Seleccione un paciente para consultar
-                                sus observaciones.
+                                Seleccione un paciente para consultar sus observaciones.
                             </p>
 
                         </div>
@@ -313,29 +477,48 @@
 
                 </div>
 
+
                 <!-- Actividad reciente -->
                 <div class="panel">
 
                     <h2>
+
                         <i class="fa-solid fa-clock-rotate-left"></i>
-                        Actividad Reciente
+
+                        <span data-lang="recent_activity">
+                            Actividad Reciente
+                        </span>
+
                     </h2>
+
 
                     <table>
 
                         <thead>
+
                             <tr>
-                                <th>Fecha</th>
-                                <th>Actividad</th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th>
+                                    Actividad
+                                </th>
+
                             </tr>
+
                         </thead>
+
 
                         <tbody>
 
                             <tr>
+
                                 <td colspan="2">
                                     Sin actividad registrada.
                                 </td>
+
                             </tr>
 
                         </tbody>
@@ -349,6 +532,7 @@
         </main>
 
     </div>
+
 
     <!-- JavaScript -->
     <script src="../js/data.js" defer></script>
