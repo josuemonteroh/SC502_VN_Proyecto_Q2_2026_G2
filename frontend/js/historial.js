@@ -1,326 +1,599 @@
 "use strict";
 
-/* Historial */
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* Controles */
+    const API_URL = "http://localhost:8081/historial.php";
 
-    const selectPaciente = document.getElementById("paciente");
-    const inputDesde = document.getElementById("desde");
-    const inputHasta = document.getElementById("hasta");
-    const btnConsultar = document.querySelector(".panel .btn-primary");
+    const selectPaciente =
+        document.getElementById("paciente");
 
-    /* Contenedores */
+    const inputDesde =
+        document.getElementById("desde");
 
-    const resumen = document.querySelector(".patient-summary");
-    const tablaEvolucion = document.querySelectorAll(".panel table")[0];
-    const tbodyEvolucion = tablaEvolucion.querySelector("tbody");
-    const notasContenedor = document.querySelector(".clinical-notes");
+    const inputHasta =
+        document.getElementById("hasta");
+
+    const btnConsultar =
+        document.querySelector(".panel .btn-primary");
+
+
+    const resumen =
+        document.querySelector(".patient-summary");
+
+    const tablas =
+        document.querySelectorAll(".panel table");
+
+    const tbodyEvolucion =
+        tablas[0]?.querySelector("tbody");
+
+    const notasContenedor =
+        document.querySelector(".clinical-notes");
 
     const actividadReciente =
-        document.querySelectorAll(".dashboard-grid .panel")[1]
+        document
+            .querySelectorAll(".dashboard-grid .panel")[1]
             ?.querySelector("tbody");
 
-    /* Estado */
 
-    function estadoInfo(status) {
+    let pacienteActual = null;
+    let medicionesActuales = [];
 
-        const mapa = {
-            ACTIVO: {
-                texto: "Activo",
-                clase: "success"
-            },
-            SEGUIMIENTO: {
-                texto: "Seguimiento",
-                clase: "warning"
-            },
-            INACTIVO: {
-                texto: "Inactivo",
-                clase: "danger"
-            }
-        };
 
-        return mapa[status] || {
-            texto: status,
-            clase: "warning"
-        };
-    }
+    function formatearFecha(fecha) {
 
-    /* Cargar pacientes */
+        if (!fecha) {
+            return "N/D";
+        }
 
-    function poblarSelectPacientes() {
+        const fechaConvertida =
+            new Date(fecha.replace(" ", "T"));
 
-        const pacientes = nyvoraGetPatients();
+        if (
+            Number.isNaN(
+                fechaConvertida.getTime()
+            )
+        ) {
+            return fecha;
+        }
 
-        selectPaciente.innerHTML = `
-            <option value="" selected disabled>
-                Seleccione un paciente
-            </option>
-        `;
-
-        pacientes.forEach((paciente) => {
-
-            const opcion = document.createElement("option");
-
-            opcion.value = paciente.id;
-            opcion.textContent = paciente.fullName;
-
-            selectPaciente.appendChild(opcion);
-        });
-    }
-
-    /* Resumen del paciente */
-
-    function renderResumen(paciente) {
-
-        const ultima = nyvoraGetLatestMetric(paciente.id);
-        const estado = estadoInfo(paciente.status);
-
-        resumen.querySelector(
-            ".summary-item:nth-child(1) strong"
-        ).textContent = paciente.fullName;
-
-        resumen.querySelector(
-            ".summary-item:nth-child(2) strong"
-        ).textContent = paciente.age
-            ? `${paciente.age} años`
-            : "N/D";
-
-        resumen.querySelector(
-            ".summary-item:nth-child(3) strong"
-        ).textContent = "Dr. Hernández C.";
-
-        resumen.querySelector(
-            ".summary-item:nth-child(4) strong"
-        ).textContent = paciente.conditionGeneral
-            ? paciente.conditionGeneral
-            : "Sin definir";
-
-        const badgeEstado = resumen.querySelector(
-            ".summary-item:nth-child(5) .badge"
+        return fechaConvertida.toLocaleDateString(
+            "es-CR"
         );
-
-        badgeEstado.textContent = estado.texto;
-        badgeEstado.className = `badge ${estado.clase}`;
-
-        resumen.querySelector(
-            ".summary-item:nth-child(6) strong"
-        ).textContent = ultima
-            ? nyvoraFormatDate(ultima.measurementDate)
-            : "Sin controles";
     }
 
-    /* Observación automática */
 
-    function observacionAutomatica(actual, anterior) {
+    function escaparHTML(texto) {
 
-        if (!anterior) {
+        const div =
+            document.createElement("div");
 
-            return {
-                texto: "Primer Registro",
-                clase: "success"
-            };
-        }
+        div.textContent =
+            texto ?? "";
 
-        if (actual.weightKg < anterior.weightKg) {
-
-            return {
-                texto: "Evolución Positiva",
-                clase: "success"
-            };
-        }
-
-        if (actual.weightKg > anterior.weightKg) {
-
-            return {
-                texto: "Requiere Atención",
-                clase: "danger"
-            };
-        }
-
-        return {
-            texto: "Estable",
-            clase: "success"
-        };
+        return div.innerHTML;
     }
 
-    /* Evolución biométrica */
 
-    async function renderTabla(paciente) {
-
-        const desde = inputDesde.value
-            ? new Date(inputDesde.value + "T00:00:00")
-            : null;
-
-        const hasta = inputHasta.value
-            ? new Date(inputHasta.value + "T23:59:59")
-            : null;
+    async function cargarPacientes() {
 
         try {
 
-            const respuesta = await fetch(
-                `../../backend/historial.php?patient_id=${encodeURIComponent(paciente.id)}`
-            );
+            const respuesta =
+                await fetch(API_URL);
 
             if (!respuesta.ok) {
-                throw new Error("Error en la comunicación con el servidor.");
-            }
 
-            const resultado = await respuesta.json();
-
-            if (!resultado.success) {
-                throw new Error(resultado.message);
-            }
-
-            const registros = resultado.data.filter((registro) => {
-
-                const fecha = nyvoraBuildDate(
-                    registro.measurementDate
+                throw new Error(
+                    `Error HTTP: ${respuesta.status}`
                 );
+            }
 
-                if (desde && fecha < desde) {
-                    return false;
-                }
+            const datos =
+                await respuesta.json();
 
-                if (hasta && fecha > hasta) {
-                    return false;
-                }
+            if (!datos.success) {
 
-                return true;
+                throw new Error(
+                    datos.message ||
+                    "No se pudieron cargar los pacientes."
+                );
+            }
+
+
+            selectPaciente.innerHTML = "";
+
+            const opcionInicial =
+                document.createElement("option");
+
+            opcionInicial.value = "";
+
+            opcionInicial.textContent =
+                "Seleccione un paciente";
+
+            opcionInicial.disabled = true;
+            opcionInicial.selected = true;
+
+            selectPaciente.appendChild(
+                opcionInicial
+            );
+
+
+            datos.data.forEach((paciente) => {
+
+                const opcion =
+                    document.createElement("option");
+
+                opcion.value =
+                    String(paciente.id);
+
+                opcion.textContent =
+                    paciente.fullName;
+
+                selectPaciente.appendChild(
+                    opcion
+                );
             });
 
-            tbodyEvolucion.innerHTML = "";
 
-            if (registros.length === 0) {
-
-                tbodyEvolucion.innerHTML = `
-                    <tr>
-                        <td colspan="8"
-                            style="text-align:center; padding:1rem; color:#888;">
-                            No hay registros para el rango de fechas seleccionado.
-                        </td>
-                    </tr>
-                `;
-
-                return;
-            }
-
-            registros.forEach((registro, indice) => {
-
-                const anterior = registros[indice + 1];
-
-                const observacion = observacionAutomatica(
-                    registro,
-                    anterior
+            // Si viene desde Alertas, obtiene el paciente de la URL
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
                 );
 
-                const bmi =
-                    registro.bmi ??
-                    nyvoraCalculateBMI(
-                        registro.weightKg,
-                        paciente.heightM
-                    ) ??
-                    "N/D";
+            const patientId =
+                parametros.get("patient_id");
 
-                const fila = document.createElement("tr");
+
+            if (patientId) {
+
+                const pacienteEncontrado =
+                    datos.data.find(
+                        (paciente) =>
+                            String(paciente.id) ===
+                            String(patientId)
+                    );
+
+
+                if (pacienteEncontrado) {
+
+                    selectPaciente.value =
+                        String(patientId);
+
+                    await cargarHistorial(
+                        patientId
+                    );
+                }
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error cargando pacientes:",
+                error
+            );
+
+            selectPaciente.innerHTML = `
+                <option value="">
+                    Error al cargar pacientes
+                </option>
+            `;
+        }
+    }
+
+
+    async function cargarHistorial(patientId) {
+
+        if (!patientId) {
+            return;
+        }
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    `${API_URL}?patient_id=${encodeURIComponent(
+                        patientId
+                    )}`
+                );
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    `Error HTTP: ${respuesta.status}`
+                );
+            }
+
+            const datos =
+                await respuesta.json();
+
+            if (!datos.success) {
+
+                throw new Error(
+                    datos.message ||
+                    "No se pudo cargar el historial."
+                );
+            }
+
+            pacienteActual =
+                datos.patient;
+
+            medicionesActuales =
+                datos.measurements || [];
+
+
+            mostrarResumen();
+            mostrarMediciones();
+            mostrarNotas(
+                datos.notes || []
+            );
+            mostrarActividad();
+
+        } catch (error) {
+
+            console.error(
+                "Error cargando historial:",
+                error
+            );
+        }
+    }
+
+
+    function mostrarResumen() {
+
+        if (
+            !resumen ||
+            !pacienteActual
+        ) {
+            return;
+        }
+
+        const elementos =
+            resumen.querySelectorAll(
+                ".summary-item strong"
+            );
+
+
+        if (elementos[0]) {
+
+            elementos[0].textContent =
+                pacienteActual.fullName;
+        }
+
+        if (elementos[1]) {
+
+            elementos[1].textContent =
+                pacienteActual.age
+                    ? `${pacienteActual.age} años`
+                    : "N/D";
+        }
+
+        if (elementos[2]) {
+
+            elementos[2].textContent =
+                "Dr. Hernández C.";
+        }
+
+        if (elementos[3]) {
+
+            elementos[3].textContent =
+                pacienteActual.conditionGeneral ||
+                "Sin definir";
+        }
+
+
+        const badgeEstado =
+            resumen.querySelector(
+                ".summary-item:nth-child(5) .badge"
+            );
+
+
+        if (badgeEstado) {
+
+            if (
+                Number(
+                    pacienteActual.isActive
+                ) === 1
+            ) {
+
+                badgeEstado.textContent =
+                    "Activo";
+
+                badgeEstado.className =
+                    "badge success";
+
+            } else {
+
+                badgeEstado.textContent =
+                    "Inactivo";
+
+                badgeEstado.className =
+                    "badge danger";
+            }
+        }
+
+
+        if (elementos[5]) {
+
+            elementos[5].textContent =
+                medicionesActuales.length > 0
+                    ? formatearFecha(
+                        medicionesActuales[0]
+                            .measurementDate
+                    )
+                    : "Sin controles";
+        }
+    }
+
+
+    function mostrarMediciones() {
+
+        if (!tbodyEvolucion) {
+            return;
+        }
+
+        let registros =
+            [...medicionesActuales];
+
+
+        if (inputDesde.value) {
+
+            const desde =
+                new Date(
+                    `${inputDesde.value}T00:00:00`
+                );
+
+            registros =
+                registros.filter(
+                    (registro) => {
+
+                        const fecha =
+                            new Date(
+                                registro.measurementDate
+                                    .replace(
+                                        " ",
+                                        "T"
+                                    )
+                            );
+
+                        return fecha >= desde;
+                    }
+                );
+        }
+
+
+        if (inputHasta.value) {
+
+            const hasta =
+                new Date(
+                    `${inputHasta.value}T23:59:59`
+                );
+
+            registros =
+                registros.filter(
+                    (registro) => {
+
+                        const fecha =
+                            new Date(
+                                registro.measurementDate
+                                    .replace(
+                                        " ",
+                                        "T"
+                                    )
+                            );
+
+                        return fecha <= hasta;
+                    }
+                );
+        }
+
+
+        tbodyEvolucion.innerHTML = "";
+
+
+        if (registros.length === 0) {
+
+            tbodyEvolucion.innerHTML = `
+                <tr>
+                    <td
+                        colspan="8"
+                        style="
+                            text-align:center;
+                            padding:1rem;
+                        "
+                    >
+                        No hay registros para
+                        este paciente.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        registros.forEach(
+            (registro, indice) => {
+
+                const anterior =
+                    registros[indice + 1];
+
+                let observacion =
+                    "Estable";
+
+                let clase =
+                    "success";
+
+
+                if (!anterior) {
+
+                    observacion =
+                        "Primer Registro";
+
+                } else if (
+                    Number(
+                        registro.weightKg
+                    ) <
+                    Number(
+                        anterior.weightKg
+                    )
+                ) {
+
+                    observacion =
+                        "Evolución Positiva";
+
+                } else if (
+                    Number(
+                        registro.weightKg
+                    ) >
+                    Number(
+                        anterior.weightKg
+                    )
+                ) {
+
+                    observacion =
+                        "Requiere Atención";
+
+                    clase =
+                        "danger";
+                }
+
+
+                const fila =
+                    document.createElement("tr");
+
 
                 fila.innerHTML = `
-                    <td>${nyvoraFormatDate(registro.measurementDate)}</td>
-
                     <td>
-                        ${registro.weightKg ?? "N/D"} kg
+                        ${formatearFecha(
+                            registro.measurementDate
+                        )}
                     </td>
 
                     <td>
-                        ${bmi}
+                        ${escaparHTML(
+                            registro.weightKg
+                        )} kg
                     </td>
 
                     <td>
-                        ${registro.bodyFatPercentage ?? "N/D"} %
+                        ${escaparHTML(
+                            registro.bmi
+                        )}
                     </td>
 
                     <td>
-                        ${registro.heartRate ?? "N/D"} bpm
+                        ${escaparHTML(
+                            registro.bodyFatPercentage
+                        )} %
                     </td>
 
                     <td>
-                        ${registro.sleepHours ?? "N/D"} h
+                        ${escaparHTML(
+                            registro.heartRate
+                        )} bpm
+                    </td>
+
+                    <td>
+                        ${escaparHTML(
+                            registro.sleepHours
+                        )} h
                     </td>
 
                     <td>
                         ${
-                            registro.steps !== null &&
-                            registro.steps !== undefined
-                                ? Number(registro.steps).toLocaleString()
+                            registro.steps != null
+                                ? Number(
+                                    registro.steps
+                                ).toLocaleString(
+                                    "es-CR"
+                                )
                                 : "N/D"
                         }
                     </td>
 
                     <td>
-                        <span class="badge ${observacion.clase}">
-                            ${observacion.texto}
+                        <span
+                            class="badge ${clase}"
+                        >
+                            ${observacion}
                         </span>
                     </td>
                 `;
 
-                tbodyEvolucion.appendChild(fila);
-            });
-
-        } catch (error) {
-
-            console.error(
-                "Error al consultar el historial:",
-                error
-            );
-
-            tbodyEvolucion.innerHTML = `
-                <tr>
-                    <td colspan="8"
-                        style="text-align:center; padding:1rem; color:#d00;">
-                        Error al consultar el historial.
-                    </td>
-                </tr>
-            `;
-        }
+                tbodyEvolucion.appendChild(
+                    fila
+                );
+            }
+        );
     }
 
-    /* Observaciones */
 
-    function renderNotas(paciente) {
+    function mostrarNotas(notas) {
 
         if (!notasContenedor) {
             return;
         }
 
-        notasContenedor.innerHTML = `
-            <div class="note-item">
-                <i class="fa-solid fa-notes-medical"></i>
+        notasContenedor.innerHTML = "";
 
-                <p>
-                    ${
-                        paciente.observations
-                            ? nyvoraEscapeHtml(paciente.observations)
-                            : "Sin observaciones registradas."
-                    }
-                </p>
-            </div>
-        `;
+
+        if (notas.length === 0) {
+
+            notasContenedor.innerHTML = `
+                <div class="note-item">
+                    <i class="fa-solid fa-notes-medical"></i>
+
+                    <p>
+                        Sin observaciones registradas.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        notas.forEach(
+            (nota) => {
+
+                const div =
+                    document.createElement("div");
+
+                div.className =
+                    "note-item";
+
+                div.innerHTML = `
+                    <i class="fa-solid fa-notes-medical"></i>
+
+                    <p>
+                        ${escaparHTML(
+                            nota.note
+                        )}
+                    </p>
+                `;
+
+                notasContenedor.appendChild(
+                    div
+                );
+            }
+        );
     }
 
-    /* Actividad reciente */
 
-    function renderActividad(paciente) {
+    function mostrarActividad() {
 
         if (!actividadReciente) {
             return;
         }
 
-        const registros = nyvoraGetMetrics(paciente.id).slice(0, 5);
-
         actividadReciente.innerHTML = "";
 
-        if (registros.length === 0) {
+        const recientes =
+            medicionesActuales.slice(0, 5);
+
+
+        if (recientes.length === 0) {
 
             actividadReciente.innerHTML = `
                 <tr>
@@ -333,103 +606,99 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        registros.forEach((registro) => {
 
-            const fila = document.createElement("tr");
+        recientes.forEach(
+            (registro) => {
 
-            fila.innerHTML = `
-                <td>
-                    ${nyvoraFormatDate(registro.measurementDate)}
-                </td>
+                const fila =
+                    document.createElement("tr");
 
-                <td>
-                    Se registró un control biométrico.
-                </td>
-            `;
+                fila.innerHTML = `
+                    <td>
+                        ${formatearFecha(
+                            registro.measurementDate
+                        )}
+                    </td>
 
-            actividadReciente.appendChild(fila);
-        });
+                    <td>
+                        Se registró un
+                        control biométrico.
+                    </td>
+                `;
+
+                actividadReciente.appendChild(
+                    fila
+                );
+            }
+        );
     }
 
-    /* Cargar paciente */
 
-    async function cargarPaciente(id) {
-
-        const paciente = nyvoraGetPatientById(id);
-
-        if (!paciente) {
-
-            console.warn(
-                `No se encontró un paciente con id "${id}".`
-            );
-
-            return;
-        }
-
-        renderResumen(paciente);
-
-        await renderTabla(paciente);
-
-        renderNotas(paciente);
-
-        renderActividad(paciente);
-    }
-
-    /* Eventos */
-
-    btnConsultar.addEventListener("click", async (e) => {
-
-        e.preventDefault();
-
-        if (!selectPaciente.value) {
-
-            alert(
-                "Por favor seleccione un paciente para consultar su historial."
-            );
-
-            return;
-        }
-
-        await cargarPaciente(selectPaciente.value);
-    });
-
-    selectPaciente.addEventListener("change", async () => {
-
-        if (selectPaciente.value) {
-            await cargarPaciente(selectPaciente.value);
-        }
-    });
-
-    /* Inicialización */
-
-    poblarSelectPacientes();
-
-    const parametros = new URLSearchParams(
-        window.location.search
-    );
-
-    const idDesdeURL = parametros.get("id");
-
-    if (
-        idDesdeURL &&
-        nyvoraGetPatientById(idDesdeURL)
-    ) {
-
-        selectPaciente.value = idDesdeURL;
-
-        cargarPaciente(idDesdeURL);
-    }
-
-    /* Actualización */
-
-    window.addEventListener(
-        "nyvora:data-changed",
+    selectPaciente.addEventListener(
+        "change",
         () => {
 
-            if (selectPaciente.value) {
-                cargarPaciente(selectPaciente.value);
+            const patientId =
+                selectPaciente.value;
+
+            if (!patientId) {
+                return;
+            }
+
+            cargarHistorial(
+                patientId
+            );
+        }
+    );
+
+
+    btnConsultar.addEventListener(
+        "click",
+        (event) => {
+
+            event.preventDefault();
+
+            const patientId =
+                selectPaciente.value;
+
+            if (!patientId) {
+
+                alert(
+                    "Por favor seleccione un paciente."
+                );
+
+                return;
+            }
+
+            cargarHistorial(
+                patientId
+            );
+        }
+    );
+
+
+    inputDesde.addEventListener(
+        "change",
+        () => {
+
+            if (pacienteActual) {
+                mostrarMediciones();
             }
         }
     );
+
+
+    inputHasta.addEventListener(
+        "change",
+        () => {
+
+            if (pacienteActual) {
+                mostrarMediciones();
+            }
+        }
+    );
+
+
+    cargarPacientes();
 
 });

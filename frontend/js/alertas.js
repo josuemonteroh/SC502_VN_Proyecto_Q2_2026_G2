@@ -1,274 +1,570 @@
 "use strict";
 
-/* Alertas */
-
 document.addEventListener("DOMContentLoaded", () => {
-    /* Controles */
 
-    const inputPaciente = document.getElementById("buscarPaciente");
-    const selectPrioridad = document.getElementById("prioridad");
-    const selectEstado = document.getElementById("estado");
-    const btnBuscar = document.querySelector(".btn-primary");
+    const API_URL =
+        "http://localhost:8081/alertas.php";
 
-    /* Tabla */
 
-    const tabla = document.querySelectorAll(".panel table")[0];
-    const tbody = tabla.querySelector("tbody");
+    const inputPaciente =
+        document.getElementById("buscarPaciente");
 
-    /* Paneles */
+    const selectPrioridad =
+        document.getElementById("prioridad");
+
+    const selectEstado =
+        document.getElementById("estado");
+
+    const btnBuscar =
+        document.querySelector(".btn-primary");
+
+
+    const tabla =
+        document.querySelectorAll(".panel table")[0];
+
+    const tbody =
+        tabla.querySelector("tbody");
+
 
     const resumenValores =
-        document.querySelectorAll(".dashboard-grid .panel")[0]
+        document
+            .querySelectorAll(".dashboard-grid .panel")[0]
             ?.querySelectorAll("td");
 
+
     const actividadReciente =
-        document.querySelectorAll(".dashboard-grid .panel")[1]
+        document
+            .querySelectorAll(".dashboard-grid .panel")[1]
             ?.querySelector("tbody");
 
-    /* Utilidades */
+
+    let alertas = [];
+
 
     function normalizar(texto) {
-        return String(texto)
+
+        return String(texto ?? "")
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .trim();
     }
 
-    function prioridadInfo(priority) {
-        const mapa = {
-            ALTA: {
+
+    function escaparHTML(texto) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            texto ?? "";
+
+        return div.innerHTML;
+    }
+
+
+    function formatearFecha(fecha) {
+
+        if (!fecha) {
+            return "N/D";
+        }
+
+        const fechaConvertida =
+            new Date(
+                fecha.replace(" ", "T")
+            );
+
+        if (
+            Number.isNaN(
+                fechaConvertida.getTime()
+            )
+        ) {
+            return fecha;
+        }
+
+        return fechaConvertida.toLocaleDateString(
+            "es-CR"
+        );
+    }
+
+
+    function prioridadInfo(alerta) {
+
+        const tipo =
+            normalizar(alerta.alertType);
+
+
+        if (
+            tipo.includes("frecuencia") ||
+            tipo.includes("cardiaca")
+        ) {
+
+            return {
                 texto: "Alta",
                 clase: "danger"
-            },
-            MEDIA: {
+            };
+        }
+
+
+        if (
+            tipo.includes("sueno") ||
+            tipo.includes("peso") ||
+            tipo.includes("seguimiento")
+        ) {
+
+            return {
                 texto: "Media",
                 clase: "warning"
-            },
-            BAJA: {
-                texto: "Baja",
-                clase: "success"
-            }
-        };
+            };
+        }
 
-        return mapa[priority] || {
-            texto: priority,
+
+        return {
+            texto: "Baja",
+            clase: "success"
+        };
+    }
+
+
+    function estadoInfo(status) {
+
+        if (
+            normalizar(status) === "resolved"
+        ) {
+
+            return {
+                texto: "Resuelta",
+                clase: "success"
+            };
+        }
+
+
+        return {
+            texto: "Pendiente",
             clase: "warning"
         };
     }
 
-    function estadoInfo(status) {
-        return status === "RESOLVED"
-            ? {
-                texto: "Resuelta",
-                clase: "success"
+
+    async function cargarAlertas() {
+
+        try {
+
+            const respuesta =
+                await fetch(API_URL);
+
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    `Error HTTP: ${respuesta.status}`
+                );
             }
-            : {
-                texto: "Pendiente",
-                clase: "warning"
-            };
+
+
+            const datos =
+                await respuesta.json();
+
+
+            if (!datos.success) {
+
+                throw new Error(
+                    datos.message ||
+                    "Error al consultar las alertas."
+                );
+            }
+
+
+            alertas =
+                datos.data || [];
+
+
+            renderTodo();
+
+        } catch (error) {
+
+            console.error(
+                "Error cargando alertas:",
+                error
+            );
+
+
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="6"
+                        style="
+                            text-align:center;
+                            padding:1rem;
+                            color:#c0392b;
+                        "
+                    >
+                        Error al cargar las alertas.
+                    </td>
+                </tr>
+            `;
+        }
     }
 
-    /* Crear fila */
 
     function crearFilaAlerta(alerta) {
-        const paciente = nyvoraGetPatientById(alerta.patientId);
-        const prioridad = prioridadInfo(alerta.priority);
-        const estado = estadoInfo(alerta.status);
-        const fila = document.createElement("tr");
 
-        fila.dataset.patientId = alerta.patientId;
+        const prioridad =
+            prioridadInfo(alerta);
+
+        const estado =
+            estadoInfo(alerta.status);
+
+
+        const fila =
+            document.createElement("tr");
+
+
+        fila.dataset.patientId =
+            alerta.patientId;
+
 
         fila.innerHTML = `
             <td>
-                ${
-                    paciente
-                        ? nyvoraEscapeHtml(paciente.fullName)
-                        : "Paciente no encontrado"
-                }
+                ${escaparHTML(
+                    alerta.patientName
+                )}
             </td>
-            <td>${nyvoraEscapeHtml(alerta.message)}</td>
+
+            <td>
+                ${escaparHTML(
+                    alerta.message
+                )}
+            </td>
+
             <td>
                 <span class="badge ${prioridad.clase}">
                     ${prioridad.texto}
                 </span>
             </td>
-            <td>${nyvoraFormatDate(alerta.createdAt)}</td>
+
+            <td>
+                ${formatearFecha(
+                    alerta.createdAt
+                )}
+            </td>
+
             <td>
                 <span class="badge ${estado.clase}">
                     ${estado.texto}
                 </span>
             </td>
+
             <td>
-                <a href="#" class="action-link">
+                <a
+                    href="#"
+                    class="action-link"
+                >
                     <i class="fa-solid fa-eye"></i>
                     Ver Detalle
                 </a>
             </td>
         `;
 
-        fila.querySelector(".action-link").addEventListener("click", (e) => {
-            e.preventDefault();
 
-            if (paciente) {
-                window.location.href = `historial.html?id=${paciente.id}`;
+        const enlace =
+            fila.querySelector(
+                ".action-link"
+            );
+
+
+        enlace.addEventListener(
+            "click",
+            (event) => {
+
+                event.preventDefault();
+
+                // Enviamos el ID del paciente para abrir su historial
+                const patientId =
+                    alerta.patientId;
+
+
+                window.location.href =
+                    `historial.html?patient_id=${patientId}`;
             }
-        });
+        );
+
 
         return fila;
     }
 
-    /* Renderizar tabla */
 
-    function renderTabla() {
-        let alertas = nyvoraGetAlerts();
+    function obtenerAlertasFiltradas() {
 
-        const busqueda = normalizar(inputPaciente.value);
+        let resultado =
+            [...alertas];
+
+
+        const busqueda =
+            normalizar(
+                inputPaciente.value
+            );
+
 
         if (busqueda) {
-            alertas = alertas.filter((alerta) => {
-                const paciente = nyvoraGetPatientById(alerta.patientId);
 
-                return (
-                    paciente &&
-                    normalizar(paciente.fullName).includes(busqueda)
+            resultado =
+                resultado.filter(
+                    (alerta) => {
+
+                        return normalizar(
+                            alerta.patientName
+                        ).includes(
+                            busqueda
+                        );
+                    }
                 );
-            });
         }
 
-        if (selectPrioridad.value) {
-            alertas = alertas.filter(
-                (alerta) =>
-                    prioridadInfo(alerta.priority).texto ===
-                    selectPrioridad.value
-            );
+
+        if (
+            selectPrioridad.value
+        ) {
+
+            resultado =
+                resultado.filter(
+                    (alerta) => {
+
+                        const prioridad =
+                            prioridadInfo(
+                                alerta
+                            );
+
+                        return (
+                            prioridad.texto ===
+                            selectPrioridad.value
+                        );
+                    }
+                );
         }
 
-        if (selectEstado.value) {
-            const buscado = normalizar(selectEstado.value);
 
-            alertas = alertas.filter((alerta) => {
-                const texto = normalizar(
-                    estadoInfo(alerta.status).texto
+        if (
+            selectEstado.value
+        ) {
+
+            const estadoBuscado =
+                normalizar(
+                    selectEstado.value
                 );
 
-                if (buscado === "en seguimiento") {
-                    return texto === "pendiente";
-                }
 
-                return texto === buscado;
-            });
+            resultado =
+                resultado.filter(
+                    (alerta) => {
+
+                        const estado =
+                            estadoInfo(
+                                alerta.status
+                            );
+
+
+                        return (
+                            normalizar(
+                                estado.texto
+                            ) ===
+                            estadoBuscado
+                        );
+                    }
+                );
         }
+
+
+        return resultado;
+    }
+
+
+    function renderTabla() {
+
+        const filtradas =
+            obtenerAlertasFiltradas();
+
 
         tbody.innerHTML = "";
 
-        if (alertas.length === 0) {
+
+        if (
+            filtradas.length === 0
+        ) {
+
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="6"
-                        style="text-align:center; padding:1rem; color:#888;">
-                        No se encontraron alertas con los filtros seleccionados.
+                    <td
+                        colspan="6"
+                        style="
+                            text-align:center;
+                            padding:1rem;
+                            color:#888;
+                        "
+                    >
+                        No se encontraron alertas
+                        con los filtros seleccionados.
                     </td>
                 </tr>
             `;
+
             return;
         }
 
-        alertas.forEach((alerta) => {
-            tbody.appendChild(crearFilaAlerta(alerta));
-        });
+
+        filtradas.forEach(
+            (alerta) => {
+
+                tbody.appendChild(
+                    crearFilaAlerta(
+                        alerta
+                    )
+                );
+            }
+        );
     }
 
-    /* Resumen */
 
     function renderResumen() {
+
         if (!resumenValores) {
             return;
         }
 
-        const todas = nyvoraGetAlerts();
 
-        const pendientes = todas.filter(
-            (alerta) => alerta.status !== "RESOLVED"
-        ).length;
+        const total =
+            alertas.length;
 
-        const resueltas = todas.filter(
-            (alerta) => alerta.status === "RESOLVED"
-        ).length;
 
-        resumenValores[0].textContent = todas.length;
+        const pendientes =
+            alertas.filter(
+                (alerta) =>
+                    normalizar(
+                        alerta.status
+                    ) !== "resolved"
+            ).length;
+
+
+        const resueltas =
+            alertas.filter(
+                (alerta) =>
+                    normalizar(
+                        alerta.status
+                    ) === "resolved"
+            ).length;
+
+
+        resumenValores[0].textContent =
+            total;
+
 
         resumenValores[1]
             .querySelector(".badge")
-            .textContent = pendientes;
+            .textContent =
+            pendientes;
+
 
         resumenValores[2]
             .querySelector(".badge")
-            .textContent = 0;
+            .textContent =
+            0;
+
 
         resumenValores[3]
             .querySelector(".badge")
-            .textContent = resueltas;
+            .textContent =
+            resueltas;
     }
 
-    /* Actividad reciente */
 
     function renderActividadReciente() {
+
         if (!actividadReciente) {
             return;
         }
 
-        const recientes = nyvoraGetAlerts().slice(0, 5);
 
-        actividadReciente.innerHTML = "";
+        actividadReciente.innerHTML =
+            "";
 
-        recientes.forEach((alerta) => {
-            const paciente = nyvoraGetPatientById(alerta.patientId);
-            const fila = document.createElement("tr");
 
-            fila.innerHTML = `
-                <td>
-                    <strong>${nyvoraFormatDate(alerta.createdAt)}</strong>
-                </td>
-                <td>
-                    ${nyvoraEscapeHtml(alerta.type)}
-                    —
-                    ${
-                        paciente
-                            ? nyvoraEscapeHtml(paciente.fullName)
-                            : ""
-                    }
-                </td>
-            `;
+        alertas
+            .slice(0, 5)
+            .forEach(
+                (alerta) => {
 
-            actividadReciente.appendChild(fila);
-        });
+                    const fila =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    fila.innerHTML = `
+                        <td>
+                            ${formatearFecha(
+                                alerta.createdAt
+                            )}
+                        </td>
+
+                        <td>
+                            ${escaparHTML(
+                                alerta.alertType
+                            )}
+                            —
+                            ${escaparHTML(
+                                alerta.patientName
+                            )}
+                        </td>
+                    `;
+
+
+                    actividadReciente.appendChild(
+                        fila
+                    );
+                }
+            );
     }
 
-    /* Actualizar interfaz */
 
     function renderTodo() {
+
         renderTabla();
+
         renderResumen();
+
         renderActividadReciente();
     }
 
-    /* Eventos */
 
-    btnBuscar.addEventListener("click", (e) => {
-        e.preventDefault();
-        renderTabla();
-    });
+    btnBuscar.addEventListener(
+        "click",
+        (event) => {
 
-    inputPaciente.addEventListener("input", renderTabla);
-    selectPrioridad.addEventListener("change", renderTabla);
-    selectEstado.addEventListener("change", renderTabla);
+            event.preventDefault();
 
-    /* Actualización */
+            renderTabla();
+        }
+    );
 
-    window.addEventListener("nyvora:data-changed", renderTodo);
 
-    /* Inicialización */
+    inputPaciente.addEventListener(
+        "input",
+        renderTabla
+    );
 
-    renderTodo();
+
+    selectPrioridad.addEventListener(
+        "change",
+        renderTabla
+    );
+
+
+    selectEstado.addEventListener(
+        "change",
+        renderTabla
+    );
+
+
+    cargarAlertas();
+
 });
