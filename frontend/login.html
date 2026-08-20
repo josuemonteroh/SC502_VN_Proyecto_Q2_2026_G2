@@ -2,33 +2,29 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Nyvora | Iniciar Sesión</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+    <!-- CSS -->
     <link rel="stylesheet" href="css/login.css">
-
 </head>
 
 <body>
 
     <div class="container">
 
-        <!-- Panel Izquierdo -->
+        <!-- Panel izquierdo -->
         <div class="left-panel">
 
             <div class="branding">
@@ -38,8 +34,7 @@
                 <div class="info-card">
 
                     <h2 data-lang="platform_title">
-                        Plataforma Inteligente
-                        <br>
+                        Plataforma Inteligente<br>
                         de Seguimiento Nutricional
                     </h2>
 
@@ -85,12 +80,12 @@
 
         </div>
 
-        <!-- Panel Derecho -->
+        <!-- Panel derecho -->
         <div class="right-panel">
 
             <div class="login-card">
 
-                <!-- Selector de Idioma -->
+                <!-- Idioma -->
                 <div class="language-selector">
 
                     <i class="fa-solid fa-language"></i>
@@ -115,12 +110,9 @@
                 </p>
 
                 <!-- Formulario -->
-                <form id="login-form" action="../backend/login.php" method="POST">
+                <form id="login-form" action="http://localhost:8081/login.php" method="POST">
 
-                    <!-- Correo -->
-                    <label
-                        for="email"
-                        data-lang="email_label">
+                    <label for="email" data-lang="email_label">
                         Correo electrónico
                     </label>
 
@@ -138,10 +130,7 @@
 
                     </div>
 
-                    <!-- Contraseña -->
-                    <label
-                        for="password"
-                        data-lang="password_label">
+                    <label for="password" data-lang="password_label">
                         Contraseña
                     </label>
 
@@ -159,7 +148,6 @@
 
                     </div>
 
-                    <!-- Opciones -->
                     <div class="login-options">
 
                         <label class="remember">
@@ -175,14 +163,13 @@
                         </label>
 
                         <a
-                            href="#"
+                            href="forgot-password.html"
                             data-lang="forgot_password">
                             ¿Olvidó su contraseña?
                         </a>
 
                     </div>
 
-                    <!-- Botón -->
                     <button type="submit">
 
                         <span data-lang="login_button">
@@ -195,7 +182,7 @@
 
                 </form>
 
-                <!-- Solicitar Acceso -->
+                <!-- Solicitar acceso -->
                 <div class="register-link">
 
                     <span data-lang="need_access">
@@ -204,9 +191,43 @@
 
                     <a
                         href="#"
+                        id="request-access-link"
                         data-lang="request_access">
                         Solicitar acceso
                     </a>
+
+                </div>
+
+                <!-- Usuarios de prueba -->
+                <div class="demo-accounts">
+
+                    <div class="demo-user">
+
+                        <div class="demo-user-header">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <strong data-lang="demo_admin">
+                                Administrador
+                            </strong>
+                        </div>
+
+                        <span>admin@nyvora.com</span>
+                        <span>Admin123@</span>
+
+                    </div>
+
+                    <div class="demo-user">
+
+                        <div class="demo-user-header">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <strong data-lang="demo_doctor">
+                                Doctor
+                            </strong>
+                        </div>
+
+                        <span>doctor@nyvora.com</span>
+                        <span>Doctor123@</span>
+
+                    </div>
 
                 </div>
 
@@ -231,6 +252,7 @@
 
     <!-- Scripts -->
     <script src="js/language.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
 

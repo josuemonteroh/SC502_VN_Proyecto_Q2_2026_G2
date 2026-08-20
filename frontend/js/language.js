@@ -4,8 +4,7 @@ let currentLanguage = "es";
 
 const translations = {
 
-    /* Español
-       */
+    /* Español */
 
     es: {
 
@@ -61,6 +60,18 @@ const translations = {
 
         request_access:
             "Solicitar acceso",
+
+        request_access_title:
+            "Acceso restringido",
+
+        request_access_message:
+            "Las cuentas de acceso a Nyvora son gestionadas por el administrador. Para solicitar una cuenta o modificar sus permisos, contacte al administrador del sistema.",
+
+        demo_admin:
+            "Administrador",
+
+        demo_doctor:
+            "Doctor",
 
         version:
             "Versión 1.0.0",
@@ -414,12 +425,53 @@ const translations = {
             "Guardar Cambios",
 
         settings_saved:
-            "Configuración guardada correctamente."
+            "Configuración guardada correctamente.",
+
+
+        /* Recuperar contraseña */
+
+        recovery_platform_title:
+            "Recupera el acceso<br>a tu cuenta Nyvora",
+
+        recovery_platform_description:
+            "Ingresa tu correo electrónico para continuar con el proceso de recuperación de acceso.",
+
+        recovery_feature_1:
+            "Verificación mediante correo electrónico",
+
+        recovery_feature_2:
+            "Proceso seguro de recuperación",
+
+        recovery_feature_3:
+            "Protección de credenciales",
+
+        recovery_feature_4:
+            "Regreso al inicio de sesión",
+
+        recovery_title:
+            "Recuperar contraseña",
+
+        recovery_subtitle:
+            "Ingrese el correo electrónico asociado a su cuenta.",
+
+        recovery_button:
+            "Continuar",
+
+        remember_password:
+            "¿Recordó su contraseña?",
+
+        back_to_login:
+            "Volver al inicio de sesión",
+
+        recovery_success_title:
+            "Solicitud recibida",
+
+        recovery_success_message:
+            "Los pasos para restablecer su contraseña serán enviados al correo electrónico asociado a su cuenta."
     },
 
 
-    /*
-       INGLÉS */
+    /* Inglés */
 
     en: {
 
@@ -475,6 +527,18 @@ const translations = {
 
         request_access:
             "Request access",
+
+        request_access_title:
+            "Restricted access",
+
+        request_access_message:
+            "Nyvora accounts are managed by the administrator. To request an account or modify your permissions, please contact the system administrator.",
+
+        demo_admin:
+            "Administrator",
+
+        demo_doctor:
+            "Doctor",
 
         version:
             "Version 1.0.0",
@@ -828,12 +892,54 @@ const translations = {
             "Save Changes",
 
         settings_saved:
-            "Settings saved successfully."
+            "Settings saved successfully.",
+
+
+        /* Password recovery */
+
+        recovery_platform_title:
+            "Recover access<br>to your Nyvora account",
+
+        recovery_platform_description:
+            "Enter your email address to continue with the account recovery process.",
+
+        recovery_feature_1:
+            "Email verification",
+
+        recovery_feature_2:
+            "Secure recovery process",
+
+        recovery_feature_3:
+            "Credential protection",
+
+        recovery_feature_4:
+            "Return to sign in",
+
+        recovery_title:
+            "Recover password",
+
+        recovery_subtitle:
+            "Enter the email address associated with your account.",
+
+        recovery_button:
+            "Continue",
+
+        remember_password:
+            "Remembered your password?",
+
+        back_to_login:
+            "Back to sign in",
+
+        recovery_success_title:
+            "Request received",
+
+        recovery_success_message:
+            "Password recovery instructions will be sent to the email address associated with your account."
     }
 };
 
 
-/* Cambia los textos de la página */
+/* Cambiar idioma */
 
 function changeLanguage(language) {
 
@@ -847,60 +953,39 @@ function changeLanguage(language) {
         .querySelectorAll("[data-lang]")
         .forEach((element) => {
 
-            const key =
-                element.dataset.lang;
+            const key = element.dataset.lang;
 
-            if (
-                translations[language][key]
-            ) {
+            if (translations[language][key]) {
 
-                const value =
-                    translations[language][key];
+                const value = translations[language][key];
 
-                if (
-                    value.includes("<br>")
-                ) {
-
-                    element.innerHTML =
-                        value;
-
+                if (value.includes("<br>")) {
+                    element.innerHTML = value;
                 } else {
-
-                    element.textContent =
-                        value;
+                    element.textContent = value;
                 }
             }
         });
-
 
     document
         .querySelectorAll("[data-placeholder]")
         .forEach((element) => {
 
-            const key =
-                element.dataset.placeholder;
+            const key = element.dataset.placeholder;
 
-            if (
-                translations[language][key]
-            ) {
-
+            if (translations[language][key]) {
                 element.placeholder =
                     translations[language][key];
             }
         });
 
-
     document
         .querySelectorAll("[data-title]")
         .forEach((element) => {
 
-            const key =
-                element.dataset.title;
+            const key = element.dataset.title;
 
-            if (
-                translations[language][key]
-            ) {
-
+            if (translations[language][key]) {
                 element.title =
                     translations[language][key];
             }
@@ -908,7 +993,7 @@ function changeLanguage(language) {
 }
 
 
-/* Guarda el idioma seleccionado */
+/* Guardar idioma */
 
 function setLanguage(language) {
 
@@ -916,8 +1001,7 @@ function setLanguage(language) {
         return;
     }
 
-    currentLanguage =
-        language;
+    currentLanguage = language;
 
     localStorage.setItem(
         "nyvora-language",
@@ -930,15 +1014,14 @@ function setLanguage(language) {
         );
 
     if (selector) {
-        selector.value =
-            language;
+        selector.value = language;
     }
 
     changeLanguage(language);
 }
 
 
-/* Cuando se cambia el selector */
+/* Inicializar idioma */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -949,18 +1032,14 @@ document.addEventListener(
                 "nyvora-language"
             ) || "es";
 
-
         const selector =
             document.getElementById(
                 "language-select"
             );
 
-
         if (selector) {
 
-            selector.value =
-                savedLanguage;
-
+            selector.value = savedLanguage;
 
             selector.addEventListener(
                 "change",
@@ -972,7 +1051,6 @@ document.addEventListener(
                 }
             );
         }
-
 
         changeLanguage(
             savedLanguage

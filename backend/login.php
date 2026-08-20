@@ -1,61 +1,80 @@
 <?php
+
 session_start();
 
-require __DIR__ . '/config/Conexion.php';
+require_once __DIR__ . "/config/Conexion.php";
 
-if (!empty($_SESSION['usuario_id'])) {
-    header('Location: ../frontend/pages/dashboard.html');
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: http://localhost:8080/login.html");
     exit;
 }
 
-$error = '';
+$email = trim($_POST["email"] ?? "");
+$password = $_POST["password"] ?? "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    if (empty($email) || empty($password)) {
-        $error = 'Completa todos los campos.';
-    } else {
-        $stmt = $pdo->prepare(
-            'SELECT users.id, users.full_name, users.email, users.password_hash, roles.name AS rol
-             FROM users
-             JOIN roles ON roles.id = users.role_id
-             WHERE users.email = ?
-             AND users.is_active = 1'
-        );
-
-        $stmt->execute([$email]);
-        $usuario = $stmt->fetch();
-
-        if ($usuario && password_verify($password, $usuario['password_hash'])) {
-            session_regenerate_id(true);
-
-            $_SESSION['usuario_id'] = $usuario['id'];
-            $_SESSION['usuario_nombre'] = $usuario['full_name'];
-            $_SESSION['usuario_email'] = $usuario['email'];
-            $_SESSION['usuario_rol'] = $usuario['rol'];
-
-            header('Location: ../frontend/pages/dashboard.html');
-            exit;
-        } else {
-            $error = 'Correo o contraseña incorrectos.';
-        }
-    }
+if ($email === "" || $password === "") {
+    header("Location: http://localhost:8080/login.html?error=campos");
+    exit;
 }
-?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Error de inicio de sesión</title>
-</head>
-<body>
-    <h2>No se pudo iniciar sesión</h2>
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: http://localhost:8080/login.html?error=email");
+    exit;
+}
 
-    <p><?php echo htmlspecialchars($error); ?></p>
+try {
 
-    <a href="../frontend/login.html">Volver al login</a>
-</body>
-</html>
+    $conexion = new Conexion();
+    $db = $conexion->conectar();
+
+    $sql = "SELECT
+                u.id,
+                u.full_name,
+                u.email,
+                u.password_hash,
+                u.is_active,
+                r.name AS role
+            FROM users u
+            INNER JOIN roles r
+                ON r.id = u.role_id
+            WHERE u.email = :email
+            LIMIT 1";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute([
+        ":email" => $email
+    ]);
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$usuario) {
+        header("Location: http://localhost:8080/login.html?error=credenciales");
+        exit;
+    }
+
+    if (!$usuario["is_active"]) {
+        header("Location: http://localhost:8080/login.html?error=inactivo");
+        exit;
+    }
+
+    if (!password_verify($password, $usuario["password_hash"])) {
+        header("Location: http://localhost:8080/login.html?error=credenciales");
+        exit;
+    }
+
+    session_regenerate_id(true);
+
+    $_SESSION["usuario_id"] = $usuario["id"];
+    $_SESSION["usuario_nombre"] = $usuario["full_name"];
+    $_SESSION["usuario_email"] = $usuario["email"];
+    $_SESSION["usuario_rol"] = $usuario["role"];
+
+    header("Location: http://localhost:8080/pages/dashboard.html");
+    exit;
+
+} catch (PDOException $e) {
+
+    header("Location: http://localhost:8080/login.html?error=servidor");
+    exit;
+}

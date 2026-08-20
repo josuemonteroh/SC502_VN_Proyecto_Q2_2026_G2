@@ -1,8 +1,7 @@
 USE nyvora_db;
 
-
 -- Tabla de roles
--- Ejemplos: ADMIN, USER
+
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL UNIQUE,
@@ -12,7 +11,8 @@ CREATE TABLE roles (
 );
 
 
--- Tabla de usuarios que pueden iniciar sesión
+-- Tabla de usuarios
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     role_id INT NOT NULL,
@@ -34,9 +34,7 @@ CREATE TABLE users (
 
 
 -- Tabla de pacientes
--- Información general de cada paciente.
--- user_id representa el usuario que registra
--- o administra al paciente.
+
 CREATE TABLE patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -62,7 +60,8 @@ CREATE TABLE patients (
 );
 
 
--- Tabla de métricas biométricas y hábitos
+-- Tabla de métricas biométricas
+
 CREATE TABLE measurements (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -86,7 +85,8 @@ CREATE TABLE measurements (
 );
 
 
--- Tabla de alertas preventivas simples
+-- Tabla de alertas
+
 CREATE TABLE alerts (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -106,7 +106,8 @@ CREATE TABLE alerts (
 );
 
 
--- Tabla de notas u observaciones adicionales
+-- Tabla de notas de pacientes
+
 CREATE TABLE patient_notes (
     id INT AUTO_INCREMENT PRIMARY KEY,
 

@@ -3,52 +3,80 @@ services:
   frontend:
     image: php:8.2-apache
     container_name: nyvora_frontend
+
     ports:
       - "8080:80"
+
     volumes:
       - ./frontend:/var/www/html
+
 
   backend:
     image: php:8.2-apache
     container_name: nyvora_backend
+
     ports:
       - "8081:80"
+
     volumes:
       - ./backend:/var/www/html
+
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+
     command: >
       bash -c "
       docker-php-ext-install pdo pdo_mysql &&
       apache2-foreground
       "
 
+
   database:
     image: mysql:8.0
     container_name: nyvora_database
     restart: always
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: nyvora_db
+
     ports:
-      - "3307:3306"
+      - "3308:3306"
+
     volumes:
       - nyvora_mysql_data:/var/lib/mysql
-      - ./database/scripts:/docker-entrypoint-initdb.d
+      - ./database/scripts/config1_database.sql:/docker-entrypoint-initdb.d/01_database.sql:ro
+      - ./database/scripts/config2_tables.sql:/docker-entrypoint-initdb.d/02_tables.sql:ro
+      - ./database/scripts/config3_indexes.sql:/docker-entrypoint-initdb.d/03_indexes.sql:ro
+      - ./database/seed/roles.sql:/docker-entrypoint-initdb.d/04_roles.sql:ro
+      - ./database/seed/data.sql:/docker-entrypoint-initdb.d/05_data.sql:ro
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: nyvora_phpmyadmin
     restart: always
+
     environment:
       PMA_HOST: database
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root
+
     ports:
       - "8082:80"
+
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+
 
 volumes:
   nyvora_mysql_data:
