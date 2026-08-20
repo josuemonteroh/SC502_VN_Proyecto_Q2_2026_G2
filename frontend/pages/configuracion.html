@@ -5,15 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Historial Clínico</title>
+    <title>Nyvora | Configuración</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/base/global.css">
@@ -21,70 +26,75 @@
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/forms.css">
     <link rel="stylesheet" href="../css/components/table.css">
-    <link rel="stylesheet" href="../css/pages/historial.css">
+    <link rel="stylesheet" href="../css/pages/configuracion.css">
 </head>
 
 <body>
+
     <div class="dashboard">
 
         <!-- Sidebar -->
         <aside class="sidebar">
+
             <div class="logo">
                 <img src="../assets/logonyvora.png" alt="Nyvora">
             </div>
 
             <nav>
                 <ul>
+
                     <li>
                         <a href="dashboard.html">
                             <i class="fa-solid fa-chart-line"></i>
-                            Dashboard
+                            <span data-lang="dashboard">Dashboard</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="pacientes.html">
                             <i class="fa-solid fa-users"></i>
-                            Pacientes
+                            <span data-lang="patients">Pacientes</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="metricas.html">
                             <i class="fa-solid fa-weight-scale"></i>
-                            Métricas
+                            <span data-lang="metrics">Métricas</span>
                         </a>
                     </li>
 
-                    <li class="active">
+                    <li>
                         <a href="historial.html">
                             <i class="fa-solid fa-folder-open"></i>
-                            Historial
+                            <span data-lang="history">Historial</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="alertas.html">
                             <i class="fa-solid fa-triangle-exclamation"></i>
-                            Alertas
+                            <span data-lang="alerts">Alertas</span>
                         </a>
                     </li>
 
-                    <li>
+                    <li class="active">
                         <a href="configuracion.html">
                             <i class="fa-solid fa-gear"></i>
-                            Configuración
+                            <span data-lang="settings">Configuración</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="../login.html">
+                        <a href="http://localhost:8081/logout.php">
                             <i class="fa-solid fa-right-from-bracket"></i>
-                            Cerrar Sesión
+                            <span data-lang="logout">Cerrar Sesión</span>
                         </a>
                     </li>
+
                 </ul>
             </nav>
+
         </aside>
 
         <!-- Contenido -->
@@ -92,190 +102,176 @@
 
             <!-- Header -->
             <div class="header">
+
                 <div>
-                    <h1>Historial Clínico</h1>
-                    <p>Consulte el historial clínico y la evolución biométrica de los pacientes registrados.</p>
+                    <h1 data-lang="settings_title">Configuración</h1>
+
+                    <p data-lang="settings_subtitle">
+                        Administre la información del perfil y las preferencias generales de la plataforma.
+                    </p>
                 </div>
 
                 <div class="welcome">
-                    <h3>Dr. Hernández C.</h3>
+                    <h3 id="user-name">Usuario</h3>
                     <span id="current-date"></span>
                 </div>
+
             </div>
 
-            <!-- Consulta de historial -->
+            <!-- Perfil -->
             <div class="panel">
+
                 <h2>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Consultar Historial
+                    <i class="fa-solid fa-user"></i>
+                    Perfil de Usuario
                 </h2>
 
-                <div class="history-filters">
-                    <div class="filter-group patient-filter">
-                        <label for="paciente">
-                            <i class="fa-solid fa-user"></i>
-                            Paciente
+                <div class="settings-grid">
+
+                    <div>
+                        <label class="settings-label" for="profile-fullname">
+                            Nombre completo
                         </label>
 
-                        <select id="paciente" class="search-box" required>
-                            <option value="" selected disabled>Seleccione un paciente</option>
+                        <input
+                            type="text"
+                            id="profile-fullname"
+                            class="settings-input settings-readonly"
+                            readonly>
+                    </div>
+
+                    <div>
+                        <label class="settings-label" for="profile-email">
+                            Correo electrónico
+                        </label>
+
+                        <input
+                            type="email"
+                            id="profile-email"
+                            class="settings-input settings-readonly"
+                            readonly>
+                    </div>
+
+                    <div>
+                        <label class="settings-label" for="profile-role">
+                            Rol
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profile-role"
+                            class="settings-input settings-readonly"
+                            readonly>
+                    </div>
+
+                    <div>
+                        <label class="settings-label" for="profile-joindate">
+                            Fecha de ingreso
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profile-joindate"
+                            class="settings-input settings-readonly"
+                            readonly>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Preferencias -->
+            <div class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-sliders"></i>
+                    Preferencias del Sistema
+                </h2>
+
+                <div class="settings-grid">
+
+                    <div>
+                        <label class="settings-label" for="config-language">
+                            Idioma
+                        </label>
+
+                        <select id="config-language" class="settings-input">
+                            <option value="es-CR">Español</option>
+                            <option value="en-US">Inglés</option>
                         </select>
                     </div>
 
-                    <div class="filter-group">
-                        <label for="desde">
-                            <i class="fa-solid fa-calendar-days"></i>
-                            Desde
+                    <div>
+                        <label class="settings-label" for="config-dateformat">
+                            Formato de fecha
                         </label>
 
-                        <input
-                            type="date"
-                            id="desde"
-                            class="search-box">
+                        <select id="config-dateformat" class="settings-input">
+                            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                        </select>
                     </div>
 
-                    <div class="filter-group">
-                        <label for="hasta">
-                            <i class="fa-solid fa-calendar-days"></i>
-                            Hasta
+                    <div>
+                        <label class="checkbox-label">
+                            <input
+                                type="checkbox"
+                                id="config-notifications">
+
+                            Activar notificaciones
                         </label>
-
-                        <input
-                            type="date"
-                            id="hasta"
-                            class="search-box">
                     </div>
 
-                    <div class="filter-button">
-                        <button type="button" class="btn-primary">
-                            <i class="fa-solid fa-filter"></i>
-                            Consultar
-                        </button>
-                    </div>
                 </div>
+
+                <div class="settings-actions">
+                    <button
+                        type="button"
+                        id="btn-guardar-config"
+                        class="btn-primary">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar Cambios
+                    </button>
+                </div>
+
             </div>
 
-            <!-- Información general -->
+            <!-- Información -->
             <div class="panel">
+
                 <h2>
-                    <i class="fa-solid fa-id-card"></i>
-                    Información General del Paciente
+                    <i class="fa-solid fa-circle-info"></i>
+                    Información del Sistema
                 </h2>
 
-                <div class="patient-summary">
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-user"></i>
-                            Nombre
-                        </span>
-                        <strong>Sin seleccionar</strong>
-                    </div>
+                <p class="settings-description">
+                    Nyvora es una plataforma web desarrollada para el monitoreo preventivo y seguimiento biométrico de pacientes con sobrepeso.
+                </p>
 
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-cake-candles"></i>
-                            Edad
-                        </span>
-                        <strong>--</strong>
-                    </div>
+                <hr class="settings-divider">
 
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-user-doctor"></i>
-                            Nutricionista
-                        </span>
-                        <strong>--</strong>
-                    </div>
+                <p class="settings-text">
+                    Versión: 1.0.0
+                </p>
 
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-bullseye"></i>
-                            Objetivo
-                        </span>
-                        <strong>--</strong>
-                    </div>
+                <p class="settings-text">
+                    Universidad Fidélitas | SC-502 Ambiente Web Cliente/Servidor
+                </p>
 
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-circle-check"></i>
-                            Estado
-                        </span>
-                        <span class="badge warning">--</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span class="summary-title">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            Último Control
-                        </span>
-                        <strong>--</strong>
-                    </div>
-                </div>
             </div>
 
-            <!-- Evolución biométrica -->
-            <div class="panel">
-                <h2>
-                    <i class="fa-solid fa-chart-line"></i>
-                    Evolución Biométrica
-                </h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Peso</th>
-                            <th>IMC</th>
-                            <th>Grasa Corporal</th>
-                            <th>Frecuencia Cardíaca</th>
-                            <th>Horas de Sueño</th>
-                            <th>Pasos Diarios</th>
-                            <th>Observación</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <!-- Paneles informativos -->
-            <section class="dashboard-grid">
-
-                <!-- Observaciones clínicas -->
-                <div class="panel">
-                    <h2>
-                        <i class="fa-solid fa-notes-medical"></i>
-                        Observaciones Clínicas
-                    </h2>
-
-                    <div class="clinical-notes"></div>
-                </div>
-
-                <!-- Actividad reciente -->
-                <div class="panel">
-                    <h2>
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        Actividad Reciente
-                    </h2>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Actividad</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
         </main>
+
     </div>
 
     <!-- JavaScript -->
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
-    <script src="../js/historial.js" defer></script>
+    <script src="../js/configuracion.js" defer></script>
+
 </body>
 
 </html>

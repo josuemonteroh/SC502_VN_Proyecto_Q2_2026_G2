@@ -3,6 +3,10 @@
 /* Configuración */
 
 document.addEventListener("DOMContentLoaded", () => {
+    /* API */
+
+    const API_SESSION = "http://localhost:8081/session_user.php";
+
     /* Elementos del DOM */
 
     const inputNombre = document.getElementById("profile-fullname");
@@ -23,47 +27,88 @@ document.addEventListener("DOMContentLoaded", () => {
         notificaciones: "nyvora_config_notifications"
     };
 
+    /* Formatear fecha */
+
+    function formatearFecha(fecha) {
+        if (!fecha) {
+            return "Sin fecha";
+        }
+
+        const fechaConvertida = new Date(fecha.replace(" ", "T"));
+
+        if (Number.isNaN(fechaConvertida.getTime())) {
+            return "Sin fecha";
+        }
+
+        return fechaConvertida.toLocaleDateString("es-CR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
     /* Cargar configuraciones */
 
     function cargarConfiguraciones() {
-        const idioma =
-            localStorage.getItem(CONFIGURACION_KEYS.idioma) || "es-CR";
+        const idioma = localStorage.getItem(CONFIGURACION_KEYS.idioma) || "es-CR";
+        const formato = localStorage.getItem(CONFIGURACION_KEYS.formato) || "DD/MM/YYYY";
+        const notificaciones = localStorage.getItem(CONFIGURACION_KEYS.notificaciones) !== "false";
 
-        const formato =
-            localStorage.getItem(CONFIGURACION_KEYS.formato) || "DD/MM/YYYY";
+        if (selectIdioma) {
+            selectIdioma.value = idioma;
+        }
 
-        const notificaciones =
-            localStorage.getItem(CONFIGURACION_KEYS.notificaciones) !== "false";
+        if (selectFormato) {
+            selectFormato.value = formato;
+        }
 
-        selectIdioma.value = idioma;
-        selectFormato.value = formato;
-        checkNotificaciones.checked = notificaciones;
+        if (checkNotificaciones) {
+            checkNotificaciones.checked = notificaciones;
+        }
     }
 
     /* Cargar perfil */
 
-    function cargarPerfil() {
-        const usuario = sessionStorage.getItem("nyvora_current_user");
+    async function cargarPerfil() {
+        try {
+            const respuesta = await fetch(API_SESSION, {
+                method: "GET",
+                credentials: "include"
+            });
 
-        if (usuario) {
-            const datos = JSON.parse(usuario);
+            const datos = await respuesta.json();
 
-            inputNombre.value = datos.name || "Dr. Hernández C";
-            inputEmail.value = datos.email || "administrador@nyvora.com";
-            inputRol.value = datos.role || "Doctor";
-            userName.textContent = datos.name || "Dr. Hernández C";
+            if (!respuesta.ok || !datos.success) {
+                window.location.href = "../login.html";
+                return;
+            }
 
-            const fechaLogin = datos.loginDate
-                ? new Date(datos.loginDate)
-                : new Date();
+            const usuario = datos.data;
 
-            inputFechaIngreso.value = nyvoraFormatDate(fechaLogin);
-        } else {
-            inputNombre.value = "Dr. Hernández C";
-            inputEmail.value = "usuario@nyvora.com";
-            inputRol.value = "Doctor";
-            inputFechaIngreso.value = nyvoraFormatDate(new Date());
-            userName.textContent = "Dr. Hernández C";
+            if (inputNombre) {
+                inputNombre.value = usuario.fullName || "";
+            }
+
+            if (inputEmail) {
+                inputEmail.value = usuario.email || "";
+            }
+
+            if (inputRol) {
+                inputRol.value = usuario.role || "";
+            }
+
+            if (inputFechaIngreso) {
+                inputFechaIngreso.value = formatearFecha(usuario.createdAt);
+            }
+
+            if (userName) {
+                userName.textContent = usuario.fullName || "Usuario";
+            }
+
+        } catch (error) {
+            console.error("Error cargando configuración:", error);
+            alert("No fue posible cargar la información del usuario.");
+            window.location.href = "../login.html";
         }
     }
 
@@ -85,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
             checkNotificaciones.checked
         );
 
-        alert("Configuraciones guardadas correctamente.");
+        alert("Configuración guardada correctamente.");
     }
 
     /* Eventos */
