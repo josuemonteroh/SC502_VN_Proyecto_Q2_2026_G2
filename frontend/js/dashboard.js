@@ -1,31 +1,59 @@
 "use strict";
 
-/* Dashboard */
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* Elementos */
+    const kpiPatients =
+        document.getElementById("kpi-patients");
 
-    const kpiPatients = document.getElementById("kpi-patients");
-    const kpiAlerts = document.getElementById("kpi-alerts");
-    const kpiAppointments = document.getElementById("kpi-appointments");
-    const kpiMeasurements = document.getElementById("kpi-measurements");
+    const kpiAlerts =
+        document.getElementById("kpi-alerts");
 
-    const recentPatients = document.getElementById("recent-patients");
-    const recentAlerts = document.getElementById("recent-alerts");
-    const appointmentsList = document.getElementById("appointments-list");
+    const kpiAppointments =
+        document.getElementById("kpi-appointments");
 
-    const patientSearch = document.getElementById("weight-patient-search");
-    const patientIdInput = document.getElementById("weight-patient");
-    const patientSearchResults = document.getElementById("weight-patient-results");
+    const kpiMeasurements =
+        document.getElementById("kpi-measurements");
 
-    const weightCurrent = document.getElementById("weight-current");
-    const weightChange = document.getElementById("weight-change");
-    const weightLastControl = document.getElementById("weight-last-control");
 
-    const userName = document.getElementById("dashboard-user-name");
-    const userRole = document.getElementById("dashboard-user-role");
-    const greeting = document.getElementById("dashboard-greeting");
+    const recentPatients =
+        document.getElementById("recent-patients");
+
+    const recentAlerts =
+        document.getElementById("recent-alerts");
+
+    const appointmentsList =
+        document.getElementById("appointments-list");
+
+
+    const patientSearch =
+        document.getElementById("weight-patient-search");
+
+    const patientIdInput =
+        document.getElementById("weight-patient");
+
+    const patientSearchResults =
+        document.getElementById("weight-patient-results");
+
+
+    const weightCurrent =
+        document.getElementById("weight-current");
+
+    const weightChange =
+        document.getElementById("weight-change");
+
+    const weightLastControl =
+        document.getElementById("weight-last-control");
+
+
+    const userName =
+        document.getElementById("dashboard-user-name");
+
+    const userRole =
+        document.getElementById("dashboard-user-role");
+
+    const greeting =
+        document.getElementById("dashboard-greeting");
+
 
     let weightChart = null;
     let statusChart = null;
@@ -34,97 +62,354 @@ document.addEventListener("DOMContentLoaded", () => {
     let dashboardData = null;
     let availablePatients = [];
 
-    /* Formatear fecha */
 
-    function formatearFecha(valor) {
+    function traducir(
+        clave,
+        valorDefault = ""
+    ) {
+
+        if (
+            typeof translations !== "undefined" &&
+            typeof currentLanguage !== "undefined" &&
+            translations[currentLanguage] &&
+            translations[currentLanguage][clave] !== undefined
+        ) {
+            return translations[currentLanguage][clave];
+        }
+
+        return valorDefault;
+    }
+
+
+    function formatearFecha(
+        valor
+    ) {
+
         if (!valor) {
-            return "Sin controles";
+
+            return traducir(
+                "no_checkups",
+                "Sin controles"
+            );
         }
 
-        const fecha = new Date(
-            String(valor).replace(" ", "T")
+
+        const fecha =
+            new Date(
+                String(
+                    valor
+                ).replace(
+                    " ",
+                    "T"
+                )
+            );
+
+
+        if (
+            Number.isNaN(
+                fecha.getTime()
+            )
+        ) {
+
+            return traducir(
+                "no_date",
+                "Sin fecha"
+            );
+        }
+
+
+        return fecha.toLocaleDateString(
+            currentLanguage === "en"
+                ? "en-US"
+                : "es-CR",
+            {
+                day:
+                    "2-digit",
+
+                month:
+                    "short",
+
+                year:
+                    "numeric"
+            }
         );
-
-        if (Number.isNaN(fecha.getTime())) {
-            return "Sin fecha";
-        }
-
-        return fecha.toLocaleDateString("es-CR", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        });
     }
 
-    /* Escapar texto */
 
-    function escaparTexto(valor) {
-        return String(valor ?? "")
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
+    function escaparTexto(
+        valor
+    ) {
+
+        return String(
+            valor ?? ""
+        )
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
     }
 
-    /* Normalizar texto */
 
-    function normalizarTexto(valor) {
-        return String(valor ?? "")
+    function normalizarTexto(
+        valor
+    ) {
+
+        return String(
+            valor ?? ""
+        )
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
             .toLowerCase()
             .trim();
     }
 
-    /* Cargar dashboard */
 
-    async function cargarDashboard() {
-        try {
-            const response = await fetch(
-                "http://localhost:8081/dashboard.php",
-                {
-                    method: "GET",
-                    credentials: "include"
-                }
+    function traducirEstadoPaciente(
+        activo
+    ) {
+
+        return activo
+            ? traducir(
+                "active_label",
+                "Activo"
+            )
+            : traducir(
+                "inactive_label",
+                "Inactivo"
+            );
+    }
+
+
+    function traducirTipoAlerta(
+        tipo
+    ) {
+
+        const valor =
+            normalizarTexto(
+                tipo
             );
 
-            if (response.status === 401) {
-                window.location.href = "../login.html";
+
+        if (
+            valor === "peso"
+        ) {
+
+            return traducir(
+                "alert_weight",
+                "Peso"
+            );
+        }
+
+
+        if (
+            valor === "sueno"
+        ) {
+
+            return traducir(
+                "alert_sleep",
+                "Sueño"
+            );
+        }
+
+
+        if (
+            valor === "frecuencia cardiaca" ||
+            valor === "frecuencia cardíaca"
+        ) {
+
+            return traducir(
+                "alert_heart_rate",
+                "Frecuencia cardíaca"
+            );
+        }
+
+
+        if (
+            valor === "seguimiento"
+        ) {
+
+            return traducir(
+                "alert_follow_up_type",
+                "Seguimiento"
+            );
+        }
+
+
+        if (
+            valor === "actividad fisica"
+        ) {
+
+            return traducir(
+                "alert_physical_activity",
+                "Actividad física"
+            );
+        }
+
+
+        return tipo ||
+            traducir(
+                "alert_clinical",
+                "Alerta clínica"
+            );
+    }
+
+
+    function traducirMensajeAlerta(
+        mensaje
+    ) {
+
+        const valor =
+            normalizarTexto(
+                mensaje
+            );
+
+
+        if (
+            valor ===
+            "se detecto una disminucion de peso durante los ultimos controles."
+        ) {
+
+            return currentLanguage === "en"
+                ? "A decrease in weight was detected during the latest checkups."
+                : mensaje;
+        }
+
+
+        if (
+            valor ===
+            "se registraron pocas horas de sueno durante el ultimo control."
+        ) {
+
+            return currentLanguage === "en"
+                ? "Few hours of sleep were recorded during the latest checkup."
+                : mensaje;
+        }
+
+
+        if (
+            valor ===
+            "la frecuencia cardiaca registrada requiere seguimiento."
+        ) {
+
+            return currentLanguage === "en"
+                ? "The recorded heart rate requires follow-up."
+                : mensaje;
+        }
+
+
+        return mensaje ||
+            traducir(
+                "no_description_available",
+                "Sin información disponible."
+            );
+    }
+
+
+    async function cargarDashboard() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:8081/dashboard.php",
+                    {
+                        method:
+                            "GET",
+
+                        credentials:
+                            "include"
+                    }
+                );
+
+
+            if (
+                response.status ===
+                401
+            ) {
+
+                window.location.href =
+                    "../login.html";
+
                 return;
             }
 
-            if (!response.ok) {
+
+            if (
+                !response.ok
+            ) {
+
                 throw new Error(
-                    "No se pudo cargar el dashboard."
+                    traducir(
+                        "dashboard_load_error",
+                        "No se pudo cargar el dashboard."
+                    )
                 );
             }
 
-            const result = await response.json();
 
-            if (!result.success) {
+            const result =
+                await response.json();
+
+
+            if (
+                !result.success
+            ) {
+
                 throw new Error(
                     result.message ||
-                    "No se pudo cargar el dashboard."
+                    traducir(
+                        "dashboard_load_error",
+                        "No se pudo cargar el dashboard."
+                    )
                 );
             }
 
-            dashboardData = result.data;
+
+            dashboardData =
+                result.data;
+
 
             availablePatients =
-                dashboardData.recentPatients || [];
+                dashboardData.recentPatients ||
+                [];
+
 
             actualizarKPIs(
-                dashboardData.kpis || {}
+                dashboardData.kpis ||
+                {}
             );
+
 
             cargarPacientes(
-                dashboardData.recentPatients || []
+                dashboardData.recentPatients ||
+                []
             );
 
+
             cargarAlertas(
-                dashboardData.recentAlerts || []
+                dashboardData.recentAlerts ||
+                []
             );
+
 
             cargarAgenda();
 
@@ -133,16 +418,20 @@ document.addEventListener("DOMContentLoaded", () => {
             prepararGraficoPeso();
 
             cargarGraficoEstados(
-                dashboardData.patientStatus || {}
+                dashboardData.patientStatus ||
+                {}
             );
 
             cargarGraficoAlertas(
-                dashboardData.alertsByType || []
+                dashboardData.alertsByType ||
+                []
             );
 
             cargarUsuario();
 
+
         } catch (error) {
+
             console.error(
                 "Error cargando dashboard:",
                 error
@@ -150,55 +439,95 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* Usuario */
 
     async function cargarUsuario() {
+
         try {
-            const response = await fetch(
-                "http://localhost:8081/session_user.php",
-                {
-                    method: "GET",
-                    credentials: "include"
-                }
-            );
 
-            if (!response.ok) {
+            const response =
+                await fetch(
+                    "http://localhost:8081/session_user.php",
+                    {
+                        method:
+                            "GET",
+
+                        credentials:
+                            "include"
+                    }
+                );
+
+
+            if (
+                !response.ok
+            ) {
+
                 return;
             }
 
-            const result = await response.json();
 
-            if (!result.success || !result.data) {
+            const result =
+                await response.json();
+
+
+            if (
+                !result.success ||
+                !result.data
+            ) {
+
                 return;
             }
 
-            const usuario = result.data;
 
-            if (userName) {
+            const usuario =
+                result.data;
+
+
+            if (
+                userName
+            ) {
+
                 userName.textContent =
                     usuario.fullName ||
-                    "Usuario Nyvora";
+                    traducir(
+                        "registered_patient",
+                        "Usuario Nyvora"
+                    );
             }
 
-            if (userRole) {
+
+            if (
+                userRole
+            ) {
+
                 userRole.textContent =
                     usuario.role ||
-                    "Usuario";
+                    traducir(
+                        "responsible",
+                        "Usuario"
+                    );
             }
+
 
             if (
                 greeting &&
                 usuario.fullName
             ) {
+
                 const primerNombre =
                     usuario.fullName
                         .split(" ")[0];
 
+
                 greeting.textContent =
-                    `Bienvenido, ${primerNombre}`;
+                    `${traducir(
+                        "welcome",
+                        "Bienvenido"
+                    )}, ${primerNombre}`;
             }
 
+
         } catch (error) {
+
             console.error(
                 "Error cargando usuario:",
                 error
@@ -206,218 +535,357 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* KPIs */
 
-    function actualizarKPIs(kpis) {
+    function actualizarKPIs(
+        kpis
+    ) {
+
         const pacientesActivos =
-            dashboardData?.patientStatus?.activos;
+            dashboardData
+                ?.patientStatus
+                ?.activos;
 
-        if (kpiPatients) {
+
+        if (
+            kpiPatients
+        ) {
+
             kpiPatients.textContent =
                 pacientesActivos ??
                 kpis.patients ??
                 0;
         }
 
-        if (kpiAlerts) {
+
+        if (
+            kpiAlerts
+        ) {
+
             kpiAlerts.textContent =
-                kpis.activeAlerts ?? 0;
+                kpis.activeAlerts ??
+                0;
         }
 
-        if (kpiAppointments) {
-            /*
-             * Pendiente del módulo Citas.
-             */
-            kpiAppointments.textContent = "0";
+
+        if (
+            kpiAppointments
+        ) {
+
+            kpiAppointments.textContent =
+                kpis.appointments ??
+                0;
         }
 
-        if (kpiMeasurements) {
+
+        if (
+            kpiMeasurements
+        ) {
+
             kpiMeasurements.textContent =
-                kpis.measurements ?? 0;
+                kpis.measurements ??
+                0;
         }
     }
 
-    /* Agenda */
 
     function cargarAgenda() {
-        if (!appointmentsList) {
+
+        if (
+            !appointmentsList
+        ) {
+
             return;
         }
 
-        /*
-         * Se conectará cuando exista
-         * el módulo de Citas.
-         */
 
         appointmentsList.innerHTML = `
             <div class="empty-dashboard-state">
+
                 <i class="fa-regular fa-calendar"></i>
 
                 <p>
-                    No hay controles programados para hoy.
+                    ${traducir(
+                        "no_today_appointments",
+                        "No hay controles programados para hoy."
+                    )}
                 </p>
+
             </div>
         `;
     }
 
-    /* Pacientes recientes */
 
-    function cargarPacientes(pacientes) {
-        if (!recentPatients) {
+    function cargarPacientes(
+        pacientes
+    ) {
+
+        if (
+            !recentPatients
+        ) {
+
             return;
         }
 
-        recentPatients.innerHTML = "";
 
-        if (!pacientes.length) {
+        recentPatients.innerHTML =
+            "";
+
+
+        if (
+            !pacientes.length
+        ) {
+
             recentPatients.innerHTML = `
                 <div class="empty-dashboard-state">
+
                     <i class="fa-regular fa-user"></i>
 
                     <p>
-                        No hay pacientes registrados.
+                        ${traducir(
+                            "no_registered_patients",
+                            "No hay pacientes registrados."
+                        )}
                     </p>
+
                 </div>
             `;
 
             return;
         }
 
-        pacientes.forEach((paciente) => {
-            const activo =
-                Number(paciente.is_active) === 1;
 
-            const item =
-                document.createElement("a");
+        pacientes.forEach(
+            (paciente) => {
 
-            item.className =
-                "dashboard-list-item";
+                const activo =
+                    Number(
+                        paciente.is_active
+                    ) === 1;
 
-            item.href =
-                `historial.html?id=${paciente.id}`;
 
-            item.innerHTML = `
-                <div class="dashboard-list-icon">
-                    <i class="fa-regular fa-user"></i>
-                </div>
+                const item =
+                    document.createElement(
+                        "a"
+                    );
 
-                <div class="dashboard-list-content">
-                    <strong>
-                        ${escaparTexto(
-                            paciente.full_name
+
+                item.className =
+                    "dashboard-list-item";
+
+
+                item.href =
+                    `historial.html?id=${paciente.id}`;
+
+
+                item.innerHTML = `
+
+                    <div class="dashboard-list-icon">
+
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+
+
+                    <div class="dashboard-list-content">
+
+                        <strong>
+
+                            ${escaparTexto(
+                                paciente.full_name
+                            )}
+
+                        </strong>
+
+
+                        <span>
+
+                            ${paciente.age ??
+                                traducir(
+                                    "no_data",
+                                    "N/D"
+                                )}
+
+                            ${traducir(
+                                "years",
+                                "años"
+                            )}
+
+                            ·
+
+                            ${formatearFecha(
+                                paciente.last_control
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <span
+                        class="dashboard-status
+                        ${activo ? "active" : "inactive"}">
+
+                        ${traducirEstadoPaciente(
+                            activo
                         )}
-                    </strong>
 
-                    <span>
-                        ${paciente.age ?? "N/D"} años ·
-                        ${formatearFecha(
-                            paciente.last_control
-                        )}
                     </span>
-                </div>
 
-                <span
-                    class="dashboard-status
-                    ${activo ? "active" : "inactive"}">
 
-                    ${activo ? "Activo" : "Inactivo"}
-                </span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                `;
 
-                <i class="fa-solid fa-arrow-right"></i>
-            `;
 
-            recentPatients.appendChild(
-                item
-            );
-        });
+                recentPatients.appendChild(
+                    item
+                );
+            }
+        );
     }
 
-    /* Alertas clínicas */
 
-    function cargarAlertas(alertas) {
-        if (!recentAlerts) {
+    function cargarAlertas(
+        alertas
+    ) {
+
+        if (
+            !recentAlerts
+        ) {
+
             return;
         }
 
-        recentAlerts.innerHTML = "";
 
-        if (!alertas.length) {
+        recentAlerts.innerHTML =
+            "";
+
+
+        if (
+            !alertas.length
+        ) {
+
             recentAlerts.innerHTML = `
                 <div class="empty-dashboard-state">
+
                     <i class="fa-regular fa-circle-check"></i>
 
                     <p>
-                        No hay alertas activas.
+                        ${traducir(
+                            "no_active_alerts",
+                            "No hay alertas activas."
+                        )}
                     </p>
+
                 </div>
             `;
 
             return;
         }
 
-        alertas.forEach((alerta) => {
-            const item =
-                document.createElement("a");
 
-            item.className =
-                "dashboard-list-item dashboard-alert-item";
+        alertas.forEach(
+            (alerta) => {
 
-            item.href =
-                "alertas.html";
+                const item =
+                    document.createElement(
+                        "a"
+                    );
 
-            item.innerHTML = `
-                <div class="dashboard-list-icon alert">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
 
-                <div class="dashboard-list-content">
-                    <strong>
-                        ${escaparTexto(
-                            alerta.alert_type
+                item.className =
+                    "dashboard-list-item dashboard-alert-item";
+
+
+                item.href =
+                    "alertas.html";
+
+
+                item.innerHTML = `
+
+                    <div class="dashboard-list-icon alert">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    </div>
+
+
+                    <div class="dashboard-list-content">
+
+                        <strong>
+
+                            ${escaparTexto(
+                                traducirTipoAlerta(
+                                    alerta.alert_type
+                                )
+                            )}
+
+                        </strong>
+
+
+                        <span>
+
+                            ${escaparTexto(
+                                alerta.patient_name
+                            )}
+
+                        </span>
+
+
+                        <small>
+
+                            ${escaparTexto(
+                                traducirMensajeAlerta(
+                                    alerta.message
+                                )
+                            )}
+
+                        </small>
+
+                    </div>
+
+
+                    <span class="dashboard-status warning">
+
+                        ${traducir(
+                            "active",
+                            "Activa"
                         )}
-                    </strong>
 
-                    <span>
-                        ${escaparTexto(
-                            alerta.patient_name
-                        )}
                     </span>
 
-                    <small>
-                        ${escaparTexto(
-                            alerta.message
-                        )}
-                    </small>
-                </div>
 
-                <span class="dashboard-status warning">
-                    Activa
-                </span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                `;
 
-                <i class="fa-solid fa-arrow-right"></i>
-            `;
 
-            recentAlerts.appendChild(
-                item
-            );
-        });
+                recentAlerts.appendChild(
+                    item
+                );
+            }
+        );
     }
 
-    /* Buscador de pacientes */
 
     function configurarBuscadorPacientes() {
+
         if (
             !patientSearch ||
             !patientIdInput ||
             !patientSearchResults
         ) {
+
             return;
         }
 
+
         function cerrarResultados() {
+
             patientSearchResults
                 .classList
-                .remove("open");
+                .remove(
+                    "open"
+                );
+
 
             patientSearch.setAttribute(
                 "aria-expanded",
@@ -425,63 +893,99 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
+
         function mostrarResultados(
             consulta = ""
         ) {
+
             const termino =
-                normalizarTexto(consulta);
+                normalizarTexto(
+                    consulta
+                );
+
 
             const coincidencias =
                 availablePatients
-                    .filter((paciente) =>
-                        normalizarTexto(
-                            paciente.full_name
-                        ).includes(termino)
+                    .filter(
+                        (paciente) =>
+                            normalizarTexto(
+                                paciente.full_name
+                            ).includes(
+                                termino
+                            )
                     )
-                    .slice(0, 8);
+                    .slice(
+                        0,
+                        8
+                    );
 
-            patientSearchResults.innerHTML = "";
 
-            if (!coincidencias.length) {
+            patientSearchResults.innerHTML =
+                "";
+
+
+            if (
+                !coincidencias.length
+            ) {
+
                 patientSearchResults.innerHTML = `
                     <div class="patient-search-empty">
-                        No se encontraron pacientes.
+
+                        ${traducir(
+                            "no_patients_found",
+                            "No se encontraron pacientes."
+                        )}
+
                     </div>
                 `;
+
             } else {
+
                 coincidencias.forEach(
                     (paciente) => {
+
                         const opcion =
                             document.createElement(
                                 "button"
                             );
 
+
                         opcion.type =
                             "button";
+
 
                         opcion.className =
                             "patient-search-option";
 
+
                         opcion.innerHTML = `
+
                             <i class="fa-regular fa-user"></i>
 
                             <span>
+
                                 ${escaparTexto(
                                     paciente.full_name
                                 )}
+
                             </span>
                         `;
+
 
                         opcion.addEventListener(
                             "click",
                             () => {
+
                                 patientIdInput.value =
                                     paciente.id;
+
 
                                 patientSearch.value =
                                     paciente.full_name;
 
+
                                 cerrarResultados();
+
 
                                 seleccionarPacientePeso(
                                     paciente
@@ -489,17 +993,21 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         );
 
-                        patientSearchResults
-                            .appendChild(
-                                opcion
-                            );
+
+                        patientSearchResults.appendChild(
+                            opcion
+                        );
                     }
                 );
             }
 
+
             patientSearchResults
                 .classList
-                .add("open");
+                .add(
+                    "open"
+                );
+
 
             patientSearch.setAttribute(
                 "aria-expanded",
@@ -507,19 +1015,24 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
+
         patientSearch.addEventListener(
             "focus",
             () => {
+
                 mostrarResultados(
                     patientSearch.value
                 );
             }
         );
 
+
         patientSearch.addEventListener(
             "input",
             () => {
-                patientIdInput.value = "";
+
+                patientIdInput.value =
+                    "";
 
                 limpiarResumenPeso();
 
@@ -531,12 +1044,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+
         patientSearch.addEventListener(
             "keydown",
             (event) => {
+
                 if (
-                    event.key === "Escape"
+                    event.key ===
+                    "Escape"
                 ) {
+
                     cerrarResultados();
 
                     patientSearch.blur();
@@ -544,105 +1061,157 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+
         document.addEventListener(
             "click",
             (event) => {
+
                 if (
                     !event.target.closest(
                         ".dashboard-patient-selector"
                     )
                 ) {
+
                     cerrarResultados();
                 }
             }
         );
     }
 
-    /* Selección de paciente */
 
     function seleccionarPacientePeso(
         paciente
     ) {
-        if (!paciente) {
+
+        if (
+            !paciente
+        ) {
+
             return;
         }
 
-        /*
-         * dashboard.php todavía entrega
-         * evolución general de peso.
-         *
-         * Hasta tener el endpoint individual,
-         * no se muestra información falsa.
-         */
 
-        if (weightCurrent) {
+        if (
+            weightCurrent
+        ) {
+
             weightCurrent.textContent =
-                "N/D";
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
         }
 
-        if (weightChange) {
+
+        if (
+            weightChange
+        ) {
+
             weightChange.textContent =
-                "N/D";
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
         }
 
-        if (weightLastControl) {
+
+        if (
+            weightLastControl
+        ) {
+
             weightLastControl.textContent =
                 formatearFecha(
                     paciente.last_control
                 );
         }
 
+
         prepararGraficoPeso();
     }
 
-    /* Limpiar resumen */
 
     function limpiarResumenPeso() {
-        if (weightCurrent) {
+
+        if (
+            weightCurrent
+        ) {
+
             weightCurrent.textContent =
-                "N/D";
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
         }
 
-        if (weightChange) {
+
+        if (
+            weightChange
+        ) {
+
             weightChange.textContent =
-                "N/D";
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
         }
 
-        if (weightLastControl) {
+
+        if (
+            weightLastControl
+        ) {
+
             weightLastControl.textContent =
-                "N/D";
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
         }
     }
 
-    /* Gráfico inicial */
 
     function prepararGraficoPeso() {
+
         const canvas =
             document.getElementById(
                 "weightChart"
             );
 
-        if (!canvas) {
+
+        if (
+            !canvas
+        ) {
+
             return;
         }
 
-        if (weightChart) {
+
+        if (
+            weightChart
+        ) {
+
             weightChart.destroy();
         }
+
 
         weightChart =
             new Chart(
                 canvas,
                 {
-                    type: "line",
+                    type:
+                        "line",
 
                     data: {
+
                         labels: [],
 
                         datasets: [
                             {
+
                                 label:
-                                    "Peso (kg)",
+                                    traducir(
+                                        "weight_kg_chart",
+                                        "Peso (kg)"
+                                    ),
 
                                 data: [],
 
@@ -677,6 +1246,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
 
                     options: {
+
                         responsive:
                             true,
 
@@ -684,33 +1254,43 @@ document.addEventListener("DOMContentLoaded", () => {
                             false,
 
                         plugins: {
+
                             legend: {
-                                display: false
+
+                                display:
+                                    false
                             }
                         },
 
                         scales: {
+
                             x: {
+
                                 grid: {
-                                    display: false
+                                    display:
+                                        false
                                 },
 
                                 ticks: {
-                                    color: "#667085"
+                                    color:
+                                        "#667085"
                                 }
                             },
 
                             y: {
+
                                 beginAtZero:
                                     false,
 
                                 grid: {
+
                                     color:
                                         "rgba(148, 163, 184, 0.16)"
                                 },
 
                                 ticks: {
-                                    color: "#667085"
+                                    color:
+                                        "#667085"
                                 }
                             }
                         }
@@ -719,44 +1299,66 @@ document.addEventListener("DOMContentLoaded", () => {
             );
     }
 
-    /* Pacientes por estado */
 
     function cargarGraficoEstados(
         estados
     ) {
+
         const canvas =
             document.getElementById(
                 "statusChart"
             );
 
-        if (!canvas) {
+
+        if (
+            !canvas
+        ) {
+
             return;
         }
 
-        if (statusChart) {
+
+        if (
+            statusChart
+        ) {
+
             statusChart.destroy();
         }
+
 
         statusChart =
             new Chart(
                 canvas,
                 {
+
                     type:
                         "doughnut",
 
                     data: {
+
                         labels: [
-                            "Activos",
-                            "Inactivos"
+
+                            traducir(
+                                "active_plural",
+                                "Activos"
+                            ),
+
+                            traducir(
+                                "inactive_plural",
+                                "Inactivos"
+                            )
                         ],
 
                         datasets: [
                             {
+
                                 data: [
+
                                     Number(
                                         estados.activos ||
                                         0
                                     ),
+
                                     Number(
                                         estados.inactivos ||
                                         0
@@ -781,6 +1383,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
 
                     options: {
+
                         responsive:
                             true,
 
@@ -791,7 +1394,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             "68%",
 
                         plugins: {
+
                             legend: {
+
                                 display:
                                     true,
 
@@ -799,6 +1404,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     "bottom",
 
                                 labels: {
+
                                     color:
                                         "#667085",
 
@@ -811,12 +1417,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             },
 
                             tooltip: {
+
                                 callbacks: {
-                                    label(context) {
+
+                                    label(
+                                        context
+                                    ) {
+
                                         const valores =
                                             context
                                                 .dataset
                                                 .data;
+
 
                                         const total =
                                             valores.reduce(
@@ -831,10 +1443,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 0
                                             );
 
+
                                         const valor =
                                             Number(
                                                 context.raw
                                             );
+
 
                                         const porcentaje =
                                             total
@@ -849,6 +1463,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 )
                                                 : 0;
 
+
                                         return `${context.label}: ${valor} (${porcentaje}%)`;
                                     }
                                 }
@@ -859,25 +1474,33 @@ document.addEventListener("DOMContentLoaded", () => {
             );
     }
 
-    /* Alertas por tipo */
 
     function cargarGraficoAlertas(
         alertas
     ) {
+
         const canvas =
             document.getElementById(
                 "alertChart"
             );
 
-        if (!canvas) {
+
+        if (
+            !canvas
+        ) {
+
             return;
         }
+
 
         const labels =
             alertas.map(
                 (alerta) =>
-                    alerta.alert_type
+                    traducirTipoAlerta(
+                        alerta.alert_type
+                    )
             );
+
 
         const valores =
             alertas.map(
@@ -887,25 +1510,36 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
             );
 
-        if (alertChart) {
+
+        if (
+            alertChart
+        ) {
+
             alertChart.destroy();
         }
+
 
         alertChart =
             new Chart(
                 canvas,
                 {
+
                     type:
                         "bar",
 
                     data: {
+
                         labels:
                             labels,
 
                         datasets: [
                             {
+
                                 label:
-                                    "Alertas",
+                                    traducir(
+                                        "alert_plural",
+                                        "Alertas"
+                                    ),
 
                                 data:
                                     valores,
@@ -932,6 +1566,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
 
                     options: {
+
                         responsive:
                             true,
 
@@ -939,6 +1574,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             false,
 
                         interaction: {
+
                             intersect:
                                 false,
 
@@ -947,33 +1583,57 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
 
                         plugins: {
+
                             legend: {
+
                                 display:
                                     false
                             },
 
                             tooltip: {
+
                                 callbacks: {
-                                    label(context) {
+
+                                    label(
+                                        context
+                                    ) {
+
                                         const cantidad =
                                             context
                                                 .parsed
                                                 .y;
 
-                                        return `${cantidad} alerta${cantidad === 1 ? "" : "s"}`;
+
+                                        const palabra =
+                                            cantidad === 1
+                                                ? traducir(
+                                                    "alert_singular",
+                                                    "alerta"
+                                                )
+                                                : traducir(
+                                                    "alert_plural",
+                                                    "alertas"
+                                                );
+
+
+                                        return `${cantidad} ${palabra}`;
                                     }
                                 }
                             }
                         },
 
                         scales: {
+
                             x: {
+
                                 grid: {
+
                                     display:
                                         false
                                 },
 
                                 ticks: {
+
                                     color:
                                         "#667085",
 
@@ -986,15 +1646,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             },
 
                             y: {
+
                                 beginAtZero:
                                     true,
 
                                 grid: {
+
                                     color:
                                         "rgba(148, 163, 184, 0.16)"
                                 },
 
                                 ticks: {
+
                                     color:
                                         "#667085",
 
@@ -1008,7 +1671,54 @@ document.addEventListener("DOMContentLoaded", () => {
             );
     }
 
-    /* Inicialización */
+
+    document.addEventListener(
+        "languageChanged",
+        () => {
+
+            if (
+                dashboardData
+            ) {
+
+                actualizarKPIs(
+                    dashboardData.kpis ||
+                    {}
+                );
+
+
+                cargarPacientes(
+                    dashboardData.recentPatients ||
+                    []
+                );
+
+
+                cargarAlertas(
+                    dashboardData.recentAlerts ||
+                    []
+                );
+
+
+                cargarGraficoEstados(
+                    dashboardData.patientStatus ||
+                    {}
+                );
+
+
+                cargarGraficoAlertas(
+                    dashboardData.alertsByType ||
+                    []
+                );
+
+
+                prepararGraficoPeso();
+            }
+
+
+            cargarUsuario();
+        }
+    );
+
 
     cargarDashboard();
+
 });

@@ -109,7 +109,6 @@ const translations = {
         change_language:
             "Cambiar idioma",
 
-
         welcome:
             "Bienvenido",
 
@@ -140,9 +139,6 @@ const translations = {
         details:
             "Ver Detalle",
 
-        select_patient:
-            "Seleccione un paciente",
-
         patient:
             "Paciente",
 
@@ -152,6 +148,9 @@ const translations = {
         date:
             "Fecha",
 
+        time:
+            "Hora",
+
         status:
             "Estado",
 
@@ -160,6 +159,9 @@ const translations = {
 
         actions:
             "Acciones",
+
+        action:
+            "Acción",
 
         active:
             "Activo",
@@ -173,86 +175,797 @@ const translations = {
         resolved:
             "Resuelta",
 
+        completed:
+            "Completado",
+
+        suspended:
+            "Suspendido",
+
+        follow_up:
+            "En Seguimiento",
+
+        responsible:
+            "Responsable",
+
         no_data:
             "N/D",
 
         no_results:
             "No se encontraron resultados.",
 
-        years:
-            "años",
+        no_checkups:
+            "Sin controles",
+
+        no_record:
+            "Sin registro",
+
+        no_records:
+            "No hay registros.",
 
         undefined_condition:
             "Sin definir",
 
-        no_checkups:
-            "Sin controles",
+        undefined_status:
+            "Sin estado",
 
-        responsible:
-            "Responsable",
+        no_date:
+            "Sin fecha",
 
+        years:
+            "años",
+
+        name:
+            "Nombre",
+
+        sort:
+            "Ordenar",
+
+        required_fields:
+            "Campos obligatorios",
+
+        results_one:
+            "resultado",
+
+        results_many:
+            "resultados",
+
+        results_count:
+            "0 resultados",
+
+        request_error:
+            "No fue posible completar la operación.",
+
+
+        /* DASHBOARD */
 
         dashboard_title:
-            "Dashboard",
+            "Dashboard Clínico",
 
         dashboard_subtitle:
-            "Resumen general del seguimiento nutricional de los pacientes.",
+            "Seguimiento general de pacientes y actividad clínica.",
 
-        total_patients:
-            "Total de Pacientes",
+        clinical_followup:
+            "Seguimiento clínico",
 
-        active_patients:
-            "Pacientes Activos",
+        dashboard_welcome:
+            "Bienvenido a Nyvora",
 
-        pending_alerts:
-            "Alertas Pendientes",
+        dashboard_description:
+            "Consulte la evolución de sus pacientes, controles programados, métricas recientes y alertas clínicas desde una única vista.",
 
-        recent_activity:
-            "Actividad Reciente",
+        view_patients:
+            "Ver pacientes",
 
-        latest_measurements:
-            "Últimas Mediciones",
+        active_patients_dashboard:
+            "Pacientes activos",
 
+        clinical_followup_dashboard:
+            "Bajo seguimiento clínico",
+
+        active_alerts_dashboard:
+            "Alertas activas",
+
+        appointments_today:
+            "Controles de hoy",
+
+        clinical_schedule:
+            "Agenda clínica",
+
+        registered_measurements:
+            "Mediciones registradas",
+
+        biometric_history:
+            "Historial biométrico",
+
+        today_schedule:
+            "Agenda de hoy",
+
+        today_schedule_description:
+            "Controles y citas programadas para el día.",
+
+        view_schedule:
+            "Ver agenda",
+
+        no_today_appointments:
+            "No hay controles programados para hoy.",
+
+        recent_patients:
+            "Pacientes recientes",
+
+        recent_patients_description:
+            "Últimos pacientes registrados.",
+
+        view_all:
+            "Ver todos",
+
+        clinical_alerts:
+            "Alertas clínicas",
+
+        patients_require_review:
+            "Pacientes que requieren revisión.",
+
+        view_all_alerts:
+            "Ver todas",
+
+        weight_evolution:
+            "Evolución de peso",
+
+        weight_evolution_description:
+            "Consulte la evolución biométrica de un paciente.",
+
+        search_patient:
+            "Buscar paciente...",
+
+        last_weight:
+            "Último peso",
+
+        variation:
+            "Variación",
+
+        last_control:
+            "Último control",
+
+        patients_by_status:
+            "Pacientes por Estado",
+
+        alerts_by_type:
+            "Alertas por Tipo",
+
+        active_label:
+            "Activo",
+
+        inactive_label:
+            "Inactivo",
+
+        active_plural:
+            "Activos",
+
+        inactive_plural:
+            "Inactivos",
+
+        no_registered_patients:
+            "No hay pacientes registrados.",
+
+        no_active_alerts:
+            "No hay alertas activas.",
+
+        no_patients_found:
+            "No se encontraron pacientes.",
+
+        no_registered_appointments:
+            "No hay citas registradas.",
+
+        no_scheduled_today:
+            "No hay controles programados para hoy.",
+
+        alert_singular:
+            "alerta",
+
+        alert_plural:
+            "alertas",
+
+        weight_kg_chart:
+            "Peso (kg)",
+
+        dashboard_load_error:
+            "No se pudo cargar el dashboard.",
+
+
+        /* PACIENTES */
 
         patients_title:
-            "Pacientes",
+            "Gestión de Pacientes",
 
         patients_subtitle:
-            "Gestión y seguimiento de los pacientes registrados.",
+            "Administración y seguimiento clínico de pacientes registrados.",
 
-        register_patient:
-            "Registrar Paciente",
+        patient_search:
+            "Buscar por ID de cita, ID de paciente, nombre o identificación...",
 
-        patient_name:
-            "Nombre Completo",
+        registered_patients:
+            "Pacientes Registrados",
+
+        system_total:
+            "Total del sistema",
+
+        current_follow_up:
+            "Seguimiento vigente",
+
+        patients_followup:
+            "En Seguimiento",
+
+        patients_under_control:
+            "Pacientes bajo control",
+
+        require_review:
+            "Requieren revisión",
+
+        patient_list:
+            "Listado General de Pacientes",
+
+        patients_registered_now:
+            "Pacientes registrados actualmente en Nyvora.",
+
+        initial_weight:
+            "Peso Inicial",
+
+        record:
+            "Expediente",
+
+        upcoming_appointments:
+            "Próximas Citas",
+
+        appointments_description:
+            "Controles y citas programadas para los pacientes.",
+
+        no_appointments:
+            "No hay citas programadas.",
+
+        appointments_empty_description:
+            "Las próximas citas aparecerán aquí cuando se programen.",
+
+        system_activity:
+            "Actividad del sistema",
+
+        system_activity_description:
+            "La actividad se mostrará conforme se registren acciones sobre los pacientes.",
+
+        clinical_summary:
+            "Resumen Clínico",
+
+        active_alerts_summary:
+            "Alertas activas",
+
+        patient_initial_information:
+            "Ingrese la información inicial del paciente.",
+
+        personal_information:
+            "Información personal",
+
+        main_patient_data:
+            "Datos principales del paciente.",
+
+        full_name:
+            "Nombre completo",
+
+        full_name_placeholder:
+            "Ej. María Rodríguez Vargas",
 
         identification:
             "Identificación",
 
+        identification_placeholder:
+            "Ej. 1-1234-5678",
+
         age:
             "Edad",
+
+        age_placeholder:
+            "Ej. 35",
 
         phone:
             "Teléfono",
 
-        general_condition:
-            "Condición General",
+        phone_placeholder:
+            "Ej. 8888-8888",
+
+        height:
+            "Estatura",
+
+        height_placeholder:
+            "1.70",
+
+        clinical_followup_description:
+            "Información inicial para el seguimiento dentro de Nyvora.",
+
+        general_condition_goal:
+            "Condición general / objetivo",
+
+        general_condition_placeholder:
+            "Ej. Control de peso y seguimiento nutricional",
 
         observations:
             "Observaciones",
 
-        patient_information:
-            "Información del Paciente",
+        observations_patient_placeholder:
+            "Información adicional relevante para el seguimiento...",
 
-        patient_registered:
-            "Paciente registrado correctamente.",
+        save_patient:
+            "Guardar Paciente",
 
-        patient_updated:
-            "Paciente actualizado correctamente.",
+        edit_patient:
+            "Editar Paciente",
 
-        patient_deleted:
-            "Paciente eliminado correctamente.",
+        open_record:
+            "Abrir Expediente",
 
+        name_required:
+            "Ingrese el nombre completo.",
+
+        age_invalid:
+            "Ingrese una edad válida.",
+
+        height_invalid:
+            "Ingrese una estatura válida.",
+
+        patient_unavailable:
+            "Paciente no disponible",
+
+        registered_patient:
+            "Paciente registrado",
+
+        no_identification:
+            "Sin identificación",
+
+        no_patients:
+            "No se encontraron pacientes.",
+
+        no_patients_filter:
+            "No se encontraron pacientes con los filtros seleccionados.",
+
+
+        /* CITAS */
+
+        appointments_title:
+            "Gestión de Citas",
+
+        appointments_subtitle:
+            "Organice controles, seguimientos y citas clínicas de los pacientes.",
+
+        search_patient_appointment:
+            "Buscar por paciente...",
+
+        all_status:
+            "Todos los estados",
+
+        scheduled:
+            "Programada",
+
+        confirmed:
+            "Confirmada",
+
+        cancelled:
+            "Cancelada",
+
+        new_appointment:
+            "Nueva Cita",
+
+        appointments_today:
+            "Citas de Hoy",
+
+        day_schedule:
+            "Agenda del día",
+
+        upcoming_appointments_kpi:
+            "Próximas Citas",
+
+        scheduled_upcoming:
+            "Programadas próximamente",
+
+        completed_appointments:
+            "Completadas",
+
+        completed_checkups:
+            "Controles realizados",
+
+        pending_appointments:
+            "Pendientes",
+
+        pending_followup:
+            "Requieren seguimiento",
+
+        today_schedule_title:
+            "Agenda de Hoy",
+
+        today_schedule_text:
+            "Citas y controles programados para el día actual.",
+
+        no_appointments_today:
+            "No hay citas programadas para hoy.",
+
+        today_appointments_text:
+            "Las citas del día aparecerán aquí.",
+
+        general_appointment_list:
+            "Listado General de Citas",
+
+        appointments_current_status:
+            "Consulte las citas programadas y su estado actual.",
+
+        appointment_type:
+            "Tipo",
+
+        professional:
+            "Profesional",
+
+        upcoming_appointments_title:
+            "Próximas Citas",
+
+        upcoming_checkups:
+            "Próximos controles agendados para los pacientes.",
+
+        no_upcoming_appointments:
+            "No hay próximas citas registradas.",
+
+        upcoming_appointments_text:
+            "Las próximas citas aparecerán aquí cuando se programen.",
+
+        schedule_new_appointment:
+            "Programe un nuevo control clínico para un paciente.",
+
+        select_patient:
+            "Seleccione un paciente",
+
+        appointment_date:
+            "Fecha",
+
+        appointment_time:
+            "Hora",
+
+        appointment_type_label:
+            "Tipo de cita",
+
+        select_type:
+            "Seleccione un tipo",
+
+        initial_assessment:
+            "Valoración inicial",
+
+        nutritional_control:
+            "Control nutricional",
+
+        biometric_followup:
+            "Seguimiento biométrico",
+
+        clinical_review:
+            "Revisión clínica",
+
+        other:
+            "Otro",
+
+        reason:
+            "Motivo",
+
+        reason_placeholder:
+            "Ej. Control mensual de seguimiento",
+
+        notes:
+            "Observaciones",
+
+        appointment_notes_placeholder:
+            "Información adicional sobre la cita...",
+
+        reprogram_appointment:
+            "Reprogramar Cita",
+
+        cancel_appointment:
+            "Cancelar",
+
+        reschedule:
+            "Reprogramar",
+
+        confirm_cancel_appointment:
+            "¿Cancelar la cita?",
+
+        no_appointments_filters:
+            "No se encontraron citas con los filtros seleccionados.",
+
+        appointments_will_appear:
+            "Las citas aparecerán aquí cuando se programen.",
+
+        save_appointment:
+            "Guardar Cita",
+
+
+        /* MEDICAMENTOS */
+
+        medications_title:
+            "Gestión de Medicamentos",
+
+        medications_subtitle:
+            "Consulta y administración de medicamentos registrados en Nyvora.",
+
+        medication_search:
+            "Buscar medicamento, presentación o concentración...",
+
+        registered_medications:
+            "Medicamentos Registrados",
+
+        active_medications:
+            "Medicamentos Activos",
+
+        available_currently:
+            "Disponibles actualmente",
+
+        in_use:
+            "En uso",
+
+        medications_in_use:
+            "En Uso",
+
+        associated_treatments:
+            "Asociados a tratamientos",
+
+        inactive_medications:
+            "Inactivos",
+
+        inactive_out_of_use:
+            "Fuera de uso",
+
+        all_presentations:
+            "Todas las presentaciones",
+
+        tablets:
+            "Tabletas",
+
+        capsules:
+            "Cápsulas",
+
+        syrup:
+            "Jarabe",
+
+        suspension:
+            "Suspensión",
+
+        solution:
+            "Solución",
+
+        injectable:
+            "Inyectable",
+
+        cream:
+            "Crema",
+
+        register_medication:
+            "Registrar Medicamento",
+
+        medication_list:
+            "Listado de Medicamentos",
+
+        medications_currently_registered:
+            "Medicamentos registrados actualmente en Nyvora.",
+
+        medication:
+            "Medicamento",
+
+        presentation:
+            "Presentación",
+
+        concentration:
+            "Concentración",
+
+        concentration_placeholder:
+            "Ej. 500 mg",
+
+        reference_dose:
+            "Dosis de referencia",
+
+        reference_dose_label:
+            "Dosis de referencia",
+
+        associated_patients:
+            "Pacientes asociados",
+
+        no_medications:
+            "No se encontraron medicamentos.",
+
+        no_medications_registered:
+            "No hay medicamentos registrados",
+
+        medications_will_appear:
+            "Los medicamentos aparecerán aquí conforme sean registrados.",
+
+        medication_general_information:
+            "Ingrese la información general del medicamento.",
+
+        medication_information:
+            "Información del medicamento",
+
+        medication_identification:
+            "Datos principales para su identificación.",
+
+        medication_name:
+            "Nombre del medicamento",
+
+        medication_name_placeholder:
+            "Ej. Metformina",
+
+        presentation_select:
+            "Seleccione una presentación",
+
+        medication_usage_information:
+            "Información de uso",
+
+        medication_usage_description:
+            "Información de referencia para el seguimiento.",
+
+        dose:
+            "Dosis",
+
+        dose_example:
+            "Ej. 1 tableta",
+
+        frequency:
+            "Frecuencia",
+
+        frequency_example:
+            "Ej. Cada 12 horas",
+
+        undefined_frequency:
+            "Sin frecuencia definida",
+
+        deactivate_medication:
+            "Dar de baja",
+
+        confirm_deactivate_medication:
+            "¿Dar de baja este medicamento?",
+
+        edit_medication:
+            "Editar Medicamento",
+
+        medication_observations_placeholder:
+            "Información adicional sobre el medicamento...",
+
+        save_medication:
+            "Guardar Medicamento",
+
+
+        /* TRATAMIENTOS */
+
+        treatments_title:
+            "Gestión de Tratamientos",
+
+        treatments_subtitle:
+            "Administración y seguimiento de tratamientos clínicos de los pacientes.",
+
+        treatment_search:
+            "Buscar paciente, medicamento o tratamiento...",
+
+        new_treatment:
+            "Nuevo Tratamiento",
+
+        active_treatments:
+            "Tratamientos Activos",
+
+        active_treatments_description:
+            "Actualmente en seguimiento",
+
+        ending_soon:
+            "Próximos a Finalizar",
+
+        ending_soon_description:
+            "Durante los próximos días",
+
+        completed_treatments:
+            "Completados",
+
+        completed_treatments_description:
+            "Tratamientos finalizados",
+
+        suspended_treatments:
+            "Suspendidos",
+
+        suspended_treatments_description:
+            "Requieren seguimiento",
+
+        treatment:
+            "Tratamiento",
+
+        treatment_start:
+            "Inicio",
+
+        treatment_end:
+            "Finalización",
+
+        start_date:
+            "Fecha de inicio",
+
+        end_date:
+            "Fecha de finalización",
+
+        treatments_registered_description:
+            "Tratamientos registrados actualmente en Nyvora.",
+
+        no_treatments:
+            "No hay tratamientos registrados.",
+
+        no_treatments_found:
+            "No se encontraron tratamientos.",
+
+        new_treatment_description:
+            "Registre un tratamiento clínico para el paciente.",
+
+        patient_treatment_description:
+            "Seleccione el paciente asociado al tratamiento.",
+
+        search_patient_label:
+            "Buscar paciente",
+
+        search_name_id:
+            "Buscar por nombre o identificación...",
+
+        treatment_information:
+            "Información del tratamiento",
+
+        treatment_information_description:
+            "Defina el seguimiento clínico indicado.",
+
+        treatment_name:
+            "Nombre del tratamiento",
+
+        treatment_name_placeholder:
+            "Ej. Control metabólico",
+
+        search_medication:
+            "Buscar medicamento...",
+
+        dose_placeholder:
+            "Ej. 500 mg",
+
+        frequency_placeholder:
+            "Ej. Cada 12 horas",
+
+        start_date_required:
+            "Fecha de inicio",
+
+        status_required:
+            "Estado",
+
+        clinical_instructions:
+            "Indicaciones clínicas",
+
+        clinical_instructions_description:
+            "Información adicional para el seguimiento.",
+
+        indications:
+            "Indicaciones",
+
+        indications_placeholder:
+            "Indicaciones generales del tratamiento...",
+
+        observations_placeholder:
+            "Información adicional sobre el seguimiento...",
+
+        save_treatment:
+            "Guardar Tratamiento",
+
+        edit_treatment:
+            "Editar Tratamiento",
+
+        no_medication:
+            "Sin medicamento",
+
+        suspend_treatment:
+            "Suspender tratamiento",
+
+        suspend_question:
+            "¿Suspender el tratamiento?",
+
+        open_treatment_record:
+            "Abrir expediente",
+
+
+        /* MÉTRICAS */
 
         metrics_title:
             "Métricas Biométricas",
@@ -260,44 +973,17 @@ const translations = {
         metrics_subtitle:
             "Registro y consulta de métricas biométricas de los pacientes.",
 
-        register_metrics:
-            "Registrar Métricas",
-
-        save_metrics:
-            "Guardar Métricas",
-
         historical_metrics:
             "Histórico de Métricas",
 
-        weight:
-            "Peso",
+        metrics_history_description:
+            "Consulte y filtre los registros biométricos de los pacientes.",
 
-        weight_kg:
-            "Peso (kg)",
+        register_metrics:
+            "Registrar Métricas",
 
-        bmi:
-            "IMC",
-
-        body_fat:
-            "Grasa Corporal (%)",
-
-        heart_rate:
-            "Frecuencia Cardíaca",
-
-        heart_rate_bpm:
-            "Frecuencia Cardíaca (bpm)",
-
-        sleep:
-            "Horas de Sueño",
-
-        sleep_hours:
-            "Horas de Sueño",
-
-        steps:
-            "Pasos Diarios",
-
-        measurement_date:
-            "Fecha de Medición",
+        patient_label:
+            "Paciente",
 
         from:
             "Desde",
@@ -305,6 +991,110 @@ const translations = {
         to:
             "Hasta",
 
+        clear:
+            "Limpiar",
+
+        registered_measurements_kpi:
+            "Mediciones Registradas",
+
+        total_biometric_records:
+            "Total de registros biométricos",
+
+        measured_patients:
+            "Pacientes Medidos",
+
+        patients_with_records:
+            "Pacientes con registros",
+
+        today_records:
+            "Registros de Hoy",
+
+        measurements_today:
+            "Mediciones realizadas hoy",
+
+        last_measurement:
+            "Última Medición",
+
+        latest_record:
+            "Registro más reciente",
+
+        biometric_records:
+            "Registros Biométricos",
+
+        measurement_history:
+            "Historial de mediciones registradas en Nyvora.",
+
+        body_fat:
+            "Grasa Corporal",
+
+        sleep_hours:
+            "Horas de Sueño",
+
+        steps:
+            "Pasos",
+
+        measurement_modal_title:
+            "Registrar Métricas",
+
+        measurement_modal_description:
+            "Ingrese las mediciones biométricas del paciente.",
+
+        measurement_values_description:
+            "Registre los valores obtenidos durante el control.",
+
+        select_patient_measurement:
+            "Seleccione el paciente asociado a la medición.",
+
+        last_record:
+            "Último registro",
+
+        select_patient_latest:
+            "Seleccione un paciente para consultar su última medición.",
+
+        no_patient_measurements:
+            "Este paciente aún no tiene mediciones registradas.",
+
+        measurement_registered:
+            "Medición registrada",
+
+        automatic:
+            "Automático",
+
+        weight:
+            "Peso",
+
+        weight_kg:
+            "Peso (kg)",
+
+        weight_placeholder:
+            "Ej. 72.5",
+
+        bmi:
+            "IMC",
+
+        body_fat_placeholder:
+            "Ej. 24.5",
+
+        heart_rate:
+            "Frecuencia Cardíaca",
+
+        heart_rate_placeholder:
+            "Ej. 75",
+
+        sleep:
+            "Horas de Sueño",
+
+        sleep_placeholder:
+            "Ej. 7.5",
+
+        steps_placeholder:
+            "Ej. 8000",
+
+        save_measurement:
+            "Guardar Métricas",
+
+
+        /* HISTORIAL */
 
         history_title:
             "Historial Clínico",
@@ -326,9 +1116,6 @@ const translations = {
 
         patient_summary_description:
             "Información general y estado actual del seguimiento.",
-
-        last_control:
-            "Último Control",
 
         evolution:
             "Evolución Biométrica",
@@ -366,9 +1153,6 @@ const translations = {
         stable:
             "Estable",
 
-        no_records:
-            "No hay registros para este paciente.",
-
         no_records_period:
             "No hay registros para este paciente en el período seleccionado.",
 
@@ -389,19 +1173,6 @@ const translations = {
 
         measurement_activity:
             "Se registró un control biométrico.",
-
-        period:
-            "Período",
-
-        start:
-            "Inicio",
-
-        current:
-            "Actualidad",
-
-        generated_by:
-            "Generado desde Nyvora.",
-
 
         activity_positive:
             "Paciente mantiene buenos niveles de actividad física.",
@@ -425,6 +1196,8 @@ const translations = {
             "Seguimiento de hábitos de sueño y actividad.",
 
 
+        /* ALERTAS */
+
         alerts_title:
             "Alertas Clínicas",
 
@@ -434,13 +1207,13 @@ const translations = {
         search_alert:
             "Buscar paciente, tipo de alerta o condición...",
 
-        search_patient:
+        search_patient_alert:
             "Buscar paciente...",
 
         all_priorities:
             "Todas las prioridades",
 
-        all_status:
+        all_status_alerts:
             "Todos los estados",
 
         high:
@@ -461,12 +1234,6 @@ const translations = {
         created_at:
             "Fecha de detección",
 
-        alert_pending:
-            "Pendiente",
-
-        alert_resolved:
-            "Resuelta",
-
         registered_alerts:
             "Alertas Registradas",
 
@@ -481,9 +1248,6 @@ const translations = {
 
         pending_alerts_summary:
             "Alertas Pendientes",
-
-        follow_up:
-            "En Seguimiento",
 
         follow_up_description:
             "Actualmente bajo revisión",
@@ -530,17 +1294,8 @@ const translations = {
         no_description_available:
             "Sin información disponible.",
 
-        registered_patient:
-            "Paciente registrado",
-
         registered_patient_ny:
             "Paciente registrado en Nyvora",
-
-        results_one:
-            "resultado",
-
-        results_many:
-            "resultados",
 
         cannot_load_alerts:
             "No se pudieron cargar las alertas",
@@ -568,9 +1323,6 @@ const translations = {
 
         alert_description_information:
             "Información asociada a la condición detectada.",
-
-        open_record:
-            "Abrir Expediente",
 
         start_follow_up:
             "Iniciar Seguimiento",
@@ -615,35 +1367,61 @@ const translations = {
             "Últimos eventos relacionados con las alertas clínicas.",
 
 
+        /* CONFIGURACIÓN */
+
         settings_title:
             "Configuración",
 
         settings_subtitle:
-            "Administra las preferencias de la plataforma.",
+            "Administre la información del perfil y las preferencias generales de la plataforma.",
 
-        account:
-            "Cuenta",
+        user_profile:
+            "Perfil de Usuario",
 
-        profile:
-            "Perfil",
+        role:
+            "Rol",
 
-        notifications:
-            "Notificaciones",
+        join_date:
+            "Fecha de ingreso",
 
-        security:
-            "Seguridad",
+        system_preferences:
+            "Preferencias del Sistema",
 
-        language:
-            "Idioma",
+        date_format:
+            "Formato de fecha",
 
-        spanish:
-            "Español",
-
-        english:
-            "Inglés",
+        enable_notifications:
+            "Activar notificaciones",
 
         save_changes:
             "Guardar Cambios",
+
+        system_information:
+            "Información del Sistema",
+
+        system_information_subtitle:
+            "Información general de la plataforma Nyvora.",
+
+        system_name:
+            "Nyvora",
+
+        system_description:
+            "Nyvora es una plataforma web desarrollada para el monitoreo preventivo y seguimiento biométrico de pacientes con sobrepeso.",
+
+        version_label:
+            "Versión",
+
+        university_label:
+            "Universidad",
+
+        course_label:
+            "Curso",
+
+        user_nyvora:
+            "Usuario Nyvora",
+
+        user_load_error:
+            "No fue posible cargar la información del usuario.",
 
         settings_saved:
             "Configuración guardada correctamente."
@@ -755,7 +1533,6 @@ const translations = {
         change_language:
             "Change Language",
 
-
         welcome:
             "Welcome",
 
@@ -786,9 +1563,6 @@ const translations = {
         details:
             "View Details",
 
-        select_patient:
-            "Select a patient",
-
         patient:
             "Patient",
 
@@ -798,6 +1572,9 @@ const translations = {
         date:
             "Date",
 
+        time:
+            "Time",
+
         status:
             "Status",
 
@@ -806,6 +1583,9 @@ const translations = {
 
         actions:
             "Actions",
+
+        action:
+            "Action",
 
         active:
             "Active",
@@ -819,24 +1599,926 @@ const translations = {
         resolved:
             "Resolved",
 
+        completed:
+            "Completed",
+
+        suspended:
+            "Suspended",
+
+        follow_up:
+            "Under Follow-up",
+
+        responsible:
+            "Responsible",
+
         no_data:
             "N/A",
 
         no_results:
             "No results found.",
 
-        years:
-            "years",
+        no_checkups:
+            "No checkups",
+
+        no_record:
+            "No record",
+
+        no_records:
+            "No records.",
 
         undefined_condition:
             "Not defined",
 
-        no_checkups:
-            "No checkups",
+        undefined_status:
+            "No status",
 
-        responsible:
-            "Responsible",
+        no_date:
+            "No date",
 
+        years:
+            "years",
+
+        name:
+            "Name",
+
+        sort:
+            "Sort",
+
+        required_fields:
+            "Required fields",
+
+        results_one:
+            "result",
+
+        results_many:
+            "results",
+
+        results_count:
+            "0 results",
+
+        request_error:
+            "The operation could not be completed.",
+
+
+        /* DASHBOARD */
+
+        dashboard_title:
+            "Clinical Dashboard",
+
+        dashboard_subtitle:
+            "General patient monitoring and clinical activity.",
+
+        clinical_followup:
+            "Clinical Follow-up",
+
+        dashboard_welcome:
+            "Welcome to Nyvora",
+
+        dashboard_description:
+            "View patient progress, scheduled checkups, recent metrics and clinical alerts from a single view.",
+
+        view_patients:
+            "View Patients",
+
+        active_patients_dashboard:
+            "Active Patients",
+
+        clinical_followup_dashboard:
+            "Under clinical follow-up",
+
+        active_alerts_dashboard:
+            "Active Alerts",
+
+        appointments_today:
+            "Today's Checkups",
+
+        clinical_schedule:
+            "Clinical Schedule",
+
+        registered_measurements:
+            "Registered Measurements",
+
+        biometric_history:
+            "Biometric History",
+
+        today_schedule:
+            "Today's Schedule",
+
+        today_schedule_description:
+            "Checkups and appointments scheduled for today.",
+
+        view_schedule:
+            "View Schedule",
+
+        no_today_appointments:
+            "No checkups scheduled for today.",
+
+        recent_patients:
+            "Recent Patients",
+
+        recent_patients_description:
+            "Latest registered patients.",
+
+        view_all:
+            "View All",
+
+        clinical_alerts:
+            "Clinical Alerts",
+
+        patients_require_review:
+            "Patients requiring review.",
+
+        view_all_alerts:
+            "View All",
+
+        weight_evolution:
+            "Weight Progress",
+
+        weight_evolution_description:
+            "View the biometric progress of a patient.",
+
+        search_patient:
+            "Search patient...",
+
+        last_weight:
+            "Latest Weight",
+
+        variation:
+            "Change",
+
+        last_control:
+            "Last Checkup",
+
+        patients_by_status:
+            "Patients by Status",
+
+        alerts_by_type:
+            "Alerts by Type",
+
+        active_label:
+            "Active",
+
+        inactive_label:
+            "Inactive",
+
+        active_plural:
+            "Active",
+
+        inactive_plural:
+            "Inactive",
+
+        no_registered_patients:
+            "No patients registered.",
+
+        no_active_alerts:
+            "No active alerts.",
+
+        no_patients_found:
+            "No patients found.",
+
+        no_registered_appointments:
+            "No appointments registered.",
+
+        no_scheduled_today:
+            "No checkups scheduled for today.",
+
+        alert_singular:
+            "alert",
+
+        alert_plural:
+            "alerts",
+
+        weight_kg_chart:
+            "Weight (kg)",
+
+        dashboard_load_error:
+            "The dashboard could not be loaded.",
+
+
+        /* PACIENTES */
+
+        patients_title:
+            "Patient Management",
+
+        patients_subtitle:
+            "Management and clinical monitoring of registered patients.",
+
+        patient_search:
+            "Search by appointment ID, patient ID, name or identification...",
+
+        registered_patients:
+            "Registered Patients",
+
+        system_total:
+            "System Total",
+
+        current_follow_up:
+            "Current follow-up",
+
+        patients_followup:
+            "Under Follow-up",
+
+        patients_under_control:
+            "Patients under monitoring",
+
+        require_review:
+            "Require review",
+
+        patient_list:
+            "General Patient List",
+
+        patients_registered_now:
+            "Patients currently registered in Nyvora.",
+
+        initial_weight:
+            "Initial Weight",
+
+        record:
+            "Record",
+
+        upcoming_appointments:
+            "Upcoming Appointments",
+
+        appointments_description:
+            "Scheduled checkups and appointments for patients.",
+
+        no_appointments:
+            "No appointments scheduled.",
+
+        appointments_empty_description:
+            "Upcoming appointments will appear here when scheduled.",
+
+        system_activity:
+            "System Activity",
+
+        system_activity_description:
+            "Activity will appear as actions are performed on patients.",
+
+        clinical_summary:
+            "Clinical Summary",
+
+        active_alerts_summary:
+            "Active Alerts",
+
+        patient_initial_information:
+            "Enter the patient's initial information.",
+
+        personal_information:
+            "Personal Information",
+
+        main_patient_data:
+            "Main patient information.",
+
+        full_name:
+            "Full Name",
+
+        full_name_placeholder:
+            "E.g. Maria Rodriguez Vargas",
+
+        identification:
+            "Identification",
+
+        identification_placeholder:
+            "E.g. 1-1234-5678",
+
+        age:
+            "Age",
+
+        age_placeholder:
+            "E.g. 35",
+
+        phone:
+            "Phone",
+
+        phone_placeholder:
+            "E.g. 8888-8888",
+
+        height:
+            "Height",
+
+        height_placeholder:
+            "1.70",
+
+        clinical_followup_description:
+            "Initial information for follow-up within Nyvora.",
+
+        general_condition_goal:
+            "General Condition / Goal",
+
+        general_condition_placeholder:
+            "E.g. Weight control and nutritional follow-up",
+
+        observations:
+            "Observations",
+
+        observations_patient_placeholder:
+            "Additional information relevant to follow-up...",
+
+        save_patient:
+            "Save Patient",
+
+        edit_patient:
+            "Edit Patient",
+
+        open_record:
+            "Open Record",
+
+        name_required:
+            "Enter the full name.",
+
+        age_invalid:
+            "Enter a valid age.",
+
+        height_invalid:
+            "Enter a valid height.",
+
+        patient_unavailable:
+            "Patient unavailable",
+
+        registered_patient:
+            "Registered patient",
+
+        no_identification:
+            "No identification",
+
+        no_patients:
+            "No patients found.",
+
+        no_patients_filter:
+            "No patients were found with the selected filters.",
+
+
+        /* CITAS */
+
+        appointments_title:
+            "Appointment Management",
+
+        appointments_subtitle:
+            "Organize checkups, follow-ups and clinical appointments for patients.",
+
+        search_patient_appointment:
+            "Search by patient...",
+
+        all_status:
+            "All Statuses",
+
+        scheduled:
+            "Scheduled",
+
+        confirmed:
+            "Confirmed",
+
+        cancelled:
+            "Cancelled",
+
+        new_appointment:
+            "New Appointment",
+
+        appointments_today:
+            "Today's Appointments",
+
+        day_schedule:
+            "Today's Schedule",
+
+        upcoming_appointments_kpi:
+            "Upcoming Appointments",
+
+        scheduled_upcoming:
+            "Scheduled soon",
+
+        completed_appointments:
+            "Completed",
+
+        completed_checkups:
+            "Completed checkups",
+
+        pending_appointments:
+            "Pending",
+
+        pending_followup:
+            "Require follow-up",
+
+        today_schedule_title:
+            "Today's Schedule",
+
+        today_schedule_text:
+            "Appointments and checkups scheduled for today.",
+
+        no_appointments_today:
+            "No appointments scheduled for today.",
+
+        today_appointments_text:
+            "Today's appointments will appear here.",
+
+        general_appointment_list:
+            "General Appointment List",
+
+        appointments_current_status:
+            "View scheduled appointments and their current status.",
+
+        appointment_type:
+            "Type",
+
+        professional:
+            "Professional",
+
+        upcoming_appointments_title:
+            "Upcoming Appointments",
+
+        upcoming_checkups:
+            "Upcoming checkups scheduled for patients.",
+
+        no_upcoming_appointments:
+            "No upcoming appointments registered.",
+
+        upcoming_appointments_text:
+            "Upcoming appointments will appear here when scheduled.",
+
+        schedule_new_appointment:
+            "Schedule a new clinical checkup for a patient.",
+
+        select_patient:
+            "Select a patient",
+
+        appointment_date:
+            "Date",
+
+        appointment_time:
+            "Time",
+
+        appointment_type_label:
+            "Appointment Type",
+
+        select_type:
+            "Select a type",
+
+        initial_assessment:
+            "Initial Assessment",
+
+        nutritional_control:
+            "Nutritional Control",
+
+        biometric_followup:
+            "Biometric Follow-up",
+
+        clinical_review:
+            "Clinical Review",
+
+        other:
+            "Other",
+
+        reason:
+            "Reason",
+
+        reason_placeholder:
+            "E.g. Monthly follow-up checkup",
+
+        notes:
+            "Observations",
+
+        appointment_notes_placeholder:
+            "Additional information about the appointment...",
+
+        reprogram_appointment:
+            "Reschedule Appointment",
+
+        cancel_appointment:
+            "Cancel",
+
+        reschedule:
+            "Reschedule",
+
+        confirm_cancel_appointment:
+            "Cancel the appointment?",
+
+        no_appointments_filters:
+            "No appointments were found with the selected filters.",
+
+        appointments_will_appear:
+            "Appointments will appear here when scheduled.",
+
+        save_appointment:
+            "Save Appointment",
+
+
+        /* MEDICAMENTOS */
+
+        medications_title:
+            "Medication Management",
+
+        medications_subtitle:
+            "View and manage medications registered in Nyvora.",
+
+        medication_search:
+            "Search medication, presentation or concentration...",
+
+        registered_medications:
+            "Registered Medications",
+
+        active_medications:
+            "Active Medications",
+
+        available_currently:
+            "Currently available",
+
+        in_use:
+            "In Use",
+
+        medications_in_use:
+            "In Use",
+
+        associated_treatments:
+            "Associated with treatments",
+
+        inactive_medications:
+            "Inactive",
+
+        inactive_out_of_use:
+            "Out of use",
+
+        all_presentations:
+            "All Presentations",
+
+        tablets:
+            "Tablets",
+
+        capsules:
+            "Capsules",
+
+        syrup:
+            "Syrup",
+
+        suspension:
+            "Suspension",
+
+        solution:
+            "Solution",
+
+        injectable:
+            "Injectable",
+
+        cream:
+            "Cream",
+
+        register_medication:
+            "Register Medication",
+
+        medication_list:
+            "Medication List",
+
+        medications_currently_registered:
+            "Medications currently registered in Nyvora.",
+
+        medication:
+            "Medication",
+
+        presentation:
+            "Presentation",
+
+        concentration:
+            "Concentration",
+
+        concentration_placeholder:
+            "E.g. 500 mg",
+
+        reference_dose:
+            "Reference Dose",
+
+        reference_dose_label:
+            "Reference Dose",
+
+        associated_patients:
+            "Associated Patients",
+
+        no_medications:
+            "No medications found.",
+
+        no_medications_registered:
+            "No medications registered",
+
+        medications_will_appear:
+            "Medications will appear here as they are registered.",
+
+        medication_general_information:
+            "Enter the medication's general information.",
+
+        medication_information:
+            "Medication Information",
+
+        medication_identification:
+            "Main identification information.",
+
+        medication_name:
+            "Medication Name",
+
+        medication_name_placeholder:
+            "E.g. Metformin",
+
+        presentation_select:
+            "Select a presentation",
+
+        medication_usage_information:
+            "Usage Information",
+
+        medication_usage_description:
+            "Reference information for follow-up.",
+
+        dose:
+            "Dose",
+
+        dose_example:
+            "E.g. 1 tablet",
+
+        frequency:
+            "Frequency",
+
+        frequency_example:
+            "E.g. Every 12 hours",
+
+        undefined_frequency:
+            "No frequency defined",
+
+        deactivate_medication:
+            "Deactivate",
+
+        confirm_deactivate_medication:
+            "Deactivate this medication?",
+
+        edit_medication:
+            "Edit Medication",
+
+        medication_observations_placeholder:
+            "Additional information about the medication...",
+
+        save_medication:
+            "Save Medication",
+
+
+        /* TRATAMIENTOS */
+
+        treatments_title:
+            "Treatment Management",
+
+        treatments_subtitle:
+            "Management and monitoring of patients' clinical treatments.",
+
+        treatment_search:
+            "Search patient, medication or treatment...",
+
+        new_treatment:
+            "New Treatment",
+
+        active_treatments:
+            "Active Treatments",
+
+        active_treatments_description:
+            "Currently under follow-up",
+
+        ending_soon:
+            "Ending Soon",
+
+        ending_soon_description:
+            "During the next few days",
+
+        completed_treatments:
+            "Completed",
+
+        completed_treatments_description:
+            "Finished treatments",
+
+        suspended_treatments:
+            "Suspended",
+
+        suspended_treatments_description:
+            "Require follow-up",
+
+        treatment:
+            "Treatment",
+
+        treatment_start:
+            "Start",
+
+        treatment_end:
+            "End",
+
+        start_date:
+            "Start Date",
+
+        end_date:
+            "End Date",
+
+        treatments_registered_description:
+            "Treatments currently registered in Nyvora.",
+
+        no_treatments:
+            "No treatments registered.",
+
+        no_treatments_found:
+            "No treatments found.",
+
+        new_treatment_description:
+            "Register a clinical treatment for the patient.",
+
+        patient_treatment_description:
+            "Select the patient associated with the treatment.",
+
+        search_patient_label:
+            "Search patient",
+
+        search_name_id:
+            "Search by name or identification...",
+
+        treatment_information:
+            "Treatment Information",
+
+        treatment_information_description:
+            "Define the indicated clinical follow-up.",
+
+        treatment_name:
+            "Treatment Name",
+
+        treatment_name_placeholder:
+            "E.g. Metabolic control",
+
+        search_medication:
+            "Search medication...",
+
+        dose_placeholder:
+            "E.g. 500 mg",
+
+        frequency_placeholder:
+            "E.g. Every 12 hours",
+
+        start_date_required:
+            "Start Date",
+
+        status_required:
+            "Status",
+
+        clinical_instructions:
+            "Clinical Instructions",
+
+        clinical_instructions_description:
+            "Additional information for follow-up.",
+
+        indications:
+            "Instructions",
+
+        indications_placeholder:
+            "General treatment instructions...",
+
+        observations_placeholder:
+            "Additional follow-up information...",
+
+        save_treatment:
+            "Save Treatment",
+
+        edit_treatment:
+            "Edit Treatment",
+
+        no_medication:
+            "No medication",
+
+        suspend_treatment:
+            "Suspend treatment",
+
+        suspend_question:
+            "Suspend treatment?",
+
+        open_treatment_record:
+            "Open Record",
+
+
+        /* MÉTRICAS */
+
+        metrics_title:
+            "Biometric Metrics",
+
+        metrics_subtitle:
+            "Record and consult patient biometric metrics.",
+
+        historical_metrics:
+            "Metrics History",
+
+        metrics_history_description:
+            "View and filter patient biometric records.",
+
+        register_metrics:
+            "Register Metrics",
+
+        patient_label:
+            "Patient",
+
+        from:
+            "From",
+
+        to:
+            "To",
+
+        clear:
+            "Clear",
+
+        registered_measurements_kpi:
+            "Registered Measurements",
+
+        total_biometric_records:
+            "Total biometric records",
+
+        measured_patients:
+            "Measured Patients",
+
+        patients_with_records:
+            "Patients with records",
+
+        today_records:
+            "Today's Records",
+
+        measurements_today:
+            "Measurements taken today",
+
+        last_measurement:
+            "Latest Measurement",
+
+        latest_record:
+            "Latest Record",
+
+        biometric_records:
+            "Biometric Records",
+
+        measurement_history:
+            "History of biometric measurements registered in Nyvora.",
+
+        body_fat:
+            "Body Fat",
+
+        sleep_hours:
+            "Sleep Hours",
+
+        steps:
+            "Steps",
+
+        measurement_modal_title:
+            "Register Metrics",
+
+        measurement_modal_description:
+            "Enter the patient's biometric measurements.",
+
+        measurement_values_description:
+            "Enter the values recorded during the checkup.",
+
+        select_patient_measurement:
+            "Select the patient associated with the measurement.",
+
+        last_record:
+            "Latest Record",
+
+        select_patient_latest:
+            "Select a patient to view their latest measurement.",
+
+        no_patient_measurements:
+            "This patient does not have any registered measurements yet.",
+
+        measurement_registered:
+            "Measurement registered",
+
+        automatic:
+            "Automatic",
+
+        weight:
+            "Weight",
+
+        weight_kg:
+            "Weight (kg)",
+
+        weight_placeholder:
+            "E.g. 72.5",
+
+        bmi:
+            "BMI",
+
+        body_fat_placeholder:
+            "E.g. 24.5",
+
+        heart_rate:
+            "Heart Rate",
+
+        heart_rate_placeholder:
+            "E.g. 75",
+
+        sleep:
+            "Sleep Hours",
+
+        sleep_placeholder:
+            "E.g. 7.5",
+
+        steps_placeholder:
+            "E.g. 8000",
+
+        save_measurement:
+            "Save Measurement",
+
+
+        /* HISTORIAL */
 
         history_title:
             "Clinical History",
@@ -847,14 +2529,17 @@ const translations = {
         patient_history:
             "Patient History",
 
+        history_query_description:
+            "Select a patient and view their clinical information.",
+
+        clinical_history:
+            "Clinical History",
+
         patient_summary:
             "Patient Summary",
 
         patient_summary_description:
             "General information and current follow-up status.",
-
-        last_control:
-            "Last Checkup",
 
         evolution:
             "Biometric Progress",
@@ -867,6 +2552,9 @@ const translations = {
 
         clinical_notes_description:
             "Notes associated with the patient's follow-up.",
+
+        recent_records:
+            "Recent Records",
 
         recent_activity:
             "Recent Activity",
@@ -889,11 +2577,11 @@ const translations = {
         stable:
             "Stable",
 
-        no_records:
-            "There are no records for this patient.",
-
         no_records_period:
             "There are no records for this patient in the selected period.",
+
+        no_notes:
+            "No observations recorded.",
 
         no_observations:
             "No observations recorded.",
@@ -909,18 +2597,6 @@ const translations = {
 
         measurement_activity:
             "A biometric checkup was recorded.",
-
-        period:
-            "Period",
-
-        start:
-            "Start",
-
-        current:
-            "Current",
-
-        generated_by:
-            "Generated from Nyvora.",
 
         activity_positive:
             "Patient maintains good levels of physical activity.",
@@ -944,6 +2620,8 @@ const translations = {
             "Follow-up of sleep habits and physical activity.",
 
 
+        /* ALERTAS */
+
         alerts_title:
             "Clinical Alerts",
 
@@ -953,13 +2631,13 @@ const translations = {
         search_alert:
             "Search patient, alert type or condition...",
 
-        search_patient:
+        search_patient_alert:
             "Search patient...",
 
         all_priorities:
             "All Priorities",
 
-        all_status:
+        all_status_alerts:
             "All Statuses",
 
         high:
@@ -980,12 +2658,6 @@ const translations = {
         created_at:
             "Detection Date",
 
-        alert_pending:
-            "Pending",
-
-        alert_resolved:
-            "Resolved",
-
         registered_alerts:
             "Registered Alerts",
 
@@ -1000,9 +2672,6 @@ const translations = {
 
         pending_alerts_summary:
             "Pending Alerts",
-
-        follow_up:
-            "Under Follow-up",
 
         follow_up_description:
             "Currently under review",
@@ -1049,17 +2718,8 @@ const translations = {
         no_description_available:
             "No information available.",
 
-        registered_patient:
-            "Registered patient",
-
         registered_patient_ny:
             "Patient registered in Nyvora",
-
-        results_one:
-            "result",
-
-        results_many:
-            "results",
 
         cannot_load_alerts:
             "Alerts could not be loaded",
@@ -1087,9 +2747,6 @@ const translations = {
 
         alert_description_information:
             "Information associated with the detected condition.",
-
-        open_record:
-            "Open Record",
 
         start_follow_up:
             "Start Follow-up",
@@ -1134,140 +2791,176 @@ const translations = {
             "Latest events related to clinical alerts.",
 
 
+        /* CONFIGURACIÓN */
+
         settings_title:
             "Settings",
 
         settings_subtitle:
-            "Manage platform preferences.",
+            "Manage your profile information and general platform preferences.",
 
-        account:
-            "Account",
+        user_profile:
+            "User Profile",
 
-        profile:
-            "Profile",
+        role:
+            "Role",
 
-        notifications:
-            "Notifications",
+        join_date:
+            "Join Date",
 
-        security:
-            "Security",
+        system_preferences:
+            "System Preferences",
 
         language:
             "Language",
+
+        date_format:
+            "Date Format",
+
+        enable_notifications:
+            "Enable notifications",
+
+        save_changes:
+            "Save Changes",
+
+        system_information:
+            "System Information",
+
+        system_information_subtitle:
+            "General information about the Nyvora platform.",
+
+        system_name:
+            "Nyvora",
+
+        system_description:
+            "Nyvora is a web platform developed for preventive monitoring and biometric follow-up of overweight patients.",
+
+        version_label:
+            "Version",
+
+        university_label:
+            "University",
+
+        course_label:
+            "Course",
+
+        user_nyvora:
+            "Nyvora User",
+
+        user_load_error:
+            "Unable to load user information.",
+
+        settings_saved:
+            "Settings saved successfully.",
 
         spanish:
             "Spanish",
 
         english:
-            "English",
-
-        save_changes:
-            "Save Changes",
-
-        settings_saved:
-            "Settings saved successfully."
+            "English"
     }
 };
 
 
-function applyTranslations(
-    root = document
-) {
+function applyTranslations(root = document) {
 
     root
         .querySelectorAll("[data-lang]")
-        .forEach(
-            (element) => {
+        .forEach((element) => {
 
-                const key =
-                    element.dataset.lang;
+            const key =
+                element.dataset.lang;
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    translations[currentLanguage],
+                    key
+                )
+            ) {
+
+                const value =
+                    translations[currentLanguage][key];
+
 
                 if (
-                    Object.prototype.hasOwnProperty.call(
-                        translations[currentLanguage],
-                        key
-                    )
+                    typeof value === "string" &&
+                    value.includes("<br>")
                 ) {
 
-                    const value =
-                        translations[currentLanguage][key];
+                    element.innerHTML =
+                        value;
 
-                    if (
-                        typeof value === "string" &&
-                        value.includes("<br>")
-                    ) {
+                } else {
 
-                        element.innerHTML =
-                            value;
-
-                    } else {
-
-                        element.textContent =
-                            value;
-                    }
+                    element.textContent =
+                        value;
                 }
             }
-        );
+        });
 
 
     root
         .querySelectorAll("[data-placeholder]")
-        .forEach(
-            (element) => {
+        .forEach((element) => {
 
-                const key =
-                    element.dataset.placeholder;
+            const key =
+                element.dataset.placeholder;
 
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        translations[currentLanguage],
-                        key
-                    )
-                ) {
 
-                    element.placeholder =
-                        translations[currentLanguage][key];
-                }
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    translations[currentLanguage],
+                    key
+                )
+            ) {
+
+                element.placeholder =
+                    translations[currentLanguage][key];
             }
-        );
+        });
 
 
     root
         .querySelectorAll("[data-title]")
-        .forEach(
-            (element) => {
+        .forEach((element) => {
 
-                const key =
-                    element.dataset.title;
+            const key =
+                element.dataset.title;
 
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        translations[currentLanguage],
-                        key
-                    )
-                ) {
 
-                    element.title =
-                        translations[currentLanguage][key];
-                }
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    translations[currentLanguage],
+                    key
+                )
+            ) {
+
+                element.title =
+                    translations[currentLanguage][key];
             }
-        );
+        });
 }
 
 
-function changeLanguage(
-    language
-) {
+function changeLanguage(language) {
 
     if (
         !translations[language]
     ) {
+
         return;
     }
 
 
     currentLanguage =
         language;
+
+
+    localStorage.setItem(
+        "nyvora-language",
+        language
+    );
 
 
     applyTranslations(
@@ -1293,13 +2986,12 @@ function changeLanguage(
 }
 
 
-function setLanguage(
-    language
-) {
+function setLanguage(language) {
 
     if (
         !translations[language]
     ) {
+
         return;
     }
 
@@ -1363,6 +3055,10 @@ document.addEventListener(
         }
 
 
+        document.documentElement.lang =
+            currentLanguage;
+
+
         applyTranslations(
             document
         );
@@ -1404,8 +3100,11 @@ document.addEventListener(
         observer.observe(
             document.body,
             {
-                childList: true,
-                subtree: true
+                childList:
+                    true,
+
+                subtree:
+                    true
             }
         );
     }

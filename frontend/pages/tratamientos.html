@@ -7,15 +7,17 @@
 
     <title>Nyvora | Gestión de Tratamientos</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -28,63 +30,134 @@
 
     <div class="dashboard">
 
-        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
         <main class="content">
 
-            <!-- Header -->
             <div class="header">
 
                 <div>
-                    <h1>Gestión de Tratamientos</h1>
-                    <p>Administración y seguimiento de tratamientos clínicos de los pacientes.</p>
+
+                    <h1 data-lang="treatments_title">
+                        Gestión de Tratamientos
+                    </h1>
+
+                    <p data-lang="treatments_subtitle">
+                        Administración y seguimiento de tratamientos clínicos de los pacientes.
+                    </p>
+
                 </div>
 
                 <div class="user-card">
+
                     <div class="user-card-icon">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
                     <div>
-                        <strong data-current-user-name>Usuario Nyvora</strong>
-                        <span data-current-user-role>Usuario</span>
+
+                        <strong data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            Usuario
+                        </span>
+
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- Barra de acciones -->
+
             <section class="panel treatment-actions">
 
                 <div class="treatment-search">
 
                     <div class="search-field">
+
                         <i class="fa-solid fa-magnifying-glass"></i>
 
                         <input
                             id="treatment-search"
                             type="text"
+                            data-placeholder="treatment_search"
                             placeholder="Buscar paciente, medicamento o tratamiento..."
                             autocomplete="off">
+
                     </div>
 
+
                     <select id="treatment-status">
-                        <option value="">Todos los estados</option>
-                        <option value="ACTIVO">Activo</option>
-                        <option value="PENDIENTE">Pendiente</option>
-                        <option value="COMPLETADO">Completado</option>
-                        <option value="SUSPENDIDO">Suspendido</option>
+
+                        <option
+                            value=""
+                            data-lang="all_status">
+                            Todos los estados
+                        </option>
+
+                        <option
+                            value="ACTIVO"
+                            data-lang="active">
+                            Activo
+                        </option>
+
+                        <option
+                            value="PENDIENTE"
+                            data-lang="pending">
+                            Pendiente
+                        </option>
+
+                        <option
+                            value="COMPLETADO"
+                            data-lang="completed">
+                            Completado
+                        </option>
+
+                        <option
+                            value="SUSPENDIDO"
+                            data-lang="suspended">
+                            Suspendido
+                        </option>
+
                     </select>
 
+
                     <select id="treatment-order">
-                        <option value="">Ordenar</option>
-                        <option value="patient">Paciente</option>
-                        <option value="startDate">Fecha de inicio</option>
-                        <option value="endDate">Fecha de finalización</option>
-                        <option value="status">Estado</option>
+
+                        <option
+                            value=""
+                            data-lang="sort">
+                            Ordenar
+                        </option>
+
+                        <option
+                            value="patient"
+                            data-lang="patient">
+                            Paciente
+                        </option>
+
+                        <option
+                            value="startDate"
+                            data-lang="start_date">
+                            Fecha de inicio
+                        </option>
+
+                        <option
+                            value="endDate"
+                            data-lang="end_date">
+                            Fecha de finalización
+                        </option>
+
+                        <option
+                            value="status"
+                            data-lang="status">
+                            Estado
+                        </option>
+
                     </select>
+
 
                     <button
                         type="button"
@@ -92,104 +165,206 @@
                         id="btn-new-treatment">
 
                         <i class="fa-solid fa-notes-medical"></i>
-                        Nuevo Tratamiento
+
+                        <span data-lang="new_treatment">
+                            Nuevo Tratamiento
+                        </span>
+
                     </button>
 
                 </div>
 
             </section>
 
-            <!-- KPIs -->
+
             <section class="kpi-cards">
 
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-heart-pulse"></i>
                         </div>
-                        <h2 id="kpi-active">0</h2>
+
+                        <h2 id="kpi-active">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Tratamientos Activos</p>
-                    <small>Actualmente en seguimiento</small>
+                    <p data-lang="active_treatments">
+                        Tratamientos Activos
+                    </p>
+
+                    <small data-lang="active_treatments_description">
+                        Actualmente en seguimiento
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-clock"></i>
                         </div>
-                        <h2 id="kpi-ending">0</h2>
+
+                        <h2 id="kpi-ending">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Próximos a Finalizar</p>
-                    <small>Durante los próximos días</small>
+                    <p data-lang="ending_soon">
+                        Próximos a Finalizar
+                    </p>
+
+                    <small data-lang="ending_soon_description">
+                        Durante los próximos días
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
-                        <h2 id="kpi-completed">0</h2>
+
+                        <h2 id="kpi-completed">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Completados</p>
-                    <small>Tratamientos finalizados</small>
+                    <p data-lang="completed_treatments">
+                        Completados
+                    </p>
+
+                    <small data-lang="completed_treatments_description">
+                        Tratamientos finalizados
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-circle-pause"></i>
                         </div>
-                        <h2 id="kpi-suspended">0</h2>
+
+                        <h2 id="kpi-suspended">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Suspendidos</p>
-                    <small>Requieren seguimiento</small>
+                    <p data-lang="suspended_treatments">
+                        Suspendidos
+                    </p>
+
+                    <small data-lang="suspended_treatments_description">
+                        Requieren seguimiento
+                    </small>
+
                 </div>
 
             </section>
 
-            <!-- Tabla -->
+
             <section class="panel">
 
                 <div class="panel-heading">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-notes-medical"></i>
-                            Tratamientos
+
+                            <span data-lang="treatments">
+                                Tratamientos
+                            </span>
+
                         </h2>
 
-                        <p>Tratamientos registrados actualmente en Nyvora.</p>
+                        <p data-lang="treatments_registered_description">
+                            Tratamientos registrados actualmente en Nyvora.
+                        </p>
+
                     </div>
+
                 </div>
+
 
                 <div class="table-responsive">
 
                     <table id="treatments-table">
 
                         <thead>
+
                             <tr>
-                                <th>Paciente</th>
-                                <th>Tratamiento</th>
-                                <th>Medicamento</th>
-                                <th>Dosis</th>
-                                <th>Frecuencia</th>
-                                <th>Inicio</th>
-                                <th>Finalización</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+
+                                <th data-lang="patient">
+                                    Paciente
+                                </th>
+
+                                <th data-lang="treatment">
+                                    Tratamiento
+                                </th>
+
+                                <th data-lang="medication">
+                                    Medicamento
+                                </th>
+
+                                <th data-lang="dose">
+                                    Dosis
+                                </th>
+
+                                <th data-lang="frequency">
+                                    Frecuencia
+                                </th>
+
+                                <th data-lang="start_date">
+                                    Inicio
+                                </th>
+
+                                <th data-lang="end_date">
+                                    Finalización
+                                </th>
+
+                                <th data-lang="status">
+                                    Estado
+                                </th>
+
+                                <th data-lang="actions">
+                                    Acciones
+                                </th>
+
                             </tr>
+
                         </thead>
+
 
                         <tbody id="treatments-body">
 
                             <tr class="empty-treatment-row">
-                                <td colspan="9">
+
+                                <td
+                                    colspan="9"
+                                    data-lang="no_treatments">
                                     No hay tratamientos registrados.
                                 </td>
+
                             </tr>
 
                         </tbody>
@@ -204,14 +379,20 @@
 
     </div>
 
-    <!-- Modal -->
-    <div class="treatment-modal" id="treatment-modal" aria-hidden="true">
 
-        <div class="treatment-modal-backdrop" data-close-treatment></div>
+    <div
+        class="treatment-modal"
+        id="treatment-modal"
+        aria-hidden="true">
+
+        <div
+            class="treatment-modal-backdrop"
+            data-close-treatment>
+        </div>
+
 
         <div class="treatment-modal-card">
 
-            <!-- Header modal -->
             <div class="treatment-modal-header">
 
                 <div class="modal-title-group">
@@ -221,52 +402,77 @@
                     </div>
 
                     <div>
-                        <h2>Nuevo Tratamiento</h2>
-                        <p>Registre un tratamiento clínico para el paciente.</p>
+
+                        <h2
+                            id="treatment-modal-title"
+                            data-lang="new_treatment">
+                            Nuevo Tratamiento
+                        </h2>
+
+                        <p data-lang="new_treatment_description">
+                            Registre un tratamiento clínico para el paciente.
+                        </p>
+
                     </div>
 
                 </div>
+
 
                 <button
                     type="button"
                     class="modal-close"
                     data-close-treatment
-                    aria-label="Cerrar">
+                    data-title="close">
 
                     <i class="fa-solid fa-xmark"></i>
+
                 </button>
 
             </div>
 
-            <!-- Formulario -->
+
             <form id="treatment-form">
 
                 <div class="treatment-modal-body">
 
-                    <!-- Paciente -->
                     <div class="form-section">
 
                         <div class="form-section-title">
+
                             <i class="fa-regular fa-user"></i>
 
                             <div>
-                                <strong>Paciente</strong>
-                                <span>Seleccione el paciente asociado al tratamiento.</span>
+
+                                <strong data-lang="patient">
+                                    Paciente
+                                </strong>
+
+                                <span data-lang="patient_treatment_description">
+                                    Seleccione el paciente asociado al tratamiento.
+                                </span>
+
                             </div>
+
                         </div>
+
 
                         <div class="form-group treatment-smart-field">
 
-                            <label for="treatment-patient">
+                            <label
+                                for="treatment-patient"
+                                data-lang="search_patient_label">
                                 Buscar paciente <span>*</span>
                             </label>
 
+
                             <div class="smart-input">
+
                                 <i class="fa-solid fa-magnifying-glass"></i>
 
                                 <input
                                     id="treatment-patient"
                                     type="text"
+                                    data-placeholder="search_name_id"
                                     placeholder="Buscar por nombre o identificación..."
                                     autocomplete="off"
                                     required>
@@ -274,7 +480,9 @@
                                 <input
                                     id="treatment-patient-id"
                                     type="hidden">
+
                             </div>
+
 
                             <div
                                 class="smart-results"
@@ -285,52 +493,74 @@
 
                     </div>
 
-                    <!-- Tratamiento -->
+
                     <div class="form-section">
 
                         <div class="form-section-title">
+
                             <i class="fa-solid fa-heart-pulse"></i>
 
                             <div>
-                                <strong>Información del tratamiento</strong>
-                                <span>Defina el seguimiento clínico indicado.</span>
+
+                                <strong data-lang="treatment_information">
+                                    Información del tratamiento
+                                </strong>
+
+                                <span data-lang="treatment_information_description">
+                                    Defina el seguimiento clínico indicado.
+                                </span>
+
                             </div>
+
                         </div>
+
 
                         <div class="form-grid">
 
                             <div class="form-group full-width">
-                                <label for="treatment-name">
+
+                                <label
+                                    for="treatment-name"
+                                    data-lang="treatment_name">
                                     Nombre del tratamiento <span>*</span>
                                 </label>
 
                                 <input
                                     id="treatment-name"
                                     type="text"
+                                    data-placeholder="treatment_name_placeholder"
                                     placeholder="Ej. Control metabólico"
                                     required>
+
                             </div>
 
-                            <!-- Medicamento inteligente -->
+
                             <div class="form-group treatment-smart-field">
 
-                                <label for="treatment-medication">
+                                <label
+                                    for="treatment-medication"
+                                    data-lang="medication">
                                     Medicamento
                                 </label>
 
+
                                 <div class="smart-input">
+
                                     <i class="fa-solid fa-pills"></i>
 
                                     <input
                                         id="treatment-medication"
                                         type="text"
+                                        data-placeholder="search_medication"
                                         placeholder="Buscar medicamento..."
                                         autocomplete="off">
 
                                     <input
                                         id="treatment-medication-id"
                                         type="hidden">
+
                                 </div>
+
 
                                 <div
                                     class="smart-results"
@@ -339,30 +569,46 @@
 
                             </div>
 
+
                             <div class="form-group">
-                                <label for="treatment-dose">
+
+                                <label
+                                    for="treatment-dose"
+                                    data-lang="dose">
                                     Dosis
                                 </label>
 
                                 <input
                                     id="treatment-dose"
                                     type="text"
+                                    data-placeholder="dose_placeholder"
                                     placeholder="Ej. 500 mg">
+
                             </div>
 
+
                             <div class="form-group">
-                                <label for="treatment-frequency">
+
+                                <label
+                                    for="treatment-frequency"
+                                    data-lang="frequency">
                                     Frecuencia
                                 </label>
 
                                 <input
                                     id="treatment-frequency"
                                     type="text"
+                                    data-placeholder="frequency_placeholder"
                                     placeholder="Ej. Cada 12 horas">
+
                             </div>
 
+
                             <div class="form-group">
-                                <label for="treatment-status-modal">
+
+                                <label
+                                    for="treatment-status-modal"
+                                    data-lang="status_required">
                                     Estado <span>*</span>
                                 </label>
 
@@ -370,16 +616,40 @@
                                     id="treatment-status-modal"
                                     required>
 
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="PENDIENTE">Pendiente</option>
-                                    <option value="COMPLETADO">Completado</option>
-                                    <option value="SUSPENDIDO">Suspendido</option>
+                                    <option
+                                        value="ACTIVO"
+                                        data-lang="active">
+                                        Activo
+                                    </option>
+
+                                    <option
+                                        value="PENDIENTE"
+                                        data-lang="pending">
+                                        Pendiente
+                                    </option>
+
+                                    <option
+                                        value="COMPLETADO"
+                                        data-lang="completed">
+                                        Completado
+                                    </option>
+
+                                    <option
+                                        value="SUSPENDIDO"
+                                        data-lang="suspended">
+                                        Suspendido
+                                    </option>
 
                                 </select>
+
                             </div>
 
+
                             <div class="form-group">
-                                <label for="treatment-start">
+
+                                <label
+                                    for="treatment-start"
+                                    data-lang="start_date_required">
                                     Fecha de inicio <span>*</span>
                                 </label>
 
@@ -387,83 +657,122 @@
                                     id="treatment-start"
                                     type="date"
                                     required>
+
                             </div>
 
+
                             <div class="form-group">
-                                <label for="treatment-end">
+
+                                <label
+                                    for="treatment-end"
+                                    data-lang="end_date">
                                     Fecha de finalización
                                 </label>
 
                                 <input
                                     id="treatment-end"
                                     type="date">
+
                             </div>
 
                         </div>
 
                     </div>
 
-                    <!-- Indicaciones -->
+
                     <div class="form-section">
 
                         <div class="form-section-title">
+
                             <i class="fa-solid fa-clipboard-list"></i>
 
                             <div>
-                                <strong>Indicaciones clínicas</strong>
-                                <span>Información adicional para el seguimiento.</span>
+
+                                <strong data-lang="clinical_instructions">
+                                    Indicaciones clínicas
+                                </strong>
+
+                                <span data-lang="clinical_instructions_description">
+                                    Información adicional para el seguimiento.
+                                </span>
+
                             </div>
+
                         </div>
 
+
                         <div class="form-group">
-                            <label for="treatment-indications">
+
+                            <label
+                                for="treatment-indications"
+                                data-lang="indications">
                                 Indicaciones
                             </label>
 
                             <textarea
                                 id="treatment-indications"
                                 rows="3"
+                                data-placeholder="indications_placeholder"
                                 placeholder="Indicaciones generales del tratamiento..."></textarea>
+
                         </div>
 
+
                         <div class="form-group">
-                            <label for="treatment-observations">
+
+                            <label
+                                for="treatment-observations"
+                                data-lang="observations">
                                 Observaciones
                             </label>
 
                             <textarea
                                 id="treatment-observations"
                                 rows="3"
+                                data-placeholder="observations_placeholder"
                                 placeholder="Información adicional sobre el seguimiento..."></textarea>
+
                         </div>
 
                     </div>
 
                 </div>
 
-                <!-- Footer -->
+
                 <div class="treatment-modal-footer">
 
                     <small>
+
                         <span>*</span>
-                        Campos obligatorios
+
+                        <span data-lang="required_fields">
+                            Campos obligatorios
+                        </span>
+
                     </small>
+
 
                     <div class="modal-actions">
 
                         <button
                             type="button"
                             class="btn-secondary"
-                            data-close-treatment>
+                            data-close-treatment
+                            data-lang="cancel">
                             Cancelar
                         </button>
+
 
                         <button
                             type="submit"
                             class="btn-primary">
 
                             <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar Tratamiento
+
+                            <span data-lang="save_treatment">
+                                Guardar Tratamiento
+                            </span>
+
                         </button>
 
                     </div>
@@ -476,9 +785,10 @@
 
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
     <script src="../js/tratamientos.js" defer></script>
 
 </body>

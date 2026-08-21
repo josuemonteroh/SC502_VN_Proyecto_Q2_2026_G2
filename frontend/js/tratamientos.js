@@ -1,10 +1,6 @@
 "use strict";
 
-/* Tratamientos */
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* Configuración */
 
     const API_URL =
         "http://localhost:8081/treatments.php";
@@ -15,101 +11,144 @@ document.addEventListener("DOMContentLoaded", () => {
     const MEDICATIONS_API_URL =
         "http://localhost:8081/medications.php";
 
-    /* Controles */
 
     const inputBuscar =
-        document.getElementById("treatment-search");
+        document.getElementById(
+            "treatment-search"
+        );
 
     const filtroEstado =
-        document.getElementById("treatment-status");
+        document.getElementById(
+            "treatment-status"
+        );
 
     const filtroOrden =
-        document.getElementById("treatment-order");
+        document.getElementById(
+            "treatment-order"
+        );
 
     const btnNuevoTratamiento =
-        document.getElementById("btn-new-treatment");
+        document.getElementById(
+            "btn-new-treatment"
+        );
 
-    /* Tabla */
 
     const tbody =
-        document.getElementById("treatments-body");
+        document.getElementById(
+            "treatments-body"
+        );
 
-    /* KPIs */
 
     const kpiActivos =
-        document.getElementById("kpi-active");
+        document.getElementById(
+            "kpi-active"
+        );
 
     const kpiProximos =
-        document.getElementById("kpi-ending");
+        document.getElementById(
+            "kpi-ending"
+        );
 
     const kpiCompletados =
-        document.getElementById("kpi-completed");
+        document.getElementById(
+            "kpi-completed"
+        );
 
     const kpiSuspendidos =
-        document.getElementById("kpi-suspended");
+        document.getElementById(
+            "kpi-suspended"
+        );
 
-    /* Modal */
 
     const modal =
-        document.getElementById("treatment-modal");
+        document.getElementById(
+            "treatment-modal"
+        );
 
     const btnCerrarModal =
         modal.querySelectorAll(
             "[data-close-treatment]"
         );
 
-    const formulario =
-        document.getElementById("treatment-form");
 
-    /* Paciente */
+    const formulario =
+        document.getElementById(
+            "treatment-form"
+        );
+
 
     const inputPaciente =
-        document.getElementById("treatment-patient");
+        document.getElementById(
+            "treatment-patient"
+        );
 
     const inputPacienteId =
-        document.getElementById("treatment-patient-id");
+        document.getElementById(
+            "treatment-patient-id"
+        );
 
     const resultadosPaciente =
-        document.getElementById("patient-results");
+        document.getElementById(
+            "patient-results"
+        );
 
-    /* Medicamento */
 
     const inputMedicamento =
-        document.getElementById("treatment-medication");
+        document.getElementById(
+            "treatment-medication"
+        );
 
     const inputMedicamentoId =
-        document.getElementById("treatment-medication-id");
+        document.getElementById(
+            "treatment-medication-id"
+        );
 
     const resultadosMedicamento =
-        document.getElementById("medication-results");
+        document.getElementById(
+            "medication-results"
+        );
 
-    /* Campos */
 
     const inputNombre =
-        document.getElementById("treatment-name");
+        document.getElementById(
+            "treatment-name"
+        );
 
     const inputDosis =
-        document.getElementById("treatment-dose");
+        document.getElementById(
+            "treatment-dose"
+        );
 
     const inputFrecuencia =
-        document.getElementById("treatment-frequency");
+        document.getElementById(
+            "treatment-frequency"
+        );
 
     const selectEstado =
-        document.getElementById("treatment-status-modal");
+        document.getElementById(
+            "treatment-status-modal"
+        );
 
     const inputInicio =
-        document.getElementById("treatment-start");
+        document.getElementById(
+            "treatment-start"
+        );
 
     const inputFin =
-        document.getElementById("treatment-end");
+        document.getElementById(
+            "treatment-end"
+        );
 
     const inputIndicaciones =
-        document.getElementById("treatment-indications");
+        document.getElementById(
+            "treatment-indications"
+        );
 
     const inputObservaciones =
-        document.getElementById("treatment-observations");
+        document.getElementById(
+            "treatment-observations"
+        );
 
-    /* Estado */
 
     let treatmentIdEditing = null;
     let tratamientos = [];
@@ -117,316 +156,586 @@ document.addEventListener("DOMContentLoaded", () => {
     let medicamentos = [];
     let treatmentKpis = {};
 
-    /* Utilidades */
 
-    function normalizar(texto) {
-        return String(texto || "")
+    function traducir(
+        clave,
+        valorDefault = ""
+    ) {
+
+        if (
+            typeof translations !== "undefined" &&
+            typeof currentLanguage !== "undefined" &&
+            translations[currentLanguage] &&
+            translations[currentLanguage][clave] !== undefined
+        ) {
+
+            return translations[currentLanguage][clave];
+        }
+
+        return valorDefault;
+    }
+
+
+    function normalizar(
+        texto
+    ) {
+
+        return String(
+            texto || ""
+        )
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
             .trim();
     }
 
-    async function solicitar(url, options = {}) {
-        const response = await fetch(url, {
-            credentials: "include",
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                ...(options.headers || {})
-            }
-        });
 
-        const result = await response.json();
+    async function solicitar(
+        url,
+        options = {}
+    ) {
 
-        if (response.status === 401) {
-            window.location.href = "../login.html";
+        const response =
+            await fetch(
+                url,
+                {
+                    credentials:
+                        "include",
+
+                    ...options,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        ...(options.headers || {})
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            response.status ===
+            401
+        ) {
+
+            window.location.href =
+                "../login.html";
+
             return null;
         }
 
-        if (!response.ok || !result.success) {
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
             throw new Error(
                 result.message ||
-                "No se pudo completar la solicitud."
+                traducir(
+                    "request_error",
+                    "No se pudo completar la solicitud."
+                )
             );
         }
+
 
         return result;
     }
 
+
     async function cargarCatalogos() {
-        const [patientsResult, medicationsResult] =
+
+        const [
+            patientsResult,
+            medicationsResult
+        ] =
             await Promise.all([
-                solicitar(PATIENTS_API_URL),
-                solicitar(MEDICATIONS_API_URL)
+                solicitar(
+                    PATIENTS_API_URL
+                ),
+
+                solicitar(
+                    MEDICATIONS_API_URL
+                )
             ]);
 
-        pacientes = patientsResult?.data || [];
-        medicamentos = medicationsResult?.data || [];
+
+        pacientes =
+            patientsResult?.data ||
+            [];
+
+
+        medicamentos =
+            medicationsResult?.data ||
+            [];
     }
 
+
     async function cargarTratamientos() {
-        const query = new URLSearchParams();
 
-        if (inputBuscar.value.trim()) {
-            query.set("search", inputBuscar.value.trim());
+        const query =
+            new URLSearchParams();
+
+
+        if (
+            inputBuscar.value.trim()
+        ) {
+
+            query.set(
+                "search",
+                inputBuscar.value.trim()
+            );
         }
 
-        if (filtroEstado.value) {
-            query.set("status", filtroEstado.value);
+
+        if (
+            filtroEstado.value
+        ) {
+
+            query.set(
+                "status",
+                filtroEstado.value
+            );
         }
+
 
         try {
-            const result = await solicitar(
-                `${API_URL}?${query}`
-            );
 
-            tratamientos = result?.data || [];
-            treatmentKpis = result?.kpis || {};
+            const result =
+                await solicitar(
+                    `${API_URL}?${query}`
+                );
+
+
+            tratamientos =
+                result?.data ||
+                [];
+
+
+            treatmentKpis =
+                result?.kpis ||
+                {};
+
+
             renderTodo();
+
+
         } catch (error) {
+
             tbody.innerHTML = `
                 <tr class="empty-treatment-row">
+
                     <td colspan="9">
-                        ${nyvoraEscapeHtml(error.message)}
+
+                        ${nyvoraEscapeHtml(
+                            error.message
+                        )}
+
                     </td>
+
                 </tr>
             `;
         }
     }
 
+
     function obtenerTratamientos() {
+
         return tratamientos;
     }
 
+
     function obtenerMedicamentos() {
+
         return medicamentos;
     }
 
-    function obtenerPacientePorId(id) {
+
+    function obtenerPacientePorId(
+        id
+    ) {
+
         return pacientes.find(
             (paciente) =>
-                Number(paciente.id) === Number(id)
+                Number(
+                    paciente.id
+                ) ===
+                Number(
+                    id
+                )
         );
     }
 
-    function obtenerMedicamentoPorId(id) {
+
+    function obtenerMedicamentoPorId(
+        id
+    ) {
+
         return medicamentos.find(
             (medicamento) =>
-                Number(medicamento.id) === Number(id)
+                Number(
+                    medicamento.id
+                ) ===
+                Number(
+                    id
+                )
         );
     }
 
-    function estadoInfo(status) {
+
+    function estadoInfo(
+        status
+    ) {
+
         const estados = {
+
             ACTIVO: {
-                texto: "Activo",
-                clase: "active"
+
+                key: "active",
+
+                texto:
+                    traducir(
+                        "active",
+                        "Activo"
+                    ),
+
+                clase:
+                    "active"
             },
 
             PENDIENTE: {
-                texto: "Pendiente",
-                clase: "pending"
+
+                key: "pending",
+
+                texto:
+                    traducir(
+                        "pending",
+                        "Pendiente"
+                    ),
+
+                clase:
+                    "pending"
             },
 
             COMPLETADO: {
-                texto: "Completado",
-                clase: "completed"
+
+                key: "completed",
+
+                texto:
+                    traducir(
+                        "completed",
+                        "Completado"
+                    ),
+
+                clase:
+                    "completed"
             },
 
             SUSPENDIDO: {
-                texto: "Suspendido",
-                clase: "suspended"
+
+                key: "suspended",
+
+                texto:
+                    traducir(
+                        "suspended",
+                        "Suspendido"
+                    ),
+
+                clase:
+                    "suspended"
             }
         };
 
-        return estados[status] || {
-            texto: status || "Sin estado",
-            clase: "pending"
-        };
+
+        return (
+            estados[status] ||
+            {
+                key:
+                    "unknown",
+
+                texto:
+                    status ||
+                    traducir(
+                        "undefined_status",
+                        "Sin estado"
+                    ),
+
+                clase:
+                    "pending"
+            }
+        );
     }
 
-    function formatearFecha(fecha) {
+
+    function formatearFecha(
+        fecha
+    ) {
+
         if (!fecha) {
-            return "Sin definir";
+
+            return traducir(
+                "undefined_condition",
+                "Sin definir"
+            );
         }
 
-        return nyvoraFormatDate(fecha);
+
+        return nyvoraFormatDate(
+            fecha
+        );
     }
 
+
     function fechaActual() {
+
         const fecha =
             new Date();
 
+
         const offset =
             fecha.getTimezoneOffset();
+
 
         return new Date(
             fecha.getTime() -
             offset * 60000
         )
             .toISOString()
-            .slice(0, 10);
+            .slice(
+                0,
+                10
+            );
     }
 
-    /* Modal */
 
     function abrirModal(
         tratamiento = null
     ) {
+
         formulario.reset();
 
+
         treatmentIdEditing =
-            tratamiento?.id || null;
+            tratamiento?.id ||
+            null;
+
 
         limpiarSeleccionPaciente();
+
         limpiarSeleccionMedicamento();
+
 
         selectEstado.value =
             "ACTIVO";
 
+
         inputInicio.value =
             fechaActual();
 
+
         if (tratamiento) {
+
             const paciente =
                 obtenerPacientePorId(
                     tratamiento.patientId
                 );
+
 
             const medicamento =
                 obtenerMedicamentoPorId(
                     tratamiento.medicationId
                 );
 
+
             inputPaciente.value =
-                paciente?.fullName || "";
+                paciente?.fullName ||
+                "";
 
             inputPacienteId.value =
-                tratamiento.patientId || "";
+                tratamiento.patientId ||
+                "";
 
             inputNombre.value =
-                tratamiento.name || "";
+                tratamiento.name ||
+                "";
 
             inputMedicamento.value =
-                medicamento?.name || "";
+                medicamento?.name ||
+                "";
 
             inputMedicamentoId.value =
-                tratamiento.medicationId || "";
+                tratamiento.medicationId ||
+                "";
 
             inputDosis.value =
-                tratamiento.dose || "";
+                tratamiento.dose ||
+                "";
 
             inputFrecuencia.value =
-                tratamiento.frequency || "";
+                tratamiento.frequency ||
+                "";
 
             selectEstado.value =
-                tratamiento.status || "ACTIVO";
+                tratamiento.status ||
+                "ACTIVO";
 
             inputInicio.value =
-                tratamiento.startDate || "";
+                tratamiento.startDate ||
+                "";
 
             inputFin.value =
-                tratamiento.endDate || "";
+                tratamiento.endDate ||
+                "";
 
             inputIndicaciones.value =
-                tratamiento.indications || "";
+                tratamiento.indications ||
+                "";
 
             inputObservaciones.value =
-                tratamiento.observations || "";
+                tratamiento.observations ||
+                "";
+
 
             modal.querySelector(
                 ".modal-title-group h2"
             ).textContent =
-                "Editar Tratamiento";
+                traducir(
+                    "edit_treatment",
+                    "Editar Tratamiento"
+                );
 
         } else {
+
             modal.querySelector(
                 ".modal-title-group h2"
             ).textContent =
-                "Nuevo Tratamiento";
+                traducir(
+                    "new_treatment",
+                    "Nuevo Tratamiento"
+                );
         }
 
-        modal.classList.add("active");
+
+        modal.classList.add(
+            "active"
+        );
+
 
         modal.setAttribute(
             "aria-hidden",
             "false"
         );
 
+
         document.body.classList.add(
             "treatment-modal-open"
         );
 
-        setTimeout(() => {
-            inputPaciente.focus();
-        }, 100);
+
+        setTimeout(
+            () => {
+                inputPaciente.focus();
+            },
+            100
+        );
     }
 
+
     function cerrarModal() {
+
         modal.classList.remove(
             "active"
         );
+
 
         modal.setAttribute(
             "aria-hidden",
             "true"
         );
 
+
         document.body.classList.remove(
             "treatment-modal-open"
         );
 
+
         formulario.reset();
 
-        treatmentIdEditing = null;
+
+        treatmentIdEditing =
+            null;
+
 
         limpiarSeleccionPaciente();
+
         limpiarSeleccionMedicamento();
 
         cerrarResultados();
     }
 
-    /* Selección inteligente */
 
     function limpiarSeleccionPaciente() {
-        inputPacienteId.value = "";
+
+        inputPacienteId.value =
+            "";
     }
+
 
     function limpiarSeleccionMedicamento() {
-        inputMedicamentoId.value = "";
+
+        inputMedicamentoId.value =
+            "";
     }
 
+
     function cerrarResultados() {
+
         resultadosPaciente.classList.remove(
             "active"
         );
+
 
         resultadosMedicamento.classList.remove(
             "active"
         );
 
-        resultadosPaciente.innerHTML = "";
-        resultadosMedicamento.innerHTML = "";
+
+        resultadosPaciente.innerHTML =
+            "";
+
+
+        resultadosMedicamento.innerHTML =
+            "";
     }
 
-    /* Pacientes inteligentes */
 
     function mostrarPacientes() {
+
         const termino =
             normalizar(
                 inputPaciente.value
             );
 
+
         let pacientesFiltrados =
-            pacientes
-                .filter(
-                    (paciente) =>
-                        paciente.status !==
-                        "INACTIVO"
-                );
+            pacientes.filter(
+                (paciente) =>
+                    paciente.status !==
+                    "INACTIVO"
+            );
+
 
         if (termino) {
+
             pacientesFiltrados =
                 pacientesFiltrados.filter(
                     (paciente) => {
@@ -434,38 +743,62 @@ document.addEventListener("DOMContentLoaded", () => {
                         return (
                             normalizar(
                                 paciente.fullName
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 paciente.identification
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 paciente.phone
-                            ).includes(termino)
+                            ).includes(
+                                termino
+                            )
                         );
                     }
                 );
         }
 
+
         pacientesFiltrados =
-            pacientesFiltrados.slice(0, 8);
+            pacientesFiltrados.slice(
+                0,
+                8
+            );
 
-        resultadosPaciente.innerHTML = "";
 
-        if (!pacientesFiltrados.length) {
+        resultadosPaciente.innerHTML =
+            "";
+
+
+        if (
+            !pacientesFiltrados.length
+        ) {
+
             resultadosPaciente.innerHTML = `
                 <div class="smart-result-empty">
-                    No se encontraron pacientes.
+
+                    ${traducir(
+                        "no_patients",
+                        "No se encontraron pacientes."
+                    )}
+
                 </div>
             `;
+
 
             resultadosPaciente.classList.add(
                 "active"
             );
 
+
             return;
         }
+
 
         pacientesFiltrados.forEach(
             (paciente) => {
@@ -475,42 +808,63 @@ document.addEventListener("DOMContentLoaded", () => {
                         "button"
                     );
 
+
                 boton.type =
                     "button";
+
 
                 boton.className =
                     "smart-result";
 
+
                 const detalle = [
+
                     paciente.identification,
+
                     paciente.phone
+
                 ]
                     .filter(Boolean)
-                    .join(" · ");
+                    .join(
+                        " · "
+                    );
+
 
                 boton.innerHTML = `
                     <div class="smart-result-icon">
+
                         <i class="fa-regular fa-user"></i>
+
                     </div>
 
+
                     <div class="smart-result-info">
+
                         <strong>
                             ${nyvoraEscapeHtml(
                                 paciente.fullName
                             )}
                         </strong>
 
+
                         <span>
+
                             ${
                                 detalle
                                     ? nyvoraEscapeHtml(
                                         detalle
                                     )
-                                    : "Paciente registrado"
+                                    : traducir(
+                                        "registered_patient",
+                                        "Paciente registrado"
+                                    )
                             }
+
                         </span>
+
                     </div>
                 `;
+
 
                 boton.addEventListener(
                     "click",
@@ -519,37 +873,40 @@ document.addEventListener("DOMContentLoaded", () => {
                         inputPaciente.value =
                             paciente.fullName;
 
+
                         inputPacienteId.value =
                             paciente.id;
 
-                        resultadosPaciente
-                            .classList.remove(
-                                "active"
-                            );
+
+                        resultadosPaciente.classList.remove(
+                            "active"
+                        );
                     }
                 );
 
-                resultadosPaciente
-                    .appendChild(
-                        boton
-                    );
+
+                resultadosPaciente.appendChild(
+                    boton
+                );
             }
         );
+
 
         resultadosPaciente.classList.add(
             "active"
         );
     }
 
-    /* Medicamentos inteligentes */
 
     function mostrarMedicamentos() {
+
         const termino =
             normalizar(
                 inputMedicamento.value
             );
 
-        let medicamentos =
+
+        let medicamentosFiltrados =
             obtenerMedicamentos()
                 .filter(
                     (medicamento) =>
@@ -557,49 +914,74 @@ document.addEventListener("DOMContentLoaded", () => {
                         "INACTIVO"
                 );
 
+
         if (termino) {
-            medicamentos =
-                medicamentos.filter(
+
+            medicamentosFiltrados =
+                medicamentosFiltrados.filter(
                     (medicamento) => {
 
                         return (
                             normalizar(
                                 medicamento.name
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 medicamento.presentation
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 medicamento.concentration
-                            ).includes(termino)
+                            ).includes(
+                                termino
+                            )
                         );
                     }
                 );
         }
 
-        medicamentos =
-            medicamentos.slice(0, 8);
 
-        resultadosMedicamento.innerHTML = "";
+        medicamentosFiltrados =
+            medicamentosFiltrados.slice(
+                0,
+                8
+            );
 
-        if (!medicamentos.length) {
+
+        resultadosMedicamento.innerHTML =
+            "";
+
+
+        if (
+            !medicamentosFiltrados.length
+        ) {
+
             resultadosMedicamento.innerHTML = `
                 <div class="smart-result-empty">
-                    No se encontraron medicamentos.
+
+                    ${traducir(
+                        "no_medications",
+                        "No se encontraron medicamentos."
+                    )}
+
                 </div>
             `;
 
-            resultadosMedicamento
-                .classList.add(
-                    "active"
-                );
+
+            resultadosMedicamento.classList.add(
+                "active"
+            );
+
 
             return;
         }
 
-        medicamentos.forEach(
+
+        medicamentosFiltrados.forEach(
             (medicamento) => {
 
                 const boton =
@@ -607,35 +989,49 @@ document.addEventListener("DOMContentLoaded", () => {
                         "button"
                     );
 
+
                 boton.type =
                     "button";
+
 
                 boton.className =
                     "smart-result";
 
+
                 boton.innerHTML = `
                     <div class="smart-result-icon">
+
                         <i class="fa-solid fa-pills"></i>
+
                     </div>
 
+
                     <div class="smart-result-info">
+
                         <strong>
                             ${nyvoraEscapeHtml(
                                 medicamento.name
                             )}
                         </strong>
 
+
                         <span>
+
                             ${nyvoraEscapeHtml(
                                 medicamento.presentation
                             )}
+
                             ·
+
                             ${nyvoraEscapeHtml(
                                 medicamento.concentration
                             )}
+
                         </span>
+
                     </div>
                 `;
+
 
                 boton.addEventListener(
                     "click",
@@ -644,55 +1040,62 @@ document.addEventListener("DOMContentLoaded", () => {
                         inputMedicamento.value =
                             medicamento.name;
 
+
                         inputMedicamentoId.value =
                             medicamento.id;
+
 
                         if (
                             !inputDosis.value &&
                             medicamento.dose
                         ) {
+
                             inputDosis.value =
                                 medicamento.dose;
                         }
+
 
                         if (
                             !inputFrecuencia.value &&
                             medicamento.frequency
                         ) {
+
                             inputFrecuencia.value =
                                 medicamento.frequency;
                         }
 
-                        resultadosMedicamento
-                            .classList.remove(
-                                "active"
-                            );
+
+                        resultadosMedicamento.classList.remove(
+                            "active"
+                        );
                     }
                 );
 
-                resultadosMedicamento
-                    .appendChild(
-                        boton
-                    );
+
+                resultadosMedicamento.appendChild(
+                    boton
+                );
             }
         );
 
-        resultadosMedicamento
-            .classList.add(
-                "active"
-            );
+
+        resultadosMedicamento.classList.add(
+            "active"
+        );
     }
 
-    /* Guardar tratamiento */
 
     async function guardarTratamiento() {
+
         const patientId =
             Number(
                 inputPacienteId.value
             );
 
+
         const nombre =
             inputNombre.value.trim();
+
 
         const medicationId =
             inputMedicamentoId.value
@@ -701,21 +1104,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
                 : null;
 
+
         const inicio =
             inputInicio.value;
+
 
         if (
             !patientId ||
             !nombre ||
             !inicio
         ) {
+
             return;
         }
 
+
         const datos = {
+
             patientId,
-            name: nombre,
+
+            name:
+                nombre,
+
             medicationId,
+
             dose:
                 inputDosis.value.trim(),
 
@@ -726,7 +1138,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 inicio,
 
             endDate:
-                inputFin.value || null,
+                inputFin.value ||
+                null,
 
             status:
                 selectEstado.value,
@@ -738,40 +1151,79 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputObservaciones.value.trim()
         };
 
-        if (treatmentIdEditing) {
-            datos.id = treatmentIdEditing;
+
+        if (
+            treatmentIdEditing
+        ) {
+
+            datos.id =
+                treatmentIdEditing;
         }
 
+
         try {
-            await solicitar(API_URL, {
-                method: treatmentIdEditing ? "PUT" : "POST",
-                body: JSON.stringify(datos)
-            });
+
+            await solicitar(
+                API_URL,
+                {
+                    method:
+                        treatmentIdEditing
+                            ? "PUT"
+                            : "POST",
+
+                    body:
+                        JSON.stringify(
+                            datos
+                        )
+                }
+            );
+
 
             cerrarModal();
+
+
             window.dispatchEvent(
-                new CustomEvent("nyvora:data-changed", {
-                    detail: { type: "treatments" }
-                })
+                new CustomEvent(
+                    "nyvora:data-changed",
+                    {
+                        detail: {
+                            type:
+                                "treatments"
+                        }
+                    }
+                )
             );
+
+
             await cargarTratamientos();
+
+
         } catch (error) {
-            console.error("Error guardando tratamiento:", error);
+
+            console.error(
+                "Error guardando tratamiento:",
+                error
+            );
         }
     }
 
-    /* Búsqueda principal */
 
     function obtenerFiltrados() {
+
         let tratamientosFiltrados =
-            [...obtenerTratamientos()];
+            [
+                ...obtenerTratamientos()
+            ];
+
 
         const termino =
             normalizar(
                 inputBuscar.value
             );
 
+
         if (termino) {
+
             tratamientosFiltrados =
                 tratamientosFiltrados.filter(
                     (tratamiento) => {
@@ -781,50 +1233,72 @@ document.addEventListener("DOMContentLoaded", () => {
                                 tratamiento.patientId
                             );
 
+
                         const medicamento =
                             obtenerMedicamentoPorId(
                                 tratamiento.medicationId
                             );
+
 
                         const estado =
                             estadoInfo(
                                 tratamiento.status
                             );
 
+
                         return (
+
                             normalizar(
                                 tratamiento.name
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 paciente?.fullName
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 paciente?.identification
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 medicamento?.name
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 medicamento?.presentation
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 medicamento?.concentration
-                            ).includes(termino) ||
+                            ).includes(
+                                termino
+                            ) ||
 
                             normalizar(
                                 estado.texto
-                            ).includes(termino)
+                            ).includes(
+                                termino
+                            )
                         );
                     }
                 );
         }
 
-        if (filtroEstado.value) {
+
+        if (
+            filtroEstado.value
+        ) {
+
             tratamientosFiltrados =
                 tratamientosFiltrados.filter(
                     (tratamiento) =>
@@ -833,10 +1307,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
         }
 
+
         const orden =
             filtroOrden.value;
 
-        if (orden === "patient") {
+
+        if (
+            orden ===
+            "patient"
+        ) {
+
             tratamientosFiltrados.sort(
                 (a, b) => {
 
@@ -845,26 +1325,35 @@ document.addEventListener("DOMContentLoaded", () => {
                             a.patientId
                         );
 
+
                     const pacienteB =
                         obtenerPacientePorId(
                             b.patientId
                         );
 
+
                     return String(
-                        pacienteA?.fullName || ""
-                    )
-                        .localeCompare(
-                            String(
-                                pacienteB?.fullName ||
-                                ""
-                            ),
-                            "es"
-                        );
+                        pacienteA?.fullName ||
+                        ""
+                    ).localeCompare(
+                        String(
+                            pacienteB?.fullName ||
+                            ""
+                        ),
+                        currentLanguage === "en"
+                            ? "en"
+                            : "es"
+                    );
                 }
             );
         }
 
-        if (orden === "startDate") {
+
+        if (
+            orden ===
+            "startDate"
+        ) {
+
             tratamientosFiltrados.sort(
                 (a, b) =>
                     nyvoraBuildDate(
@@ -876,7 +1365,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        if (orden === "endDate") {
+
+        if (
+            orden ===
+            "endDate"
+        ) {
+
             tratamientosFiltrados.sort(
                 (a, b) => {
 
@@ -884,16 +1378,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         !a.endDate &&
                         !b.endDate
                     ) {
+
                         return 0;
                     }
+
 
                     if (!a.endDate) {
                         return 1;
                     }
 
+
                     if (!b.endDate) {
                         return -1;
                     }
+
 
                     return (
                         nyvoraBuildDate(
@@ -907,7 +1405,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        if (orden === "status") {
+
+        if (
+            orden ===
+            "status"
+        ) {
+
             tratamientosFiltrados.sort(
                 (a, b) =>
                     estadoInfo(
@@ -916,125 +1419,183 @@ document.addEventListener("DOMContentLoaded", () => {
                         estadoInfo(
                             b.status
                         ).texto,
-                        "es"
+                        currentLanguage === "en"
+                            ? "en"
+                            : "es"
                     )
             );
         }
 
+
         return tratamientosFiltrados;
     }
 
-    /* Tabla */
 
     function crearFila(
         tratamiento
     ) {
+
         const paciente =
             obtenerPacientePorId(
                 tratamiento.patientId
             );
+
 
         const medicamento =
             obtenerMedicamentoPorId(
                 tratamiento.medicationId
             );
 
+
         const estado =
             estadoInfo(
                 tratamiento.status
             );
+
 
         const fila =
             document.createElement(
                 "tr"
             );
 
+
         fila.dataset.id =
             tratamiento.id;
 
+
         fila.innerHTML = `
             <td>
+
                 <div class="treatment-patient-cell">
 
                     <div class="treatment-patient-icon">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
+
                     <div class="treatment-patient-info">
+
                         <strong>
+
                             ${
                                 paciente
                                     ? nyvoraEscapeHtml(
                                         paciente.fullName
                                     )
-                                    : "Paciente no disponible"
+                                    : traducir(
+                                        "patient_unavailable",
+                                        "Paciente no disponible"
+                                    )
                             }
+
                         </strong>
 
+
                         <span>
+
                             ${
                                 paciente?.identification
                                     ? nyvoraEscapeHtml(
                                         paciente.identification
                                     )
-                                    : "Sin identificación"
+                                    : traducir(
+                                        "no_identification",
+                                        "Sin identificación"
+                                    )
                             }
+
                         </span>
+
                     </div>
 
                 </div>
+
             </td>
 
+
             <td>
+
                 ${nyvoraEscapeHtml(
                     tratamiento.name
                 )}
+
             </td>
 
+
             <td>
+
                 ${
                     medicamento
                         ? nyvoraEscapeHtml(
                             medicamento.name
                         )
-                        : "Sin medicamento"
+                        : traducir(
+                            "no_medication",
+                            "Sin medicamento"
+                        )
                 }
+
             </td>
 
+
             <td>
+
                 ${nyvoraEscapeHtml(
                     tratamiento.dose ||
-                    "Sin definir"
+                    traducir(
+                        "undefined_condition",
+                        "Sin definir"
+                    )
                 )}
+
             </td>
 
+
             <td>
+
                 ${nyvoraEscapeHtml(
                     tratamiento.frequency ||
-                    "Sin definir"
+                    traducir(
+                        "undefined_condition",
+                        "Sin definir"
+                    )
                 )}
+
             </td>
 
+
             <td>
+
                 ${formatearFecha(
                     tratamiento.startDate
                 )}
+
             </td>
 
+
             <td>
+
                 ${formatearFecha(
                     tratamiento.endDate
                 )}
+
             </td>
 
+
             <td>
+
                 <span
                     class="treatment-badge ${estado.clase}">
+
                     ${estado.texto}
+
                 </span>
+
             </td>
 
+
             <td>
+
                 <div class="treatment-row-actions">
 
                     ${
@@ -1043,7 +1604,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <a
                                     href="historial.html?id=${paciente.id}"
                                     class="treatment-action-button"
-                                    title="Abrir expediente">
+                                    title="${traducir(
+                                        "open_record",
+                                        "Abrir expediente"
+                                    )}">
 
                                     <i class="fa-solid fa-folder-open"></i>
 
@@ -1052,92 +1616,165 @@ document.addEventListener("DOMContentLoaded", () => {
                             : ""
                     }
 
+
                     <button
                         type="button"
                         class="treatment-action-button edit-treatment"
-                        title="Editar tratamiento">
+                        title="${traducir(
+                            "edit_treatment",
+                            "Editar tratamiento"
+                        )}">
 
                         <i class="fa-solid fa-pen"></i>
 
                     </button>
 
+
                     <button
                         type="button"
                         class="treatment-action-button delete-treatment"
-                        title="Suspender tratamiento">
+                        title="${traducir(
+                            "suspend_treatment",
+                            "Suspender tratamiento"
+                        )}">
 
                         <i class="fa-solid fa-ban"></i>
 
                     </button>
 
                 </div>
+
             </td>
         `;
+
 
         fila.querySelector(
             ".edit-treatment"
         ).addEventListener(
             "click",
             () => {
+
                 abrirModal(
                     tratamiento
                 );
             }
         );
 
+
         fila.querySelector(
             ".delete-treatment"
         ).addEventListener(
             "click",
-            () => eliminarTratamiento(tratamiento)
+            () =>
+                eliminarTratamiento(
+                    tratamiento
+                )
         );
+
 
         return fila;
     }
 
-    async function eliminarTratamiento(tratamiento) {
-        if (!confirm(
-            `¿Suspender el tratamiento ${tratamiento.name}?`
-        )) {
+
+    async function eliminarTratamiento(
+        tratamiento
+    ) {
+
+        if (
+            !confirm(
+                `${traducir(
+                    "suspend_question",
+                    "¿Suspender el tratamiento?"
+                )} ${tratamiento.name}?`
+            )
+        ) {
+
             return;
         }
 
+
         try {
-            await solicitar(API_URL, {
-                method: "DELETE",
-                body: JSON.stringify({ id: tratamiento.id })
-            });
-            window.dispatchEvent(
-                new CustomEvent("nyvora:data-changed", {
-                    detail: { type: "treatments" }
-                })
+
+            await solicitar(
+                API_URL,
+                {
+                    method:
+                        "DELETE",
+
+                    body:
+                        JSON.stringify(
+                            {
+                                id:
+                                    tratamiento.id
+                            }
+                        )
+                }
             );
+
+
+            window.dispatchEvent(
+                new CustomEvent(
+                    "nyvora:data-changed",
+                    {
+                        detail: {
+                            type:
+                                "treatments"
+                        }
+                    }
+                )
+            );
+
+
             await cargarTratamientos();
+
+
         } catch (error) {
-            console.error("Error suspendiendo tratamiento:", error);
+
+            console.error(
+                "Error suspendiendo tratamiento:",
+                error
+            );
         }
     }
 
+
     function renderTabla() {
+
         const tratamientos =
             obtenerFiltrados();
 
-        tbody.innerHTML = "";
 
-        if (!tratamientos.length) {
+        tbody.innerHTML =
+            "";
+
+
+        if (
+            !tratamientos.length
+        ) {
+
             tbody.innerHTML = `
                 <tr class="empty-treatment-row">
+
                     <td colspan="9">
-                        No se encontraron tratamientos.
+
+                        ${traducir(
+                            "no_treatments_found",
+                            "No se encontraron tratamientos."
+                        )}
+
                     </td>
+
                 </tr>
             `;
+
 
             return;
         }
 
+
         tratamientos.forEach(
             (tratamiento) => {
+
                 tbody.appendChild(
                     crearFila(
                         tratamiento
@@ -1147,77 +1784,89 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* KPIs */
 
     function renderKpis() {
+
         kpiActivos.textContent =
-            treatmentKpis.active ?? 0;
+            treatmentKpis.active ??
+            0;
+
 
         kpiProximos.textContent =
-            treatmentKpis.ending ?? 0;
+            treatmentKpis.ending ??
+            0;
+
 
         kpiCompletados.textContent =
-            treatmentKpis.completed ?? 0;
+            treatmentKpis.completed ??
+            0;
+
 
         kpiSuspendidos.textContent =
-            treatmentKpis.suspended ?? 0;
+            treatmentKpis.suspended ??
+            0;
     }
 
-    /* Render */
 
     function renderTodo() {
+
         renderTabla();
+
         renderKpis();
     }
 
-    /* Eventos búsqueda principal */
 
     inputBuscar.addEventListener(
         "input",
         cargarTratamientos
     );
 
+
     filtroEstado.addEventListener(
         "change",
         cargarTratamientos
     );
+
 
     filtroOrden.addEventListener(
         "change",
         renderTabla
     );
 
-    /* Paciente */
 
     inputPaciente.addEventListener(
         "focus",
         mostrarPacientes
     );
 
+
     inputPaciente.addEventListener(
         "input",
         () => {
+
             limpiarSeleccionPaciente();
+
             mostrarPacientes();
         }
     );
 
-    /* Medicamento */
 
     inputMedicamento.addEventListener(
         "focus",
         mostrarMedicamentos
     );
 
+
     inputMedicamento.addEventListener(
         "input",
         () => {
+
             limpiarSeleccionMedicamento();
+
             mostrarMedicamentos();
         }
     );
 
-    /* Cerrar dropdowns */
 
     document.addEventListener(
         "click",
@@ -1228,20 +1877,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     ".treatment-smart-field"
                 )
             ) {
+
                 cerrarResultados();
             }
         }
     );
 
-    /* Modal */
 
     btnNuevoTratamiento.addEventListener(
         "click",
-        () => abrirModal()
+        () =>
+            abrirModal()
     );
+
 
     btnCerrarModal.forEach(
         (boton) => {
+
             boton.addEventListener(
                 "click",
                 cerrarModal
@@ -1249,27 +1901,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     document.addEventListener(
         "keydown",
         (event) => {
 
             if (
-                event.key === "Escape"
+                event.key ===
+                "Escape"
             ) {
+
                 if (
                     modal.classList.contains(
                         "active"
                     )
                 ) {
+
                     cerrarModal();
                 }
+
 
                 cerrarResultados();
             }
         }
     );
 
-    /* Formulario */
 
     formulario.addEventListener(
         "submit",
@@ -1281,7 +1937,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    /* Cambios globales */
 
     window.addEventListener(
         "nyvora:data-changed",
@@ -1296,24 +1951,86 @@ document.addEventListener("DOMContentLoaded", () => {
                     event.detail?.type
                 )
             ) {
-                if (event.detail?.type === "treatments") {
+
+                if (
+                    event.detail?.type ===
+                    "treatments"
+                ) {
+
                     cargarTratamientos();
+
                 } else {
+
                     cargarCatalogos()
-                        .then(renderTodo)
-                        .catch((error) =>
-                            console.error(error)
+                        .then(
+                            renderTodo
+                        )
+                        .catch(
+                            (error) =>
+                                console.error(
+                                    error
+                                )
                         );
                 }
             }
         }
     );
 
-    /* Inicialización */
+
+    document.addEventListener(
+        "languageChanged",
+        () => {
+
+            renderTodo();
+
+
+            if (
+                modal.classList.contains(
+                    "active"
+                )
+            ) {
+
+                const titulo =
+                    modal.querySelector(
+                        ".modal-title-group h2"
+                    );
+
+
+                if (titulo) {
+
+                    titulo.textContent =
+                        treatmentIdEditing
+                            ? traducir(
+                                "edit_treatment",
+                                "Editar Tratamiento"
+                            )
+                            : traducir(
+                                "new_treatment",
+                                "Nuevo Tratamiento"
+                            );
+                }
+
+
+                mostrarPacientes();
+
+                mostrarMedicamentos();
+            }
+        }
+    );
+
 
     cargarCatalogos()
-        .then(cargarTratamientos)
-        .catch((error) => {
-            console.error("Error cargando tratamientos:", error);
-        });
+        .then(
+            cargarTratamientos
+        )
+        .catch(
+            (error) => {
+
+                console.error(
+                    "Error cargando tratamientos:",
+                    error
+                );
+            }
+        );
+
 });

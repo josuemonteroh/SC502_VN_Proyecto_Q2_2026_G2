@@ -2,415 +2,634 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Dashboard Clínico</title>
+    <title data-lang="dashboard_title">
+        Nyvora | Dashboard Clínico
+    </title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/base/global.css">
-    <link rel="stylesheet" href="../css/components/sidebar.css">
-    <link rel="stylesheet" href="../css/components/card.css">
-    <link rel="stylesheet" href="../css/components/forms.css">
-    <link rel="stylesheet" href="../css/components/table.css">
-    <link rel="stylesheet" href="../css/pages/dashboard.css">
+    <link
+        rel="stylesheet"
+        href="../css/base/global.css">
 
-    <!-- Chart.js -->
+    <link
+        rel="stylesheet"
+        href="../css/components/sidebar.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/card.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/forms.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/table.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/pages/dashboard.css">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
+
 <body>
+
     <div class="dashboard">
 
-        <!-- Sidebar -->
+
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
+
         <main class="content">
 
-            <!-- Header -->
-            <header class="dashboard-header">
-                <div>
-                    <h1>Dashboard Clínico</h1>
 
-                    <p>
+            <header class="dashboard-header">
+
+                <div>
+
+                    <h1 data-lang="dashboard_title">
+                        Dashboard Clínico
+                    </h1>
+
+                    <p data-lang="dashboard_subtitle">
                         Seguimiento general de pacientes y actividad clínica.
                     </p>
+
                 </div>
+
 
                 <a
                     href="configuracion.html"
                     class="dashboard-user dashboard-user-link"
-                    aria-label="Ir a configuración">
+                    aria-label="Ir a configuración"
+                    data-title="settings">
 
                     <div class="user-avatar">
+
                         <i class="fa-regular fa-user"></i>
+
                     </div>
 
+
                     <div>
+
                         <strong
                             id="dashboard-user-name"
                             data-current-user-name>
+
                             Usuario Nyvora
+
                         </strong>
+
 
                         <span
                             id="dashboard-user-role"
                             data-current-user-role>
+
                             Usuario
+
                         </span>
+
                     </div>
+
                 </a>
+
             </header>
 
-            <!-- Bienvenida -->
+
             <section class="clinical-hero">
+
                 <div class="clinical-hero-content">
-                    <span class="clinical-label">
+
+                    <span
+                        class="clinical-label"
+                        data-lang="clinical_followup">
+
                         Seguimiento clínico
+
                     </span>
 
-                    <h2 id="dashboard-greeting">
+
+                    <h2
+                        id="dashboard-greeting"
+                        data-lang="dashboard_welcome">
+
                         Bienvenido a Nyvora
+
                     </h2>
 
-                    <p>
+
+                    <p data-lang="dashboard_description">
+
                         Consulte la evolución de sus pacientes, controles programados,
                         métricas recientes y alertas clínicas desde una única vista.
+
                     </p>
+
                 </div>
+
 
                 <a
                     href="pacientes.html"
                     class="hero-action">
 
                     <i class="fa-solid fa-users"></i>
-                    Ver pacientes
+
+                    <span data-lang="view_patients">
+                        Ver pacientes
+                    </span>
+
                     <i class="fa-solid fa-arrow-right"></i>
+
                 </a>
+
             </section>
 
-            <!-- KPI -->
+
             <section class="kpi-cards">
+
 
                 <a
                     href="pacientes.html"
                     class="card dashboard-kpi-link">
 
                     <div class="card-header">
+
                         <div class="icon">
+
                             <i class="fa-solid fa-users"></i>
+
                         </div>
+
 
                         <h2 id="kpi-patients">
                             0
                         </h2>
+
                     </div>
 
-                    <p>Pacientes activos</p>
 
-                    <small>
+                    <p data-lang="active_patients_dashboard">
+                        Pacientes activos
+                    </p>
+
+
+                    <small data-lang="clinical_followup_dashboard">
                         Bajo seguimiento clínico
                     </small>
+
                 </a>
+
 
                 <a
                     href="alertas.html"
                     class="card dashboard-kpi-link">
 
                     <div class="card-header">
+
                         <div class="icon">
+
                             <i class="fa-solid fa-triangle-exclamation"></i>
+
                         </div>
+
 
                         <h2 id="kpi-alerts">
                             0
                         </h2>
+
                     </div>
 
-                    <p>Alertas activas</p>
 
-                    <small>
+                    <p data-lang="active_alerts_dashboard">
+                        Alertas activas
+                    </p>
+
+
+                    <small data-lang="require_review">
                         Requieren revisión
                     </small>
+
                 </a>
+
 
                 <a
                     href="#agenda-hoy"
                     class="card dashboard-kpi-link">
 
                     <div class="card-header">
+
                         <div class="icon">
+
                             <i class="fa-solid fa-calendar-check"></i>
+
                         </div>
+
 
                         <h2 id="kpi-appointments">
                             0
                         </h2>
+
                     </div>
 
-                    <p>Controles de hoy</p>
 
-                    <small>
+                    <p data-lang="appointments_today">
+                        Controles de hoy
+                    </p>
+
+
+                    <small data-lang="clinical_schedule">
                         Agenda clínica
                     </small>
+
                 </a>
+
 
                 <a
                     href="metricas.html"
                     class="card dashboard-kpi-link">
 
                     <div class="card-header">
+
                         <div class="icon">
+
                             <i class="fa-solid fa-weight-scale"></i>
+
                         </div>
+
 
                         <h2 id="kpi-measurements">
                             0
                         </h2>
+
                     </div>
 
-                    <p>Mediciones registradas</p>
 
-                    <small>
+                    <p data-lang="registered_measurements">
+                        Mediciones registradas
+                    </p>
+
+
+                    <small data-lang="biometric_history">
                         Historial biométrico
                     </small>
+
                 </a>
 
             </section>
 
-            <!-- Agenda -->
+
             <section
                 class="panel dashboard-section"
                 id="agenda-hoy">
 
+
                 <div class="section-header">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-calendar-day"></i>
-                            Agenda de hoy
+
+                            <span data-lang="today_schedule">
+                                Agenda de hoy
+                            </span>
+
                         </h2>
 
-                        <p>
+
+                        <p data-lang="today_schedule_description">
                             Controles y citas programadas para el día.
                         </p>
+
                     </div>
 
+
                     <a
-                        href="#agenda-hoy"
+                        href="citas.html"
                         class="section-link"
                         id="view-all-appointments">
 
-                        Ver agenda
+                        <span data-lang="view_schedule">
+                            Ver agenda
+                        </span>
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
+
                 </div>
+
 
                 <div
                     class="appointments-list"
                     id="appointments-list">
 
                     <div class="empty-dashboard-state">
+
                         <i class="fa-regular fa-calendar"></i>
 
-                        <p>
+
+                        <p data-lang="no_today_appointments">
                             No hay controles programados para hoy.
                         </p>
+
                     </div>
+
                 </div>
+
             </section>
 
-            <!-- Pacientes y alertas -->
+
             <section class="dashboard-operational-grid">
 
-                <!-- Pacientes recientes -->
+
                 <div class="panel dashboard-operational-panel">
+
                     <div class="section-header">
+
                         <div>
-                            <h2>
+
+                            <h2 data-lang="recent_patients">
                                 Pacientes recientes
                             </h2>
 
-                            <p>
+
+                            <p data-lang="recent_patients_description">
                                 Últimos pacientes registrados.
                             </p>
+
                         </div>
+
 
                         <a
                             href="pacientes.html"
                             class="section-link">
 
-                            Ver todos
+                            <span data-lang="view_all">
+                                Ver todos
+                            </span>
+
                             <i class="fa-solid fa-arrow-right"></i>
+
                         </a>
+
                     </div>
+
 
                     <div
                         class="dashboard-list"
                         id="recent-patients">
-
-                        <!-- JavaScript -->
                     </div>
+
                 </div>
 
-                <!-- Alertas clínicas -->
+
                 <div class="panel dashboard-operational-panel">
+
                     <div class="section-header">
+
                         <div>
-                            <h2>
+
+                            <h2 data-lang="clinical_alerts">
                                 Alertas clínicas
                             </h2>
 
-                            <p>
+
+                            <p data-lang="patients_require_review">
                                 Pacientes que requieren revisión.
                             </p>
+
                         </div>
+
 
                         <a
                             href="alertas.html"
                             class="section-link">
 
-                            Ver todas
+                            <span data-lang="view_all_alerts">
+                                Ver todas
+                            </span>
+
                             <i class="fa-solid fa-arrow-right"></i>
+
                         </a>
+
                     </div>
+
 
                     <div
                         class="dashboard-list"
                         id="recent-alerts">
-
-                        <!-- JavaScript -->
                     </div>
+
                 </div>
 
             </section>
 
-            <!-- Evolución de peso -->
+
             <section class="panel dashboard-section">
+
+
                 <div class="section-header weight-section-header">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-chart-line"></i>
-                            Evolución de peso
+
+                            <span data-lang="weight_evolution">
+                                Evolución de peso
+                            </span>
+
                         </h2>
 
-                        <p>
+
+                        <p data-lang="weight_evolution_description">
                             Consulte la evolución biométrica de un paciente.
                         </p>
+
                     </div>
 
-                    <!-- Búsqueda de paciente -->
+
                     <div class="dashboard-patient-selector">
-                        <label for="weight-patient-search">
+
+                        <label
+                            for="weight-patient-search">
                         </label>
 
+
                         <div class="patient-search">
+
                             <i class="fa-solid fa-magnifying-glass"></i>
+
 
                             <input
                                 type="search"
                                 id="weight-patient-search"
                                 class="search-box"
+                                data-placeholder="search_patient"
                                 placeholder="Buscar paciente..."
                                 autocomplete="off"
                                 role="combobox"
                                 aria-expanded="false"
                                 aria-controls="weight-patient-results">
 
+
                             <input
                                 type="hidden"
                                 id="weight-patient">
+
 
                             <div
                                 id="weight-patient-results"
                                 class="patient-search-results"
                                 role="listbox">
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
 
-                <!-- Resumen -->
+
                 <div class="weight-summary">
+
+
                     <div>
-                        <span>
+
+                        <span data-lang="last_weight">
                             Último peso
                         </span>
+
 
                         <strong id="weight-current">
                             N/D
                         </strong>
+
                     </div>
 
+
                     <div>
-                        <span>
+
+                        <span data-lang="variation">
                             Variación
                         </span>
+
 
                         <strong id="weight-change">
                             N/D
                         </strong>
+
                     </div>
 
+
                     <div>
-                        <span>
+
+                        <span data-lang="last_control">
                             Último control
                         </span>
+
 
                         <strong id="weight-last-control">
                             N/D
                         </strong>
+
                     </div>
+
                 </div>
 
-                <!-- Gráfico de peso -->
+
                 <div class="chart-card dashboard-main-chart">
+
                     <canvas id="weightChart"></canvas>
+
                 </div>
+
             </section>
 
-            <!-- Gráficos secundarios -->
+
             <section class="charts-grid dashboard-secondary-charts">
 
+
                 <div class="chart-card">
+
                     <div class="chart-header">
+
                         <i class="fa-solid fa-chart-pie"></i>
-                        Pacientes por Estado
+
+                        <span data-lang="patients_by_status">
+                            Pacientes por Estado
+                        </span>
+
                     </div>
+
 
                     <canvas id="statusChart"></canvas>
+
                 </div>
 
+
                 <div class="chart-card">
+
                     <div class="chart-header">
+
                         <i class="fa-solid fa-chart-column"></i>
-                        Alertas por Tipo
+
+                        <span data-lang="alerts_by_type">
+                            Alertas por Tipo
+                        </span>
+
                     </div>
 
+
                     <canvas id="alertChart"></canvas>
+
                 </div>
 
             </section>
 
+
         </main>
+
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
+
     <script src="../js/common.js" defer></script>
+
+    <script src="../js/language.js" defer></script>
+
     <script src="../js/dashboard.js" defer></script>
+
 </body>
 
 </html>

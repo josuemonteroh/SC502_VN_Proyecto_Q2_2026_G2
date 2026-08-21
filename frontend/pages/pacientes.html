@@ -7,15 +7,17 @@
 
     <title>Nyvora | Gestión de Pacientes</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -25,31 +27,39 @@
 </head>
 
 <body>
+
     <div class="dashboard">
 
-        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
         <main class="content">
 
-            <!-- Header -->
             <header class="patients-header">
+
                 <div>
-                    <h1>Gestión de Pacientes</h1>
-                    <p>Administración y seguimiento clínico de pacientes registrados.</p>
+
+                    <h1 data-lang="patients_title">
+                        Gestión de Pacientes
+                    </h1>
+
+                    <p data-lang="patients_subtitle">
+                        Administración y seguimiento clínico de pacientes registrados.
+                    </p>
+
                 </div>
 
                 <a
                     href="configuracion.html"
                     class="patients-user"
-                    aria-label="Ir a configuración">
+                    aria-label="Ir a configuración"
+                    data-title="settings">
 
                     <div class="patients-user-avatar">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
                     <div>
+
                         <strong data-current-user-name>
                             Usuario Nyvora
                         </strong>
@@ -57,29 +67,35 @@
                         <span data-current-user-role>
                             Usuario
                         </span>
+
                     </div>
+
                 </a>
+
             </header>
 
-            <!-- Barra de acciones -->
+
             <div class="panel patients-actions">
+
                 <div class="patients-toolbar">
 
-                    <!-- Búsqueda inteligente -->
                     <div class="patients-search-wrapper">
 
                         <div class="patients-search">
+
                             <i class="fa-solid fa-magnifying-glass"></i>
 
                             <input
                                 id="patient-search"
                                 class="search-box"
                                 type="search"
+                                data-placeholder="patient_search"
                                 placeholder="Buscar por ID de cita, ID de paciente, nombre o identificación..."
                                 autocomplete="off"
                                 role="combobox"
                                 aria-expanded="false"
                                 aria-controls="patient-search-results">
+
                         </div>
 
                         <div
@@ -90,219 +106,428 @@
 
                     </div>
 
+
                     <select
                         id="patient-status-filter"
                         class="search-box">
-                        <option value="Estado">Estado</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Seguimiento">Seguimiento</option>
-                        <option value="Inactivo">Inactivo</option>
+
+                        <option
+                            value="Estado"
+                            data-lang="status">
+                            Estado
+                        </option>
+
+                        <option
+                            value="Activo"
+                            data-lang="active">
+                            Activo
+                        </option>
+
+                        <option
+                            value="Seguimiento"
+                            data-lang="follow_up">
+                            Seguimiento
+                        </option>
+
+                        <option
+                            value="Inactivo"
+                            data-lang="inactive">
+                            Inactivo
+                        </option>
+
                     </select>
+
 
                     <select
                         id="patient-order-filter"
                         class="search-box">
-                        <option value="Ordenar">Ordenar</option>
-                        <option value="Nombre">Nombre</option>
-                        <option value="Edad">Edad</option>
-                        <option value="Último control">Último control</option>
+
+                        <option
+                            value="Ordenar"
+                            data-lang="sort">
+                            Ordenar
+                        </option>
+
+                        <option
+                            value="Nombre"
+                            data-lang="name">
+                            Nombre
+                        </option>
+
+                        <option
+                            value="Edad"
+                            data-lang="age">
+                            Edad
+                        </option>
+
+                        <option
+                            value="Último control"
+                            data-lang="last_control">
+                            Último control
+                        </option>
+
                     </select>
+
 
                     <button
                         id="open-patient-modal"
                         type="button"
                         class="btn-primary">
+
                         <i class="fa-solid fa-user-plus"></i>
-                        Registrar Paciente
+
+                        <span data-lang="register_patient">
+                            Registrar Paciente
+                        </span>
+
                     </button>
 
                 </div>
+
             </div>
 
-            <!-- KPI -->
+
             <section class="kpi-cards">
 
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-users"></i>
                         </div>
 
-                        <h2 id="kpi-patients-total">0</h2>
+                        <h2 id="kpi-patients-total">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Pacientes Registrados</p>
-                    <small>Total del sistema</small>
+                    <p data-lang="registered_patients">
+                        Pacientes Registrados
+                    </p>
+
+                    <small data-lang="system_total">
+                        Total del sistema
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-heart-pulse"></i>
                         </div>
 
-                        <h2 id="kpi-patients-active">0</h2>
+                        <h2 id="kpi-patients-active">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Pacientes Activos</p>
-                    <small>Seguimiento vigente</small>
+                    <p data-lang="active_patients">
+                        Pacientes Activos
+                    </p>
+
+                    <small data-lang="current_follow_up">
+                        Seguimiento vigente
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-user-clock"></i>
                         </div>
 
-                        <h2 id="kpi-patients-followup">0</h2>
+                        <h2 id="kpi-patients-followup">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>En Seguimiento</p>
-                    <small>Pacientes bajo control</small>
+                    <p data-lang="patients_followup">
+                        En Seguimiento
+                    </p>
+
+                    <small data-lang="patients_under_control">
+                        Pacientes bajo control
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
 
-                        <h2 id="kpi-patients-alerts">0</h2>
+                        <h2 id="kpi-patients-alerts">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Alertas Clínicas</p>
-                    <small>Requieren revisión</small>
+                    <p data-lang="clinical_alerts">
+                        Alertas Clínicas
+                    </p>
+
+                    <small data-lang="require_review">
+                        Requieren revisión
+                    </small>
+
                 </div>
 
             </section>
 
-            <!-- Listado -->
+
             <div class="panel">
+
                 <div class="patients-panel-header">
+
                     <div>
-                        <h2>Listado General de Pacientes</h2>
-                        <p>Pacientes registrados actualmente en Nyvora.</p>
+
+                        <h2 data-lang="patient_list">
+                            Listado General de Pacientes
+                        </h2>
+
+                        <p data-lang="patients_registered_now">
+                            Pacientes registrados actualmente en Nyvora.
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="patients-table-wrapper">
+
                     <table id="patients-table">
+
                         <thead>
+
                             <tr>
-                                <th>Paciente</th>
-                                <th>Edad</th>
-                                <th>Peso Inicial</th>
-                                <th>Último Control</th>
-                                <th>Estado</th>
-                                <th>Expediente</th>
+
+                                <th data-lang="patient">
+                                    Paciente
+                                </th>
+
+                                <th data-lang="age">
+                                    Edad
+                                </th>
+
+                                <th data-lang="initial_weight">
+                                    Peso Inicial
+                                </th>
+
+                                <th data-lang="last_control">
+                                    Último Control
+                                </th>
+
+                                <th data-lang="status">
+                                    Estado
+                                </th>
+
+                                <th data-lang="record">
+                                    Expediente
+                                </th>
+
                             </tr>
+
                         </thead>
 
                         <tbody></tbody>
+
                     </table>
+
                 </div>
+
             </div>
 
-            <!-- Próximas citas -->
+
             <section class="panel patients-appointments">
 
                 <div class="patients-panel-header">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-calendar-check"></i>
-                            Próximas Citas
+
+                            <span data-lang="upcoming_appointments">
+                                Próximas Citas
+                            </span>
+
                         </h2>
 
-                        <p>
+                        <p data-lang="appointments_description">
                             Controles y citas programadas para los pacientes.
                         </p>
+
                     </div>
+
 
                     <a
                         href="citas.html"
                         class="patients-section-link">
-                        Ver agenda
+
+                        <span data-lang="view_schedule">
+                            Ver agenda
+                        </span>
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
+
                 </div>
+
 
                 <div
                     id="patients-appointments-list"
                     class="patients-appointments-list">
 
                     <div class="patients-empty-state">
+
                         <div class="patients-empty-state-icon">
+
                             <i class="fa-regular fa-calendar"></i>
+
                         </div>
 
                         <div>
-                            <strong>No hay citas programadas.</strong>
 
-                            <span>
-                                Las próximas citas aparecerán aquí cuando se
-                                integren con la agenda clínica.
+                            <strong data-lang="no_appointments">
+                                No hay citas programadas.
+                            </strong>
+
+                            <span data-lang="appointments_empty_description">
+                                Las próximas citas aparecerán aquí cuando se programen.
                             </span>
+
                         </div>
+
                     </div>
 
                 </div>
 
             </section>
 
-            <!-- Información -->
+
             <section class="dashboard-grid">
 
                 <div class="panel">
-                    <h2>Actividad Reciente</h2>
+
+                    <h2 data-lang="recent_activity">
+                        Actividad Reciente
+                    </h2>
 
                     <div class="patients-empty-info">
+
                         <i class="fa-regular fa-clock"></i>
 
                         <div>
-                            <strong>Actividad del sistema</strong>
 
-                            <span>
-                                La actividad se mostrará conforme se registren
-                                acciones sobre los pacientes.
+                            <strong data-lang="system_activity">
+                                Actividad del sistema
+                            </strong>
+
+                            <span data-lang="system_activity_description">
+                                La actividad se mostrará conforme se registren acciones sobre los pacientes.
                             </span>
+
                         </div>
+
                     </div>
+
                 </div>
 
+
                 <div class="panel">
-                    <h2>Resumen Clínico</h2>
+
+                    <h2 data-lang="clinical_summary">
+                        Resumen Clínico
+                    </h2>
+
 
                     <table class="clinical-summary">
+
                         <tbody>
-                            <tr>
-                                <td>Pacientes registrados</td>
-                                <td id="summary-patients">0</td>
-                            </tr>
 
                             <tr>
-                                <td>Pacientes activos</td>
-                                <td id="summary-active">0</td>
+
+                                <td data-lang="registered_patients">
+                                    Pacientes registrados
+                                </td>
+
+                                <td id="summary-patients">
+                                    0
+                                </td>
+
                             </tr>
 
-                            <tr>
-                                <td>En seguimiento</td>
-                                <td id="summary-followup">0</td>
-                            </tr>
 
                             <tr>
-                                <td>Alertas activas</td>
-                                <td id="summary-alerts">0</td>
+
+                                <td data-lang="active_patients">
+                                    Pacientes activos
+                                </td>
+
+                                <td id="summary-active">
+                                    0
+                                </td>
+
                             </tr>
+
+
+                            <tr>
+
+                                <td data-lang="patients_followup">
+                                    En seguimiento
+                                </td>
+
+                                <td id="summary-followup">
+                                    0
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td data-lang="active_alerts_summary">
+                                    Alertas activas
+                                </td>
+
+                                <td id="summary-alerts">
+                                    0
+                                </td>
+
+                            </tr>
+
                         </tbody>
+
                     </table>
+
                 </div>
 
             </section>
 
         </main>
+
     </div>
 
-    <!-- Modal registrar paciente -->
+
     <div
         id="patient-modal"
         class="patient-modal"
@@ -310,95 +535,148 @@
 
         <div class="patient-modal-backdrop"></div>
 
+
         <div
             class="patient-modal-card"
             role="dialog"
             aria-modal="true"
             aria-labelledby="patient-modal-title">
 
-            <!-- Encabezado -->
+
             <div class="patient-modal-header">
 
                 <div class="patient-modal-title">
+
                     <div class="patient-modal-icon">
+
                         <i class="fa-solid fa-user-plus"></i>
+
                     </div>
 
+
                     <div>
-                        <h2 id="patient-modal-title">
+
+                        <h2
+                            id="patient-modal-title"
+                            data-lang="register_patient">
                             Registrar Paciente
                         </h2>
 
-                        <p>
+                        <p data-lang="patient_initial_information">
                             Ingrese la información inicial del paciente.
                         </p>
+
                     </div>
+
                 </div>
+
 
                 <button
                     id="close-patient-modal"
                     class="patient-modal-close"
                     type="button"
-                    aria-label="Cerrar">
+                    aria-label="Cerrar"
+                    data-title="close">
+
                     <i class="fa-solid fa-xmark"></i>
+
                 </button>
 
             </div>
 
-            <!-- Formulario -->
-            <form id="patient-form" novalidate>
+
+            <form
+                id="patient-form"
+                novalidate>
+
 
                 <div class="patient-modal-body">
 
-                    <!-- Información personal -->
+
                     <div class="patient-form-section">
 
                         <div class="patient-section-title">
+
                             <i class="fa-regular fa-user"></i>
 
                             <div>
-                                <h3>Información personal</h3>
-                                <p>Datos principales del paciente.</p>
+
+                                <h3 data-lang="personal_information">
+                                    Información personal
+                                </h3>
+
+                                <p data-lang="main_patient_data">
+                                    Datos principales del paciente.
+                                </p>
+
                             </div>
+
                         </div>
+
 
                         <div class="patient-form-grid">
 
+
                             <div class="patient-field patient-field-wide">
-                                <label for="patient-full-name">
+
+                                <label
+                                    for="patient-full-name"
+                                    data-lang="full_name">
+
                                     Nombre completo
                                     <span>*</span>
+
                                 </label>
+
 
                                 <input
                                     id="patient-full-name"
                                     name="fullName"
                                     type="text"
+                                    data-placeholder="full_name_placeholder"
                                     placeholder="Ej. María Rodríguez Vargas"
                                     autocomplete="name"
                                     required>
 
+
                                 <small class="field-error"></small>
+
                             </div>
 
+
                             <div class="patient-field">
-                                <label for="patient-identification">
+
+                                <label
+                                    for="patient-identification"
+                                    data-lang="identification">
+
                                     Identificación
+
                                 </label>
+
 
                                 <input
                                     id="patient-identification"
                                     name="identification"
                                     type="text"
+                                    data-placeholder="identification_placeholder"
                                     placeholder="Ej. 1-1234-5678"
                                     autocomplete="off">
+
                             </div>
 
+
                             <div class="patient-field">
-                                <label for="patient-age">
+
+                                <label
+                                    for="patient-age"
+                                    data-lang="age">
+
                                     Edad
                                     <span>*</span>
+
                                 </label>
+
 
                                 <input
                                     id="patient-age"
@@ -406,32 +684,52 @@
                                     type="number"
                                     min="0"
                                     max="120"
+                                    data-placeholder="age_placeholder"
                                     placeholder="Ej. 35"
                                     required>
 
+
                                 <small class="field-error"></small>
+
                             </div>
 
+
                             <div class="patient-field">
-                                <label for="patient-phone">
+
+                                <label
+                                    for="patient-phone"
+                                    data-lang="phone">
+
                                     Teléfono
+
                                 </label>
+
 
                                 <input
                                     id="patient-phone"
                                     name="phone"
                                     type="tel"
+                                    data-placeholder="phone_placeholder"
                                     placeholder="Ej. 8888-8888"
                                     autocomplete="tel">
+
                             </div>
 
+
                             <div class="patient-field">
-                                <label for="patient-height">
+
+                                <label
+                                    for="patient-height"
+                                    data-lang="height">
+
                                     Estatura
                                     <span>*</span>
+
                                 </label>
 
+
                                 <div class="patient-input-unit">
+
                                     <input
                                         id="patient-height"
                                         name="heightM"
@@ -439,112 +737,172 @@
                                         min="0.5"
                                         max="2.5"
                                         step="0.01"
+                                        data-placeholder="height_placeholder"
                                         placeholder="1.70"
                                         required>
 
                                     <span>m</span>
+
                                 </div>
 
+
                                 <small class="field-error"></small>
+
                             </div>
 
                         </div>
+
                     </div>
 
-                    <!-- Seguimiento -->
+
                     <div class="patient-form-section">
 
                         <div class="patient-section-title">
+
                             <i class="fa-solid fa-heart-pulse"></i>
 
                             <div>
-                                <h3>Seguimiento clínico</h3>
 
-                                <p>
-                                    Información inicial para el seguimiento
-                                    dentro de Nyvora.
+                                <h3 data-lang="clinical_followup">
+                                    Seguimiento clínico
+                                </h3>
+
+                                <p data-lang="clinical_followup_description">
+                                    Información inicial para el seguimiento dentro de Nyvora.
                                 </p>
+
                             </div>
+
                         </div>
+
 
                         <div class="patient-form-grid">
 
+
                             <div class="patient-field">
-                                <label for="patient-status">
+
+                                <label
+                                    for="patient-status"
+                                    data-lang="status">
+
                                     Estado
                                     <span>*</span>
+
                                 </label>
+
 
                                 <select
                                     id="patient-status"
                                     name="status"
                                     required>
 
-                                    <option value="ACTIVO">
+                                    <option
+                                        value="ACTIVO"
+                                        data-lang="active">
                                         Activo
                                     </option>
 
-                                    <option value="SEGUIMIENTO">
+                                    <option
+                                        value="SEGUIMIENTO"
+                                        data-lang="follow_up">
                                         Seguimiento
                                     </option>
 
-                                    <option value="INACTIVO">
+                                    <option
+                                        value="INACTIVO"
+                                        data-lang="inactive">
                                         Inactivo
                                     </option>
+
                                 </select>
+
                             </div>
 
+
                             <div class="patient-field patient-field-wide">
-                                <label for="patient-condition">
+
+                                <label
+                                    for="patient-condition"
+                                    data-lang="general_condition_goal">
+
                                     Condición general / objetivo
+
                                 </label>
+
 
                                 <input
                                     id="patient-condition"
                                     name="conditionGeneral"
                                     type="text"
+                                    data-placeholder="general_condition_placeholder"
                                     placeholder="Ej. Control de peso y seguimiento nutricional">
+
                             </div>
 
+
                             <div class="patient-field patient-field-full">
-                                <label for="patient-observations">
+
+                                <label
+                                    for="patient-observations"
+                                    data-lang="observations">
+
                                     Observaciones
+
                                 </label>
+
 
                                 <textarea
                                     id="patient-observations"
                                     name="observations"
                                     rows="4"
+                                    data-placeholder="observations_patient_placeholder"
                                     placeholder="Información adicional relevante para el seguimiento..."></textarea>
+
                             </div>
 
                         </div>
+
                     </div>
 
                 </div>
 
-                <!-- Acciones -->
+
                 <div class="patient-modal-footer">
 
                     <span class="patient-required-note">
+
                         <span>*</span>
-                        Campos obligatorios
+
+                        <span data-lang="required_fields">
+                            Campos obligatorios
+                        </span>
+
                     </span>
+
 
                     <div class="patient-modal-actions">
 
                         <button
                             id="cancel-patient-modal"
                             type="button"
-                            class="btn-patient-cancel">
+                            class="btn-patient-cancel"
+                            data-lang="cancel">
+
                             Cancelar
+
                         </button>
+
 
                         <button
                             type="submit"
                             class="btn-primary">
+
                             <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar Paciente
+
+                            <span data-lang="save_patient">
+                                Guardar Paciente
+                            </span>
+
                         </button>
 
                     </div>
@@ -554,13 +912,15 @@
             </form>
 
         </div>
+
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
     <script src="../js/pacientes.js" defer></script>
+
 </body>
 
 </html>

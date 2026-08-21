@@ -5,17 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Métricas Biométricas</title>
+    <title data-lang="metrics_title">Métricas Biométricas</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -25,211 +27,390 @@
 </head>
 
 <body>
+
     <div class="dashboard">
 
-        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
         <main class="content">
 
-            <!-- Header -->
             <div class="header">
+
                 <div>
-                    <h1>Métricas Biométricas</h1>
-                    <p>Registro y consulta de métricas biométricas de los pacientes.</p>
+
+                    <h1 data-lang="metrics_title">
+                        Métricas Biométricas
+                    </h1>
+
+                    <p data-lang="metrics_subtitle">
+                        Registro y consulta de métricas biométricas de los pacientes.
+                    </p>
+
                 </div>
 
+
                 <div class="user-card">
+
                     <div class="user-card-icon">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
                     <div class="user-card-info">
-                        <strong data-current-user-name>Doctor Nyvora</strong>
-                        <span data-current-user-role>DOCTOR</span>
+
+                        <strong data-current-user-name>
+                            Doctor Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            DOCTOR
+                        </span>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Acciones -->
+
             <section class="panel metrics-toolbar">
 
                 <div class="panel-heading">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-chart-line"></i>
-                            Histórico de Métricas
+
+                            <span data-lang="historical_metrics">
+                                Histórico de Métricas
+                            </span>
+
                         </h2>
-                        <p>Consulte y filtre los registros biométricos de los pacientes.</p>
+
+                        <p data-lang="metrics_history_description">
+                            Consulte y filtre los registros biométricos de los pacientes.
+                        </p>
+
                     </div>
 
-                    <button type="button" class="btn-primary" id="btn-nueva-metrica">
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="btn-nueva-metrica">
+
                         <i class="fa-solid fa-plus"></i>
-                        Registrar Métricas
+
+                        <span data-lang="register_metrics">
+                            Registrar Métricas
+                        </span>
+
                     </button>
+
                 </div>
+
 
                 <div class="metrics-filters">
 
-                    <!-- Búsqueda inteligente -->
                     <div class="smart-search">
+
                         <label for="buscar-paciente">
+
                             <i class="fa-solid fa-user"></i>
-                            Paciente
+
+                            <span data-lang="patient_label">
+                                Paciente
+                            </span>
+
                         </label>
 
+
                         <div class="smart-search-input">
+
                             <i class="fa-solid fa-magnifying-glass"></i>
 
                             <input
                                 type="text"
                                 id="buscar-paciente"
                                 class="search-box"
+                                data-placeholder="search_name_id"
                                 placeholder="Buscar por nombre o identificación..."
                                 autocomplete="off">
+
                         </div>
+
 
                         <div
                             class="smart-results"
                             id="resultados-pacientes-filtro">
                         </div>
+
                     </div>
 
-                    <!-- Desde -->
+
                     <div class="filter-group">
+
                         <label for="fecha-desde">
+
                             <i class="fa-solid fa-calendar"></i>
-                            Desde
+
+                            <span data-lang="from">
+                                Desde
+                            </span>
+
                         </label>
+
 
                         <input
                             type="date"
                             id="fecha-desde"
                             class="search-box">
+
                     </div>
 
-                    <!-- Hasta -->
+
                     <div class="filter-group">
+
                         <label for="fecha-hasta">
+
                             <i class="fa-solid fa-calendar"></i>
-                            Hasta
+
+                            <span data-lang="to">
+                                Hasta
+                            </span>
+
                         </label>
+
 
                         <input
                             type="date"
                             id="fecha-hasta"
                             class="search-box">
+
                     </div>
 
-                    <!-- Limpiar -->
+
                     <div class="filter-action">
-                        <button type="button" class="btn-secondary" id="btn-limpiar-filtros">
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            id="btn-limpiar-filtros">
+
                             <i class="fa-solid fa-rotate-left"></i>
-                            Limpiar
+
+                            <span data-lang="clear">
+                                Limpiar
+                            </span>
+
                         </button>
+
                     </div>
+
                 </div>
+
             </section>
 
-            <!-- Resumen -->
+
             <section class="kpi-cards metrics-kpis">
 
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-chart-column"></i>
                         </div>
 
-                        <h2 id="kpi-mediciones">0</h2>
+                        <h2 id="kpi-mediciones">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Mediciones Registradas</p>
-                    <small>Total de registros biométricos</small>
+                    <p data-lang="registered_measurements_kpi">
+                        Mediciones Registradas
+                    </p>
+
+                    <small data-lang="total_biometric_records">
+                        Total de registros biométricos
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-users"></i>
                         </div>
 
-                        <h2 id="kpi-pacientes">0</h2>
+                        <h2 id="kpi-pacientes">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Pacientes Medidos</p>
-                    <small>Pacientes con registros</small>
+                    <p data-lang="measured_patients">
+                        Pacientes Medidos
+                    </p>
+
+                    <small data-lang="patients_with_records">
+                        Pacientes con registros
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-calendar-check"></i>
                         </div>
 
-                        <h2 id="kpi-hoy">0</h2>
+                        <h2 id="kpi-hoy">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Registros de Hoy</p>
-                    <small>Mediciones realizadas hoy</small>
+                    <p data-lang="today_records">
+                        Registros de Hoy
+                    </p>
+
+                    <small data-lang="measurements_today">
+                        Mediciones realizadas hoy
+                    </small>
+
                 </div>
 
+
                 <div class="card">
+
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                         </div>
 
-                        <h2 id="kpi-ultima">—</h2>
+                        <h2 id="kpi-ultima">
+                            —
+                        </h2>
+
                     </div>
 
-                    <p>Última Medición</p>
-                    <small>Registro más reciente</small>
+                    <p data-lang="last_measurement">
+                        Última Medición
+                    </p>
+
+                    <small data-lang="latest_record">
+                        Registro más reciente
+                    </small>
+
                 </div>
+
             </section>
 
-            <!-- Tabla -->
+
             <section class="panel metrics-history">
 
                 <div class="panel-heading">
+
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-table-list"></i>
-                            Registros Biométricos
+
+                            <span data-lang="biometric_records">
+                                Registros Biométricos
+                            </span>
+
                         </h2>
 
-                        <p>Historial de mediciones registradas en Nyvora.</p>
+                        <p data-lang="measurement_history">
+                            Historial de mediciones registradas en Nyvora.
+                        </p>
+
                     </div>
+
                 </div>
+
 
                 <div class="table-responsive">
+
                     <table>
+
                         <thead>
+
                             <tr>
-                                <th>Fecha</th>
-                                <th>Paciente</th>
-                                <th>Peso</th>
-                                <th>IMC</th>
-                                <th>Grasa Corporal</th>
-                                <th>Frecuencia Cardíaca</th>
-                                <th>Horas de Sueño</th>
-                                <th>Pasos</th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th data-lang="patient">
+                                    Paciente
+                                </th>
+
+                                <th data-lang="weight">
+                                    Peso
+                                </th>
+
+                                <th data-lang="bmi">
+                                    IMC
+                                </th>
+
+                                <th data-lang="body_fat">
+                                    Grasa Corporal
+                                </th>
+
+                                <th data-lang="heart_rate">
+                                    Frecuencia Cardíaca
+                                </th>
+
+                                <th data-lang="sleep_hours">
+                                    Horas de Sueño
+                                </th>
+
+                                <th data-lang="steps">
+                                    Pasos
+                                </th>
+
                             </tr>
+
                         </thead>
 
+
                         <tbody id="tabla-metricas">
-                            <!-- JavaScript carga la información -->
                         </tbody>
+
                     </table>
+
                 </div>
+
             </section>
+
         </main>
+
     </div>
 
-    <!-- Modal Registrar Métricas -->
-    <div class="metrics-modal" id="modal-metricas" aria-hidden="true">
 
-        <div class="metrics-modal-backdrop" data-close-modal></div>
+    <div
+        class="metrics-modal"
+        id="modal-metricas"
+        aria-hidden="true">
+
+        <div
+            class="metrics-modal-backdrop"
+            data-close-modal>
+        </div>
+
 
         <div
             class="metrics-modal-dialog"
@@ -237,241 +418,401 @@
             aria-modal="true"
             aria-labelledby="titulo-modal-metricas">
 
-            <!-- Header modal -->
+
             <div class="metrics-modal-header">
 
                 <div class="modal-title-group">
+
                     <div class="modal-title-icon">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
 
+
                     <div>
-                        <h2 id="titulo-modal-metricas">Registrar Métricas</h2>
-                        <p>Ingrese las mediciones biométricas del paciente.</p>
+
+                        <h2
+                            id="titulo-modal-metricas"
+                            data-lang="measurement_modal_title">
+
+                            Registrar Métricas
+
+                        </h2>
+
+
+                        <p data-lang="measurement_modal_description">
+
+                            Ingrese las mediciones biométricas del paciente.
+
+                        </p>
+
                     </div>
+
                 </div>
+
 
                 <button
                     type="button"
                     class="modal-close"
                     id="btn-cerrar-modal"
-                    aria-label="Cerrar">
+                    aria-label="Cerrar"
+                    data-title="close">
+
                     <i class="fa-solid fa-xmark"></i>
+
                 </button>
+
             </div>
 
-            <!-- Contenido modal -->
+
             <div class="metrics-modal-body">
 
                 <form id="form-metricas">
 
-                    <!-- Paciente -->
+
                     <section class="modal-section">
 
                         <div class="modal-section-title">
+
                             <i class="fa-regular fa-user"></i>
 
+
                             <div>
-                                <h3>Paciente</h3>
-                                <p>Seleccione el paciente asociado a la medición.</p>
+
+                                <h3 data-lang="patient">
+                                    Paciente
+                                </h3>
+
+                                <p data-lang="select_patient_measurement">
+                                    Seleccione el paciente asociado a la medición.
+                                </p>
+
                             </div>
+
                         </div>
 
+
                         <div class="form-group full smart-search">
+
                             <label for="paciente-busqueda">
-                                Buscar paciente
-                                <span class="required">*</span>
+
+                                <span data-lang="search_patient_label">
+                                    Buscar paciente
+                                </span>
+
+                                <span class="required">
+                                    *
+                                </span>
+
                             </label>
 
+
                             <div class="smart-search-input">
+
                                 <i class="fa-solid fa-magnifying-glass"></i>
 
                                 <input
                                     type="text"
                                     id="paciente-busqueda"
                                     class="search-box"
+                                    data-placeholder="search_name_id"
                                     placeholder="Buscar por nombre o identificación..."
                                     autocomplete="off"
                                     required>
+
                             </div>
 
-                            <input type="hidden" id="paciente">
+
+                            <input
+                                type="hidden"
+                                id="paciente">
+
 
                             <div
                                 class="smart-results"
                                 id="resultados-pacientes">
                             </div>
+
                         </div>
 
-                        <!-- Último registro -->
-                        <div class="last-metric" id="ultima-metrica-paciente">
+
+                        <div
+                            class="last-metric"
+                            id="ultima-metrica-paciente">
+
                             <div class="last-metric-icon">
+
                                 <i class="fa-solid fa-clock-rotate-left"></i>
+
                             </div>
+
 
                             <div>
-                                <span>Último registro</span>
-                                <strong>Seleccione un paciente para consultar su última medición.</strong>
+
+                                <span data-lang="last_record">
+                                    Último registro
+                                </span>
+
+                                <strong data-lang="select_patient_latest">
+                                    Seleccione un paciente para consultar su última medición.
+                                </strong>
+
                             </div>
+
                         </div>
+
                     </section>
 
-                    <!-- Mediciones -->
+
                     <section class="modal-section">
 
                         <div class="modal-section-title">
+
                             <i class="fa-solid fa-heart-pulse"></i>
 
+
                             <div>
-                                <h3>Mediciones Biométricas</h3>
-                                <p>Registre los valores obtenidos durante el control.</p>
+
+                                <h3 data-lang="metrics_title">
+                                    Mediciones Biométricas
+                                </h3>
+
+                                <p data-lang="measurement_values_description">
+                                    Registre los valores obtenidos durante el control.
+                                </p>
+
                             </div>
+
                         </div>
+
 
                         <div class="metricas-grid">
 
-                            <!-- Peso -->
+
                             <div class="form-group">
+
                                 <label for="peso">
-                                    Peso
-                                    <span class="required">*</span>
+
+                                    <span data-lang="weight">
+                                        Peso
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
 
+
                                 <div class="input-unit">
+
                                     <input
                                         type="number"
                                         id="peso"
                                         class="search-box"
+                                        data-placeholder="weight_placeholder"
                                         placeholder="Ej. 72.5"
                                         step="0.1"
                                         min="0"
                                         required>
 
                                     <span>kg</span>
+
                                 </div>
+
                             </div>
 
-                            <!-- IMC -->
+
                             <div class="form-group">
+
                                 <label for="imc">
-                                    IMC
+
+                                    <span data-lang="bmi">
+                                        IMC
+                                    </span>
+
                                 </label>
+
 
                                 <input
                                     type="number"
                                     id="imc"
                                     class="search-box imc-readonly"
+                                    data-placeholder="automatic"
                                     placeholder="Automático"
                                     readonly>
+
                             </div>
 
-                            <!-- Grasa -->
+
                             <div class="form-group">
+
                                 <label for="grasa">
-                                    Grasa Corporal
+
+                                    <span data-lang="body_fat">
+                                        Grasa Corporal
+                                    </span>
+
                                 </label>
 
+
                                 <div class="input-unit">
+
                                     <input
                                         type="number"
                                         id="grasa"
                                         class="search-box"
+                                        data-placeholder="body_fat_placeholder"
                                         placeholder="Ej. 24.5"
                                         step="0.1"
                                         min="0">
 
                                     <span>%</span>
+
                                 </div>
+
                             </div>
 
-                            <!-- Frecuencia cardíaca -->
+
                             <div class="form-group">
+
                                 <label for="fc">
-                                    Frecuencia Cardíaca
+
+                                    <span data-lang="heart_rate">
+                                        Frecuencia Cardíaca
+                                    </span>
+
                                 </label>
 
+
                                 <div class="input-unit">
+
                                     <input
                                         type="number"
                                         id="fc"
                                         class="search-box"
+                                        data-placeholder="heart_rate_placeholder"
                                         placeholder="Ej. 72"
                                         min="0">
 
                                     <span>bpm</span>
+
                                 </div>
+
                             </div>
 
-                            <!-- Sueño -->
+
                             <div class="form-group">
+
                                 <label for="sueno">
-                                    Horas de Sueño
+
+                                    <span data-lang="sleep">
+                                        Horas de Sueño
+                                    </span>
+
                                 </label>
 
+
                                 <div class="input-unit">
+
                                     <input
                                         type="number"
                                         id="sueno"
                                         class="search-box"
+                                        data-placeholder="sleep_placeholder"
                                         placeholder="Ej. 7.5"
                                         step="0.1"
                                         min="0">
 
                                     <span>h</span>
+
                                 </div>
+
                             </div>
 
-                            <!-- Pasos -->
+
                             <div class="form-group">
+
                                 <label for="pasos">
-                                    Pasos Diarios
+
+                                    <span data-lang="steps">
+                                        Pasos Diarios
+                                    </span>
+
                                 </label>
+
 
                                 <input
                                     type="number"
                                     id="pasos"
                                     class="search-box"
+                                    data-placeholder="steps_placeholder"
                                     placeholder="Ej. 8500"
                                     min="0">
+
                             </div>
+
                         </div>
+
                     </section>
+
                 </form>
+
             </div>
 
-            <!-- Footer modal -->
+
             <div class="metrics-modal-footer">
 
                 <span class="required-note">
+
                     <span>*</span>
-                    Campos obligatorios
+
+                    <span data-lang="required_fields">
+                        Campos obligatorios
+                    </span>
+
                 </span>
 
+
                 <div class="modal-actions">
+
                     <button
                         type="button"
                         class="btn-secondary"
-                        id="btn-cancelar-modal">
+                        id="btn-cancelar-modal"
+                        data-lang="cancel">
+
                         Cancelar
+
                     </button>
+
 
                     <button
                         type="submit"
                         form="form-metricas"
                         class="btn-primary">
+
                         <i class="fa-solid fa-floppy-disk"></i>
-                        Guardar Métricas
+
+                        <span data-lang="save_measurement">
+                            Guardar Métricas
+                        </span>
+
                     </button>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
     <script src="../js/metricas.js" defer></script>
+
 </body>
 
 </html>

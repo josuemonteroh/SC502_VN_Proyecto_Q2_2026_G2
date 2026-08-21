@@ -2,213 +2,540 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Configuración</title>
+    <title data-lang="settings_title">
+        Nyvora | Configuración
+    </title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/base/global.css">
-    <link rel="stylesheet" href="../css/components/sidebar.css">
-    <link rel="stylesheet" href="../css/components/card.css">
-    <link rel="stylesheet" href="../css/components/forms.css">
-    <link rel="stylesheet" href="../css/components/table.css">
-    <link rel="stylesheet" href="../css/pages/configuracion.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/base/global.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/sidebar.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/card.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/forms.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/components/table.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/pages/configuracion.css">
+
 </head>
 
+
 <body>
+
     <div class="dashboard">
 
-        <!-- Sidebar -->
+
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
+
         <main class="content">
 
-            <!-- Header -->
+
+            <!-- HEADER -->
+
             <div class="header">
+
                 <div>
-                    <h1 data-lang="settings_title">Configuración</h1>
+
+                    <h1 data-lang="settings_title">
+                        Configuración
+                    </h1>
+
 
                     <p data-lang="settings_subtitle">
                         Administre la información del perfil y las preferencias generales de la plataforma.
                     </p>
+
                 </div>
 
+
                 <div class="user-card">
+
                     <div class="user-card-icon">
+
                         <i class="fa-regular fa-user"></i>
+
                     </div>
 
+
                     <div class="user-card-info">
+
                         <strong
                             id="user-name"
                             data-current-user-name>
+
                             Usuario Nyvora
+
                         </strong>
 
+
                         <span data-current-user-role>
+
                             Usuario
+
                         </span>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Perfil -->
+
+
+            <!-- PERFIL -->
+
             <div class="panel">
+
                 <h2>
+
                     <i class="fa-solid fa-user"></i>
-                    Perfil de Usuario
+
+                    <span data-lang="user_profile">
+                        Perfil de Usuario
+                    </span>
+
                 </h2>
 
+
                 <div class="settings-grid">
+
+
                     <div>
-                        <label class="settings-label" for="profile-fullname">
+
+                        <label
+                            class="settings-label"
+                            for="profile-fullname"
+                            data-lang="full_name">
+
                             Nombre completo
+
                         </label>
+
 
                         <input
                             type="text"
                             id="profile-fullname"
                             class="settings-input settings-readonly"
                             readonly>
+
                     </div>
 
+
+
                     <div>
-                        <label class="settings-label" for="profile-email">
+
+                        <label
+                            class="settings-label"
+                            for="profile-email"
+                            data-lang="email_label">
+
                             Correo electrónico
+
                         </label>
+
 
                         <input
                             type="email"
                             id="profile-email"
                             class="settings-input settings-readonly"
                             readonly>
+
                     </div>
 
+
+
                     <div>
-                        <label class="settings-label" for="profile-role">
+
+                        <label
+                            class="settings-label"
+                            for="profile-role"
+                            data-lang="role">
+
                             Rol
+
                         </label>
+
 
                         <input
                             type="text"
                             id="profile-role"
                             class="settings-input settings-readonly"
                             readonly>
+
                     </div>
 
+
+
                     <div>
-                        <label class="settings-label" for="profile-joindate">
+
+                        <label
+                            class="settings-label"
+                            for="profile-joindate"
+                            data-lang="join_date">
+
                             Fecha de ingreso
+
                         </label>
+
 
                         <input
                             type="text"
                             id="profile-joindate"
                             class="settings-input settings-readonly"
                             readonly>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Preferencias -->
+
+
+            <!-- PREFERENCIAS -->
+
             <div class="panel">
+
                 <h2>
+
                     <i class="fa-solid fa-sliders"></i>
-                    Preferencias del Sistema
+
+                    <span data-lang="system_preferences">
+                        Preferencias del Sistema
+                    </span>
+
                 </h2>
 
+
                 <div class="settings-grid">
+
+
                     <div>
-                        <label class="settings-label" for="config-language">
+
+                        <label
+                            class="settings-label"
+                            for="config-language"
+                            data-lang="language">
+
                             Idioma
+
                         </label>
 
-                        <select id="config-language" class="settings-input">
-                            <option value="es-CR">Español</option>
-                            <option value="en-US">Inglés</option>
+
+                        <select
+                            id="config-language"
+                            class="settings-input">
+
+                            <option
+                                value="es"
+                                data-lang="spanish">
+
+                                Español
+
+                            </option>
+
+
+                            <option
+                                value="en"
+                                data-lang="english">
+
+                                Inglés
+
+                            </option>
+
                         </select>
+
                     </div>
 
+
+
                     <div>
-                        <label class="settings-label" for="config-dateformat">
+
+                        <label
+                            class="settings-label"
+                            for="config-dateformat"
+                            data-lang="date_format">
+
                             Formato de fecha
+
                         </label>
 
-                        <select id="config-dateformat" class="settings-input">
-                            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+
+                        <select
+                            id="config-dateformat"
+                            class="settings-input">
+
+                            <option value="DD/MM/YYYY">
+                                DD/MM/YYYY
+                            </option>
+
+                            <option value="MM/DD/YYYY">
+                                MM/DD/YYYY
+                            </option>
+
+                            <option value="YYYY-MM-DD">
+                                YYYY-MM-DD
+                            </option>
+
                         </select>
+
                     </div>
 
+
+
                     <div>
+
                         <label class="checkbox-label">
+
                             <input
                                 type="checkbox"
                                 id="config-notifications">
 
-                            Activar notificaciones
+
+                            <span data-lang="enable_notifications">
+
+                                Activar notificaciones
+
+                            </span>
+
                         </label>
+
                     </div>
+
                 </div>
 
+
                 <div class="settings-actions">
+
                     <button
                         type="button"
                         id="btn-guardar-config"
                         class="btn-primary">
 
                         <i class="fa-solid fa-floppy-disk"></i>
-                        Guardar Cambios
+
+
+                        <span data-lang="save_changes">
+
+                            Guardar Cambios
+
+                        </span>
+
                     </button>
+
                 </div>
+
             </div>
 
-            <!-- Información -->
-            <div class="panel">
-                <h2>
-                    <i class="fa-solid fa-circle-info"></i>
-                    Información del Sistema
-                </h2>
 
-                <p class="settings-description">
-                    Nyvora es una plataforma web desarrollada para el monitoreo preventivo y seguimiento biométrico de pacientes con sobrepeso.
-                </p>
 
-                <hr class="settings-divider">
+            <!-- INFORMACIÓN DEL SISTEMA -->
 
-                <p class="settings-text">
-                    Versión: 1.0.0
-                </p>
+            <div class="panel system-info-panel">
 
-                <p class="settings-text">
-                    Universidad Fidélitas | SC-502 Ambiente Web Cliente/Servidor
-                </p>
+
+                <div class="system-info-header">
+
+                    <div class="system-info-icon">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 data-lang="system_information">
+
+                            Información del Sistema
+
+                        </h2>
+
+
+                        <p data-lang="system_information_subtitle">
+
+                            Información general de la plataforma Nyvora.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="system-info-content">
+
+
+                    <!-- DESCRIPCIÓN -->
+
+                    <div class="system-info-description">
+
+                        <div class="system-info-description-icon">
+
+                            <i class="fa-solid fa-heart-pulse"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong data-lang="system_name">
+
+                                Nyvora
+
+                            </strong>
+
+
+                            <p data-lang="system_description">
+
+                                Nyvora es una plataforma web desarrollada para el monitoreo preventivo y seguimiento biométrico de pacientes con sobrepeso.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DETALLES -->
+
+                    <div class="system-info-details">
+
+
+                        <div class="system-info-item">
+
+                            <span data-lang="version_label">
+
+                                Versión
+
+                            </span>
+
+
+                            <strong>
+
+                                1.0.0
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="system-info-item">
+
+                            <span data-lang="university_label">
+
+                                Universidad
+
+                            </span>
+
+
+                            <strong>
+
+                                Universidad Fidélitas
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="system-info-item">
+
+                            <span data-lang="course_label">
+
+                                Curso
+
+                            </span>
+
+
+                            <strong>
+
+                                SC-502 Ambiente Web Cliente/Servidor
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
 
         </main>
+
     </div>
 
-    <!-- JavaScript -->
-    <script src="../js/data.js" defer></script>
-    <script src="../js/common.js" defer></script>
-    <script src="../js/language.js" defer></script>
-    <script src="../js/configuracion.js" defer></script>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script
+        src="../js/data.js"
+        defer>
+    </script>
+
+
+    <script
+        src="../js/common.js"
+        defer>
+    </script>
+
+
+    <script
+        src="../js/language.js"
+        defer>
+    </script>
+
+
+    <script
+        src="../js/configuracion.js"
+        defer>
+    </script>
+
 </body>
 
 </html>

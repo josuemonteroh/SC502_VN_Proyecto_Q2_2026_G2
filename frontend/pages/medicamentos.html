@@ -5,18 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Gestión de Medicamentos</title>
+    <title data-lang="medications_title">
+        Nyvora | Gestión de Medicamentos
+    </title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -29,34 +32,48 @@
 
     <div class="dashboard">
 
-        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
         <main class="content">
 
-            <!-- Header -->
             <div class="header">
 
                 <div>
-                    <h1>Gestión de Medicamentos</h1>
-                    <p>Consulta y administración de medicamentos registrados en Nyvora.</p>
+
+                    <h1 data-lang="medications_title">
+                        Gestión de Medicamentos
+                    </h1>
+
+                    <p data-lang="medications_subtitle">
+                        Consulta y administración de medicamentos registrados en Nyvora.
+                    </p>
+
                 </div>
 
+
                 <div class="user-card">
+
                     <div class="user-card-icon">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
                     <div>
-                        <strong data-current-user-name>Usuario Nyvora</strong>
-                        <span data-current-user-role>Usuario</span>
+
+                        <strong data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            Usuario
+                        </span>
+
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- Barra de acciones -->
+
             <section class="panel medication-actions">
 
                 <div class="medication-search-wrapper">
@@ -67,6 +84,7 @@
                         id="medication-search"
                         type="search"
                         autocomplete="off"
+                        data-placeholder="medication_search"
                         placeholder="Buscar medicamento, presentación o concentración...">
 
                     <div
@@ -77,24 +95,98 @@
 
                 </div>
 
-                <select id="medication-status-filter" class="medication-filter">
-                    <option value="">Todos los estados</option>
-                    <option value="ACTIVO">Activos</option>
-                    <option value="EN_USO">En uso</option>
-                    <option value="INACTIVO">Inactivos</option>
+
+                <select
+                    id="medication-status-filter"
+                    class="medication-filter">
+
+                    <option
+                        value=""
+                        data-lang="all_status">
+                        Todos los estados
+                    </option>
+
+                    <option
+                        value="ACTIVO"
+                        data-lang="active_medications">
+                        Activos
+                    </option>
+
+                    <option
+                        value="EN_USO"
+                        data-lang="in_use">
+                        En uso
+                    </option>
+
+                    <option
+                        value="INACTIVO"
+                        data-lang="inactive_medications">
+                        Inactivos
+                    </option>
+
                 </select>
 
-                <select id="medication-presentation-filter" class="medication-filter">
-                    <option value="">Todas las presentaciones</option>
-                    <option value="Tabletas">Tabletas</option>
-                    <option value="Cápsulas">Cápsulas</option>
-                    <option value="Jarabe">Jarabe</option>
-                    <option value="Suspensión">Suspensión</option>
-                    <option value="Solución">Solución</option>
-                    <option value="Inyectable">Inyectable</option>
-                    <option value="Crema">Crema</option>
-                    <option value="Otro">Otro</option>
+
+                <select
+                    id="medication-presentation-filter"
+                    class="medication-filter">
+
+                    <option
+                        value=""
+                        data-lang="all_presentations">
+                        Todas las presentaciones
+                    </option>
+
+                    <option
+                        value="Tabletas"
+                        data-lang="tablets">
+                        Tabletas
+                    </option>
+
+                    <option
+                        value="Cápsulas"
+                        data-lang="capsules">
+                        Cápsulas
+                    </option>
+
+                    <option
+                        value="Jarabe"
+                        data-lang="syrup">
+                        Jarabe
+                    </option>
+
+                    <option
+                        value="Suspensión"
+                        data-lang="suspension">
+                        Suspensión
+                    </option>
+
+                    <option
+                        value="Solución"
+                        data-lang="solution">
+                        Solución
+                    </option>
+
+                    <option
+                        value="Inyectable"
+                        data-lang="injectable">
+                        Inyectable
+                    </option>
+
+                    <option
+                        value="Crema"
+                        data-lang="cream">
+                        Crema
+                    </option>
+
+                    <option
+                        value="Otro"
+                        data-lang="other">
+                        Otro
+                    </option>
+
                 </select>
+
 
                 <button
                     id="open-medication-modal"
@@ -102,135 +194,221 @@
                     class="btn-primary">
 
                     <i class="fa-solid fa-pills"></i>
-                    Registrar Medicamento
+
+                    <span data-lang="register_medication">
+                        Registrar Medicamento
+                    </span>
 
                 </button>
 
             </section>
 
-            <!-- KPIs -->
+
             <section class="kpi-cards">
 
                 <div class="card">
 
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-capsules"></i>
                         </div>
 
-                        <h2 id="kpi-medications-total">0</h2>
+                        <h2 id="kpi-medications-total">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Medicamentos Registrados</p>
-                    <small>Total del sistema</small>
+                    <p data-lang="registered_medications">
+                        Medicamentos Registrados
+                    </p>
+
+                    <small data-lang="system_total">
+                        Total del sistema
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
 
-                        <h2 id="kpi-medications-active">0</h2>
+                        <h2 id="kpi-medications-active">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Medicamentos Activos</p>
-                    <small>Disponibles actualmente</small>
+                    <p data-lang="active_medications">
+                        Medicamentos Activos
+                    </p>
+
+                    <small data-lang="available_currently">
+                        Disponibles actualmente
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-user-check"></i>
                         </div>
 
-                        <h2 id="kpi-medications-used">0</h2>
+                        <h2 id="kpi-medications-used">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>En Uso</p>
-                    <small>Asociados a tratamientos</small>
+                    <p data-lang="medications_in_use">
+                        En Uso
+                    </p>
+
+                    <small data-lang="associated_treatments">
+                        Asociados a tratamientos
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
                     <div class="card-header">
+
                         <div class="icon">
                             <i class="fa-solid fa-ban"></i>
                         </div>
 
-                        <h2 id="kpi-medications-inactive">0</h2>
+                        <h2 id="kpi-medications-inactive">
+                            0
+                        </h2>
+
                     </div>
 
-                    <p>Inactivos</p>
-                    <small>Fuera de uso</small>
+                    <p data-lang="inactive_medications">
+                        Inactivos
+                    </p>
+
+                    <small data-lang="inactive_out_of_use">
+                        Fuera de uso
+                    </small>
 
                 </div>
 
             </section>
 
-            <!-- Listado -->
+
             <section class="panel medication-list">
 
                 <div class="panel-heading">
 
                     <div>
+
                         <h2>
+
                             <i class="fa-solid fa-pills"></i>
-                            Listado de Medicamentos
+
+                            <span data-lang="medication_list">
+                                Listado de Medicamentos
+                            </span>
+
                         </h2>
 
-                        <p>
+                        <p data-lang="medications_currently_registered">
                             Medicamentos registrados actualmente en Nyvora.
                         </p>
+
                     </div>
 
-                    <span id="medication-results-count">
+
+                    <span
+                        id="medication-results-count"
+                        data-lang="results_count">
                         0 resultados
                     </span>
 
                 </div>
+
 
                 <div class="table-responsive">
 
                     <table id="medications-table">
 
                         <thead>
+
                             <tr>
-                                <th>Medicamento</th>
-                                <th>Presentación</th>
-                                <th>Concentración</th>
-                                <th>Dosis de referencia</th>
-                                <th>Estado</th>
-                                <th>Pacientes asociados</th>
-                                <th>Acciones</th>
+
+                                <th data-lang="medication">
+                                    Medicamento
+                                </th>
+
+                                <th data-lang="presentation">
+                                    Presentación
+                                </th>
+
+                                <th data-lang="concentration">
+                                    Concentración
+                                </th>
+
+                                <th data-lang="reference_dose">
+                                    Dosis de referencia
+                                </th>
+
+                                <th data-lang="status">
+                                    Estado
+                                </th>
+
+                                <th data-lang="associated_patients">
+                                    Pacientes asociados
+                                </th>
+
+                                <th data-lang="actions">
+                                    Acciones
+                                </th>
+
                             </tr>
+
                         </thead>
+
 
                         <tbody id="medications-table-body">
 
                             <tr class="empty-medications">
+
                                 <td colspan="7">
 
                                     <div class="empty-state">
 
                                         <div class="empty-state-icon">
+
                                             <i class="fa-solid fa-capsules"></i>
+
                                         </div>
 
-                                        <strong>No hay medicamentos registrados</strong>
 
-                                        <p>
+                                        <strong data-lang="no_medications_registered">
+                                            No hay medicamentos registrados
+                                        </strong>
+
+
+                                        <p data-lang="medications_will_appear">
                                             Los medicamentos aparecerán aquí conforme sean registrados.
                                         </p>
 
                                     </div>
 
                                 </td>
+
                             </tr>
 
                         </tbody>
@@ -245,7 +423,7 @@
 
     </div>
 
-    <!-- Modal Registrar Medicamento -->
+
     <div
         id="medication-modal"
         class="medication-modal"
@@ -253,13 +431,14 @@
 
         <div class="medication-modal-backdrop"></div>
 
+
         <div
             class="medication-modal-dialog"
             role="dialog"
             aria-modal="true"
             aria-labelledby="medication-modal-title">
 
-            <!-- Header -->
+
             <div class="medication-modal-header">
 
                 <div class="modal-title-group">
@@ -268,23 +447,33 @@
                         <i class="fa-solid fa-pills"></i>
                     </div>
 
+
                     <div>
-                        <h2 id="medication-modal-title">
+
+                        <h2
+                            id="medication-modal-title"
+                            data-lang="register_medication">
+
                             Registrar Medicamento
+
                         </h2>
 
-                        <p>
+
+                        <p data-lang="medication_general_information">
                             Ingrese la información general del medicamento.
                         </p>
+
                     </div>
 
                 </div>
+
 
                 <button
                     id="close-medication-modal"
                     type="button"
                     class="modal-close"
-                    aria-label="Cerrar">
+                    aria-label="Cerrar"
+                    data-title="close">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -292,12 +481,12 @@
 
             </div>
 
-            <!-- Formulario -->
+
             <form id="medication-form">
 
                 <div class="medication-modal-body">
 
-                    <!-- Información general -->
+
                     <div class="medication-form-section">
 
                         <div class="form-section-title">
@@ -305,20 +494,35 @@
                             <i class="fa-solid fa-capsules"></i>
 
                             <div>
-                                <h3>Información del medicamento</h3>
-                                <p>Datos principales para su identificación.</p>
+
+                                <h3 data-lang="medication_information">
+                                    Información del medicamento
+                                </h3>
+
+                                <p data-lang="medication_identification">
+                                    Datos principales para su identificación.
+                                </p>
+
                             </div>
 
                         </div>
 
+
                         <div class="medication-form-grid">
+
 
                             <div class="form-group medication-full-field">
 
                                 <label for="medication-name">
-                                    Nombre del medicamento
+
+                                    <span data-lang="medication_name">
+                                        Nombre del medicamento
+                                    </span>
+
                                     <span>*</span>
+
                                 </label>
+
 
                                 <input
                                     id="medication-name"
@@ -326,52 +530,109 @@
                                     type="text"
                                     maxlength="120"
                                     autocomplete="off"
+                                    data-placeholder="medication_name_placeholder"
                                     placeholder="Ej. Metformina"
                                     required>
 
                             </div>
 
+
                             <div class="form-group">
 
                                 <label for="medication-presentation">
-                                    Presentación
+
+                                    <span data-lang="presentation">
+                                        Presentación
+                                    </span>
+
                                     <span>*</span>
+
                                 </label>
+
 
                                 <select
                                     id="medication-presentation"
                                     name="presentation"
                                     required>
 
-                                    <option value="">
+                                    <option
+                                        value=""
+                                        data-lang="presentation_select">
                                         Seleccione una presentación
                                     </option>
 
-                                    <option value="Tabletas">Tabletas</option>
-                                    <option value="Cápsulas">Cápsulas</option>
-                                    <option value="Jarabe">Jarabe</option>
-                                    <option value="Suspensión">Suspensión</option>
-                                    <option value="Solución">Solución</option>
-                                    <option value="Inyectable">Inyectable</option>
-                                    <option value="Crema">Crema</option>
-                                    <option value="Otro">Otro</option>
+                                    <option
+                                        value="Tabletas"
+                                        data-lang="tablets">
+                                        Tabletas
+                                    </option>
+
+                                    <option
+                                        value="Cápsulas"
+                                        data-lang="capsules">
+                                        Cápsulas
+                                    </option>
+
+                                    <option
+                                        value="Jarabe"
+                                        data-lang="syrup">
+                                        Jarabe
+                                    </option>
+
+                                    <option
+                                        value="Suspensión"
+                                        data-lang="suspension">
+                                        Suspensión
+                                    </option>
+
+                                    <option
+                                        value="Solución"
+                                        data-lang="solution">
+                                        Solución
+                                    </option>
+
+                                    <option
+                                        value="Inyectable"
+                                        data-lang="injectable">
+                                        Inyectable
+                                    </option>
+
+                                    <option
+                                        value="Crema"
+                                        data-lang="cream">
+                                        Crema
+                                    </option>
+
+                                    <option
+                                        value="Otro"
+                                        data-lang="other">
+                                        Otro
+                                    </option>
 
                                 </select>
 
                             </div>
 
+
                             <div class="form-group">
 
                                 <label for="medication-concentration">
-                                    Concentración
+
+                                    <span data-lang="concentration">
+                                        Concentración
+                                    </span>
+
                                     <span>*</span>
+
                                 </label>
+
 
                                 <input
                                     id="medication-concentration"
                                     name="concentration"
                                     type="text"
                                     maxlength="80"
+                                    data-placeholder="concentration_placeholder"
                                     placeholder="Ej. 500 mg"
                                     required>
 
@@ -381,7 +642,7 @@
 
                     </div>
 
-                    <!-- Uso clínico -->
+
                     <div class="medication-form-section">
 
                         <div class="form-section-title">
@@ -389,61 +650,87 @@
                             <i class="fa-solid fa-heart-pulse"></i>
 
                             <div>
-                                <h3>Información de uso</h3>
-                                <p>Información de referencia para el seguimiento.</p>
+
+                                <h3 data-lang="medication_usage_information">
+                                    Información de uso
+                                </h3>
+
+                                <p data-lang="medication_usage_description">
+                                    Información de referencia para el seguimiento.
+                                </p>
+
                             </div>
 
                         </div>
 
+
                         <div class="medication-form-grid">
+
 
                             <div class="form-group">
 
-                                <label for="medication-dose">
+                                <label
+                                    for="medication-dose"
+                                    data-lang="reference_dose_label">
                                     Dosis de referencia
                                 </label>
+
 
                                 <input
                                     id="medication-dose"
                                     name="dose"
                                     type="text"
                                     maxlength="100"
+                                    data-placeholder="dose_example"
                                     placeholder="Ej. 1 tableta">
 
                             </div>
 
+
                             <div class="form-group">
 
-                                <label for="medication-frequency">
+                                <label
+                                    for="medication-frequency"
+                                    data-lang="frequency">
                                     Frecuencia
                                 </label>
+
 
                                 <input
                                     id="medication-frequency"
                                     name="frequency"
                                     type="text"
                                     maxlength="100"
+                                    data-placeholder="frequency_example"
                                     placeholder="Ej. Cada 12 horas">
 
                             </div>
 
+
                             <div class="form-group">
 
-                                <label for="medication-status">
+                                <label
+                                    for="medication-status"
+                                    data-lang="status">
                                     Estado
                                     <span>*</span>
                                 </label>
+
 
                                 <select
                                     id="medication-status"
                                     name="status"
                                     required>
 
-                                    <option value="ACTIVO">
+                                    <option
+                                        value="ACTIVO"
+                                        data-lang="active">
                                         Activo
                                     </option>
 
-                                    <option value="INACTIVO">
+                                    <option
+                                        value="INACTIVO"
+                                        data-lang="inactive">
                                         Inactivo
                                     </option>
 
@@ -451,17 +738,22 @@
 
                             </div>
 
+
                             <div class="form-group medication-full-field">
 
-                                <label for="medication-observations">
+                                <label
+                                    for="medication-observations"
+                                    data-lang="observations">
                                     Observaciones
                                 </label>
+
 
                                 <textarea
                                     id="medication-observations"
                                     name="observations"
                                     rows="4"
                                     maxlength="500"
+                                    data-placeholder="medication_observations_placeholder"
                                     placeholder="Información adicional sobre el medicamento..."></textarea>
 
                             </div>
@@ -472,31 +764,42 @@
 
                 </div>
 
-                <!-- Footer -->
+
                 <div class="medication-modal-footer">
 
                     <span>
+
                         <strong>*</strong>
-                        Campos obligatorios
+
+                        <span data-lang="required_fields">
+                            Campos obligatorios
+                        </span>
+
                     </span>
+
 
                     <div>
 
                         <button
                             id="cancel-medication"
                             type="button"
-                            class="btn-secondary">
+                            class="btn-secondary"
+                            data-lang="cancel">
 
                             Cancelar
 
                         </button>
+
 
                         <button
                             type="submit"
                             class="btn-primary">
 
                             <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar Medicamento
+
+                            <span data-lang="save_medication">
+                                Guardar Medicamento
+                            </span>
 
                         </button>
 
@@ -510,9 +813,10 @@
 
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
     <script src="../js/medicamentos.js" defer></script>
 
 </body>
