@@ -6,6 +6,30 @@ const translations = {
 
     es: {
 
+        administrator:
+            "Administrador",
+
+        doctor:
+            "Doctor",
+
+        user:
+            "Usuario",
+
+        appointments_singular:
+            "cita",
+
+        appointments_plural:
+            "citas",
+
+        today:
+            "Hoy",
+
+        no_weight_data:
+            "Sin datos de peso",
+
+        no_weight_evolution:
+            "No hay suficientes mediciones para mostrar la evolución.",
+
         platform_title:
             "Plataforma Inteligente<br>de Seguimiento Nutricional",
 
@@ -1429,6 +1453,30 @@ const translations = {
 
 
     en: {
+
+        administrator:
+            "Administrator",
+
+        doctor:
+            "Doctor",
+
+        user:
+            "User",
+
+        appointments_singular:
+            "appointment",
+
+        appointments_plural:
+            "appointments",
+
+        today:
+            "Today",
+
+        no_weight_data:
+            "No weight data",
+
+        no_weight_evolution:
+            "There are not enough measurements to display progress.",
 
         platform_title:
             "Intelligent Nutrition<br>Monitoring Platform",

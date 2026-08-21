@@ -283,7 +283,104 @@
 
 .patients-appointments-list {
     display: grid;
-    gap: 12px;
+    gap: 10px;
+}
+
+.patients-appointment-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 72px;
+    padding: 14px 18px;
+    border: 1px solid #E2E8F0;
+    border-radius: 13px;
+    background: #F8FAFC;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.patients-appointment-item:hover {
+    border-color: rgba(14, 122, 110, 0.22);
+    background: #FFFFFF;
+    box-shadow: 0 7px 18px rgba(15, 23, 42, 0.05);
+    transform: translateY(-1px);
+}
+
+.patients-appointment-item > div {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding-left: 46px;
+}
+
+.patients-appointment-item > div::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(14, 122, 110, 0.10);
+    color: var(--color-primary);
+    font-family: "Font Awesome 6 Free";
+    font-size: 14px;
+    font-weight: 900;
+    content: "\f073";
+    transform: translateY(-50%);
+}
+
+.patients-appointment-item strong {
+    overflow: hidden;
+    color: var(--color-text-heading);
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.patients-appointment-item span {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.patients-appointment-item time {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 7px 11px;
+    border-radius: 9px;
+    background: rgba(14, 122, 110, 0.09);
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+
+    .patients-appointment-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .patients-appointment-item time {
+        margin-left: 46px;
+    }
 }
 
 .patients-empty-state {

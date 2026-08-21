@@ -43,11 +43,17 @@ try {
     /* Indicadores */
 
     $totalPacientes = (int) $db
-        ->query("SELECT COUNT(*) FROM patients")
+        ->query("
+            SELECT COUNT(*)
+            FROM patients
+        ")
         ->fetchColumn();
 
     $totalMediciones = (int) $db
-        ->query("SELECT COUNT(*) FROM measurements")
+        ->query("
+            SELECT COUNT(*)
+            FROM measurements
+        ")
         ->fetchColumn();
 
     $alertasActivas = (int) $db
@@ -70,6 +76,36 @@ try {
         ? (int) round(($pacientesActivos / $totalPacientes) * 100)
         : 0;
 
+    /* Citas de hoy */
+
+    $sqlCitasHoy = "
+        SELECT
+            a.id,
+            a.patient_id,
+            a.professional_id,
+            a.appointment_date,
+            a.appointment_time,
+            a.appointment_type,
+            a.status,
+            a.reason,
+            a.notes,
+            p.full_name AS patient_name,
+            u.full_name AS professional_name
+        FROM appointments a
+        INNER JOIN patients p
+            ON p.id = a.patient_id
+        INNER JOIN users u
+            ON u.id = a.professional_id
+        WHERE a.appointment_date = CURDATE()
+        ORDER BY a.appointment_time ASC
+    ";
+
+    $citasHoy = $db
+        ->query($sqlCitasHoy)
+        ->fetchAll(PDO::FETCH_ASSOC);
+
+    $totalCitasHoy = count($citasHoy);
+
     /* Pacientes recientes */
 
     $sqlPacientes = "
@@ -86,7 +122,8 @@ try {
             p.id,
             p.full_name,
             p.age,
-            p.is_active
+            p.is_active,
+            p.created_at
         ORDER BY p.created_at DESC
         LIMIT 5
     ";
@@ -100,6 +137,7 @@ try {
     $sqlAlertas = "
         SELECT
             a.id,
+            a.patient_id,
             p.full_name AS patient_name,
             a.alert_type,
             a.message,
@@ -117,23 +155,27 @@ try {
         ->query($sqlAlertas)
         ->fetchAll(PDO::FETCH_ASSOC);
 
-    /* Evolución de peso */
+    /* Evolución de peso por paciente */
 
     $sqlPeso = "
         SELECT
-            DATE(measurement_date) AS measurement_date,
-            ROUND(AVG(weight_kg), 2) AS weight_kg
-        FROM measurements
-        WHERE weight_kg IS NOT NULL
-        GROUP BY DATE(measurement_date)
-        ORDER BY measurement_date ASC
+            m.id,
+            m.patient_id,
+            p.full_name AS patient_name,
+            m.measurement_date,
+            m.weight_kg
+        FROM measurements m
+        INNER JOIN patients p
+            ON p.id = m.patient_id
+        WHERE m.weight_kg IS NOT NULL
+        ORDER BY
+            m.patient_id ASC,
+            m.measurement_date ASC
     ";
 
     $peso = $db
         ->query($sqlPeso)
         ->fetchAll(PDO::FETCH_ASSOC);
-
-    $peso = array_reverse($peso);
 
     /* Pacientes por estado */
 
@@ -150,32 +192,51 @@ try {
             COUNT(*) AS total
         FROM alerts
         GROUP BY alert_type
-        ORDER BY total DESC
+        ORDER BY
+            total DESC,
+            alert_type ASC
     ";
 
     $tiposAlertas = $db
         ->query($sqlTiposAlertas)
         ->fetchAll(PDO::FETCH_ASSOC);
 
+    /* Respuesta */
+
     echo json_encode([
         "success" => true,
+
         "data" => [
             "kpis" => [
                 "patients" => $totalPacientes,
                 "measurements" => $totalMediciones,
                 "activeAlerts" => $alertasActivas,
-                "activePatientsPercentage" => $porcentajeActivos
+                "activePatientsPercentage" => $porcentajeActivos,
+                "appointments" => $totalCitasHoy,
+                "todayAppointments" => $totalCitasHoy
             ],
+
             "recentPatients" => $pacientesRecientes,
+
             "recentAlerts" => $alertasRecientes,
+
+            "todayAppointments" => $citasHoy,
+
             "weightEvolution" => $peso,
+
             "patientStatus" => $estadoPacientes,
+
             "alertsByType" => $tiposAlertas
         ]
     ]);
 
 } catch (PDOException $e) {
     http_response_code(500);
+
+    error_log(
+        "[NYVORA DASHBOARD] " .
+        $e->getMessage()
+    );
 
     echo json_encode([
         "success" => false,
