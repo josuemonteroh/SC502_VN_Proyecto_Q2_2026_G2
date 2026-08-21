@@ -93,7 +93,8 @@ function patientList(PDO $db): array
 
         $where[] = "
             (
-                p.full_name LIKE :search_name
+                p.id = :search_id
+                OR p.full_name LIKE :search_name
                 OR p.identification LIKE :search_identification
                 OR p.phone LIKE :search_phone
                 OR p.status LIKE :search_status
@@ -101,6 +102,13 @@ function patientList(PDO $db): array
         ";
 
         $searchValue = "%{$search}%";
+        
+        $parameters[
+            ":search_id"
+        ] =
+            ctype_digit($search)
+                ? (int) $search
+                : 0;        
 
         $parameters[
             ":search_name"

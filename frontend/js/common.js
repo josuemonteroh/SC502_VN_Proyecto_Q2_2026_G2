@@ -123,7 +123,7 @@ function nyvoraLoadSidebar() {
             </div>
 
 
-            <nav>
+            <nav class="sidebar-nav">
 
                 <ul>
 
@@ -281,25 +281,23 @@ function nyvoraLoadSidebar() {
                     </li>
 
 
-                    <li>
-
-                        <a
-                            href="../login.html">
-
-                            <i class="fa-solid fa-right-from-bracket"></i>
-
-                            <span data-lang="logout">
-                                Cerrar Sesión
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
                 </ul>
 
             </nav>
+
+            <div class="sidebar-footer">
+
+                <a href="http://localhost:8081/logout.php">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span data-lang="logout">
+                        Cerrar Sesión
+                    </span>
+
+                </a>
+
+            </div>
 
         </aside>
     `;
