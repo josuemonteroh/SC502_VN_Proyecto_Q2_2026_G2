@@ -4,12 +4,9 @@ require_once __DIR__ . "/api_helpers.php";
 
 nyvoraApiStart();
 
-
-function patientPayload(
-    PDO $db,
-    int $patientId
-): array {
-
+function patientPayload(PDO $db, int $patientId): array
+{
+    // Obtiene toda la información de un paciente junto con su primera y última medición.
     $statement = $db->prepare("
         SELECT
             p.id,
@@ -40,22 +37,16 @@ function patientPayload(
             ) AS lastMeasurementDate
 
         FROM patients p
-
         WHERE p.id = :id
     ");
-
 
     $statement->execute([
         ":id" => $patientId
     ]);
 
-
-    $patient =
-        $statement->fetch();
-
+    $patient = $statement->fetch();
 
     if (!$patient) {
-
         nyvoraRespond(
             404,
             false,
@@ -63,32 +54,23 @@ function patientPayload(
         );
     }
 
-
     return $patient;
 }
 
+function patientList(PDO $db): array
+{
+    $search = trim(
+        $_GET["search"] ?? ""
+    );
 
-function patientList(
-    PDO $db
-): array {
+    $status = trim(
+        $_GET["status"] ?? ""
+    );
 
-    $search =
-        trim(
-            $_GET["search"] ?? ""
-        );
+    $order = $_GET["order"] ?? "name";
 
-    $status =
-        trim(
-            $_GET["status"] ?? ""
-        );
-
-    $order =
-        $_GET["order"] ??
-        "name";
-
-
+    // Define las opciones permitidas para ordenar el listado.
     $orders = [
-
         "name" =>
             "p.full_name ASC",
 
@@ -99,21 +81,14 @@ function patientList(
             "lastMeasurementDate DESC, p.full_name ASC"
     ];
 
-
     $orderBy =
         $orders[$order] ??
         "p.full_name ASC";
 
-
     $where = [];
-
     $parameters = [];
 
-
-    /* =========================
-       BÚSQUEDA
-    ========================= */
-
+    // La búsqueda utiliza parámetros diferentes para evitar conflictos con PDO.
     if ($search !== "") {
 
         $where[] = "
@@ -125,61 +100,38 @@ function patientList(
             )
         ";
 
-
-        $searchValue =
-            "%{$search}%";
-
+        $searchValue = "%{$search}%";
 
         $parameters[
             ":search_name"
-        ] =
-            $searchValue;
-
+        ] = $searchValue;
 
         $parameters[
             ":search_identification"
-        ] =
-            $searchValue;
-
+        ] = $searchValue;
 
         $parameters[
             ":search_phone"
-        ] =
-            $searchValue;
-
+        ] = $searchValue;
 
         $parameters[
             ":search_status"
-        ] =
-            $searchValue;
+        ] = $searchValue;
     }
 
-
-    /* =========================
-       ESTADO
-    ========================= */
-
+    // Filtra los pacientes por su estado actual.
     if ($status !== "") {
 
         $where[] =
             "p.status = :status";
 
-
         $parameters[
             ":status"
         ] =
-            strtoupper(
-                $status
-            );
+            strtoupper($status);
     }
 
-
-    /* =========================
-       LISTADO
-    ========================= */
-
     $sql = "
-
         SELECT
             p.id,
             p.full_name AS fullName,
@@ -211,7 +163,6 @@ function patientList(
         FROM patients p
     ";
 
-
     if ($where) {
 
         $sql .=
@@ -222,26 +173,19 @@ function patientList(
             );
     }
 
-
     $sql .=
         " ORDER BY " .
         $orderBy;
 
-
     $statement =
-        $db->prepare(
-            $sql
-        );
-
+        $db->prepare($sql);
 
     $statement->execute(
         $parameters
     );
 
-
     return $statement->fetchAll();
 }
-
 
 try {
 
@@ -251,25 +195,15 @@ try {
     $method =
         $_SERVER["REQUEST_METHOD"];
 
-
-    /* =========================
-       GET
-    ========================= */
-
+    // Devuelve la lista de pacientes, indicadores y próximas citas.
     if ($method === "GET") {
 
         $patients =
-            patientList(
-                $db
-            );
-
-
-        /* KPIs */
+            patientList($db);
 
         $kpiStatement =
             $db->query("
                 SELECT
-
                     COUNT(*) AS total,
 
                     SUM(
@@ -283,12 +217,8 @@ try {
                 FROM patients
             ");
 
-
         $kpis =
             $kpiStatement->fetch();
-
-
-        /* Alertas */
 
         $activeAlerts =
             (int)
@@ -298,12 +228,10 @@ try {
                 WHERE status = 'ACTIVE'
             ")->fetchColumn();
 
-
-        /* Próximas citas */
-
         $appointments = [];
 
-
+        // Las citas son información adicional; si ocurre un problema aquí,
+        // el listado de pacientes todavía puede funcionar.
         try {
 
             $appointmentStatement =
@@ -313,10 +241,12 @@ try {
                         a.patient_id AS patientId,
                         p.full_name AS patientName,
                         a.appointment_date AS date,
+
                         TIME_FORMAT(
                             a.appointment_time,
                             '%H:%i'
                         ) AS time,
+
                         a.appointment_type AS type,
                         a.status
 
@@ -340,19 +270,13 @@ try {
                     LIMIT 5
                 ");
 
-
             $appointments =
                 $appointmentStatement->fetchAll();
 
         } catch (Throwable $appointmentError) {
 
-            /*
-             * Si appointments todavía no está disponible,
-             * pacientes y el selector de citas siguen funcionando.
-             */
             $appointments = [];
         }
-
 
         nyvoraRespond(
             200,
@@ -365,24 +289,18 @@ try {
                 "kpis" => [
 
                     "total" =>
-                        (int)
-                        (
-                            $kpis["total"] ??
-                            0
+                        (int) (
+                            $kpis["total"] ?? 0
                         ),
 
                     "active" =>
-                        (int)
-                        (
-                            $kpis["active"] ??
-                            0
+                        (int) (
+                            $kpis["active"] ?? 0
                         ),
 
                     "followup" =>
-                        (int)
-                        (
-                            $kpis["followup"] ??
-                            0
+                        (int) (
+                            $kpis["followup"] ?? 0
                         ),
 
                     "activeAlerts" =>
@@ -395,21 +313,15 @@ try {
         );
     }
 
-
-    /* =========================
-       POST / PUT
-    ========================= */
-
     nyvoraMethod([
         "POST",
         "PUT"
     ]);
 
-
     $data =
         nyvoraRequestData();
 
-
+    // Valida la información recibida desde el formulario.
     $fullName =
         nyvoraText(
             $data["fullName"] ?? null,
@@ -417,7 +329,6 @@ try {
             true,
             150
         );
-
 
     $identification =
         nyvoraText(
@@ -427,13 +338,11 @@ try {
             50
         );
 
-
     $age =
         nyvoraInteger(
             $data["age"] ?? null,
             "edad"
         );
-
 
     $heightM =
         nyvoraDecimal(
@@ -441,7 +350,6 @@ try {
             "estatura",
             true
         );
-
 
     if (
         $age < 0 ||
@@ -456,7 +364,6 @@ try {
             "La edad o estatura no se encuentra en el rango permitido."
         );
     }
-
 
     $payload = [
 
@@ -496,8 +403,7 @@ try {
 
         ":status" =>
             nyvoraChoice(
-                $data["status"] ??
-                "ACTIVO",
+                $data["status"] ?? "ACTIVO",
                 "estado",
                 [
                     "ACTIVO",
@@ -507,18 +413,13 @@ try {
             )
     ];
 
-
     $payload[":is_active"] =
         $payload[":status"] !==
         "INACTIVO"
             ? 1
             : 0;
 
-
-    /* =========================
-       INSERTAR
-    ========================= */
-
+    // Registra un paciente nuevo.
     if ($method === "POST") {
 
         $payload[
@@ -528,11 +429,9 @@ try {
                 "usuario_id"
             ];
 
-
         $statement =
             $db->prepare("
                 INSERT INTO patients (
-
                     user_id,
                     full_name,
                     identification,
@@ -543,11 +442,8 @@ try {
                     observations,
                     status,
                     is_active
-
                 )
-
                 VALUES (
-
                     :user_id,
                     :full_name,
                     :identification,
@@ -558,20 +454,16 @@ try {
                     :observations,
                     :status,
                     :is_active
-
                 )
             ");
-
 
         $statement->execute(
             $payload
         );
 
-
         $newId =
             (int)
             $db->lastInsertId();
-
 
         nyvoraRespond(
             201,
@@ -587,61 +479,34 @@ try {
         );
     }
 
-
-    /* =========================
-       ACTUALIZAR
-    ========================= */
-
+    // Actualiza la información de un paciente existente.
     $patientId =
         nyvoraRecordId(
             $data
         );
 
-
     $payload[":id"] =
         $patientId;
-
 
     $statement =
         $db->prepare("
             UPDATE patients
-
             SET
-                full_name =
-                    :full_name,
-
-                identification =
-                    :identification,
-
-                age =
-                    :age,
-
-                phone =
-                    :phone,
-
-                height_m =
-                    :height_m,
-
-                condition_general =
-                    :condition_general,
-
-                observations =
-                    :observations,
-
-                status =
-                    :status,
-
-                is_active =
-                    :is_active
-
+                full_name = :full_name,
+                identification = :identification,
+                age = :age,
+                phone = :phone,
+                height_m = :height_m,
+                condition_general = :condition_general,
+                observations = :observations,
+                status = :status,
+                is_active = :is_active
             WHERE id = :id
         ");
-
 
     $statement->execute(
         $payload
     );
-
 
     if (
         $statement->rowCount() === 0
@@ -652,7 +517,6 @@ try {
             $patientId
         );
     }
-
 
     nyvoraRespond(
         200,
@@ -666,7 +530,6 @@ try {
                 )
         ]
     );
-
 
 } catch (Throwable $error) {
 

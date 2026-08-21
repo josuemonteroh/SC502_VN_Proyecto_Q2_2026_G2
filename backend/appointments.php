@@ -2,7 +2,6 @@
 
 require_once __DIR__ . "/api_helpers.php";
 
-
 function appointmentPayload(
     PDO $db,
     int $appointmentId
@@ -26,28 +25,21 @@ function appointmentPayload(
             u.full_name AS professional,
             a.created_at AS createdAt,
             a.updated_at AS updatedAt
-
         FROM appointments a
-
         INNER JOIN patients p
             ON p.id = a.patient_id
-
         INNER JOIN users u
             ON u.id = a.professional_id
-
         WHERE a.id = :id
     ");
-
 
     $statement->execute([
         ":id" =>
             $appointmentId
     ]);
 
-
     $appointment =
         $statement->fetch();
-
 
     if (!$appointment) {
 
@@ -58,13 +50,10 @@ function appointmentPayload(
         );
     }
 
-
     return $appointment;
 }
 
-
 nyvoraApiStart();
-
 
 try {
 
@@ -74,17 +63,11 @@ try {
     $method =
         $_SERVER["REQUEST_METHOD"];
 
-
-    /* =========================
-       GET
-    ========================= */
-
     if ($method === "GET") {
 
         $where = [];
 
         $parameters = [];
-
 
         $search =
             trim(
@@ -101,9 +84,6 @@ try {
                 $_GET["status"] ?? ""
             );
 
-
-        /* Búsqueda */
-
         if ($search !== "") {
 
             $where[] = "
@@ -117,18 +97,15 @@ try {
             $searchValue =
                 "%{$search}%";
 
-
             $parameters[
                 ":search_name"
             ] =
                 $searchValue;
 
-
             $parameters[
                 ":search_identification"
             ] =
                 $searchValue;
-
 
             $parameters[
                 ":search_type"
@@ -136,14 +113,10 @@ try {
                 $searchValue;
         }
 
-
-        /* Fecha */
-
         if ($date !== "") {
 
             $where[] =
                 "a.appointment_date = :date";
-
 
             $parameters[
                 ":date"
@@ -154,14 +127,10 @@ try {
                 );
         }
 
-
-        /* Estado */
-
         if ($status !== "") {
 
             $where[] =
                 "a.status = :status";
-
 
             $parameters[
                 ":status"
@@ -178,23 +147,17 @@ try {
                 );
         }
 
-
-        /* Consulta */
-
         $sql = "
-
             SELECT
                 a.id,
                 a.patient_id AS patientId,
                 p.full_name AS patientName,
                 p.identification AS patientIdentification,
                 a.appointment_date AS date,
-
                 TIME_FORMAT(
                     a.appointment_time,
                     '%H:%i'
                 ) AS time,
-
                 a.appointment_type AS type,
                 a.status,
                 a.reason,
@@ -202,17 +165,12 @@ try {
                 u.full_name AS professional,
                 a.created_at AS createdAt,
                 a.updated_at AS updatedAt
-
             FROM appointments a
-
             INNER JOIN patients p
                 ON p.id = a.patient_id
-
             INNER JOIN users u
                 ON u.id = a.professional_id
-
         ";
-
 
         if ($where) {
 
@@ -224,42 +182,32 @@ try {
                 );
         }
 
-
         $sql .= "
-
             ORDER BY
                 a.appointment_date ASC,
                 a.appointment_time ASC
         ";
-
 
         $statement =
             $db->prepare(
                 $sql
             );
 
-
         $statement->execute(
             $parameters
         );
 
-
         $appointments =
             $statement->fetchAll();
-
-
-        /* KPIs */
 
         $kpiStatement =
             $db->query("
                 SELECT
-
                     SUM(
                         appointment_date =
                         CURDATE()
                         AND status != 'CANCELADA'
                     ) AS today,
-
                     SUM(
                         appointment_date >
                         CURDATE()
@@ -268,26 +216,21 @@ try {
                             'CONFIRMADA'
                         )
                     ) AS upcoming,
-
                     SUM(
                         status =
                         'COMPLETADA'
                     ) AS completed,
-
                     SUM(
                         status IN (
                             'PROGRAMADA',
                             'CONFIRMADA'
                         )
                     ) AS pending
-
                 FROM appointments
             ");
 
-
         $kpis =
             $kpiStatement->fetch();
-
 
         nyvoraRespond(
             200,
@@ -327,18 +270,8 @@ try {
         );
     }
 
-
-    /* =========================
-       BODY
-    ========================= */
-
     $data =
         nyvoraRequestData();
-
-
-    /* =========================
-       PATCH
-    ========================= */
 
     if ($method === "PATCH") {
 
@@ -346,7 +279,6 @@ try {
             nyvoraRecordId(
                 $data
             );
-
 
         $status =
             nyvoraChoice(
@@ -357,17 +289,13 @@ try {
                 ]
             );
 
-
         $statement =
             $db->prepare("
                 UPDATE appointments
-
                 SET
                     status = :status
-
                 WHERE id = :id
             ");
-
 
         $statement->execute([
             ":status" =>
@@ -376,7 +304,6 @@ try {
             ":id" =>
                 $appointmentId
         ]);
-
 
         nyvoraRespond(
             200,
@@ -392,25 +319,16 @@ try {
         );
     }
 
-
-    /* =========================
-       POST / PUT
-    ========================= */
-
     nyvoraMethod([
         "POST",
         "PUT"
     ]);
-
 
     $patientId =
         nyvoraInteger(
             $data["patientId"] ?? null,
             "paciente"
         );
-
-
-    /* Verificar paciente */
 
     $patient =
         $db->prepare("
@@ -420,12 +338,10 @@ try {
             AND is_active = TRUE
         ");
 
-
     $patient->execute([
         ":id" =>
             $patientId
     ]);
-
 
     if (
         !$patient->fetchColumn()
@@ -437,9 +353,6 @@ try {
             "El paciente seleccionado no está disponible."
         );
     }
-
-
-    /* Datos */
 
     $payload = [
 
@@ -499,11 +412,6 @@ try {
             )
     ];
 
-
-    /* =========================
-       POST
-    ========================= */
-
     if ($method === "POST") {
 
         $payload[
@@ -513,11 +421,9 @@ try {
                 "usuario_id"
             ];
 
-
         $statement =
             $db->prepare("
                 INSERT INTO appointments (
-
                     patient_id,
                     professional_id,
                     appointment_date,
@@ -526,11 +432,8 @@ try {
                     status,
                     reason,
                     notes
-
                 )
-
                 VALUES (
-
                     :patient_id,
                     :professional_id,
                     :appointment_date,
@@ -539,20 +442,16 @@ try {
                     :status,
                     :reason,
                     :notes
-
                 )
             ");
-
 
         $statement->execute(
             $payload
         );
 
-
         $newId =
             (int)
             $db->lastInsertId();
-
 
         nyvoraRespond(
             201,
@@ -568,57 +467,40 @@ try {
         );
     }
 
-
-    /* =========================
-       PUT
-    ========================= */
-
     $appointmentId =
         nyvoraRecordId(
             $data
         );
-
 
     $payload[
         ":id"
     ] =
         $appointmentId;
 
-
     $statement =
         $db->prepare("
             UPDATE appointments
-
             SET
                 patient_id =
                     :patient_id,
-
                 appointment_date =
                     :appointment_date,
-
                 appointment_time =
                     :appointment_time,
-
                 appointment_type =
                     :appointment_type,
-
                 status =
                     :status,
-
                 reason =
                     :reason,
-
                 notes =
                     :notes
-
             WHERE id = :id
         ");
-
 
     $statement->execute(
         $payload
     );
-
 
     nyvoraRespond(
         200,
@@ -632,7 +514,6 @@ try {
                 )
         ]
     );
-
 
 } catch (Throwable $error) {
 
