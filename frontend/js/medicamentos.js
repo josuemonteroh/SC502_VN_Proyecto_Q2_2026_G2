@@ -2,770 +2,511 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const API_URL =
-        "medications.php";
+    const API_URL = "medications.php";
 
-    const search =
-        document.getElementById(
-            "medication-search"
-        );
+    const search = document.getElementById("medication-search");
+    const statusFilter = document.getElementById("medication-status-filter");
+    const presentationFilter = document.getElementById("medication-presentation-filter");
 
-    const statusFilter =
-        document.getElementById(
-            "medication-status-filter"
-        );
+    const body = document.getElementById("medications-table-body");
+    const count = document.getElementById("medication-results-count");
 
-    const presentationFilter =
-        document.getElementById(
-            "medication-presentation-filter"
-        );
-
-    const body =
-        document.getElementById(
-            "medications-table-body"
-        );
-
-    const count =
-        document.getElementById(
-            "medication-results-count"
-        );
-
-    const modal =
-        document.getElementById(
-            "medication-modal"
-        );
-
-    const form =
-        document.getElementById(
-            "medication-form"
-        );
-
+    const modal = document.getElementById("medication-modal");
+    const form = document.getElementById("medication-form");
 
     const fields = {
-
         id: null,
-
-        name:
-            document.getElementById(
-                "medication-name"
-            ),
-
-        presentation:
-            document.getElementById(
-                "medication-presentation"
-            ),
-
-        concentration:
-            document.getElementById(
-                "medication-concentration"
-            ),
-
-        dose:
-            document.getElementById(
-                "medication-dose"
-            ),
-
-        frequency:
-            document.getElementById(
-                "medication-frequency"
-            ),
-
-        status:
-            document.getElementById(
-                "medication-status"
-            ),
-
-        observations:
-            document.getElementById(
-                "medication-observations"
-            )
+        name: document.getElementById("medication-name"),
+        presentation: document.getElementById("medication-presentation"),
+        concentration: document.getElementById("medication-concentration"),
+        dose: document.getElementById("medication-dose"),
+        frequency: document.getElementById("medication-frequency"),
+        status: document.getElementById("medication-status"),
+        observations: document.getElementById("medication-observations")
     };
-
 
     let medications = [];
 
-
-    function traducir(
-        clave,
-        valorDefault = ""
-    ) {
-
+    function t(key, fallback = "") {
         if (
             typeof translations !== "undefined" &&
             typeof currentLanguage !== "undefined" &&
             translations[currentLanguage] &&
-            translations[currentLanguage][clave] !== undefined
+            translations[currentLanguage][key] !== undefined
         ) {
-
-            return translations[currentLanguage][clave];
+            return translations[currentLanguage][key];
         }
 
-        return valorDefault;
+        return fallback;
     }
-
 
     function statusInfo(status) {
-
-        const estados = {
-
-            ACTIVO: {
-
-                texto:
-                    traducir(
-                        "active",
-                        "Activo"
-                    ),
-
-                clase:
-                    "active"
-            },
-
-            EN_USO: {
-
-                texto:
-                    traducir(
-                        "in_use",
-                        "En uso"
-                    ),
-
-                clase:
-                    "in-use"
-            },
-
-            INACTIVO: {
-
-                texto:
-                    traducir(
-                        "inactive",
-                        "Inactivo"
-                    ),
-
-                clase:
-                    "inactive"
-            }
+        const states = {
+            ACTIVO: [
+                t("active", "Activo"),
+                "active"
+            ],
+            EN_USO: [
+                t("in_use", "En uso"),
+                "in-use"
+            ],
+            INACTIVO: [
+                t("inactive", "Inactivo"),
+                "inactive"
+            ]
         };
 
-
-        return (
-            estados[status] || {
-
-                texto:
-                    status ||
-                    traducir(
-                        "undefined_status",
-                        "Sin estado"
-                    ),
-
-                clase:
-                    "inactive"
-            }
-        );
+        return states[status] || [
+            t("undefined_status", "Sin estado"),
+            "inactive"
+        ];
     }
 
-
-    function traducirPresentacion(
-        value
-    ) {
-
-        const presentaciones = {
-
-            "Tabletas":
-                traducir(
-                    "tablets",
-                    "Tabletas"
-                ),
-
-            "Cápsulas":
-                traducir(
-                    "capsules",
-                    "Cápsulas"
-                ),
-
-            "Jarabe":
-                traducir(
-                    "syrup",
-                    "Jarabe"
-                ),
-
-            "Suspensión":
-                traducir(
-                    "suspension",
-                    "Suspensión"
-                ),
-
-            "Solución":
-                traducir(
-                    "solution",
-                    "Solución"
-                ),
-
-            "Inyectable":
-                traducir(
-                    "injectable",
-                    "Inyectable"
-                ),
-
-            "Crema":
-                traducir(
-                    "cream",
-                    "Crema"
-                ),
-
-            "Otro":
-                traducir(
-                    "other",
-                    "Otro"
-                )
+    function presentationLabel(value) {
+        const labels = {
+            "Tabletas": t("tablets", "Tabletas"),
+            "Cápsulas": t("capsules", "Cápsulas"),
+            "Jarabe": t("syrup", "Jarabe"),
+            "Suspensión": t("suspension", "Suspensión"),
+            "Solución": t("solution", "Solución"),
+            "Inyectable": t("injectable", "Inyectable"),
+            "Crema": t("cream", "Crema"),
+            "Otro": t("other", "Otro")
         };
 
-
-        return (
-            presentaciones[value] ||
-            value ||
-            traducir(
-                "no_data",
-                "N/D"
-            )
-        );
+        return labels[value] || value || t("no_data", "N/D");
     }
-
-
-    function traducirFrecuencia(
-        value
-    ) {
-
-        if (
-            value &&
-            value.trim()
-        ) {
-
-            return value;
-        }
-
-
-        return traducir(
-            "undefined_frequency",
-            "Sin frecuencia definida"
-        );
-    }
-
-
-    function traducirDosis(
-        value
-    ) {
-
-        if (
-            value &&
-            value.trim()
-        ) {
-
-            return value;
-        }
-
-
-        return traducir(
-            "undefined_condition",
-            "Sin definir"
-        );
-    }
-
 
     async function load() {
 
-        const query =
-            new URLSearchParams();
+        const params = new URLSearchParams();
 
-
-        if (
-            search.value.trim()
-        ) {
-
-            query.set(
+        if (search.value.trim()) {
+            params.set(
                 "search",
                 search.value.trim()
             );
         }
 
-
-        if (
-            statusFilter.value
-        ) {
-
-            query.set(
+        if (statusFilter.value) {
+            params.set(
                 "status",
                 statusFilter.value
             );
         }
 
-
-        if (
-            presentationFilter.value
-        ) {
-
-            query.set(
+        if (presentationFilter.value) {
+            params.set(
                 "presentation",
                 presentationFilter.value
             );
         }
 
-
         try {
 
-            const result =
-                await nyvoraApi(
-                    `${API_URL}?${query}`
-                );
-
-
-            medications =
-                result.data ||
-                [];
-
-
-            render(
-                result.kpis ||
-                {}
+            const result = await nyvoraApi(
+                `${API_URL}?${params.toString()}`
             );
 
+            medications = result.data || [];
+
+            render(result.kpis || {});
 
         } catch (error) {
 
+            console.error(
+                "Error cargando medicamentos:",
+                error
+            );
+
             body.innerHTML = `
                 <tr>
-
-                    <td
-                        colspan="7">
-
+                    <td colspan="7">
                         ${nyvoraEscapeHtml(
-                            error.message
+                            error.message ||
+                            t(
+                                "request_error",
+                                "No fue posible completar la operación."
+                            )
                         )}
-
                     </td>
-
                 </tr>
             `;
         }
     }
 
-
     function render(kpis) {
 
-        const values = [
+        const total =
+            document.getElementById(
+                "kpi-medications-total"
+            );
 
-            [
-                "kpi-medications-total",
-                kpis.total
-            ],
+        const active =
+            document.getElementById(
+                "kpi-medications-active"
+            );
 
-            [
-                "kpi-medications-active",
-                kpis.active
-            ],
+        const used =
+            document.getElementById(
+                "kpi-medications-used"
+            );
 
-            [
-                "kpi-medications-used",
-                kpis.inUse
-            ],
+        const inactive =
+            document.getElementById(
+                "kpi-medications-inactive"
+            );
 
-            [
-                "kpi-medications-inactive",
-                kpis.inactive
-            ]
-        ];
+        if (total) {
+            total.textContent =
+                kpis.total ?? 0;
+        }
 
+        if (active) {
+            active.textContent =
+                kpis.active ?? 0;
+        }
 
-        values.forEach(
-            ([id, value]) => {
+        if (used) {
+            used.textContent =
+                kpis.inUse ?? 0;
+        }
 
-                const element =
-                    document.getElementById(
-                        id
-                    );
+        if (inactive) {
+            inactive.textContent =
+                kpis.inactive ?? 0;
+        }
 
+        body.innerHTML = "";
 
-                if (element) {
-
-                    element.textContent =
-                        value ??
-                        0;
-                }
-            }
-        );
-
-
-        body.innerHTML =
-            "";
-
-
-        const cantidad =
+        const amount =
             medications.length;
 
-
         count.textContent =
-            `${cantidad} ${
-                cantidad === 1
-                    ? traducir(
-                        "results_one",
-                        "resultado"
-                    )
-                    : traducir(
-                        "results_many",
-                        "resultados"
-                    )
+            `${amount} ${
+                amount === 1
+                    ? t("results_one", "resultado")
+                    : t("results_many", "resultados")
             }`;
 
-
-        if (
-            !medications.length
-        ) {
+        if (!medications.length) {
 
             body.innerHTML = `
                 <tr class="empty-medications">
-
                     <td colspan="7">
-
                         <div class="empty-state">
 
                             <div class="empty-state-icon">
-
                                 <i class="fa-solid fa-capsules"></i>
-
                             </div>
 
-
                             <strong>
-                                ${traducir(
+                                ${t(
                                     "no_medications_registered",
                                     "No hay medicamentos registrados"
                                 )}
                             </strong>
 
-
                             <p>
-                                ${traducir(
+                                ${t(
                                     "medications_will_appear",
                                     "Los medicamentos aparecerán aquí conforme sean registrados."
                                 )}
                             </p>
 
                         </div>
-
                     </td>
-
                 </tr>
             `;
 
             return;
         }
 
+        medications.forEach(medication => {
 
-        medications.forEach(
-            (medication) => {
-
-                const estado =
-                    statusInfo(
-                        medication.status
-                    );
-
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                row.innerHTML = `
-
-                    <td>
-
-                        <div class="medication-name-cell">
-
-                            <div class="medication-table-icon">
-
-                                <i class="fa-solid fa-capsules"></i>
-
-                            </div>
-
-
-                            <div class="medication-name-info">
-
-                                <strong>
-
-                                    ${nyvoraEscapeHtml(
-                                        medication.name
-                                    )}
-
-                                </strong>
-
-
-                                <span>
-
-                                    ${nyvoraEscapeHtml(
-                                        traducirFrecuencia(
-                                            medication.frequency
-                                        )
-                                    )}
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        ${nyvoraEscapeHtml(
-                            traducirPresentacion(
-                                medication.presentation
-                            )
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        ${nyvoraEscapeHtml(
-                            medication.concentration ||
-                            traducir(
-                                "no_data",
-                                "N/D"
-                            )
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        ${nyvoraEscapeHtml(
-                            traducirDosis(
-                                medication.dose
-                            )
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        <span
-                            class="medication-badge ${estado.clase}">
-
-                            ${estado.texto}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        ${medication.associatedPatients || 0}
-
-                    </td>
-
-
-                    <td>
-
-                        <div class="medication-row-actions">
-
-                            <button
-                                class="medication-action-button edit"
-                                type="button"
-                                title="${traducir(
-                                    "edit",
-                                    "Editar"
-                                )}">
-
-                                <i class="fa-solid fa-pen"></i>
-
-                            </button>
-
-
-                            <button
-                                class="medication-action-button disable"
-                                type="button"
-                                title="${traducir(
-                                    "deactivate_medication",
-                                    "Dar de baja"
-                                )}">
-
-                                <i class="fa-solid fa-ban"></i>
-
-                            </button>
-
-                        </div>
-
-                    </td>
-                `;
-
-
-                row
-                    .querySelector(
-                        ".edit"
-                    )
-                    .addEventListener(
-                        "click",
-                        () =>
-                            open(
-                                medication
-                            )
-                    );
-
-
-                row
-                    .querySelector(
-                        ".disable"
-                    )
-                    .addEventListener(
-                        "click",
-                        () =>
-                            deactivate(
-                                medication
-                            )
-                    );
-
-
-                body.appendChild(
-                    row
+            const [statusText, statusClass] =
+                statusInfo(
+                    medication.status
                 );
-            }
-        );
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <div class="medication-name-cell">
+
+                        <div class="medication-table-icon">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+
+                        <div class="medication-name-info">
+
+                            <strong>
+                                ${nyvoraEscapeHtml(
+                                    medication.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ${nyvoraEscapeHtml(
+                                    medication.frequency ||
+                                    t(
+                                        "undefined_frequency",
+                                        "Sin frecuencia definida"
+                                    )
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+                </td>
+
+                <td>
+                    ${nyvoraEscapeHtml(
+                        presentationLabel(
+                            medication.presentation
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${nyvoraEscapeHtml(
+                        medication.concentration ||
+                        t("no_data", "N/D")
+                    )}
+                </td>
+
+                <td>
+                    ${nyvoraEscapeHtml(
+                        medication.dose ||
+                        t(
+                            "undefined_condition",
+                            "Sin definir"
+                        )
+                    )}
+                </td>
+
+                <td>
+                    <span class="medication-badge ${statusClass}">
+                        ${statusText}
+                    </span>
+                </td>
+
+                <td>
+                    ${medication.associatedPatients || 0}
+                </td>
+
+                <td>
+
+                    <div class="medication-row-actions">
+
+                        <button
+                            type="button"
+                            class="medication-action-button edit"
+                            title="${t(
+                                "edit",
+                                "Editar"
+                            )}">
+
+                            <i class="fa-solid fa-pen"></i>
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="medication-action-button disable"
+                            title="${t(
+                                "deactivate_medication",
+                                "Dar de baja"
+                            )}">
+
+                            <i class="fa-solid fa-ban"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+            `;
+
+            row
+                .querySelector(".edit")
+                .addEventListener(
+                    "click",
+                    () => openModal(medication)
+                );
+
+            row
+                .querySelector(".disable")
+                .addEventListener(
+                    "click",
+                    () => deactivateMedication(medication)
+                );
+
+            body.appendChild(row);
+        });
     }
 
+    async function loadMedication(id) {
 
-    function open(
-        medication = null
-    ) {
+        try {
+
+            const result =
+                await nyvoraApi(
+                    `${API_URL}?id=${id}`
+                );
+
+            if (
+                result.data &&
+                !Array.isArray(result.data)
+            ) {
+                return result.data;
+            }
+
+            if (
+                Array.isArray(result.data) &&
+                result.data.length
+            ) {
+                return result.data[0];
+            }
+
+            return null;
+
+        } catch (error) {
+
+            console.error(
+                "Error obteniendo medicamento:",
+                error
+            );
+
+            return null;
+        }
+    }
+
+    async function openModal(medication = null) {
 
         fields.id =
-            medication?.id ||
-            null;
-
+            medication?.id || null;
 
         form.reset();
 
+        if (medication?.id) {
+
+            const current =
+                await loadMedication(
+                    medication.id
+                );
+
+            if (current) {
+                medication = current;
+            }
+        }
 
         document.getElementById(
             "medication-modal-title"
         ).textContent =
             medication
-                ? traducir(
+                ? t(
                     "edit_medication",
                     "Editar Medicamento"
                 )
-                : traducir(
+                : t(
                     "register_medication",
                     "Registrar Medicamento"
                 );
 
-
         fields.name.value =
-            medication?.name ||
-            "";
-
+            medication?.name || "";
 
         fields.presentation.value =
-            medication?.presentation ||
-            "";
-
+            medication?.presentation || "";
 
         fields.concentration.value =
-            medication?.concentration ||
-            "";
-
+            medication?.concentration || "";
 
         fields.dose.value =
-            medication?.dose ||
-            "";
-
+            medication?.dose || "";
 
         fields.frequency.value =
-            medication?.frequency ||
-            "";
-
+            medication?.frequency || "";
 
         fields.status.value =
-            medication?.status ||
-            "ACTIVO";
-
+            medication?.status || "ACTIVO";
 
         fields.observations.value =
-            medication?.observations ||
-            "";
+            medication?.observations || "";
 
-
-        modal.classList.add(
-            "active"
-        );
-
+        modal.classList.add("active");
 
         modal.setAttribute(
             "aria-hidden",
             "false"
         );
 
-
         document.body.classList.add(
             "modal-open"
         );
     }
 
-
-    function close() {
+    function closeModal() {
 
         modal.classList.remove(
             "active"
         );
-
 
         modal.setAttribute(
             "aria-hidden",
             "true"
         );
 
-
         document.body.classList.remove(
             "modal-open"
         );
 
-
-        fields.id =
-            null;
+        fields.id = null;
     }
 
-
-    async function save(
-        event
-    ) {
+    async function saveMedication(event) {
 
         event.preventDefault();
 
+        const name =
+            fields.name.value.trim();
+
+        const presentation =
+            fields.presentation.value;
+
+        const concentration =
+            fields.concentration.value.trim();
 
         if (
-            !fields.name.value.trim() ||
-            !fields.presentation.value ||
-            !fields.concentration.value.trim()
+            !name ||
+            !presentation ||
+            !concentration
         ) {
+
+            alert(
+                t(
+                    "required_fields",
+                    "Campos obligatorios"
+                )
+            );
 
             return;
         }
 
-
         const data = {
 
             name:
-                fields.name.value.trim(),
+                name,
 
             presentation:
-                fields.presentation.value,
+                presentation,
 
             concentration:
-                fields.concentration.value.trim(),
+                concentration,
 
             dose:
                 fields.dose.value.trim(),
@@ -780,15 +521,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 fields.observations.value.trim()
         };
 
+        let method =
+            "POST";
 
-        if (
-            fields.id
-        ) {
+        if (fields.id) {
+
+            method =
+                "PUT";
 
             data.id =
-                fields.id;
+                Number(
+                    fields.id
+                );
         }
-
 
         try {
 
@@ -796,58 +541,61 @@ document.addEventListener("DOMContentLoaded", () => {
                 await nyvoraApi(
                     API_URL,
                     {
-                        method:
-                            fields.id
-                                ? "PUT"
-                                : "POST",
-
-                        body:
-                            data
+                        method,
+                        body: data
                     }
                 );
 
-
-            close();
-
+            closeModal();
 
             nyvoraNotify(
                 "medications"
             );
 
-
             await load();
 
-
             alert(
-                result.message
+                result.message ||
+                t(
+                    "save_success",
+                    "Operación realizada correctamente."
+                )
             );
-
 
         } catch (error) {
 
+            console.error(
+                "Error guardando medicamento:",
+                error
+            );
+
             alert(
-                error.message
+                error.message ||
+                t(
+                    "request_error",
+                    "No fue posible completar la operación."
+                )
             );
         }
     }
 
-
-    async function deactivate(
+    async function deactivateMedication(
         medication
     ) {
 
+        const confirmText =
+            t(
+                "confirm_deactivate_medication",
+                "¿Dar de baja este medicamento?"
+            );
+
         if (
-            !confirm(
-                `${traducir(
-                    "confirm_deactivate_medication",
-                    "¿Dar de baja este medicamento?"
-                )}\n\n${medication.name}`
+            !window.confirm(
+                `${confirmText}\n\n${medication.name}`
             )
         ) {
-
             return;
         }
-
 
         try {
 
@@ -855,50 +603,57 @@ document.addEventListener("DOMContentLoaded", () => {
                 API_URL,
                 {
                     method:
-                        "DELETE",
+                        "PATCH",
 
                     body: {
                         id:
-                            medication.id
+                            Number(
+                                medication.id
+                            ),
+
+                        status:
+                            "INACTIVO"
                     }
                 }
             );
-
 
             nyvoraNotify(
                 "medications"
             );
 
-
             await load();
-
 
         } catch (error) {
 
+            console.error(
+                "Error desactivando medicamento:",
+                error
+            );
+
             alert(
-                error.message
+                error.message ||
+                t(
+                    "request_error",
+                    "No fue posible completar la operación."
+                )
             );
         }
     }
-
 
     search.addEventListener(
         "input",
         load
     );
 
-
     statusFilter.addEventListener(
         "change",
         load
     );
 
-
     presentationFilter.addEventListener(
         "change",
         load
     );
-
 
     document
         .getElementById(
@@ -906,98 +661,59 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .addEventListener(
             "click",
-            () =>
-                open()
+            () => openModal()
         );
-
 
     form.addEventListener(
         "submit",
-        save
+        saveMedication
     );
 
-
-    const closeButton =
-        document.getElementById(
+    document
+        .getElementById(
             "close-medication-modal"
+        )
+        .addEventListener(
+            "click",
+            closeModal
         );
 
-    const cancelButton =
-        document.getElementById(
+    document
+        .getElementById(
             "cancel-medication"
+        )
+        .addEventListener(
+            "click",
+            closeModal
         );
 
-    const backdrop =
-        modal.querySelector(
+    modal
+        .querySelector(
             ".medication-modal-backdrop"
+        )
+        .addEventListener(
+            "click",
+            closeModal
         );
-
-
-    closeButton.addEventListener(
-        "click",
-        close
-    );
-
-
-    cancelButton.addEventListener(
-        "click",
-        close
-    );
-
-
-    backdrop.addEventListener(
-        "click",
-        close
-    );
-
 
     document.addEventListener(
         "keydown",
-        (event) => {
+        event => {
 
             if (
                 event.key ===
                 "Escape"
             ) {
-
-                close();
+                closeModal();
             }
         }
     );
-
 
     document.addEventListener(
         "languageChanged",
         () => {
 
-            render({
-
-
-                total:
-                    medications.length,
-
-                active:
-                    medications.filter(
-                        (item) =>
-                            item.status ===
-                            "ACTIVO"
-                    ).length,
-
-                inUse:
-                    medications.filter(
-                        (item) =>
-                            item.status ===
-                            "EN_USO"
-                    ).length,
-
-                inactive:
-                    medications.filter(
-                        (item) =>
-                            item.status ===
-                            "INACTIVO"
-                    ).length
-            });
-
+            load();
 
             if (
                 modal.classList.contains(
@@ -1009,11 +725,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     "medication-modal-title"
                 ).textContent =
                     fields.id
-                        ? traducir(
+                        ? t(
                             "edit_medication",
                             "Editar Medicamento"
                         )
-                        : traducir(
+                        : t(
                             "register_medication",
                             "Registrar Medicamento"
                         );
@@ -1021,7 +737,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-
     load();
-
 });
