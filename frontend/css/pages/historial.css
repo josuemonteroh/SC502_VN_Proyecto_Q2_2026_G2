@@ -1,130 +1,481 @@
 /* Estilos del historial clínico */
 
-/* Filtros compartidos con alertas */
+/* Header */
 
-/* Información del paciente */
-
-.patient-summary{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:25px 60px;
-
-    margin-top:20px;
-
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 35px;
 }
 
-.summary-item{
-
-    display:grid;
-
-    grid-template-columns:220px auto;
-
-    align-items:center;
-
-    gap:20px;
-
-    padding:15px 0;
-
-    border-bottom:1px solid var(--color-border-light);
-
+.header > div:first-child {
+    flex: 1;
 }
 
-.summary-title{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    color:var(--color-text-muted);
-
-    font-weight:600;
-
+.header h1 {
+    margin-bottom: 8px;
+    color: var(--color-text-heading);
+    font-size: 42px;
+    font-weight: 700;
 }
 
-.summary-item strong{
-
-    color:#0F172A;
-
-    font-weight:600;
-
+.header p {
+    color: var(--color-text-muted);
+    font-size: 16px;
 }
 
-.summary-item .badge{
+/* Usuario */
 
-    width:auto;
-
-    display:inline-flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:6px 16px;
-
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 190px;
+    padding: 10px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
 }
 
-/* Observaciones Clínicas
-   Lista de recomendaciones y seguimiento del paciente.
-*/
-
-.clinical-notes{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-    margin-top:25px;
-
+.user-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(14, 122, 110, 0.12);
+    color: var(--color-primary);
+    font-size: 18px;
 }
 
-.note-item{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:14px;
-
+.user-card-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.note-item i{
-
-    color:var(--color-primary);
-
-    font-size:18px;
-
-    width:22px;
-
-    margin-top:3px;
-
+.user-card-info strong {
+    color: var(--color-text-heading);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.note-item p{
-
-    margin:0;
-
-    color:#334155;
-
-    line-height:1.6;
-
+.user-card-info span {
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 500;
 }
 
-/* Responsive
-*/
+/* Encabezados de panel */
 
-@media(max-width:1100px){
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 22px;
+}
 
-    .patient-summary{
+.panel-heading h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 5px;
+    color: var(--color-primary);
+}
 
-        grid-template-columns:1fr;
+.panel-heading h2 i {
+    color: var(--color-primary);
+}
 
+.panel-heading p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Consulta */
+
+.history-query-panel {
+    position: relative;
+    z-index: 20;
+}
+
+.history-filters {
+    display: grid;
+    grid-template-columns:
+        minmax(360px, 1.7fr)
+        minmax(180px, 0.8fr)
+        minmax(180px, 0.8fr)
+        auto;
+    gap: 16px;
+    align-items: end;
+}
+
+.filter-group {
+    min-width: 0;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+    color: var(--color-text);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.filter-group label i {
+    color: var(--color-primary);
+}
+
+.filter-button {
+    display: flex;
+    align-items: flex-end;
+}
+
+.filter-button .btn-primary {
+    min-height: 46px;
+    white-space: nowrap;
+}
+
+/* Búsqueda inteligente */
+
+.patient-search-wrapper {
+    position: relative;
+}
+
+.patient-search-wrapper .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    z-index: 2;
+    color: var(--color-text-subtle);
+    font-size: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.patient-search-input {
+    width: 100%;
+    height: 46px;
+    padding-left: 43px !important;
+}
+
+.patient-search-results {
+    position: absolute;
+    top: calc(100% + 7px);
+    right: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px;
+    border: 1px solid var(--color-border-light);
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+}
+
+.patient-search-results.active {
+    display: block;
+}
+
+.patient-search-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 12px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+}
+
+.patient-search-result:hover {
+    background: rgba(14, 122, 110, 0.08);
+}
+
+.patient-search-result-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(14, 122, 110, 0.10);
+    color: var(--color-primary);
+}
+
+.patient-search-result-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.patient-search-result-info strong {
+    overflow: hidden;
+    color: var(--color-text-heading);
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.patient-search-result-info span {
+    margin-top: 3px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.patient-search-empty {
+    padding: 18px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Exportación */
+
+.history-export-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-export {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 0 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--color-primary);
+    font-family: var(--font-base);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.btn-export:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background: rgba(14, 122, 110, 0.07);
+}
+
+.btn-export:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Resumen */
+
+.patient-summary-panel {
+    margin-top: 25px;
+}
+
+.patient-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 105px;
+    padding: 18px;
+    border: 1px solid var(--color-border-light);
+    border-radius: 16px;
+    background: #F8FAFC;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.summary-item:hover {
+    border-color: rgba(14, 122, 110, 0.25);
+    background: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: rgba(14, 122, 110, 0.10);
+    color: var(--color-primary);
+    font-size: 18px;
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.summary-content > span {
+    margin-bottom: 5px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.summary-content strong {
+    overflow: hidden;
+    color: var(--color-text-heading);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+}
+
+.summary-content .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 5px 12px;
+}
+
+/* Evolución */
+
+.history-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.history-table-wrapper table {
+    min-width: 900px;
+}
+
+.history-empty {
+    padding: 24px !important;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+/* Observaciones */
+
+.clinical-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--color-border-light);
+    border-radius: 12px;
+    background: #F8FAFC;
+}
+
+.note-item i {
+    width: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-primary);
+    font-size: 15px;
+}
+
+.note-item p {
+    margin: 0;
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Paneles inferiores */
+
+.history-bottom-grid {
+    align-items: stretch;
+}
+
+.history-bottom-grid > .panel {
+    height: 100%;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+
+    .history-filters {
+        grid-template-columns: 2fr 1fr 1fr;
     }
 
+    .filter-button {
+        grid-column: 1 / -1;
+    }
+
+    .filter-button .btn-primary {
+        width: 100%;
+    }
+
+    .patient-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+
+    .header {
+        flex-direction: column;
+    }
+
+    .user-card {
+        width: 100%;
+    }
+
+    .panel-heading {
+        flex-direction: column;
+    }
+
+    .history-export-actions {
+        width: 100%;
+    }
+
+    .btn-export {
+        flex: 1;
+    }
+
+    .history-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-button {
+        grid-column: auto;
+    }
+
+    .patient-summary {
+        grid-template-columns: 1fr;
+    }
 }

@@ -3,26 +3,107 @@
 /* Pacientes */
 
 document.addEventListener("DOMContentLoaded", () => {
+
     /* Controles */
 
-    const inputBuscar = document.querySelector(".panel .search-box[type='text']");
-    const selectEstado = document.querySelectorAll(".panel select.search-box")[0];
-    const selectOrden = document.querySelectorAll(".panel select.search-box")[1];
-    const btnRegistrar = document.querySelector(".panel .btn-primary");
+    const inputBuscar =
+        document.getElementById("patient-search");
+
+    const searchResults =
+        document.getElementById("patient-search-results");
+
+    const selectEstado =
+        document.getElementById("patient-status-filter");
+
+    const selectOrden =
+        document.getElementById("patient-order-filter");
+
+    const btnRegistrar =
+        document.getElementById("open-patient-modal");
 
     /* Tabla */
 
-    const tabla = document.querySelectorAll(".panel table")[0];
-    const tbody = tabla.querySelector("tbody");
+    const tabla =
+        document.getElementById("patients-table");
+
+    const tbody =
+        tabla.querySelector("tbody");
 
     /* KPIs */
 
-    const kpis = document.querySelectorAll(".kpi-cards .card h2");
+    const kpiTotal =
+        document.getElementById("kpi-patients-total");
+
+    const kpiActivos =
+        document.getElementById("kpi-patients-active");
+
+    const kpiSeguimiento =
+        document.getElementById("kpi-patients-followup");
+
+    const kpiAlertas =
+        document.getElementById("kpi-patients-alerts");
+
+    /* Resumen */
+
+    const resumenPacientes =
+        document.getElementById("summary-patients");
+
+    const resumenActivos =
+        document.getElementById("summary-active");
+
+    const resumenSeguimiento =
+        document.getElementById("summary-followup");
+
+    const resumenAlertas =
+        document.getElementById("summary-alerts");
+
+    /* Modal */
+
+    const modal =
+        document.getElementById("patient-modal");
+
+    const modalBackdrop =
+        modal.querySelector(".patient-modal-backdrop");
+
+    const btnCerrarModal =
+        document.getElementById("close-patient-modal");
+
+    const btnCancelarModal =
+        document.getElementById("cancel-patient-modal");
+
+    const formulario =
+        document.getElementById("patient-form");
+
+    /* Campos */
+
+    const inputNombre =
+        document.getElementById("patient-full-name");
+
+    const inputIdentificacion =
+        document.getElementById("patient-identification");
+
+    const inputEdad =
+        document.getElementById("patient-age");
+
+    const inputTelefono =
+        document.getElementById("patient-phone");
+
+    const inputEstatura =
+        document.getElementById("patient-height");
+
+    const selectEstadoPaciente =
+        document.getElementById("patient-status");
+
+    const inputCondicion =
+        document.getElementById("patient-condition");
+
+    const inputObservaciones =
+        document.getElementById("patient-observations");
 
     /* Utilidades */
 
     function normalizar(texto) {
-        return String(texto)
+        return String(texto || "")
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -35,10 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 texto: "Activo",
                 clase: "success"
             },
+
             SEGUIMIENTO: {
                 texto: "Seguimiento",
                 clase: "warning"
             },
+
             INACTIVO: {
                 texto: "Inactivo",
                 clase: "danger"
@@ -46,18 +129,172 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         return mapa[status] || {
-            texto: status,
+            texto: status || "Sin estado",
             clase: "warning"
         };
+    }
+
+    /* Modal */
+
+    function abrirModal() {
+        limpiarErrores();
+
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+
+        document.body.classList.add(
+            "patient-modal-open"
+        );
+
+        setTimeout(() => {
+            inputNombre.focus();
+        }, 100);
+    }
+
+    function cerrarModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+
+        document.body.classList.remove(
+            "patient-modal-open"
+        );
+
+        formulario.reset();
+
+        selectEstadoPaciente.value = "ACTIVO";
+
+        limpiarErrores();
+    }
+
+    /* Validación */
+
+    function mostrarError(campo, mensaje) {
+        const contenedor =
+            campo.closest(".patient-field");
+
+        if (!contenedor) {
+            return;
+        }
+
+        contenedor.classList.add("has-error");
+
+        const error =
+            contenedor.querySelector(".field-error");
+
+        if (error) {
+            error.textContent = mensaje;
+        }
+    }
+
+    function limpiarError(campo) {
+        const contenedor =
+            campo.closest(".patient-field");
+
+        if (!contenedor) {
+            return;
+        }
+
+        contenedor.classList.remove("has-error");
+
+        const error =
+            contenedor.querySelector(".field-error");
+
+        if (error) {
+            error.textContent = "";
+        }
+    }
+
+    function limpiarErrores() {
+        formulario
+            .querySelectorAll(".patient-field")
+            .forEach((campo) => {
+                campo.classList.remove("has-error");
+            });
+
+        formulario
+            .querySelectorAll(".field-error")
+            .forEach((error) => {
+                error.textContent = "";
+            });
+    }
+
+    function validarFormulario() {
+        limpiarErrores();
+
+        let valido = true;
+
+        const nombre =
+            inputNombre.value.trim();
+
+        const edad =
+            Number(inputEdad.value);
+
+        const estatura =
+            Number(inputEstatura.value);
+
+        if (!nombre) {
+            mostrarError(
+                inputNombre,
+                "Ingrese el nombre completo."
+            );
+
+            valido = false;
+        }
+
+        if (
+            inputEdad.value === "" ||
+            !Number.isFinite(edad) ||
+            edad < 0 ||
+            edad > 120
+        ) {
+            mostrarError(
+                inputEdad,
+                "Ingrese una edad válida."
+            );
+
+            valido = false;
+        }
+
+        if (
+            inputEstatura.value === "" ||
+            !Number.isFinite(estatura) ||
+            estatura < 0.5 ||
+            estatura > 2.5
+        ) {
+            mostrarError(
+                inputEstatura,
+                "Ingrese una estatura válida."
+            );
+
+            valido = false;
+        }
+
+        if (!selectEstadoPaciente.value) {
+            mostrarError(
+                selectEstadoPaciente,
+                "Seleccione un estado."
+            );
+
+            valido = false;
+        }
+
+        return valido;
     }
 
     /* Crear fila */
 
     function crearFilaPaciente(paciente) {
-        const inicial = nyvoraGetInitialMetric(paciente.id);
-        const ultima = nyvoraGetLatestMetric(paciente.id);
-        const estado = estadoInfo(paciente.status);
-        const fila = document.createElement("tr");
+        const inicial =
+            nyvoraGetInitialMetric(paciente.id);
+
+        const ultima =
+            nyvoraGetLatestMetric(paciente.id);
+
+        const estado =
+            estadoInfo(paciente.status);
+
+        const fila =
+            document.createElement("tr");
 
         fila.dataset.id = paciente.id;
 
@@ -66,72 +303,307 @@ document.addEventListener("DOMContentLoaded", () => {
                 <i class="fa-solid fa-user"></i>
                 ${nyvoraEscapeHtml(paciente.fullName)}
             </td>
-            <td>${paciente.age ?? "N/D"}</td>
-            <td>${inicial ? inicial.weightKg + " kg" : "Sin registro"}</td>
-            <td>${ultima ? nyvoraFormatDate(ultima.measurementDate) : "Sin controles"}</td>
+
+            <td>
+                ${paciente.age ?? "N/D"}
+            </td>
+
+            <td>
+                ${
+                    inicial && inicial.weightKg
+                        ? `${inicial.weightKg} kg`
+                        : "Sin registro"
+                }
+            </td>
+
+            <td>
+                ${
+                    ultima
+                        ? nyvoraFormatDate(
+                            ultima.measurementDate
+                        )
+                        : "Sin controles"
+                }
+            </td>
+
             <td>
                 <span class="badge ${estado.clase}">
                     ${estado.texto}
                 </span>
             </td>
+
             <td>
-                <a href="#" class="action-link">
+                <a
+                    href="historial.html?id=${paciente.id}"
+                    class="action-link">
                     <i class="fa-solid fa-eye"></i>
                     Abrir Expediente
                 </a>
             </td>
         `;
 
-        fila.querySelector(".action-link").addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = `historial.html?id=${paciente.id}`;
-        });
-
         return fila;
+    }
+
+    /* Búsqueda inteligente */
+
+    function obtenerCoincidencias() {
+        const termino =
+            normalizar(inputBuscar.value);
+
+        if (!termino) {
+            return [];
+        }
+
+        return nyvoraGetPatients()
+            .filter((paciente) => {
+
+                const nombre =
+                    normalizar(paciente.fullName);
+
+                const identificacion =
+                    normalizar(paciente.identification);
+
+                const telefono =
+                    normalizar(paciente.phone);
+
+                const estado =
+                    normalizar(
+                        estadoInfo(
+                            paciente.status
+                        ).texto
+                    );
+
+                return (
+                    nombre.includes(termino) ||
+                    identificacion.includes(termino) ||
+                    telefono.includes(termino) ||
+                    estado.includes(termino)
+                );
+            })
+            .slice(0, 8);
+    }
+
+    function cerrarResultadosBusqueda() {
+        searchResults.classList.remove("open");
+
+        inputBuscar.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    }
+
+    function mostrarResultadosBusqueda() {
+        const termino =
+            inputBuscar.value.trim();
+
+        searchResults.innerHTML = "";
+
+        if (!termino) {
+            cerrarResultadosBusqueda();
+            return;
+        }
+
+        const coincidencias =
+            obtenerCoincidencias();
+
+        if (!coincidencias.length) {
+            searchResults.innerHTML = `
+                <div class="patient-search-empty">
+                    No se encontraron pacientes.
+                </div>
+            `;
+        } else {
+
+            coincidencias.forEach((paciente) => {
+
+                const option =
+                    document.createElement("button");
+
+                option.type = "button";
+                option.className =
+                    "patient-search-option";
+
+                const detalle = [
+                    paciente.identification,
+                    paciente.phone
+                ]
+                    .filter(Boolean)
+                    .join(" · ");
+
+                option.innerHTML = `
+                    <div class="patient-search-option-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+
+                    <div class="patient-search-option-info">
+                        <strong>
+                            ${nyvoraEscapeHtml(
+                                paciente.fullName
+                            )}
+                        </strong>
+
+                        <span>
+                            ${
+                                detalle
+                                    ? nyvoraEscapeHtml(detalle)
+                                    : "Sin identificación o teléfono"
+                            }
+                        </span>
+                    </div>
+                `;
+
+                option.addEventListener(
+                    "click",
+                    () => {
+
+                        inputBuscar.value =
+                            paciente.fullName;
+
+                        cerrarResultadosBusqueda();
+
+                        renderTabla();
+
+                        const fila =
+                            tbody.querySelector(
+                                `tr[data-id="${paciente.id}"]`
+                            );
+
+                        if (fila) {
+                            fila.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"
+                            });
+                        }
+                    }
+                );
+
+                searchResults.appendChild(
+                    option
+                );
+            });
+        }
+
+        searchResults.classList.add("open");
+
+        inputBuscar.setAttribute(
+            "aria-expanded",
+            "true"
+        );
     }
 
     /* Renderizar tabla */
 
     function renderTabla() {
-        let pacientes = nyvoraGetPatients();
+        let pacientes =
+            [...nyvoraGetPatients()];
 
-        const busqueda = normalizar(inputBuscar.value);
+        const busqueda =
+            normalizar(inputBuscar.value);
 
         if (busqueda) {
-            pacientes = pacientes.filter((paciente) =>
-                normalizar(paciente.fullName).includes(busqueda)
-            );
+            pacientes =
+                pacientes.filter((paciente) => {
+
+                    const nombre =
+                        normalizar(
+                            paciente.fullName
+                        );
+
+                    const identificacion =
+                        normalizar(
+                            paciente.identification
+                        );
+
+                    const telefono =
+                        normalizar(
+                            paciente.phone
+                        );
+
+                    const estado =
+                        normalizar(
+                            estadoInfo(
+                                paciente.status
+                            ).texto
+                        );
+
+                    return (
+                        nombre.includes(busqueda) ||
+                        identificacion.includes(busqueda) ||
+                        telefono.includes(busqueda) ||
+                        estado.includes(busqueda)
+                    );
+                });
         }
 
-        const estadoSeleccionado = selectEstado.value;
+        const estadoSeleccionado =
+            selectEstado.value;
 
-        if (estadoSeleccionado && estadoSeleccionado !== "Estado") {
-            pacientes = pacientes.filter((paciente) =>
-                normalizar(estadoInfo(paciente.status).texto) ===
-                normalizar(estadoSeleccionado)
-            );
+        if (
+            estadoSeleccionado &&
+            estadoSeleccionado !== "Estado"
+        ) {
+            pacientes =
+                pacientes.filter((paciente) =>
+                    normalizar(
+                        estadoInfo(
+                            paciente.status
+                        ).texto
+                    ) ===
+                    normalizar(
+                        estadoSeleccionado
+                    )
+                );
         }
 
-        const criterio = selectOrden.value;
+        const criterio =
+            selectOrden.value;
 
         if (criterio === "Nombre") {
             pacientes.sort((a, b) =>
-                a.fullName.localeCompare(b.fullName)
+                String(a.fullName || "")
+                    .localeCompare(
+                        String(b.fullName || ""),
+                        "es"
+                    )
             );
-        } else if (criterio === "Edad") {
-            pacientes.sort((a, b) =>
-                (a.age || 0) - (b.age || 0)
+        }
+
+        if (criterio === "Edad") {
+            pacientes.sort(
+                (a, b) =>
+                    (Number(a.age) || 0) -
+                    (Number(b.age) || 0)
             );
-        } else if (criterio === "Último control") {
+        }
+
+        if (criterio === "Último control") {
             pacientes.sort((a, b) => {
+
                 const fechaA =
-                    nyvoraGetLatestMetric(a.id)?.measurementDate || "";
+                    nyvoraGetLatestMetric(a.id)
+                        ?.measurementDate;
 
                 const fechaB =
-                    nyvoraGetLatestMetric(b.id)?.measurementDate || "";
+                    nyvoraGetLatestMetric(b.id)
+                        ?.measurementDate;
 
-                return nyvoraBuildDate(fechaB) -
-                    nyvoraBuildDate(fechaA);
+                if (!fechaA && !fechaB) {
+                    return 0;
+                }
+
+                if (!fechaA) {
+                    return 1;
+                }
+
+                if (!fechaB) {
+                    return -1;
+                }
+
+                return (
+                    nyvoraBuildDate(fechaB) -
+                    nyvoraBuildDate(fechaA)
+                );
             });
         }
 
@@ -140,74 +612,115 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pacientes.length === 0) {
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="6"
-                        style="text-align:center; padding:1rem; color:#888;">
-                        No se encontraron pacientes con los filtros seleccionados.
+                    <td
+                        colspan="6"
+                        class="patients-empty-row">
+                        No se encontraron pacientes
+                        con los filtros seleccionados.
                     </td>
                 </tr>
             `;
+
             return;
         }
 
         pacientes.forEach((paciente) => {
-            tbody.appendChild(crearFilaPaciente(paciente));
+            tbody.appendChild(
+                crearFilaPaciente(paciente)
+            );
         });
     }
 
-    /* Actualizar KPIs */
+    /* KPIs */
 
     function renderKpis() {
-        const pacientes = nyvoraGetPatients();
+        const pacientes =
+            nyvoraGetPatients();
 
-        const activos = pacientes.filter((paciente) =>
-            paciente.status === "ACTIVO"
-        ).length;
+        const activos =
+            pacientes.filter(
+                (paciente) =>
+                    paciente.status === "ACTIVO"
+            ).length;
 
-        const seguimiento = pacientes.filter((paciente) =>
-            paciente.status === "SEGUIMIENTO"
-        ).length;
+        const seguimiento =
+            pacientes.filter(
+                (paciente) =>
+                    paciente.status === "SEGUIMIENTO"
+            ).length;
 
-        const alertasActivas = nyvoraGetAlerts().filter((alerta) =>
-            alerta.status === "ACTIVE"
-        ).length;
+        const alertasActivas =
+            nyvoraGetAlerts().filter(
+                (alerta) =>
+                    alerta.status === "ACTIVE"
+            ).length;
 
-        kpis[0].textContent = pacientes.length;
-        kpis[1].textContent = activos;
-        kpis[2].textContent = seguimiento;
-        kpis[3].textContent = alertasActivas;
+        kpiTotal.textContent =
+            pacientes.length;
+
+        kpiActivos.textContent =
+            activos;
+
+        kpiSeguimiento.textContent =
+            seguimiento;
+
+        kpiAlertas.textContent =
+            alertasActivas;
+
+        resumenPacientes.textContent =
+            pacientes.length;
+
+        resumenActivos.textContent =
+            activos;
+
+        resumenSeguimiento.textContent =
+            seguimiento;
+
+        resumenAlertas.textContent =
+            alertasActivas;
     }
 
-    /* Registro rápido */
+    /* Guardar paciente */
 
-    function registrarPacienteRapido() {
-        const fullName = window.prompt("Nombre completo del paciente:");
-
-        if (!fullName) {
+    function guardarPaciente() {
+        if (!validarFormulario()) {
             return;
         }
 
-        const age = parseInt(
-            window.prompt("Edad:"),
-            10
-        );
+        const nuevoPaciente = {
+            fullName:
+                inputNombre.value.trim(),
 
-        const heightM = parseFloat(
-            window.prompt("Estatura en metros (ej: 1.70):")
-        );
+            identification:
+                inputIdentificacion.value.trim(),
 
-        const conditionGeneral = window.prompt(
-            "Condición general / objetivo:"
-        );
+            age:
+                Number(inputEdad.value),
 
-        nyvoraAddPatient({
-            fullName: nyvoraEscapeHtml(fullName),
-            age,
-            heightM,
-            conditionGeneral: conditionGeneral
-                ? nyvoraEscapeHtml(conditionGeneral)
-                : "",
-            status: "ACTIVO"
-        });
+            phone:
+                inputTelefono.value.trim(),
+
+            heightM:
+                Number(inputEstatura.value),
+
+            conditionGeneral:
+                inputCondicion.value.trim(),
+
+            observations:
+                inputObservaciones.value.trim(),
+
+            status:
+                selectEstadoPaciente.value,
+
+            isActive:
+                selectEstadoPaciente.value !==
+                "INACTIVO"
+        };
+
+        nyvoraAddPatient(nuevoPaciente);
+
+        cerrarModal();
+        renderTodo();
     }
 
     /* Actualizar interfaz */
@@ -219,17 +732,120 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Eventos */
 
-    inputBuscar.addEventListener("input", renderTabla);
-    selectEstado.addEventListener("change", renderTabla);
-    selectOrden.addEventListener("change", renderTabla);
+    inputBuscar.addEventListener(
+        "input",
+        () => {
+            renderTabla();
+            mostrarResultadosBusqueda();
+        }
+    );
 
-    btnRegistrar.addEventListener("click", (e) => {
-        e.preventDefault();
-        registrarPacienteRapido();
-        renderTodo();
+    inputBuscar.addEventListener(
+        "focus",
+        mostrarResultadosBusqueda
+    );
+
+    selectEstado.addEventListener(
+        "change",
+        renderTabla
+    );
+
+    selectOrden.addEventListener(
+        "change",
+        renderTabla
+    );
+
+    document.addEventListener(
+        "click",
+        (event) => {
+            if (
+                !event.target.closest(
+                    ".patients-search-wrapper"
+                )
+            ) {
+                cerrarResultadosBusqueda();
+            }
+        }
+    );
+
+    /* Modal */
+
+    btnRegistrar.addEventListener(
+        "click",
+        abrirModal
+    );
+
+    btnCerrarModal.addEventListener(
+        "click",
+        cerrarModal
+    );
+
+    btnCancelarModal.addEventListener(
+        "click",
+        cerrarModal
+    );
+
+    modalBackdrop.addEventListener(
+        "click",
+        cerrarModal
+    );
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("is-open")
+            ) {
+                cerrarModal();
+                return;
+            }
+
+            if (
+                event.key === "Escape"
+            ) {
+                cerrarResultadosBusqueda();
+            }
+        }
+    );
+
+    /* Limpiar errores */
+
+    [
+        inputNombre,
+        inputEdad,
+        inputEstatura,
+        selectEstadoPaciente
+    ].forEach((campo) => {
+
+        campo.addEventListener(
+            "input",
+            () => limpiarError(campo)
+        );
+
+        campo.addEventListener(
+            "change",
+            () => limpiarError(campo)
+        );
     });
 
-    window.addEventListener("nyvora:data-changed", renderTodo);
+    /* Formulario */
+
+    formulario.addEventListener(
+        "submit",
+        (event) => {
+            event.preventDefault();
+            guardarPaciente();
+        }
+    );
+
+    /* Cambios de datos */
+
+    window.addEventListener(
+        "nyvora:data-changed",
+        renderTodo
+    );
 
     /* Inicialización */
 

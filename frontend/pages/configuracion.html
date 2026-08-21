@@ -30,79 +30,16 @@
 </head>
 
 <body>
-
     <div class="dashboard">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-
-            <div class="logo">
-                <img src="../assets/logonyvora.png" alt="Nyvora">
-            </div>
-
-            <nav>
-                <ul>
-
-                    <li>
-                        <a href="dashboard.html">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <span data-lang="dashboard">Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="pacientes.html">
-                            <i class="fa-solid fa-users"></i>
-                            <span data-lang="patients">Pacientes</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="metricas.html">
-                            <i class="fa-solid fa-weight-scale"></i>
-                            <span data-lang="metrics">Métricas</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="historial.html">
-                            <i class="fa-solid fa-folder-open"></i>
-                            <span data-lang="history">Historial</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="alertas.html">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            <span data-lang="alerts">Alertas</span>
-                        </a>
-                    </li>
-
-                    <li class="active">
-                        <a href="configuracion.html">
-                            <i class="fa-solid fa-gear"></i>
-                            <span data-lang="settings">Configuración</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="http://localhost:8081/logout.php">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span data-lang="logout">Cerrar Sesión</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
-
-        </aside>
+        <div id="sidebar-container"></div>
 
         <!-- Contenido -->
         <main class="content">
 
             <!-- Header -->
             <div class="header">
-
                 <div>
                     <h1 data-lang="settings_title">Configuración</h1>
 
@@ -111,23 +48,33 @@
                     </p>
                 </div>
 
-                <div class="welcome">
-                    <h3 id="user-name">Usuario</h3>
-                    <span id="current-date"></span>
-                </div>
+                <div class="user-card">
+                    <div class="user-card-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
 
+                    <div class="user-card-info">
+                        <strong
+                            id="user-name"
+                            data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            Usuario
+                        </span>
+                    </div>
+                </div>
             </div>
 
             <!-- Perfil -->
             <div class="panel">
-
                 <h2>
                     <i class="fa-solid fa-user"></i>
                     Perfil de Usuario
                 </h2>
 
                 <div class="settings-grid">
-
                     <div>
                         <label class="settings-label" for="profile-fullname">
                             Nombre completo
@@ -175,21 +122,17 @@
                             class="settings-input settings-readonly"
                             readonly>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- Preferencias -->
             <div class="panel">
-
                 <h2>
                     <i class="fa-solid fa-sliders"></i>
                     Preferencias del Sistema
                 </h2>
 
                 <div class="settings-grid">
-
                     <div>
                         <label class="settings-label" for="config-language">
                             Idioma
@@ -222,7 +165,6 @@
                             Activar notificaciones
                         </label>
                     </div>
-
                 </div>
 
                 <div class="settings-actions">
@@ -235,12 +177,10 @@
                         Guardar Cambios
                     </button>
                 </div>
-
             </div>
 
             <!-- Información -->
             <div class="panel">
-
                 <h2>
                     <i class="fa-solid fa-circle-info"></i>
                     Información del Sistema
@@ -259,11 +199,9 @@
                 <p class="settings-text">
                     Universidad Fidélitas | SC-502 Ambiente Web Cliente/Servidor
                 </p>
-
             </div>
 
         </main>
-
     </div>
 
     <!-- JavaScript -->
@@ -271,7 +209,6 @@
     <script src="../js/common.js" defer></script>
     <script src="../js/language.js" defer></script>
     <script src="../js/configuracion.js" defer></script>
-
 </body>
 
 </html>

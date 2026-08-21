@@ -1,126 +1,46 @@
-/* Estilos de configuración */
+/* Tarjeta de usuario */
 
-.settings-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:24px;
-
-    margin-top:25px;
-
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 190px;
+    padding: 10px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
 }
 
-.settings-label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    font-weight:600;
-
-    color:#475569;
-
+.user-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(14, 122, 110, 0.12);
+    color: var(--color-primary);
+    font-size: 18px;
 }
 
-.settings-input{
-
-    width:100%;
-
-    padding:14px 16px;
-
-    border:1px solid var(--color-border);
-
-    border-radius:var(--radius-sm);
-
-    font-size:15px;
-
-    font-family:var(--font-base);
-
-    transition:var(--transition-base);
-
+.user-card-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.settings-input:focus{
-
-    outline:none;
-
-    border-color:var(--color-primary);
-
-    box-shadow:0 0 0 4px rgba(14,122,110,.12);
-
+.user-card-info strong {
+    color: var(--color-text-heading);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.settings-readonly{
-
-    background:var(--color-bg-hover);
-
-    cursor:not-allowed;
-
-}
-
-.checkbox-label{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    cursor:pointer;
-
-    font-weight:500;
-
-    color:#334155;
-
-}
-
-.settings-actions{
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    margin-top:25px;
-
-}
-
-.settings-divider{
-
-    border:none;
-
-    border-top:1px solid var(--color-border-light);
-
-    margin:25px 0;
-
-}
-
-.settings-text{
-
-    margin-bottom:12px;
-
-    color:var(--color-text-muted);
-
-}
-
-.settings-description{
-
-    color:var(--color-text-muted);
-
-    line-height:1.7;
-
-}
-
-/* Responsive
-*/
-
-@media(max-width:768px){
-
-    .settings-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
+.user-card-info span {
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 500;
 }

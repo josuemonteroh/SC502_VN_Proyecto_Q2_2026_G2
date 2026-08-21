@@ -2,335 +2,323 @@
 
 /* Estructura principal */
 
-.dashboard{
-
-    display:flex;
-
-    min-height:100vh;
-
+.dashboard {
+    min-height: 100vh;
 }
 
-/* Sidebar
-   Menú lateral principal del sistema.
-*/
+/* Contenedor global */
 
-.sidebar{
+#sidebar-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 290px;
+    height: 100vh;
+    z-index: 1000;
+}
 
-    width:290px;
+/* Sidebar */
 
-    background:linear-gradient(
+#sidebar-container .sidebar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 20px 24px;
+    background: linear-gradient(
         180deg,
         #0E7A6E 0%,
         #16897C 45%,
         #1A9B8D 100%
     );
-
-    color:white;
-
-    display:flex;
-
-    flex-direction:column;
-
-    padding:35px 20px;
-
-    box-shadow:6px 0 25px rgba(0,0,0,.08);
-
+    color: #FFFFFF;
+    box-shadow: 6px 0 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Logo
-   Imagen institucional de NYVORA.
-*/
+/* Logo */
 
-.logo{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin-bottom:45px;
-
+#sidebar-container .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 32px;
 }
 
-.logo img{
-
-    width:170px;
-
-    max-width:100%;
-
+#sidebar-container .logo img {
+    width: 180px;
+    max-width: 100%;
 }
 
-/* Menú
-   Opciones de navegación del sistema.
-*/
+/* Navegación */
 
-.sidebar nav{
-
-    width:100%;
-
+#sidebar-container .sidebar-nav {
+    flex: 1;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 4px;
 }
 
-.sidebar ul{
-
-    list-style:none;
-
+#sidebar-container .sidebar-nav::-webkit-scrollbar {
+    width: 4px;
 }
 
-.sidebar li{
-
-    margin-bottom:10px;
-
+#sidebar-container .sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.sidebar li a{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-    width:100%;
-
-    padding:15px 18px;
-
-    border-radius:12px;
-
-    color:white;
-
-    text-decoration:none;
-
-    font-size:15px;
-
-    font-weight:500;
-
-    transition:var(--transition-base);
-
+#sidebar-container .sidebar-nav::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.18);
 }
 
-.sidebar li a i{
+/* Lista */
 
-    width:22px;
-
-    text-align:center;
-
-    font-size:16px;
-
+#sidebar-container .sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.sidebar li a:hover{
-
-    background:rgba(255,255,255,.15);
-
-    transform:translateX(5px);
-
+#sidebar-container .sidebar li {
+    margin: 0 0 7px;
 }
 
-.sidebar li.active a{
+/* Links */
 
-    background:rgba(255,255,255,.18);
-
-    font-weight:600;
-
+#sidebar-container .sidebar li a,
+#sidebar-container .sidebar li a:link,
+#sidebar-container .sidebar li a:visited,
+#sidebar-container .sidebar li a:hover,
+#sidebar-container .sidebar li a:active {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 11px;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 500;
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
 }
 
-/* Contenido
-   Área principal donde se muestran los módulos.
-*/
+/* Íconos */
 
-.content{
-
-    flex:1;
-
-    padding:24px;
-
+#sidebar-container .sidebar li a i {
+    width: 22px;
+    flex-shrink: 0;
+    color: #FFFFFF !important;
+    text-align: center;
+    font-size: 16px;
 }
 
-/* Header
-   Encabezado principal de cada módulo.
-*/
+/* Hover */
 
-.header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:35px;
-
+#sidebar-container .sidebar li a:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateX(4px);
 }
 
-.header h1{
+/* Página activa */
 
-    font-size:42px;
-
-    font-weight:700;
-
-    color:var(--color-text-heading);
-
-    margin-bottom:8px;
-
+#sidebar-container .sidebar li.active a {
+    background: rgba(255, 255, 255, 0.20);
+    color: #FFFFFF !important;
+    font-weight: 600;
 }
 
-.header p{
+/* Footer */
 
-    color:var(--color-text-muted);
-
-    font-size:16px;
-
+#sidebar-container .sidebar-footer {
+    width: 100%;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
-.welcome{
+/* Cerrar sesión */
 
-    text-align:right;
-
+#sidebar-container .sidebar-footer a,
+#sidebar-container .sidebar-footer a:link,
+#sidebar-container .sidebar-footer a:visited,
+#sidebar-container .sidebar-footer a:hover,
+#sidebar-container .sidebar-footer a:active {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 11px;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 500;
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
 }
 
-.welcome h3{
-
-    color:var(--color-primary);
-
-    font-size:30px;
-
-    font-weight:700;
-
-    margin-bottom:6px;
-
+#sidebar-container .sidebar-footer a i {
+    width: 22px;
+    flex-shrink: 0;
+    color: #FFFFFF !important;
+    text-align: center;
+    font-size: 17px;
 }
 
-.welcome span{
-
-    color:var(--color-text-subtle);
-
-    font-size:14px;
-
+#sidebar-container .sidebar-footer a:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateX(4px);
 }
 
-/* Responsive
-   Ajusta el layout general para pantallas menores.
-*/
+/* Contenido */
 
-@media(max-width:992px){
+.content {
+    width: calc(100% - 290px);
+    min-width: 0;
+    margin-left: 290px;
+    padding: 24px;
+}
 
-    .dashboard{
+/* Header */
 
-        flex-direction:column;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
 
+.header h1 {
+    margin-bottom: 8px;
+    color: var(--color-text-heading);
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.header p {
+    color: var(--color-text-muted);
+    font-size: 16px;
+}
+
+.welcome {
+    text-align: right;
+}
+
+.welcome h3 {
+    margin-bottom: 6px;
+    color: var(--color-primary);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.welcome span {
+    display: block;
+    color: var(--color-text-subtle);
+    font-size: 14px;
+}
+
+/* Responsive */
+
+@media (max-width: 992px) {
+
+    #sidebar-container {
+        position: relative;
+        width: 100%;
+        height: auto;
     }
 
-    .sidebar{
-
-        width:100%;
-
-        padding:25px;
-
+    #sidebar-container .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 24px;
     }
 
-    .logo{
-
-        margin-bottom:30px;
-
+    #sidebar-container .logo {
+        margin-bottom: 24px;
     }
 
-    .logo img{
-
-        width:160px;
-
+    #sidebar-container .logo img {
+        width: 155px;
     }
 
-    .sidebar ul{
-
-        display:flex;
-
-        flex-wrap:wrap;
-
-        justify-content:center;
-
-        gap:12px;
-
+    #sidebar-container .sidebar-nav {
+        overflow: visible;
     }
 
-    .sidebar li{
-
-        margin-bottom:0;
-
+    #sidebar-container .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
     }
 
-    .sidebar li a{
-
-        justify-content:center;
-
-        padding:14px 18px;
-
+    #sidebar-container .sidebar li {
+        margin: 0;
     }
 
-    .content{
+    #sidebar-container .sidebar-footer {
+        margin-top: 15px;
+    }
 
-        padding:30px;
+    #sidebar-container .sidebar-footer a {
+        justify-content: center;
+    }
 
+    .content {
+        width: 100%;
+        margin-left: 0;
+        padding: 30px;
     }
 
 }
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-    .header{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-        gap:18px;
-
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
     }
 
-    .welcome{
-
-        text-align:left;
-
+    .welcome {
+        text-align: left;
     }
 
-    .header h1{
-
-        font-size:34px;
-
+    .header h1 {
+        font-size: 34px;
     }
 
-    .welcome h3{
-
-        font-size:24px;
-
+    .welcome h3 {
+        font-size: 24px;
     }
 
 }
 
-@media(max-width:576px){
+@media (max-width: 576px) {
 
-    .content{
-
-        padding:20px;
-
+    #sidebar-container .sidebar {
+        padding: 20px;
     }
 
-    .sidebar{
-
-        padding:20px;
-
+    #sidebar-container .sidebar ul {
+        flex-direction: column;
     }
 
-    .sidebar ul{
-
-        flex-direction:column;
-
+    #sidebar-container .sidebar li a,
+    #sidebar-container .sidebar-footer a {
+        justify-content: flex-start;
     }
 
-    .sidebar li a{
-
-        justify-content:flex-start;
-
+    .content {
+        padding: 20px;
     }
 
 }

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nyvora | Gestión de Citas</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/forms.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/citas.css">
+</head>
+
+<body>
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Contenido -->
+        <main class="content">
+
+            <!-- Header -->
+            <header class="appointments-header">
+
+                <div>
+                    <h1>Gestión de Citas</h1>
+                    <p>Organice controles, seguimientos y citas clínicas de los pacientes.</p>
+                </div>
+
+                <a
+                    href="configuracion.html"
+                    class="appointments-user"
+                    aria-label="Ir a configuración">
+
+                    <div class="appointments-user-avatar">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+
+                    <div>
+                        <strong data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            Usuario
+                        </span>
+                    </div>
+
+                </a>
+
+            </header>
+
+            <!-- Barra de acciones -->
+            <div class="panel appointments-actions">
+
+                <div class="appointments-toolbar">
+
+                    <!-- Búsqueda -->
+                    <div class="appointments-search-wrapper">
+
+                        <div class="appointments-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                id="appointment-search"
+                                class="search-box"
+                                type="search"
+                                placeholder="Buscar por paciente..."
+                                autocomplete="off">
+                        </div>
+
+                    </div>
+
+                    <!-- Fecha -->
+                    <input
+                        id="appointment-date-filter"
+                        class="search-box appointments-date-filter"
+                        type="date">
+
+                    <!-- Estado -->
+                    <select
+                        id="appointment-status-filter"
+                        class="search-box">
+
+                        <option value="">
+                            Todos los estados
+                        </option>
+
+                        <option value="PROGRAMADA">
+                            Programada
+                        </option>
+
+                        <option value="CONFIRMADA">
+                            Confirmada
+                        </option>
+
+                        <option value="COMPLETADA">
+                            Completada
+                        </option>
+
+                        <option value="CANCELADA">
+                            Cancelada
+                        </option>
+
+                    </select>
+
+                    <!-- Nueva cita -->
+                    <button
+                        id="open-appointment-modal"
+                        type="button"
+                        class="btn-primary">
+
+                        <i class="fa-solid fa-calendar-plus"></i>
+                        Nueva Cita
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- KPI -->
+            <section class="kpi-cards">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+
+                        <h2 id="kpi-appointments-today">
+                            0
+                        </h2>
+
+                    </div>
+
+                    <p>Citas de Hoy</p>
+                    <small>Agenda del día</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+
+                        <h2 id="kpi-appointments-upcoming">
+                            0
+                        </h2>
+
+                    </div>
+
+                    <p>Próximas Citas</p>
+                    <small>Programadas próximamente</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <h2 id="kpi-appointments-completed">
+                            0
+                        </h2>
+
+                    </div>
+
+                    <p>Completadas</p>
+                    <small>Controles realizados</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+
+                        <h2 id="kpi-appointments-pending">
+                            0
+                        </h2>
+
+                    </div>
+
+                    <p>Pendientes</p>
+                    <small>Requieren seguimiento</small>
+
+                </div>
+
+            </section>
+
+            <!-- Agenda de hoy -->
+            <section class="panel appointments-section">
+
+                <div class="appointments-section-header">
+
+                    <div>
+                        <h2>
+                            <i class="fa-solid fa-calendar-day"></i>
+                            Agenda de Hoy
+                        </h2>
+
+                        <p>
+                            Citas y controles programados para el día actual.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div
+                    id="appointments-today-list"
+                    class="appointments-list">
+
+                    <div class="appointments-empty-state">
+
+                        <div class="appointments-empty-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+
+                        <div>
+                            <strong>No hay citas programadas para hoy.</strong>
+
+                            <span>
+                                Las citas del día aparecerán aquí.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Listado general -->
+            <section class="panel appointments-section">
+
+                <div class="appointments-section-header">
+
+                    <div>
+                        <h2>
+                            <i class="fa-solid fa-list"></i>
+                            Listado General de Citas
+                        </h2>
+
+                        <p>
+                            Consulte las citas programadas y su estado actual.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="appointments-table-wrapper">
+
+                    <table id="appointments-table">
+
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Profesional</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- JavaScript -->
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <!-- Próximas citas -->
+            <section class="panel appointments-section">
+
+                <div class="appointments-section-header">
+
+                    <div>
+                        <h2>
+                            <i class="fa-solid fa-calendar-week"></i>
+                            Próximas Citas
+                        </h2>
+
+                        <p>
+                            Próximos controles agendados para los pacientes.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div
+                    id="appointments-upcoming-list"
+                    class="appointments-list">
+
+                    <div class="appointments-empty-state">
+
+                        <div class="appointments-empty-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+
+                        <div>
+                            <strong>No hay próximas citas registradas.</strong>
+
+                            <span>
+                                Las próximas citas aparecerán aquí cuando se programen.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Modal nueva cita -->
+    <div
+        id="appointment-modal"
+        class="appointment-modal"
+        aria-hidden="true">
+
+        <div class="appointment-modal-backdrop"></div>
+
+        <div
+            class="appointment-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="appointment-modal-title">
+
+            <!-- Header -->
+            <div class="appointment-modal-header">
+
+                <div class="appointment-modal-title">
+
+                    <div class="appointment-modal-icon">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+
+                    <div>
+                        <h2 id="appointment-modal-title">
+                            Nueva Cita
+                        </h2>
+
+                        <p>
+                            Programe un nuevo control clínico para un paciente.
+                        </p>
+                    </div>
+
+                </div>
+
+                <button
+                    id="close-appointment-modal"
+                    class="appointment-modal-close"
+                    type="button"
+                    aria-label="Cerrar">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+            <!-- Formulario -->
+            <form id="appointment-form" novalidate>
+
+                <div class="appointment-modal-body">
+
+                    <!-- Paciente -->
+                    <div class="appointment-field appointment-field-full">
+
+                        <label for="appointment-patient">
+                            Paciente
+                            <span>*</span>
+                        </label>
+
+                        <select
+                            id="appointment-patient"
+                            name="patientId"
+                            required>
+
+                            <option
+                                value=""
+                                selected
+                                disabled>
+                                Seleccione un paciente
+                            </option>
+
+                        </select>
+
+                        <small class="field-error"></small>
+
+                    </div>
+
+                    <div class="appointment-form-grid">
+
+                        <!-- Fecha -->
+                        <div class="appointment-field">
+
+                            <label for="appointment-date">
+                                Fecha
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                id="appointment-date"
+                                name="date"
+                                type="date"
+                                required>
+
+                            <small class="field-error"></small>
+
+                        </div>
+
+                        <!-- Hora -->
+                        <div class="appointment-field">
+
+                            <label for="appointment-time">
+                                Hora
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                id="appointment-time"
+                                name="time"
+                                type="time"
+                                required>
+
+                            <small class="field-error"></small>
+
+                        </div>
+
+                        <!-- Tipo -->
+                        <div class="appointment-field">
+
+                            <label for="appointment-type">
+                                Tipo de cita
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="appointment-type"
+                                name="type"
+                                required>
+
+                                <option
+                                    value=""
+                                    selected
+                                    disabled>
+                                    Seleccione un tipo
+                                </option>
+
+                                <option value="VALORACION_INICIAL">
+                                    Valoración inicial
+                                </option>
+
+                                <option value="CONTROL_NUTRICIONAL">
+                                    Control nutricional
+                                </option>
+
+                                <option value="SEGUIMIENTO_BIOMETRICO">
+                                    Seguimiento biométrico
+                                </option>
+
+                                <option value="REVISION_CLINICA">
+                                    Revisión clínica
+                                </option>
+
+                                <option value="OTRO">
+                                    Otro
+                                </option>
+
+                            </select>
+
+                            <small class="field-error"></small>
+
+                        </div>
+
+                        <!-- Estado -->
+                        <div class="appointment-field">
+
+                            <label for="appointment-status">
+                                Estado
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="appointment-status"
+                                name="status"
+                                required>
+
+                                <option value="PROGRAMADA">
+                                    Programada
+                                </option>
+
+                                <option value="CONFIRMADA">
+                                    Confirmada
+                                </option>
+
+                                <option value="COMPLETADA">
+                                    Completada
+                                </option>
+
+                                <option value="CANCELADA">
+                                    Cancelada
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Motivo -->
+                        <div class="appointment-field appointment-field-full">
+
+                            <label for="appointment-reason">
+                                Motivo
+                            </label>
+
+                            <input
+                                id="appointment-reason"
+                                name="reason"
+                                type="text"
+                                placeholder="Ej. Control mensual de seguimiento">
+
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="appointment-field appointment-field-full">
+
+                            <label for="appointment-notes">
+                                Observaciones
+                            </label>
+
+                            <textarea
+                                id="appointment-notes"
+                                name="notes"
+                                rows="4"
+                                placeholder="Información adicional sobre la cita..."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="appointment-modal-footer">
+
+                    <span class="appointment-required-note">
+                        <span>*</span>
+                        Campos obligatorios
+                    </span>
+
+                    <div class="appointment-modal-actions">
+
+                        <button
+                            id="cancel-appointment-modal"
+                            type="button"
+                            class="btn-appointment-cancel">
+
+                            Cancelar
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn-primary">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Guardar Cita
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/data.js" defer></script>
+    <script src="../js/common.js" defer></script>
+    <script src="../js/citas.js" defer></script>
+
+</body>
+
+</html>

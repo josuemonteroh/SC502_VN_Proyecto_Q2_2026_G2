@@ -5,20 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyvora | Alertas Clínicas</title>
+    <title>Nyvora | Alertas</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/base/global.css">
@@ -26,6 +21,7 @@
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/forms.css">
     <link rel="stylesheet" href="../css/components/table.css">
+    <link rel="stylesheet" href="../css/pages/alertas.css">
 </head>
 
 <body>
@@ -33,85 +29,7 @@
     <div class="dashboard">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-
-            <div class="logo">
-                <img
-                    src="../assets/logonyvora.png"
-                    alt="Nyvora">
-            </div>
-
-            <nav>
-                <ul>
-
-                    <li>
-                        <a href="dashboard.html">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <span data-lang="dashboard">
-                                Dashboard
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="pacientes.html">
-                            <i class="fa-solid fa-users"></i>
-                            <span data-lang="patients">
-                                Pacientes
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="metricas.html">
-                            <i class="fa-solid fa-weight-scale"></i>
-                            <span data-lang="metrics">
-                                Métricas
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="historial.html">
-                            <i class="fa-solid fa-folder-open"></i>
-                            <span data-lang="history">
-                                Historial
-                            </span>
-                        </a>
-                    </li>
-
-                    <li class="active">
-                        <a href="alertas.html">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            <span data-lang="alerts">
-                                Alertas
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="configuracion.html">
-                            <i class="fa-solid fa-gear"></i>
-                            <span data-lang="settings">
-                                Configuración
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="../login.html">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span data-lang="logout">
-                                Cerrar Sesión
-                            </span>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
-
-        </aside>
-
+        <div id="sidebar-container"></div>
 
         <!-- Contenido -->
         <main class="content">
@@ -120,318 +38,211 @@
             <div class="header">
 
                 <div>
-
-                    <h1 data-lang="alerts_title">
-                        Alertas Clínicas
-                    </h1>
-
-                    <p data-lang="alerts_subtitle">
-                        Monitoree pacientes con indicadores clínicos que requieren atención o seguimiento.
-                    </p>
-
+                    <h1>Alertas</h1>
+                    <p>Monitoreo y seguimiento de alertas clínicas de los pacientes.</p>
                 </div>
 
-                <div class="welcome">
+                <div class="user-card">
 
-                    <h3>
-                        Dr. Hernández C.
-                    </h3>
+                    <div class="user-card-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
 
-                    <span id="current-date"></span>
+                    <div>
+                        <strong data-current-user-name>Usuario Nyvora</strong>
+                        <span data-current-user-role>Usuario</span>
+                    </div>
 
                 </div>
 
             </div>
-
 
             <!-- Filtros -->
-            <div class="panel">
+            <section class="panel alert-actions">
 
-                <h2>
+                <div class="alert-search-wrapper">
 
-                    <i class="fa-solid fa-filter"></i>
+                    <div class="alert-search-field">
 
-                    <span data-lang="filter">
-                        Filtrar Alertas
-                    </span>
-
-                </h2>
-
-
-                <div class="history-filters">
-
-                    <!-- Paciente -->
-                    <div class="filter-group patient-filter">
-
-                        <label for="buscarPaciente">
-
-                            <i class="fa-solid fa-user"></i>
-
-                            <span data-lang="patient">
-                                Paciente
-                            </span>
-
-                        </label>
-
+                        <i class="fa-solid fa-magnifying-glass"></i>
 
                         <input
-                            type="text"
                             id="buscarPaciente"
-                            class="search-box"
-                            data-placeholder="search_patient"
-                            placeholder="Buscar paciente..."
+                            type="text"
+                            placeholder="Buscar paciente, tipo de alerta o condición..."
                             autocomplete="off">
 
-                    </div>
-
-
-                    <!-- Prioridad -->
-                    <div class="filter-group">
-
-                        <label for="prioridad">
-
-                            <i class="fa-solid fa-circle-exclamation"></i>
-
-                            <span data-lang="priority">
-                                Prioridad
-                            </span>
-
-                        </label>
-
-
-                        <select
-                            id="prioridad"
-                            class="search-box">
-
-                            <option
-                                value=""
-                                data-lang="all_priorities">
-                                Todas
-                            </option>
-
-                            <option
-                                value="Alta"
-                                data-lang="high">
-                                Alta
-                            </option>
-
-                            <option
-                                value="Media"
-                                data-lang="medium">
-                                Media
-                            </option>
-
-                            <option
-                                value="Baja"
-                                data-lang="low">
-                                Baja
-                            </option>
-
-                        </select>
+                        <div
+                            id="alert-search-suggestions"
+                            class="alert-search-suggestions"
+                            hidden>
+                        </div>
 
                     </div>
 
+                    <select id="prioridad">
+                        <option value="">Todas las prioridades</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Baja">Baja</option>
+                    </select>
 
-                    <!-- Estado -->
-                    <div class="filter-group">
+                    <select id="estado">
+                        <option value="">Todos los estados</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Seguimiento">En Seguimiento</option>
+                        <option value="Resuelta">Resuelta</option>
+                    </select>
 
-                        <label for="estado">
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="btn-search-alerts">
 
-                            <i class="fa-solid fa-list-check"></i>
-
-                            <span data-lang="status">
-                                Estado
-                            </span>
-
-                        </label>
-
-
-                        <select
-                            id="estado"
-                            class="search-box">
-
-                            <option
-                                value=""
-                                data-lang="all_status">
-                                Todos
-                            </option>
-
-                            <option
-                                value="Pendiente"
-                                data-lang="pending">
-                                Pendiente
-                            </option>
-
-                            <option
-                                value="En Seguimiento">
-                                En Seguimiento
-                            </option>
-
-                            <option
-                                value="Resuelta"
-                                data-lang="resolved">
-                                Resuelta
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- Acción -->
-                    <div class="filter-button">
-
-                        <button
-                            type="button"
-                            class="btn-primary">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                            <span data-lang="search">
-                                Buscar
-                            </span>
-
-                        </button>
-
-                    </div>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Buscar
+                    </button>
 
                 </div>
 
-            </div>
+            </section>
 
+            <!-- KPIs -->
+            <section class="kpi-cards alert-kpis">
 
-            <!-- Listado de alertas -->
-            <div class="panel">
+                <div class="card">
 
-                <h2>
+                    <div class="card-header">
 
-                    <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div class="icon">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
 
-                    <span data-lang="alerts_title">
-                        Alertas Registradas
+                        <h2 id="kpi-alerts-active">0</h2>
+
+                    </div>
+
+                    <p>Alertas Activas</p>
+                    <small>Requieren atención o seguimiento</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h2 id="kpi-alerts-high">0</h2>
+
+                    </div>
+
+                    <p>Alta Prioridad</p>
+                    <small>Requieren revisión prioritaria</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+
+                        <h2 id="kpi-alerts-following">0</h2>
+
+                    </div>
+
+                    <p>En Seguimiento</p>
+                    <small>Actualmente bajo revisión</small>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <h2 id="kpi-alerts-resolved">0</h2>
+
+                    </div>
+
+                    <p>Resueltas</p>
+                    <small>Alertas cerradas</small>
+
+                </div>
+
+            </section>
+
+            <!-- Alertas registradas -->
+            <section class="panel alert-list-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h2>
+                            <i class="fa-solid fa-bell"></i>
+                            Alertas Registradas
+                        </h2>
+
+                        <p>
+                            Alertas generadas a partir del seguimiento clínico
+                            de los pacientes.
+                        </p>
+
+                    </div>
+
+                    <span id="alert-results-count">
+                        0 resultados
                     </span>
 
-                </h2>
+                </div>
 
+                <div class="table-responsive">
 
-                <table>
+                    <table id="alerts-table">
 
-                    <thead>
-
-                        <tr>
-
-                            <th data-lang="patient">
-                                Paciente
-                            </th>
-
-                            <th data-lang="alert_message">
-                                Alerta
-                            </th>
-
-                            <th data-lang="priority">
-                                Prioridad
-                            </th>
-
-                            <th data-lang="date">
-                                Fecha
-                            </th>
-
-                            <th data-lang="status">
-                                Estado
-                            </th>
-
-                            <th data-lang="actions">
-                                Acción
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody></tbody>
-
-                </table>
-
-            </div>
-
-
-            <!-- Paneles informativos -->
-            <section class="dashboard-grid">
-
-
-                <!-- Resumen de alertas -->
-                <div class="panel">
-
-                    <h2>
-
-                        <i class="fa-solid fa-clipboard-list"></i>
-
-                        <span>
-                            Resumen de Alertas
-                        </span>
-
-                    </h2>
-
-
-                    <table>
-
-                        <tbody>
-
+                        <thead>
                             <tr>
-
-                                <th>
-                                    Total de Alertas
-                                </th>
-
-                                <td>
-                                    0
-                                </td>
-
+                                <th>Paciente</th>
+                                <th>Alerta</th>
+                                <th>Prioridad</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
                             </tr>
+                        </thead>
 
+                        <tbody id="alerts-table-body">
 
-                            <tr>
+                            <tr class="empty-alert-row">
+                                <td colspan="6">
 
-                                <th>
-                                    Alertas Pendientes
-                                </th>
+                                    <div class="alert-empty-state">
 
-                                <td>
-                                    <span class="badge warning">
-                                        0
-                                    </span>
+                                        <div class="alert-empty-icon">
+                                            <i class="fa-regular fa-bell"></i>
+                                        </div>
+
+                                        <strong>
+                                            No hay alertas para mostrar
+                                        </strong>
+
+                                        <p>
+                                            Las alertas clínicas aparecerán aquí
+                                            cuando sean detectadas por el sistema.
+                                        </p>
+
+                                    </div>
+
                                 </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <th>
-                                    En Seguimiento
-                                </th>
-
-                                <td>
-                                    <span class="badge danger">
-                                        0
-                                    </span>
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <th>
-                                    Resueltas
-                                </th>
-
-                                <td>
-                                    <span class="badge success">
-                                        0
-                                    </span>
-                                </td>
-
                             </tr>
 
                         </tbody>
@@ -440,40 +251,40 @@
 
                 </div>
 
+            </section>
 
-                <!-- Actividad reciente -->
-                <div class="panel">
+            <!-- Actividad reciente -->
+            <section class="panel alert-activity-panel">
 
-                    <h2>
+                <div class="panel-heading">
 
-                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    <div>
 
-                        <span data-lang="recent_activity">
+                        <h2>
+                            <i class="fa-solid fa-clock-rotate-left"></i>
                             Actividad Reciente
-                        </span>
+                        </h2>
 
-                    </h2>
+                        <p>
+                            Últimos eventos relacionados con las alertas clínicas.
+                        </p>
 
+                    </div>
 
-                    <table>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table id="alert-activity-table">
 
                         <thead>
-
                             <tr>
-
-                                <th data-lang="date">
-                                    Fecha
-                                </th>
-
-                                <th>
-                                    Actividad
-                                </th>
-
+                                <th>Fecha</th>
+                                <th>Actividad</th>
                             </tr>
-
                         </thead>
 
-                        <tbody></tbody>
+                        <tbody id="alert-activity-body"></tbody>
 
                     </table>
 
@@ -485,11 +296,209 @@
 
     </div>
 
+    <!-- Modal detalle -->
+    <div
+        class="alert-modal"
+        id="alert-modal"
+        aria-hidden="true">
+
+        <div
+            class="alert-modal-backdrop"
+            data-close-alert-modal>
+        </div>
+
+        <div class="alert-modal-card">
+
+            <!-- Header modal -->
+            <div class="alert-modal-header">
+
+                <div class="alert-modal-title">
+
+                    <div class="alert-modal-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div>
+                        <h2>Detalle de la Alerta</h2>
+                        <p>
+                            Información clínica y estado de seguimiento.
+                        </p>
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="alert-modal-close"
+                    data-close-alert-modal
+                    aria-label="Cerrar">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+            <!-- Contenido modal -->
+            <div class="alert-modal-body">
+
+                <!-- Paciente -->
+                <section class="alert-detail-section">
+
+                    <div class="alert-detail-section-title">
+                        <i class="fa-regular fa-user"></i>
+
+                        <div>
+                            <strong>Paciente</strong>
+                            <span>Paciente asociado a esta alerta.</span>
+                        </div>
+                    </div>
+
+                    <div class="alert-patient-card">
+
+                        <div class="alert-patient-icon">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+
+                        <div>
+                            <strong id="alert-detail-patient">
+                                Paciente
+                            </strong>
+
+                            <span id="alert-detail-patient-info">
+                                Información del paciente
+                            </span>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- Información -->
+                <section class="alert-detail-section">
+
+                    <div class="alert-detail-section-title">
+
+                        <i class="fa-solid fa-notes-medical"></i>
+
+                        <div>
+                            <strong>Información de la alerta</strong>
+                            <span>
+                                Condición detectada durante el seguimiento.
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="alert-detail-grid">
+
+                        <div class="alert-detail-item">
+                            <span>Tipo de alerta</span>
+                            <strong id="alert-detail-type">N/D</strong>
+                        </div>
+
+                        <div class="alert-detail-item">
+                            <span>Fecha de detección</span>
+                            <strong id="alert-detail-date">N/D</strong>
+                        </div>
+
+                        <div class="alert-detail-item">
+                            <span>Prioridad</span>
+
+                            <div>
+                                <span
+                                    id="alert-detail-priority"
+                                    class="badge warning">
+                                    N/D
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="alert-detail-item">
+                            <span>Estado</span>
+
+                            <div>
+                                <span
+                                    id="alert-detail-status"
+                                    class="badge warning">
+                                    N/D
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- Descripción -->
+                <section class="alert-detail-section">
+
+                    <div class="alert-detail-section-title">
+
+                        <i class="fa-regular fa-message"></i>
+
+                        <div>
+                            <strong>Descripción clínica</strong>
+                            <span>
+                                Información asociada a la condición detectada.
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="alert-message-box">
+                        <p id="alert-detail-message">
+                            Sin información disponible.
+                        </p>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- Footer modal -->
+            <div class="alert-modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    id="alert-open-patient">
+
+                    <i class="fa-solid fa-folder-open"></i>
+                    Abrir Expediente
+                </button>
+
+                <div class="alert-modal-actions">
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="alert-follow-up">
+
+                        <i class="fa-solid fa-stethoscope"></i>
+                        Iniciar Seguimiento
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="alert-resolve">
+
+                        <i class="fa-solid fa-circle-check"></i>
+                        Marcar como Resuelta
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- JavaScript -->
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
-    <script src="../js/language.js" defer></script>
     <script src="../js/alertas.js" defer></script>
 
 </body>

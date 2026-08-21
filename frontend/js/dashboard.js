@@ -3,411 +3,1012 @@
 /* Dashboard */
 
 document.addEventListener("DOMContentLoaded", () => {
-    /* Elementos del DOM */
 
-    const tablaPacientes =
-        document.querySelectorAll(".dashboard-grid .panel table")[0];
-    const tbodyPacientes = tablaPacientes.querySelector("tbody");
+    /* Elementos */
 
-    const tablaAlertas =
-        document.querySelectorAll(".dashboard-grid .panel table")[1];
-    const tbodyAlertas = tablaAlertas.querySelector("tbody");
+    const kpiPatients = document.getElementById("kpi-patients");
+    const kpiAlerts = document.getElementById("kpi-alerts");
+    const kpiAppointments = document.getElementById("kpi-appointments");
+    const kpiMeasurements = document.getElementById("kpi-measurements");
 
-    const kpiCards = document.querySelectorAll(".kpi-cards .card");
+    const recentPatients = document.getElementById("recent-patients");
+    const recentAlerts = document.getElementById("recent-alerts");
+    const appointmentsList = document.getElementById("appointments-list");
 
-    /* Gráficos */
+    const patientSearch = document.getElementById("weight-patient-search");
+    const patientIdInput = document.getElementById("weight-patient");
+    const patientSearchResults = document.getElementById("weight-patient-results");
+
+    const weightCurrent = document.getElementById("weight-current");
+    const weightChange = document.getElementById("weight-change");
+    const weightLastControl = document.getElementById("weight-last-control");
+
+    const userName = document.getElementById("dashboard-user-name");
+    const userRole = document.getElementById("dashboard-user-role");
+    const greeting = document.getElementById("dashboard-greeting");
 
     let weightChart = null;
     let statusChart = null;
     let alertChart = null;
 
-    /* Estados */
+    let dashboardData = null;
+    let availablePatients = [];
 
-    function estadoInfo(status) {
-        const mapa = {
-            ACTIVO: {
-                texto: "Activo",
-                clase: "success"
-            },
-            SEGUIMIENTO: {
-                texto: "Seguimiento",
-                clase: "warning"
-            },
-            INACTIVO: {
-                texto: "Inactivo",
-                clase: "danger"
-            }
-        };
+    /* Formatear fecha */
 
-        return mapa[status] || {
-            texto: status,
-            clase: "warning"
-        };
-    }
+    function formatearFecha(valor) {
+        if (!valor) {
+            return "Sin controles";
+        }
 
-    /* Prioridades */
-
-    function prioridadInfo(priority) {
-        const mapa = {
-            ALTA: {
-                texto: "Alta",
-                clase: "danger"
-            },
-            MEDIA: {
-                texto: "Media",
-                clase: "warning"
-            },
-            BAJA: {
-                texto: "Baja",
-                clase: "success"
-            }
-        };
-
-        return mapa[priority] || {
-            texto: priority,
-            clase: "warning"
-        };
-    }
-
-    /* Crear fila de paciente */
-
-    function crearFilaPaciente(paciente) {
-        const ultima = nyvoraGetLatestMetric(paciente.id);
-        const estado = estadoInfo(paciente.status);
-        const fila = document.createElement("tr");
-
-        fila.innerHTML = `
-            <td>
-                <i class="fa-solid fa-user"></i>
-                ${nyvoraEscapeHtml(paciente.fullName)}
-            </td>
-            <td>${paciente.age ?? "N/D"}</td>
-            <td>
-                ${
-                    ultima
-                        ? nyvoraFormatDate(ultima.measurementDate)
-                        : "Sin controles"
-                }
-            </td>
-            <td>
-                <span class="badge ${estado.clase}">
-                    ${estado.texto}
-                </span>
-            </td>
-            <td>
-                <a href="metricas.html" class="action-link">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Ver
-                </a>
-            </td>
-        `;
-
-        return fila;
-    }
-
-    /* Crear fila de alerta */
-
-    function crearFilaAlerta(alerta) {
-        const paciente = nyvoraGetPatientById(alerta.patientId);
-        const prioridad = prioridadInfo(alerta.priority);
-        const fila = document.createElement("tr");
-
-        fila.innerHTML = `
-            <td>
-                ${
-                    paciente
-                        ? nyvoraEscapeHtml(paciente.fullName)
-                        : "Paciente desconocido"
-                }
-            </td>
-            <td>${nyvoraEscapeHtml(alerta.message)}</td>
-            <td>
-                <span class="badge ${prioridad.clase}">
-                    ${prioridad.texto}
-                </span>
-            </td>
-        `;
-
-        return fila;
-    }
-
-    /* Actualizar KPIs */
-
-    function actualizarKPIs() {
-        const pacientes = nyvoraGetPatients();
-        const metricas = nyvoraGetMetrics();
-
-        const alertas = nyvoraGetAlerts().filter(
-            (alerta) => alerta.status === "ACTIVE"
+        const fecha = new Date(
+            String(valor).replace(" ", "T")
         );
 
-        const pacientesActivos = pacientes.filter(
-            (paciente) => paciente.status === "ACTIVO"
-        ).length;
+        if (Number.isNaN(fecha.getTime())) {
+            return "Sin fecha";
+        }
 
-        const datos = [
-            pacientes.length,
-            metricas.length,
-            alertas.length,
-            pacientes.length
-                ? Math.round((pacientesActivos / pacientes.length) * 100)
-                : 0
-        ];
+        return fecha.toLocaleDateString("es-CR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
 
-        kpiCards.forEach((card, index) => {
-            const value = card.querySelector("h2");
+    /* Escapar texto */
 
-            if (!value) {
+    function escaparTexto(valor) {
+        return String(valor ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    /* Normalizar texto */
+
+    function normalizarTexto(valor) {
+        return String(valor ?? "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    /* Cargar dashboard */
+
+    async function cargarDashboard() {
+        try {
+            const response = await fetch(
+                "http://localhost:8081/dashboard.php",
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+            if (response.status === 401) {
+                window.location.href = "../login.html";
                 return;
             }
 
-            value.textContent =
-                index === 3
-                    ? `${datos[index]}%`
-                    : datos[index];
-        });
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudo cargar el dashboard."
+                );
+            }
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(
+                    result.message ||
+                    "No se pudo cargar el dashboard."
+                );
+            }
+
+            dashboardData = result.data;
+
+            availablePatients =
+                dashboardData.recentPatients || [];
+
+            actualizarKPIs(
+                dashboardData.kpis || {}
+            );
+
+            cargarPacientes(
+                dashboardData.recentPatients || []
+            );
+
+            cargarAlertas(
+                dashboardData.recentAlerts || []
+            );
+
+            cargarAgenda();
+
+            configurarBuscadorPacientes();
+
+            prepararGraficoPeso();
+
+            cargarGraficoEstados(
+                dashboardData.patientStatus || {}
+            );
+
+            cargarGraficoAlertas(
+                dashboardData.alertsByType || []
+            );
+
+            cargarUsuario();
+
+        } catch (error) {
+            console.error(
+                "Error cargando dashboard:",
+                error
+            );
+        }
     }
 
-    /* Cargar pacientes */
+    /* Usuario */
 
-    function cargarPacientes() {
-        tbodyPacientes.innerHTML = "";
+    async function cargarUsuario() {
+        try {
+            const response = await fetch(
+                "http://localhost:8081/session_user.php",
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
 
-        const pacientes = nyvoraGetPatients();
-        const recientes = pacientes.slice(0, 5);
+            if (!response.ok) {
+                return;
+            }
 
-        if (!recientes.length) {
-            tbodyPacientes.innerHTML = `
-                <tr>
-                    <td colspan="5" style="text-align:center;color:#999;">
-                        No hay pacientes registrados.
-                    </td>
-                </tr>
-            `;
+            const result = await response.json();
+
+            if (!result.success || !result.data) {
+                return;
+            }
+
+            const usuario = result.data;
+
+            if (userName) {
+                userName.textContent =
+                    usuario.fullName ||
+                    "Usuario Nyvora";
+            }
+
+            if (userRole) {
+                userRole.textContent =
+                    usuario.role ||
+                    "Usuario";
+            }
+
+            if (
+                greeting &&
+                usuario.fullName
+            ) {
+                const primerNombre =
+                    usuario.fullName
+                        .split(" ")[0];
+
+                greeting.textContent =
+                    `Bienvenido, ${primerNombre}`;
+            }
+
+        } catch (error) {
+            console.error(
+                "Error cargando usuario:",
+                error
+            );
+        }
+    }
+
+    /* KPIs */
+
+    function actualizarKPIs(kpis) {
+        const pacientesActivos =
+            dashboardData?.patientStatus?.activos;
+
+        if (kpiPatients) {
+            kpiPatients.textContent =
+                pacientesActivos ??
+                kpis.patients ??
+                0;
+        }
+
+        if (kpiAlerts) {
+            kpiAlerts.textContent =
+                kpis.activeAlerts ?? 0;
+        }
+
+        if (kpiAppointments) {
+            /*
+             * Pendiente del módulo Citas.
+             */
+            kpiAppointments.textContent = "0";
+        }
+
+        if (kpiMeasurements) {
+            kpiMeasurements.textContent =
+                kpis.measurements ?? 0;
+        }
+    }
+
+    /* Agenda */
+
+    function cargarAgenda() {
+        if (!appointmentsList) {
             return;
         }
 
-        recientes.forEach((paciente) => {
-            tbodyPacientes.appendChild(crearFilaPaciente(paciente));
+        /*
+         * Se conectará cuando exista
+         * el módulo de Citas.
+         */
+
+        appointmentsList.innerHTML = `
+            <div class="empty-dashboard-state">
+                <i class="fa-regular fa-calendar"></i>
+
+                <p>
+                    No hay controles programados para hoy.
+                </p>
+            </div>
+        `;
+    }
+
+    /* Pacientes recientes */
+
+    function cargarPacientes(pacientes) {
+        if (!recentPatients) {
+            return;
+        }
+
+        recentPatients.innerHTML = "";
+
+        if (!pacientes.length) {
+            recentPatients.innerHTML = `
+                <div class="empty-dashboard-state">
+                    <i class="fa-regular fa-user"></i>
+
+                    <p>
+                        No hay pacientes registrados.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        pacientes.forEach((paciente) => {
+            const activo =
+                Number(paciente.is_active) === 1;
+
+            const item =
+                document.createElement("a");
+
+            item.className =
+                "dashboard-list-item";
+
+            item.href =
+                `historial.html?id=${paciente.id}`;
+
+            item.innerHTML = `
+                <div class="dashboard-list-icon">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+
+                <div class="dashboard-list-content">
+                    <strong>
+                        ${escaparTexto(
+                            paciente.full_name
+                        )}
+                    </strong>
+
+                    <span>
+                        ${paciente.age ?? "N/D"} años ·
+                        ${formatearFecha(
+                            paciente.last_control
+                        )}
+                    </span>
+                </div>
+
+                <span
+                    class="dashboard-status
+                    ${activo ? "active" : "inactive"}">
+
+                    ${activo ? "Activo" : "Inactivo"}
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            `;
+
+            recentPatients.appendChild(
+                item
+            );
         });
     }
 
-    /* Cargar alertas */
+    /* Alertas clínicas */
 
-    function cargarAlertas() {
-        tbodyAlertas.innerHTML = "";
+    function cargarAlertas(alertas) {
+        if (!recentAlerts) {
+            return;
+        }
 
-        const alertas = nyvoraGetAlerts()
-            .filter((alerta) => alerta.status === "ACTIVE")
-            .slice(0, 5);
+        recentAlerts.innerHTML = "";
 
         if (!alertas.length) {
-            tbodyAlertas.innerHTML = `
-                <tr>
-                    <td colspan="3" style="text-align:center;color:#999;">
+            recentAlerts.innerHTML = `
+                <div class="empty-dashboard-state">
+                    <i class="fa-regular fa-circle-check"></i>
+
+                    <p>
                         No hay alertas activas.
-                    </td>
-                </tr>
+                    </p>
+                </div>
             `;
+
             return;
         }
 
         alertas.forEach((alerta) => {
-            tbodyAlertas.appendChild(crearFilaAlerta(alerta));
+            const item =
+                document.createElement("a");
+
+            item.className =
+                "dashboard-list-item dashboard-alert-item";
+
+            item.href =
+                "alertas.html";
+
+            item.innerHTML = `
+                <div class="dashboard-list-icon alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <div class="dashboard-list-content">
+                    <strong>
+                        ${escaparTexto(
+                            alerta.alert_type
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escaparTexto(
+                            alerta.patient_name
+                        )}
+                    </span>
+
+                    <small>
+                        ${escaparTexto(
+                            alerta.message
+                        )}
+                    </small>
+                </div>
+
+                <span class="dashboard-status warning">
+                    Activa
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            `;
+
+            recentAlerts.appendChild(
+                item
+            );
         });
     }
 
-    /* Cargar datos */
+    /* Buscador de pacientes */
 
-    function cargarDatos() {
-        actualizarKPIs();
-        cargarPacientes();
-        cargarAlertas();
-        cargarGraficos();
+    function configurarBuscadorPacientes() {
+        if (
+            !patientSearch ||
+            !patientIdInput ||
+            !patientSearchResults
+        ) {
+            return;
+        }
+
+        function cerrarResultados() {
+            patientSearchResults
+                .classList
+                .remove("open");
+
+            patientSearch.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+
+        function mostrarResultados(
+            consulta = ""
+        ) {
+            const termino =
+                normalizarTexto(consulta);
+
+            const coincidencias =
+                availablePatients
+                    .filter((paciente) =>
+                        normalizarTexto(
+                            paciente.full_name
+                        ).includes(termino)
+                    )
+                    .slice(0, 8);
+
+            patientSearchResults.innerHTML = "";
+
+            if (!coincidencias.length) {
+                patientSearchResults.innerHTML = `
+                    <div class="patient-search-empty">
+                        No se encontraron pacientes.
+                    </div>
+                `;
+            } else {
+                coincidencias.forEach(
+                    (paciente) => {
+                        const opcion =
+                            document.createElement(
+                                "button"
+                            );
+
+                        opcion.type =
+                            "button";
+
+                        opcion.className =
+                            "patient-search-option";
+
+                        opcion.innerHTML = `
+                            <i class="fa-regular fa-user"></i>
+
+                            <span>
+                                ${escaparTexto(
+                                    paciente.full_name
+                                )}
+                            </span>
+                        `;
+
+                        opcion.addEventListener(
+                            "click",
+                            () => {
+                                patientIdInput.value =
+                                    paciente.id;
+
+                                patientSearch.value =
+                                    paciente.full_name;
+
+                                cerrarResultados();
+
+                                seleccionarPacientePeso(
+                                    paciente
+                                );
+                            }
+                        );
+
+                        patientSearchResults
+                            .appendChild(
+                                opcion
+                            );
+                    }
+                );
+            }
+
+            patientSearchResults
+                .classList
+                .add("open");
+
+            patientSearch.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+        }
+
+        patientSearch.addEventListener(
+            "focus",
+            () => {
+                mostrarResultados(
+                    patientSearch.value
+                );
+            }
+        );
+
+        patientSearch.addEventListener(
+            "input",
+            () => {
+                patientIdInput.value = "";
+
+                limpiarResumenPeso();
+
+                prepararGraficoPeso();
+
+                mostrarResultados(
+                    patientSearch.value
+                );
+            }
+        );
+
+        patientSearch.addEventListener(
+            "keydown",
+            (event) => {
+                if (
+                    event.key === "Escape"
+                ) {
+                    cerrarResultados();
+
+                    patientSearch.blur();
+                }
+            }
+        );
+
+        document.addEventListener(
+            "click",
+            (event) => {
+                if (
+                    !event.target.closest(
+                        ".dashboard-patient-selector"
+                    )
+                ) {
+                    cerrarResultados();
+                }
+            }
+        );
     }
 
-    /* Cargar gráficos */
+    /* Selección de paciente */
 
-    function cargarGraficos() {
-        const pacientes = nyvoraGetPatients();
-        const metricas = nyvoraGetMetrics();
-        const alertas = nyvoraGetAlerts();
+    function seleccionarPacientePeso(
+        paciente
+    ) {
+        if (!paciente) {
+            return;
+        }
 
-        /* Evolución del peso */
+        /*
+         * dashboard.php todavía entrega
+         * evolución general de peso.
+         *
+         * Hasta tener el endpoint individual,
+         * no se muestra información falsa.
+         */
 
-        const historialPeso = [...metricas]
-            .sort(
-                (a, b) =>
-                    nyvoraBuildDate(a.measurementDate) -
-                    nyvoraBuildDate(b.measurementDate)
-            )
-            .slice(-10);
+        if (weightCurrent) {
+            weightCurrent.textContent =
+                "N/D";
+        }
 
-        const pesoLabels = historialPeso.map((metrica) =>
-            nyvoraFormatDate(metrica.measurementDate)
-        );
+        if (weightChange) {
+            weightChange.textContent =
+                "N/D";
+        }
 
-        const pesoData = historialPeso.map(
-            (metrica) => metrica.weightKg
-        );
+        if (weightLastControl) {
+            weightLastControl.textContent =
+                formatearFecha(
+                    paciente.last_control
+                );
+        }
+
+        prepararGraficoPeso();
+    }
+
+    /* Limpiar resumen */
+
+    function limpiarResumenPeso() {
+        if (weightCurrent) {
+            weightCurrent.textContent =
+                "N/D";
+        }
+
+        if (weightChange) {
+            weightChange.textContent =
+                "N/D";
+        }
+
+        if (weightLastControl) {
+            weightLastControl.textContent =
+                "N/D";
+        }
+    }
+
+    /* Gráfico inicial */
+
+    function prepararGraficoPeso() {
+        const canvas =
+            document.getElementById(
+                "weightChart"
+            );
+
+        if (!canvas) {
+            return;
+        }
 
         if (weightChart) {
             weightChart.destroy();
         }
 
-        weightChart = new Chart(
-            document.getElementById("weightChart"),
-            {
-                type: "line",
-                data: {
-                    labels: pesoLabels,
-                    datasets: [
-                        {
-                            label: "Peso (kg)",
-                            data: pesoData,
-                            borderWidth: 2,
-                            tension: 0.35,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
+        weightChart =
+            new Chart(
+                canvas,
+                {
+                    type: "line",
+
+                    data: {
+                        labels: [],
+
+                        datasets: [
+                            {
+                                label:
+                                    "Peso (kg)",
+
+                                data: [],
+
+                                borderColor:
+                                    "#0E7A6E",
+
+                                backgroundColor:
+                                    "rgba(14, 122, 110, 0.10)",
+
+                                pointBackgroundColor:
+                                    "#0E7A6E",
+
+                                pointBorderColor:
+                                    "#FFFFFF",
+
+                                pointBorderWidth:
+                                    2,
+
+                                pointRadius:
+                                    4,
+
+                                borderWidth:
+                                    2,
+
+                                tension:
+                                    0.35,
+
+                                fill:
+                                    true
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive:
+                            true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+
+                                ticks: {
+                                    color: "#667085"
+                                }
+                            },
+
+                            y: {
+                                beginAtZero:
+                                    false,
+
+                                grid: {
+                                    color:
+                                        "rgba(148, 163, 184, 0.16)"
+                                },
+
+                                ticks: {
+                                    color: "#667085"
+                                }
+                            }
                         }
                     }
                 }
-            }
-        );
+            );
+    }
 
-        /* Pacientes por estado */
+    /* Pacientes por estado */
 
-        const activos = pacientes.filter(
-            (paciente) => paciente.status === "ACTIVO"
-        ).length;
+    function cargarGraficoEstados(
+        estados
+    ) {
+        const canvas =
+            document.getElementById(
+                "statusChart"
+            );
 
-        const seguimiento = pacientes.filter(
-            (paciente) => paciente.status === "SEGUIMIENTO"
-        ).length;
-
-        const inactivos = pacientes.filter(
-            (paciente) => paciente.status === "INACTIVO"
-        ).length;
+        if (!canvas) {
+            return;
+        }
 
         if (statusChart) {
             statusChart.destroy();
         }
 
-        statusChart = new Chart(
-            document.getElementById("statusChart"),
-            {
-                type: "doughnut",
-                data: {
-                    labels: [
-                        "Activos",
-                        "Seguimiento",
-                        "Inactivos"
-                    ],
-                    datasets: [
-                        {
-                            data: [
-                                activos,
-                                seguimiento,
-                                inactivos
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: "bottom"
+        statusChart =
+            new Chart(
+                canvas,
+                {
+                    type:
+                        "doughnut",
+
+                    data: {
+                        labels: [
+                            "Activos",
+                            "Inactivos"
+                        ],
+
+                        datasets: [
+                            {
+                                data: [
+                                    Number(
+                                        estados.activos ||
+                                        0
+                                    ),
+                                    Number(
+                                        estados.inactivos ||
+                                        0
+                                    )
+                                ],
+
+                                backgroundColor: [
+                                    "#0E7A6E",
+                                    "#B8D8D3"
+                                ],
+
+                                borderColor:
+                                    "#FFFFFF",
+
+                                borderWidth:
+                                    3,
+
+                                hoverOffset:
+                                    5
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive:
+                            true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        cutout:
+                            "68%",
+
+                        plugins: {
+                            legend: {
+                                display:
+                                    true,
+
+                                position:
+                                    "bottom",
+
+                                labels: {
+                                    color:
+                                        "#667085",
+
+                                    usePointStyle:
+                                        true,
+
+                                    padding:
+                                        18
+                                }
+                            },
+
+                            tooltip: {
+                                callbacks: {
+                                    label(context) {
+                                        const valores =
+                                            context
+                                                .dataset
+                                                .data;
+
+                                        const total =
+                                            valores.reduce(
+                                                (
+                                                    suma,
+                                                    valor
+                                                ) =>
+                                                    suma +
+                                                    Number(
+                                                        valor
+                                                    ),
+                                                0
+                                            );
+
+                                        const valor =
+                                            Number(
+                                                context.raw
+                                            );
+
+                                        const porcentaje =
+                                            total
+                                                ? (
+                                                    (
+                                                        valor /
+                                                        total
+                                                    ) *
+                                                    100
+                                                ).toFixed(
+                                                    1
+                                                )
+                                                : 0;
+
+                                        return `${context.label}: ${valor} (${porcentaje}%)`;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
-        );
+            );
+    }
 
-        /* Alertas por prioridad */
+    /* Alertas por tipo */
 
-        const altas = alertas.filter(
-            (alerta) => alerta.priority === "ALTA"
-        ).length;
+    function cargarGraficoAlertas(
+        alertas
+    ) {
+        const canvas =
+            document.getElementById(
+                "alertChart"
+            );
 
-        const medias = alertas.filter(
-            (alerta) => alerta.priority === "MEDIA"
-        ).length;
+        if (!canvas) {
+            return;
+        }
 
-        const bajas = alertas.filter(
-            (alerta) => alerta.priority === "BAJA"
-        ).length;
+        const labels =
+            alertas.map(
+                (alerta) =>
+                    alerta.alert_type
+            );
+
+        const valores =
+            alertas.map(
+                (alerta) =>
+                    Number(
+                        alerta.total
+                    )
+            );
 
         if (alertChart) {
             alertChart.destroy();
         }
 
-        alertChart = new Chart(
-            document.getElementById("alertChart"),
-            {
-                type: "bar",
-                data: {
-                    labels: [
-                        "Alta",
-                        "Media",
-                        "Baja"
-                    ],
-                    datasets: [
-                        {
-                            label: "Alertas",
-                            data: [
-                                altas,
-                                medias,
-                                bajas
-                            ],
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+        alertChart =
+            new Chart(
+                canvas,
+                {
+                    type:
+                        "bar",
+
+                    data: {
+                        labels:
+                            labels,
+
+                        datasets: [
+                            {
+                                label:
+                                    "Alertas",
+
+                                data:
+                                    valores,
+
+                                backgroundColor:
+                                    "rgba(14, 122, 110, 0.72)",
+
+                                borderColor:
+                                    "#0E7A6E",
+
+                                hoverBackgroundColor:
+                                    "#0E7A6E",
+
+                                borderWidth:
+                                    1,
+
+                                borderRadius:
+                                    7,
+
+                                borderSkipped:
+                                    false
+                            }
+                        ]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
+
+                    options: {
+                        responsive:
+                            true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        interaction: {
+                            intersect:
+                                false,
+
+                            mode:
+                                "index"
+                        },
+
+                        plugins: {
+                            legend: {
+                                display:
+                                    false
+                            },
+
+                            tooltip: {
+                                callbacks: {
+                                    label(context) {
+                                        const cantidad =
+                                            context
+                                                .parsed
+                                                .y;
+
+                                        return `${cantidad} alerta${cantidad === 1 ? "" : "s"}`;
+                                    }
+                                }
+                            }
+                        },
+
+                        scales: {
+                            x: {
+                                grid: {
+                                    display:
+                                        false
+                                },
+
+                                ticks: {
+                                    color:
+                                        "#667085",
+
+                                    maxRotation:
+                                        25,
+
+                                    minRotation:
+                                        0
+                                }
+                            },
+
+                            y: {
+                                beginAtZero:
+                                    true,
+
+                                grid: {
+                                    color:
+                                        "rgba(148, 163, 184, 0.16)"
+                                },
+
+                                ticks: {
+                                    color:
+                                        "#667085",
+
+                                    precision:
+                                        0
+                                }
                             }
                         }
                     }
                 }
-            }
-        );
+            );
     }
-
-    /* Actualización */
-
-    window.addEventListener("nyvora:data-changed", (e) => {
-        if (
-            e.detail.type === "patients" ||
-            e.detail.type === "metrics" ||
-            e.detail.type === "alerts"
-        ) {
-            cargarDatos();
-        }
-    });
 
     /* Inicialización */
 
-    cargarDatos();
+    cargarDashboard();
 });

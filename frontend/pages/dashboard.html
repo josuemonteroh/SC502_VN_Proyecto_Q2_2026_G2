@@ -2,33 +2,24 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Nyvora | Dashboard</title>
+    <title>Nyvora | Dashboard Clínico</title>
 
     <!-- Google Fonts -->
-
-    <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome -->
-
-    <link rel="stylesheet"
+    <link
+        rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
-
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -37,382 +28,389 @@
     <link rel="stylesheet" href="../css/pages/dashboard.css">
 
     <!-- Chart.js -->
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
-
     <div class="dashboard">
 
         <!-- Sidebar -->
-
-        <aside class="sidebar">
-
-            <div class="logo">
-
-                <img src="../assets/logonyvora.png"
-                    alt="Nyvora">
-
-            </div>
-
-            <nav>
-
-                <ul>
-
-                    <li class="active">
-
-                        <a href="dashboard.html">
-
-                            <i class="fa-solid fa-chart-line"></i>
-
-                            Dashboard
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="pacientes.html">
-
-                            <i class="fa-solid fa-users"></i>
-
-                            Pacientes
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="metricas.html">
-
-                            <i class="fa-solid fa-weight-scale"></i>
-
-                            Métricas
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="historial.html">
-
-                            <i class="fa-solid fa-folder-open"></i>
-
-                            Historial
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="alertas.html">
-
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-
-                            Alertas
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="configuracion.html">
-
-                            <i class="fa-solid fa-gear"></i>
-
-                            Configuración
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="../login.html">
-
-                            <i class="fa-solid fa-right-from-bracket"></i>
-
-                            Cerrar Sesión
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-            </nav>
-
-        </aside>
+        <div id="sidebar-container"></div>
 
         <!-- Contenido -->
-
         <main class="content">
 
             <!-- Header -->
-
-            <div class="header">
-
+            <header class="dashboard-header">
                 <div>
-
-                    <h1>Dashboard</h1>
+                    <h1>Dashboard Clínico</h1>
 
                     <p>
-                        Resumen general del seguimiento clínico y biométrico.
+                        Seguimiento general de pacientes y actividad clínica.
                     </p>
-
                 </div>
 
-                <div class="welcome">
+                <a
+                    href="configuracion.html"
+                    class="dashboard-user dashboard-user-link"
+                    aria-label="Ir a configuración">
 
-                    <h3>Bienvenido</h3>
+                    <div class="user-avatar">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
 
-                    <span id="current-date"></span>
+                    <div>
+                        <strong
+                            id="dashboard-user-name"
+                            data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
 
+                        <span
+                            id="dashboard-user-role"
+                            data-current-user-role>
+                            Usuario
+                        </span>
+                    </div>
+                </a>
+            </header>
+
+            <!-- Bienvenida -->
+            <section class="clinical-hero">
+                <div class="clinical-hero-content">
+                    <span class="clinical-label">
+                        Seguimiento clínico
+                    </span>
+
+                    <h2 id="dashboard-greeting">
+                        Bienvenido a Nyvora
+                    </h2>
+
+                    <p>
+                        Consulte la evolución de sus pacientes, controles programados,
+                        métricas recientes y alertas clínicas desde una única vista.
+                    </p>
                 </div>
 
-            </div>
+                <a
+                    href="pacientes.html"
+                    class="hero-action">
+
+                    <i class="fa-solid fa-users"></i>
+                    Ver pacientes
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </section>
 
             <!-- KPI -->
-
             <section class="kpi-cards">
 
-                <div class="card">
+                <a
+                    href="pacientes.html"
+                    class="card dashboard-kpi-link">
 
                     <div class="card-header">
-
                         <div class="icon">
-
                             <i class="fa-solid fa-users"></i>
-
                         </div>
 
-                        <h2>0</h2>
-
+                        <h2 id="kpi-patients">
+                            0
+                        </h2>
                     </div>
 
-                    <p>Pacientes Registrados</p>
+                    <p>Pacientes activos</p>
 
                     <small>
-                        Total de pacientes en Nyvora
+                        Bajo seguimiento clínico
                     </small>
+                </a>
 
-                </div>
-
-                <div class="card">
+                <a
+                    href="alertas.html"
+                    class="card dashboard-kpi-link">
 
                     <div class="card-header">
-
                         <div class="icon">
-
-                            <i class="fa-solid fa-weight-scale"></i>
-
-                        </div>
-
-                        <h2>0</h2>
-
-                    </div>
-
-                    <p>Mediciones Registradas</p>
-
-                    <small>
-                        Registros biométricos almacenados
-                    </small>
-
-                </div>
-
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <div class="icon">
-
                             <i class="fa-solid fa-triangle-exclamation"></i>
-
                         </div>
 
-                        <h2>0</h2>
-
+                        <h2 id="kpi-alerts">
+                            0
+                        </h2>
                     </div>
 
-                    <p>Alertas Activas</p>
+                    <p>Alertas activas</p>
 
                     <small>
-                        Alertas pendientes de seguimiento
+                        Requieren revisión
                     </small>
+                </a>
 
-                </div>
-
-                <div class="card">
+                <a
+                    href="#agenda-hoy"
+                    class="card dashboard-kpi-link">
 
                     <div class="card-header">
-
                         <div class="icon">
-
-                            <i class="fa-solid fa-chart-line"></i>
-
+                            <i class="fa-solid fa-calendar-check"></i>
                         </div>
 
-                        <h2>0%</h2>
-
+                        <h2 id="kpi-appointments">
+                            0
+                        </h2>
                     </div>
 
-                    <p>Pacientes Activos</p>
+                    <p>Controles de hoy</p>
 
                     <small>
-                        Porcentaje bajo seguimiento activo
+                        Agenda clínica
                     </small>
+                </a>
 
+                <a
+                    href="metricas.html"
+                    class="card dashboard-kpi-link">
+
+                    <div class="card-header">
+                        <div class="icon">
+                            <i class="fa-solid fa-weight-scale"></i>
+                        </div>
+
+                        <h2 id="kpi-measurements">
+                            0
+                        </h2>
+                    </div>
+
+                    <p>Mediciones registradas</p>
+
+                    <small>
+                        Historial biométrico
+                    </small>
+                </a>
+
+            </section>
+
+            <!-- Agenda -->
+            <section
+                class="panel dashboard-section"
+                id="agenda-hoy">
+
+                <div class="section-header">
+                    <div>
+                        <h2>
+                            <i class="fa-solid fa-calendar-day"></i>
+                            Agenda de hoy
+                        </h2>
+
+                        <p>
+                            Controles y citas programadas para el día.
+                        </p>
+                    </div>
+
+                    <a
+                        href="#agenda-hoy"
+                        class="section-link"
+                        id="view-all-appointments">
+
+                        Ver agenda
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div
+                    class="appointments-list"
+                    id="appointments-list">
+
+                    <div class="empty-dashboard-state">
+                        <i class="fa-regular fa-calendar"></i>
+
+                        <p>
+                            No hay controles programados para hoy.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pacientes y alertas -->
+            <section class="dashboard-operational-grid">
+
+                <!-- Pacientes recientes -->
+                <div class="panel dashboard-operational-panel">
+                    <div class="section-header">
+                        <div>
+                            <h2>
+                                Pacientes recientes
+                            </h2>
+
+                            <p>
+                                Últimos pacientes registrados.
+                            </p>
+                        </div>
+
+                        <a
+                            href="pacientes.html"
+                            class="section-link">
+
+                            Ver todos
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div
+                        class="dashboard-list"
+                        id="recent-patients">
+
+                        <!-- JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Alertas clínicas -->
+                <div class="panel dashboard-operational-panel">
+                    <div class="section-header">
+                        <div>
+                            <h2>
+                                Alertas clínicas
+                            </h2>
+
+                            <p>
+                                Pacientes que requieren revisión.
+                            </p>
+                        </div>
+
+                        <a
+                            href="alertas.html"
+                            class="section-link">
+
+                            Ver todas
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div
+                        class="dashboard-list"
+                        id="recent-alerts">
+
+                        <!-- JavaScript -->
+                    </div>
                 </div>
 
             </section>
 
-            <!-- Gráficos -->
+            <!-- Evolución de peso -->
+            <section class="panel dashboard-section">
+                <div class="section-header weight-section-header">
+                    <div>
+                        <h2>
+                            <i class="fa-solid fa-chart-line"></i>
+                            Evolución de peso
+                        </h2>
 
-            <section class="charts-grid">
-
-                <div class="chart-card">
-
-                    <div class="chart-header">
-
-                        <i class="fa-solid fa-chart-line"></i>
-
-                        Evolución de Peso
-
+                        <p>
+                            Consulte la evolución biométrica de un paciente.
+                        </p>
                     </div>
 
-                    <canvas id="weightChart"></canvas>
+                    <!-- Búsqueda de paciente -->
+                    <div class="dashboard-patient-selector">
+                        <label for="weight-patient-search">
+                        </label>
 
+                        <div class="patient-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="weight-patient-search"
+                                class="search-box"
+                                placeholder="Buscar paciente..."
+                                autocomplete="off"
+                                role="combobox"
+                                aria-expanded="false"
+                                aria-controls="weight-patient-results">
+
+                            <input
+                                type="hidden"
+                                id="weight-patient">
+
+                            <div
+                                id="weight-patient-results"
+                                class="patient-search-results"
+                                role="listbox">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Resumen -->
+                <div class="weight-summary">
+                    <div>
+                        <span>
+                            Último peso
+                        </span>
+
+                        <strong id="weight-current">
+                            N/D
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Variación
+                        </span>
+
+                        <strong id="weight-change">
+                            N/D
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Último control
+                        </span>
+
+                        <strong id="weight-last-control">
+                            N/D
+                        </strong>
+                    </div>
+                </div>
+
+                <!-- Gráfico de peso -->
+                <div class="chart-card dashboard-main-chart">
+                    <canvas id="weightChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Gráficos secundarios -->
+            <section class="charts-grid dashboard-secondary-charts">
+
                 <div class="chart-card">
-
                     <div class="chart-header">
-
                         <i class="fa-solid fa-chart-pie"></i>
-
                         Pacientes por Estado
-
                     </div>
 
                     <canvas id="statusChart"></canvas>
-
                 </div>
 
                 <div class="chart-card">
-
                     <div class="chart-header">
-
                         <i class="fa-solid fa-chart-column"></i>
-
-                        Alertas por Prioridad
-
+                        Alertas por Tipo
                     </div>
 
                     <canvas id="alertChart"></canvas>
-
-                </div>
-
-            </section>
-
-            <!-- Tablas -->
-
-            <section class="dashboard-grid">
-
-                <!-- Pacientes -->
-
-                <div class="panel">
-
-                    <h2>
-                        Pacientes Recientes
-                    </h2>
-
-                    <div class="table-container">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>Paciente</th>
-
-                                    <th>Edad</th>
-
-                                    <th>Último Control</th>
-
-                                    <th>Estado</th>
-
-                                    <th>Acción</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-                <!-- Alertas -->
-
-                <div class="panel">
-
-                    <h2>
-                        Alertas Recientes
-                    </h2>
-
-                    <div class="table-container">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>Paciente</th>
-
-                                    <th>Alerta</th>
-
-                                    <th>Prioridad</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
                 </div>
 
             </section>
 
         </main>
-
     </div>
 
     <!-- JavaScript -->
-
-    <script src="../js/common.js"></script>
-    <script src="../js/data.js"></script>
-    <script src="../js/dashboard.js"></script>
-
+    <script src="../js/data.js" defer></script>
+    <script src="../js/common.js" defer></script>
+    <script src="../js/dashboard.js" defer></script>
 </body>
 
 </html>
