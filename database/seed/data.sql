@@ -207,6 +207,26 @@ VALUES
     TRUE
 );
 
+-- Estaturas requeridas para el cálculo de IMC.
+UPDATE patients
+SET height_m = CASE identification
+    WHEN '1-1234-5678' THEN 1.71
+    WHEN '2-2345-6789' THEN 1.76
+    WHEN '1-1456-7890' THEN 1.65
+    WHEN '1-1678-9012' THEN 1.77
+    WHEN '2-1890-1234' THEN 1.67
+    WHEN '2-2012-3456' THEN 1.76
+    WHEN '1-2234-5678' THEN 1.65
+    WHEN '1-2456-7890' THEN 1.73
+    WHEN '2-2678-9012' THEN 1.72
+    WHEN '2-2890-1234' THEN 1.77
+    WHEN '1-3012-3456' THEN 1.65
+    WHEN '1-3234-5678' THEN 1.74
+    WHEN '2-3456-7890' THEN 1.71
+    WHEN '2-3678-9012' THEN 1.75
+    WHEN '1-3890-1234' THEN 1.65
+END;
+
 -- IDs de pacientes
 
 SET @p1 = (SELECT id FROM patients WHERE identification = '1-1234-5678');

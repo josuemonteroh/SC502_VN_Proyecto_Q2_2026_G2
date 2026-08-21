@@ -41,12 +41,14 @@ CREATE TABLE patients (
     user_id INT NOT NULL,
 
     full_name VARCHAR(150) NOT NULL,
-    identification VARCHAR(50) NOT NULL UNIQUE,
+    identification VARCHAR(50) UNIQUE,
     age INT,
     phone VARCHAR(30),
+    height_m DECIMAL(4,2),
 
     condition_general VARCHAR(150),
     observations TEXT,
+    status VARCHAR(30) NOT NULL DEFAULT 'ACTIVO',
 
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
@@ -57,6 +59,85 @@ CREATE TABLE patients (
     CONSTRAINT fk_patients_users
         FOREIGN KEY (user_id)
         REFERENCES users(id)
+);
+
+
+-- Tabla de citas
+
+CREATE TABLE appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    patient_id INT NOT NULL,
+    professional_id INT NOT NULL,
+
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    appointment_type VARCHAR(50) NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'PROGRAMADA',
+    reason VARCHAR(255),
+    notes TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_appointments_patients
+        FOREIGN KEY (patient_id)
+        REFERENCES patients(id),
+
+    CONSTRAINT fk_appointments_users
+        FOREIGN KEY (professional_id)
+        REFERENCES users(id)
+);
+
+
+-- Tabla de medicamentos
+
+CREATE TABLE medications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    name VARCHAR(120) NOT NULL,
+    presentation VARCHAR(50) NOT NULL,
+    concentration VARCHAR(80) NOT NULL,
+    reference_dose VARCHAR(120),
+    reference_frequency VARCHAR(120),
+    status VARCHAR(30) NOT NULL DEFAULT 'ACTIVO',
+    observations TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+-- Tabla de tratamientos
+
+CREATE TABLE treatments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    patient_id INT NOT NULL,
+    medication_id INT NULL,
+    name VARCHAR(150) NOT NULL,
+    dose VARCHAR(120),
+    frequency VARCHAR(120),
+    status VARCHAR(30) NOT NULL DEFAULT 'ACTIVO',
+    start_date DATE NOT NULL,
+    end_date DATE NULL,
+    indications TEXT,
+    observations TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_treatments_patients
+        FOREIGN KEY (patient_id)
+        REFERENCES patients(id),
+
+    CONSTRAINT fk_treatments_medications
+        FOREIGN KEY (medication_id)
+        REFERENCES medications(id)
+        ON DELETE SET NULL
 );
 
 

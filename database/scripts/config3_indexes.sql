@@ -18,3 +18,30 @@ ON alerts(status);
 -- Índice para consultar notas de un paciente.
 CREATE INDEX idx_patient_notes_patient
 ON patient_notes(patient_id);
+
+
+-- Índices para agenda de citas.
+CREATE INDEX idx_appointments_date_status
+ON appointments(appointment_date, status);
+
+CREATE INDEX idx_appointments_patient
+ON appointments(patient_id);
+
+
+-- Índices para listados y filtros de medicamentos.
+CREATE INDEX idx_medications_status
+ON medications(status);
+
+CREATE INDEX idx_medications_name
+ON medications(name);
+
+
+-- Índices para tratamientos por paciente, estado y medicamento.
+CREATE INDEX idx_treatments_patient
+ON treatments(patient_id);
+
+CREATE INDEX idx_treatments_medication
+ON treatments(medication_id);
+
+CREATE INDEX idx_treatments_status_dates
+ON treatments(status, start_date, end_date);

@@ -6,8 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Configuración */
 
-    const TREATMENTS_KEY = "nyvora_treatments";
-    const MEDICATIONS_KEY = "nyvora_medications";
+    const API_URL =
+        "http://localhost:8081/treatments.php";
+
+    const PATIENTS_API_URL =
+        "http://localhost:8081/patients.php";
+
+    const MEDICATIONS_API_URL =
+        "http://localhost:8081/medications.php";
 
     /* Controles */
 
@@ -106,6 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Estado */
 
     let treatmentIdEditing = null;
+    let tratamientos = [];
+    let pacientes = [];
+    let medicamentos = [];
+    let treatmentKpis = {};
 
     /* Utilidades */
 
@@ -117,91 +127,94 @@ document.addEventListener("DOMContentLoaded", () => {
             .trim();
     }
 
-    function obtenerTratamientos() {
-        try {
-            const datos =
-                localStorage.getItem(
-                    TREATMENTS_KEY
-                );
-
-            if (!datos) {
-                return [];
+    async function solicitar(url, options = {}) {
+        const response = await fetch(url, {
+            credentials: "include",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...(options.headers || {})
             }
+        });
 
-            const tratamientos =
-                JSON.parse(datos);
+        const result = await response.json();
 
-            return Array.isArray(tratamientos)
-                ? tratamientos
-                : [];
+        if (response.status === 401) {
+            window.location.href = "../login.html";
+            return null;
+        }
 
-        } catch (error) {
-            console.error(
-                "Error leyendo tratamientos:",
-                error
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "No se pudo completar la solicitud."
+            );
+        }
+
+        return result;
+    }
+
+    async function cargarCatalogos() {
+        const [patientsResult, medicationsResult] =
+            await Promise.all([
+                solicitar(PATIENTS_API_URL),
+                solicitar(MEDICATIONS_API_URL)
+            ]);
+
+        pacientes = patientsResult?.data || [];
+        medicamentos = medicationsResult?.data || [];
+    }
+
+    async function cargarTratamientos() {
+        const query = new URLSearchParams();
+
+        if (inputBuscar.value.trim()) {
+            query.set("search", inputBuscar.value.trim());
+        }
+
+        if (filtroEstado.value) {
+            query.set("status", filtroEstado.value);
+        }
+
+        try {
+            const result = await solicitar(
+                `${API_URL}?${query}`
             );
 
-            return [];
+            tratamientos = result?.data || [];
+            treatmentKpis = result?.kpis || {};
+            renderTodo();
+        } catch (error) {
+            tbody.innerHTML = `
+                <tr class="empty-treatment-row">
+                    <td colspan="9">
+                        ${nyvoraEscapeHtml(error.message)}
+                    </td>
+                </tr>
+            `;
         }
     }
 
-    function guardarTratamientos(tratamientos) {
-        localStorage.setItem(
-            TREATMENTS_KEY,
-            JSON.stringify(tratamientos)
-        );
-
-        window.dispatchEvent(
-            new CustomEvent(
-                "nyvora:data-changed",
-                {
-                    detail: {
-                        type: "treatments"
-                    }
-                }
-            )
-        );
+    function obtenerTratamientos() {
+        return tratamientos;
     }
 
     function obtenerMedicamentos() {
-        try {
-            const datos =
-                localStorage.getItem(
-                    MEDICATIONS_KEY
-                );
-
-            if (!datos) {
-                return [];
-            }
-
-            const medicamentos =
-                JSON.parse(datos);
-
-            return Array.isArray(medicamentos)
-                ? medicamentos
-                : [];
-
-        } catch (error) {
-            console.error(
-                "Error leyendo medicamentos:",
-                error
-            );
-
-            return [];
-        }
+        return medicamentos;
     }
 
     function obtenerPacientePorId(id) {
-        return nyvoraGetPatientById(id);
+        return pacientes.find(
+            (paciente) =>
+                Number(paciente.id) === Number(id)
+        );
     }
 
     function obtenerMedicamentoPorId(id) {
-        return obtenerMedicamentos()
-            .find(
-                (medicamento) =>
-                    Number(medicamento.id) ===
-                    Number(id)
-            );
+        return medicamentos.find(
+            (medicamento) =>
+                Number(medicamento.id) === Number(id)
+        );
     }
 
     function estadoInfo(status) {
@@ -405,8 +418,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputPaciente.value
             );
 
-        let pacientes =
-            nyvoraGetPatients()
+        let pacientesFiltrados =
+            pacientes
                 .filter(
                     (paciente) =>
                         paciente.status !==
@@ -414,8 +427,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
         if (termino) {
-            pacientes =
-                pacientes.filter(
+            pacientesFiltrados =
+                pacientesFiltrados.filter(
                     (paciente) => {
 
                         return (
@@ -435,12 +448,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
         }
 
-        pacientes =
-            pacientes.slice(0, 8);
+        pacientesFiltrados =
+            pacientesFiltrados.slice(0, 8);
 
         resultadosPaciente.innerHTML = "";
 
-        if (!pacientes.length) {
+        if (!pacientesFiltrados.length) {
             resultadosPaciente.innerHTML = `
                 <div class="smart-result-empty">
                     No se encontraron pacientes.
@@ -454,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        pacientes.forEach(
+        pacientesFiltrados.forEach(
             (paciente) => {
 
                 const boton =
@@ -672,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Guardar tratamiento */
 
-    function guardarTratamiento() {
+    async function guardarTratamiento() {
         const patientId =
             Number(
                 inputPacienteId.value
@@ -698,9 +711,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
             return;
         }
-
-        const tratamientos =
-            obtenerTratamientos();
 
         const datos = {
             patientId,
@@ -729,49 +739,31 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         if (treatmentIdEditing) {
-            const index =
-                tratamientos.findIndex(
-                    (tratamiento) =>
-                        Number(tratamiento.id) ===
-                        Number(
-                            treatmentIdEditing
-                        )
-                );
-
-            if (index !== -1) {
-                tratamientos[index] = {
-                    ...tratamientos[index],
-                    ...datos
-                };
-            }
-
-        } else {
-            tratamientos.push({
-                id:
-                    nyvoraNextId(
-                        tratamientos
-                    ),
-
-                ...datos,
-
-                createdAt:
-                    nyvoraNow()
-            });
+            datos.id = treatmentIdEditing;
         }
 
-        guardarTratamientos(
-            tratamientos
-        );
+        try {
+            await solicitar(API_URL, {
+                method: treatmentIdEditing ? "PUT" : "POST",
+                body: JSON.stringify(datos)
+            });
 
-        cerrarModal();
-
-        renderTodo();
+            cerrarModal();
+            window.dispatchEvent(
+                new CustomEvent("nyvora:data-changed", {
+                    detail: { type: "treatments" }
+                })
+            );
+            await cargarTratamientos();
+        } catch (error) {
+            console.error("Error guardando tratamiento:", error);
+        }
     }
 
     /* Búsqueda principal */
 
     function obtenerFiltrados() {
-        let tratamientos =
+        let tratamientosFiltrados =
             [...obtenerTratamientos()];
 
         const termino =
@@ -780,8 +772,8 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         if (termino) {
-            tratamientos =
-                tratamientos.filter(
+            tratamientosFiltrados =
+                tratamientosFiltrados.filter(
                     (tratamiento) => {
 
                         const paciente =
@@ -833,8 +825,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (filtroEstado.value) {
-            tratamientos =
-                tratamientos.filter(
+            tratamientosFiltrados =
+                tratamientosFiltrados.filter(
                     (tratamiento) =>
                         tratamiento.status ===
                         filtroEstado.value
@@ -845,7 +837,7 @@ document.addEventListener("DOMContentLoaded", () => {
             filtroOrden.value;
 
         if (orden === "patient") {
-            tratamientos.sort(
+            tratamientosFiltrados.sort(
                 (a, b) => {
 
                     const pacienteA =
@@ -873,7 +865,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (orden === "startDate") {
-            tratamientos.sort(
+            tratamientosFiltrados.sort(
                 (a, b) =>
                     nyvoraBuildDate(
                         b.startDate
@@ -885,7 +877,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (orden === "endDate") {
-            tratamientos.sort(
+            tratamientosFiltrados.sort(
                 (a, b) => {
 
                     if (
@@ -916,7 +908,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (orden === "status") {
-            tratamientos.sort(
+            tratamientosFiltrados.sort(
                 (a, b) =>
                     estadoInfo(
                         a.status
@@ -929,7 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        return tratamientos;
+        return tratamientosFiltrados;
     }
 
     /* Tabla */
@@ -1069,6 +1061,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     </button>
 
+                    <button
+                        type="button"
+                        class="treatment-action-button delete-treatment"
+                        title="Suspender tratamiento">
+
+                        <i class="fa-solid fa-ban"></i>
+
+                    </button>
+
                 </div>
             </td>
         `;
@@ -1084,7 +1085,37 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+        fila.querySelector(
+            ".delete-treatment"
+        ).addEventListener(
+            "click",
+            () => eliminarTratamiento(tratamiento)
+        );
+
         return fila;
+    }
+
+    async function eliminarTratamiento(tratamiento) {
+        if (!confirm(
+            `¿Suspender el tratamiento ${tratamiento.name}?`
+        )) {
+            return;
+        }
+
+        try {
+            await solicitar(API_URL, {
+                method: "DELETE",
+                body: JSON.stringify({ id: tratamiento.id })
+            });
+            window.dispatchEvent(
+                new CustomEvent("nyvora:data-changed", {
+                    detail: { type: "treatments" }
+                })
+            );
+            await cargarTratamientos();
+        } catch (error) {
+            console.error("Error suspendiendo tratamiento:", error);
+        }
     }
 
     function renderTabla() {
@@ -1119,77 +1150,17 @@ document.addEventListener("DOMContentLoaded", () => {
     /* KPIs */
 
     function renderKpis() {
-        const tratamientos =
-            obtenerTratamientos();
-
-        const activos =
-            tratamientos.filter(
-                (tratamiento) =>
-                    tratamiento.status ===
-                    "ACTIVO"
-            ).length;
-
-        const completados =
-            tratamientos.filter(
-                (tratamiento) =>
-                    tratamiento.status ===
-                    "COMPLETADO"
-            ).length;
-
-        const suspendidos =
-            tratamientos.filter(
-                (tratamiento) =>
-                    tratamiento.status ===
-                    "SUSPENDIDO"
-            ).length;
-
-        const hoy =
-            nyvoraBuildDate(
-                fechaActual()
-            );
-
-        const limite =
-            new Date(hoy);
-
-        limite.setDate(
-            limite.getDate() + 7
-        );
-
-        const proximos =
-            tratamientos.filter(
-                (tratamiento) => {
-
-                    if (
-                        tratamiento.status !==
-                        "ACTIVO" ||
-                        !tratamiento.endDate
-                    ) {
-                        return false;
-                    }
-
-                    const fin =
-                        nyvoraBuildDate(
-                            tratamiento.endDate
-                        );
-
-                    return (
-                        fin >= hoy &&
-                        fin <= limite
-                    );
-                }
-            ).length;
-
         kpiActivos.textContent =
-            activos;
+            treatmentKpis.active ?? 0;
 
         kpiProximos.textContent =
-            proximos;
+            treatmentKpis.ending ?? 0;
 
         kpiCompletados.textContent =
-            completados;
+            treatmentKpis.completed ?? 0;
 
         kpiSuspendidos.textContent =
-            suspendidos;
+            treatmentKpis.suspended ?? 0;
     }
 
     /* Render */
@@ -1203,12 +1174,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     inputBuscar.addEventListener(
         "input",
-        renderTabla
+        cargarTratamientos
     );
 
     filtroEstado.addEventListener(
         "change",
-        renderTabla
+        cargarTratamientos
     );
 
     filtroOrden.addEventListener(
@@ -1325,12 +1296,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     event.detail?.type
                 )
             ) {
-                renderTodo();
+                if (event.detail?.type === "treatments") {
+                    cargarTratamientos();
+                } else {
+                    cargarCatalogos()
+                        .then(renderTodo)
+                        .catch((error) =>
+                            console.error(error)
+                        );
+                }
             }
         }
     );
 
     /* Inicialización */
 
-    renderTodo();
+    cargarCatalogos()
+        .then(cargarTratamientos)
+        .catch((error) => {
+            console.error("Error cargando tratamientos:", error);
+        });
 });

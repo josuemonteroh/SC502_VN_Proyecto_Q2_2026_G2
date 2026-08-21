@@ -4,6 +4,12 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const API_URL =
+        "http://localhost:8081/measurements.php";
+
+    const PATIENTS_API_URL =
+        "http://localhost:8081/patients.php";
+
     /* Controles principales */
 
     const inputBuscarPaciente =
@@ -131,6 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Estado */
 
     let pacienteFiltroId = null;
+    let pacientes = [];
+    let metricas = [];
+    let metricasKpis = {};
 
     /* Utilidades */
 
@@ -158,8 +167,71 @@ document.addEventListener("DOMContentLoaded", () => {
             .slice(0, 10);
     }
 
+    async function solicitar(url, options = {}) {
+        const response = await fetch(url, {
+            credentials: "include",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            }
+        });
+
+        const result = await response.json();
+
+        if (response.status === 401) {
+            window.location.href = "../login.html";
+            return null;
+        }
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "No se pudo completar la solicitud."
+            );
+        }
+
+        return result;
+    }
+
+    async function cargarPacientes() {
+        const result = await solicitar(PATIENTS_API_URL);
+        pacientes = result?.data || [];
+    }
+
+    async function cargarMetricas() {
+        const query = new URLSearchParams();
+
+        if (pacienteFiltroId) {
+            query.set("patientId", pacienteFiltroId);
+        }
+
+        if (inputDesde.value) {
+            query.set("dateFrom", inputDesde.value);
+        }
+
+        if (inputHasta.value) {
+            query.set("dateTo", inputHasta.value);
+        }
+
+        try {
+            const result = await solicitar(`${API_URL}?${query}`);
+            metricas = result?.data || [];
+            metricasKpis = result?.kpis || {};
+            renderTodo();
+        } catch (error) {
+            tablaMetricas.innerHTML = `
+                <tr class="metrics-empty-row">
+                    <td colspan="8">
+                        ${nyvoraEscapeHtml(error.message)}
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
     function pacientesActivos() {
-        return nyvoraGetPatients()
+        return pacientes
             .filter(
                 (paciente) =>
                     paciente.isActive !== false &&
@@ -323,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     "active"
                                 );
 
-                            renderMetricas();
+                            cargarMetricas();
                         }
                     )
                 );
@@ -406,71 +478,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Última medición */
 
-    function mostrarUltimaMetrica(
+    async function mostrarUltimaMetrica(
         patientId
     ) {
-        const metrica =
-            nyvoraGetLatestMetric(
-                patientId
-            );
-
         const strong =
             ultimaMetricaPaciente
                 .querySelector(
                     "strong"
                 );
 
-        if (!metrica) {
+        try {
+            const result = await solicitar(
+                `${API_URL}?patientId=${encodeURIComponent(patientId)}`
+            );
+            const metrica = result?.data?.[0];
+
+            if (!metrica) {
+                strong.textContent =
+                    "Este paciente aún no tiene mediciones registradas.";
+
+                return;
+            }
+
+            const datos = [];
+
+            if (
+                metrica.weightKg != null
+            ) {
+                datos.push(
+                    `${metrica.weightKg} kg`
+                );
+            }
+
+            if (
+                metrica.bmi != null
+            ) {
+                datos.push(
+                    `IMC ${metrica.bmi}`
+                );
+            }
+
+            if (
+                metrica.bodyFatPercentage != null
+            ) {
+                datos.push(
+                    `Grasa ${metrica.bodyFatPercentage}%`
+                );
+            }
+
+            if (
+                metrica.heartRate != null
+            ) {
+                datos.push(
+                    `${metrica.heartRate} bpm`
+                );
+            }
+
+            const fecha =
+                nyvoraFormatDate(
+                    metrica.measurementDate
+                );
+
             strong.textContent =
-                "Este paciente aún no tiene mediciones registradas.";
-
-            return;
+                `${
+                    datos.join(" · ") ||
+                    "Medición registrada"
+                } · ${fecha}`;
+        } catch (error) {
+            strong.textContent = error.message;
         }
-
-        const datos = [];
-
-        if (
-            metrica.weightKg != null
-        ) {
-            datos.push(
-                `${metrica.weightKg} kg`
-            );
-        }
-
-        if (
-            metrica.bmi != null
-        ) {
-            datos.push(
-                `IMC ${metrica.bmi}`
-            );
-        }
-
-        if (
-            metrica.bodyFatPercentage != null
-        ) {
-            datos.push(
-                `Grasa ${metrica.bodyFatPercentage}%`
-            );
-        }
-
-        if (
-            metrica.heartRate != null
-        ) {
-            datos.push(
-                `${metrica.heartRate} bpm`
-            );
-        }
-
-        const fecha =
-            nyvoraFormatDate(
-                metrica.measurementDate
-            );
-
-        strong.textContent =
-            `${
-                datos.join(" · ") ||
-                "Medición registrada"
-            } · ${fecha}`;
     }
 
     /* IMC */
@@ -484,10 +560,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputPeso.value
             );
 
-        const paciente =
-            nyvoraGetPatientById(
-                pacienteId
-            );
+        const paciente = pacientes.find(
+            (item) => Number(item.id) === Number(pacienteId)
+        );
 
         if (
             !paciente ||
@@ -568,7 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Guardar métricas */
 
-    function guardarMetricas() {
+    async function guardarMetricas() {
         const pacienteId =
             inputPacienteId.value;
 
@@ -590,25 +665,17 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        nyvoraAddMetric({
+        try {
+            await solicitar(API_URL, {
+                method: "POST",
+                body: JSON.stringify({
             patientId:
                 Number(
                     pacienteId
                 ),
 
-            measurementDate:
-                new Date()
-                    .toISOString(),
-
             weightKg:
                 peso,
-
-            bmi:
-                inputImc.value
-                    ? Number(
-                        inputImc.value
-                    )
-                    : null,
 
             bodyFatPercentage:
                 inputGrasa.value
@@ -637,94 +704,47 @@ document.addEventListener("DOMContentLoaded", () => {
                         inputPasos.value
                     )
                     : null
-        });
+                })
+            });
 
-        cerrarModal();
-
-        renderTodo();
+            cerrarModal();
+            window.dispatchEvent(
+                new CustomEvent("nyvora:data-changed", {
+                    detail: { type: "metrics" }
+                })
+            );
+            await cargarMetricas();
+        } catch (error) {
+            console.error("Error guardando métricas:", error);
+        }
     }
 
     /* Filtros */
 
     function obtenerMetricasFiltradas() {
-        let metricas =
-            [...nyvoraGetMetrics()];
+        const busqueda = normalizar(
+            inputBuscarPaciente.value
+        );
 
-        const busqueda =
-            normalizar(
-                inputBuscarPaciente.value
+        if (!busqueda || pacienteFiltroId) {
+            return metricas;
+        }
+
+        return metricas.filter((metrica) => {
+            const paciente = pacientes.find(
+                (item) =>
+                    Number(item.id) === Number(metrica.patientId)
             );
 
-        if (
-            pacienteFiltroId
-        ) {
-            metricas =
-                metricas.filter(
-                    (metrica) =>
-                        Number(
-                            metrica.patientId
-                        ) ===
-                        Number(
-                            pacienteFiltroId
-                        )
-                );
-
-        } else if (
-            busqueda
-        ) {
-            metricas =
-                metricas.filter(
-                    (metrica) => {
-
-                        const paciente =
-                            nyvoraGetPatientById(
-                                metrica.patientId
-                            );
-
-                        return (
-                            normalizar(
-                                paciente?.fullName
-                            ).includes(
-                                busqueda
-                            ) ||
-
-                            normalizar(
-                                paciente?.identification
-                            ).includes(
-                                busqueda
-                            )
-                        );
-                    }
-                );
-        }
-
-        if (
-            inputDesde.value
-        ) {
-            metricas =
-                metricas.filter(
-                    (metrica) =>
-                        nyvoraDatePart(
-                            metrica.measurementDate
-                        ) >=
-                        inputDesde.value
-                );
-        }
-
-        if (
-            inputHasta.value
-        ) {
-            metricas =
-                metricas.filter(
-                    (metrica) =>
-                        nyvoraDatePart(
-                            metrica.measurementDate
-                        ) <=
-                        inputHasta.value
-                );
-        }
-
-        return metricas;
+            return [
+                metrica.patientName,
+                metrica.patientIdentification,
+                paciente?.fullName,
+                paciente?.identification
+            ].some((value) =>
+                normalizar(value).includes(busqueda)
+            );
+        });
     }
 
     /* Tabla */
@@ -751,10 +771,10 @@ document.addEventListener("DOMContentLoaded", () => {
         metricas.forEach(
             (metrica) => {
 
-                const paciente =
-                    nyvoraGetPatientById(
-                        metrica.patientId
-                    );
+                const paciente = pacientes.find(
+                    (item) =>
+                        Number(item.id) === Number(metrica.patientId)
+                );
 
                 const fila =
                     document.createElement(
@@ -770,8 +790,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <td>
                         ${
-                            paciente
+                            metrica.patientName || paciente
                                 ? nyvoraEscapeHtml(
+                                    metrica.patientName ||
                                     paciente.fullName
                                 )
                                 : "Paciente no encontrado"
@@ -856,45 +877,19 @@ document.addEventListener("DOMContentLoaded", () => {
     /* KPIs */
 
     function renderKpis() {
-        const metricas =
-            nyvoraGetMetrics();
-
-        const pacientes =
-            new Set(
-                metricas.map(
-                    (metrica) =>
-                        Number(
-                            metrica.patientId
-                        )
-                )
-            );
-
-        const hoy =
-            fechaLocalActual();
-
-        const registrosHoy =
-            metricas.filter(
-                (metrica) =>
-                    nyvoraDatePart(
-                        metrica.measurementDate
-                    ) ===
-                    hoy
-            ).length;
-
         kpiMediciones.textContent =
-            metricas.length;
+            metricasKpis.total ?? 0;
 
         kpiPacientes.textContent =
-            pacientes.size;
+            metricasKpis.patients ?? 0;
 
         kpiHoy.textContent =
-            registrosHoy;
+            metricasKpis.today ?? 0;
 
         kpiUltima.textContent =
-            metricas.length
+            metricasKpis.latest
                 ? nyvoraFormatDate(
-                    metricas[0]
-                        .measurementDate
+                    metricasKpis.latest
                 )
                 : "—";
     }
@@ -910,7 +905,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cerrarResultados();
 
-        renderMetricas();
+        cargarMetricas();
     }
 
     /* Render general */
@@ -929,7 +924,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 pacienteFiltroId = null;
 
-                renderMetricas();
+                cargarMetricas();
 
                 mostrarResultadosFiltro();
             }
@@ -943,12 +938,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     inputDesde.addEventListener(
         "change",
-        renderMetricas
+        cargarMetricas
     );
 
     inputHasta.addEventListener(
         "change",
-        renderMetricas
+        cargarMetricas
     );
 
     btnLimpiarFiltros.addEventListener(
@@ -1068,12 +1063,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     event.detail?.type
                 )
             ) {
-                renderTodo();
+                if (event.detail?.type === "metrics") {
+                    cargarMetricas();
+                } else {
+                    cargarPacientes()
+                        .then(cargarMetricas)
+                        .catch((error) =>
+                            console.error(error)
+                        );
+                }
             }
         }
     );
 
     /* Inicialización */
 
-    renderTodo();
+    Promise.all([
+        cargarPacientes(),
+        cargarMetricas()
+    ]).catch((error) => {
+        console.error("Error cargando métricas:", error);
+    });
 });
