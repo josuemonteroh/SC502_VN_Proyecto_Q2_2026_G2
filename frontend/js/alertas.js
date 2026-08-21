@@ -1,11 +1,10 @@
 "use strict";
 
-/* Alertas */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     const API_URL =
         "http://localhost:8081/alertas.php";
+
 
     /* Controles */
 
@@ -33,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "alert-results-count"
         );
 
+
     /* Tabla */
 
     const tbody =
@@ -40,12 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
             "alerts-table-body"
         );
 
+
     /* Actividad */
 
     const actividadReciente =
         document.getElementById(
             "alert-activity-body"
         );
+
 
     /* KPIs */
 
@@ -69,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "kpi-alerts-resolved"
         );
 
+
     /* Modal */
 
     const modal =
@@ -77,9 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const botonesCerrarModal =
-        modal.querySelectorAll(
-            "[data-close-alert-modal]"
-        );
+        modal
+            ? modal.querySelectorAll(
+                "[data-close-alert-modal]"
+            )
+            : [];
 
     const detallePaciente =
         document.getElementById(
@@ -131,14 +136,18 @@ document.addEventListener("DOMContentLoaded", () => {
             "alert-resolve"
         );
 
+
     /* Estado */
 
     let alertas = [];
+
     let alertaActual = null;
 
-    /* Utilidades */
+
+    /* Funciones auxiliares */
 
     function normalizar(texto) {
+
         return String(texto ?? "")
             .toLowerCase()
             .normalize("NFD")
@@ -149,9 +158,13 @@ document.addEventListener("DOMContentLoaded", () => {
             .trim();
     }
 
+
     function escaparHTML(texto) {
+
         const div =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         div.textContent =
             texto ?? "";
@@ -159,10 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return div.innerHTML;
     }
 
+
     function formatearFecha(fecha) {
+
         if (!fecha) {
             return "N/D";
         }
+
 
         const fechaConvertida =
             new Date(
@@ -172,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
             );
 
+
         if (
             Number.isNaN(
                 fechaConvertida.getTime()
@@ -180,19 +197,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return fecha;
         }
 
-        return fechaConvertida
-            .toLocaleDateString(
-                "es-CR"
-            );
+
+        return fechaConvertida.toLocaleDateString(
+            "es-CR"
+        );
     }
 
-    /* Prioridad */
 
     function prioridadInfo(alerta) {
+
         const tipo =
             normalizar(
                 alerta.alertType
             );
+
 
         if (
             tipo.includes("frecuencia") ||
@@ -200,11 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
             tipo.includes("critica") ||
             tipo.includes("urgente")
         ) {
+
             return {
                 texto: "Alta",
                 clase: "high"
             };
         }
+
 
         if (
             tipo.includes("sueno") ||
@@ -212,11 +232,13 @@ document.addEventListener("DOMContentLoaded", () => {
             tipo.includes("seguimiento") ||
             tipo.includes("imc")
         ) {
+
             return {
                 texto: "Media",
                 clase: "medium"
             };
         }
+
 
         return {
             texto: "Baja",
@@ -224,11 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    /* Estado */
 
     function estadoInfo(status) {
+
         const estado =
             normalizar(status);
+
 
         if (
             [
@@ -239,11 +262,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 "cerrada"
             ].includes(estado)
         ) {
+
             return {
                 texto: "Resuelta",
                 clase: "resolved"
             };
         }
+
 
         if (
             [
@@ -256,11 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 "en_seguimiento"
             ].includes(estado)
         ) {
+
             return {
                 texto: "En Seguimiento",
                 clase: "follow-up"
             };
         }
+
 
         return {
             texto: "Pendiente",
@@ -268,90 +295,119 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    /* Backend */
+
+    /* Cargar alertas */
 
     async function cargarAlertas() {
+
         try {
+
             const respuesta =
-                await fetch(API_URL);
+                await fetch(
+                    API_URL
+                );
+
 
             if (!respuesta.ok) {
+
                 throw new Error(
                     `Error HTTP: ${respuesta.status}`
                 );
             }
 
+
             const datos =
                 await respuesta.json();
 
+
             if (!datos.success) {
+
                 throw new Error(
                     datos.message ||
                     "Error al consultar las alertas."
                 );
             }
 
+
             alertas =
-                Array.isArray(datos.data)
+                Array.isArray(
+                    datos.data
+                )
                     ? datos.data
                     : [];
 
+
             renderTodo();
 
+
         } catch (error) {
+
             console.error(
                 "Error cargando alertas:",
                 error
             );
 
-            tbody.innerHTML = `
-                <tr class="empty-alert-row">
-                    <td colspan="6">
 
-                        <div class="alert-empty-state">
+            if (tbody) {
 
-                            <div class="alert-empty-icon">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
+                tbody.innerHTML = `
+                    <tr class="empty-alert-row">
+                        <td colspan="6">
+                            <div class="alert-empty-state">
+
+                                <div class="alert-empty-icon">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+
+                                <strong>
+                                    No se pudieron cargar las alertas
+                                </strong>
+
+                                <p>
+                                    No fue posible obtener la información
+                                    desde el servidor.
+                                </p>
+
                             </div>
+                        </td>
+                    </tr>
+                `;
+            }
 
-                            <strong>
-                                No se pudieron cargar las alertas
-                            </strong>
 
-                            <p>
-                                No fue posible obtener la información
-                                desde el servidor.
-                            </p>
-
-                        </div>
-
-                    </td>
-                </tr>
-            `;
-
-            contadorResultados.textContent =
-                "0 resultados";
+            if (contadorResultados) {
+                contadorResultados.textContent =
+                    "0 resultados";
+            }
 
             renderKpis();
+
             renderActividadReciente();
         }
     }
 
-    /* Búsqueda inteligente */
+
+    /* Búsqueda */
 
     function coincideBusqueda(
         alerta,
         termino
     ) {
+
         if (!termino) {
             return true;
         }
 
+
         const prioridad =
             prioridadInfo(alerta);
 
+
         const estado =
-            estadoInfo(alerta.status);
+            estadoInfo(
+                alerta.status
+            );
+
 
         const campos = [
             alerta.patientName,
@@ -363,22 +419,30 @@ document.addEventListener("DOMContentLoaded", () => {
             estado.texto
         ];
 
+
         return campos.some(
             (campo) =>
-                normalizar(campo)
-                    .includes(termino)
+                normalizar(
+                    campo
+                ).includes(
+                    termino
+                )
         );
     }
 
+
     function obtenerSugerencias() {
+
         const termino =
             normalizar(
                 inputPaciente.value
             );
 
+
         if (!termino) {
             return [];
         }
+
 
         return alertas
             .filter(
@@ -391,26 +455,46 @@ document.addEventListener("DOMContentLoaded", () => {
             .slice(0, 8);
     }
 
+
     function cerrarSugerencias() {
+
+        if (!sugerencias) {
+            return;
+        }
+
         sugerencias.hidden = true;
         sugerencias.innerHTML = "";
     }
 
+
     function mostrarSugerencias() {
+
+        if (!sugerencias) {
+            return;
+        }
+
+
         const termino =
             inputPaciente.value.trim();
 
+
         if (!termino) {
+
             cerrarSugerencias();
+
             return;
         }
+
 
         const resultados =
             obtenerSugerencias();
 
+
         sugerencias.innerHTML = "";
 
+
         if (!resultados.length) {
+
             sugerencias.innerHTML = `
                 <div class="alert-search-empty">
                     No se encontraron coincidencias.
@@ -422,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         resultados.forEach(
             (alerta) => {
 
@@ -430,11 +515,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         "button"
                     );
 
+
                 boton.type =
                     "button";
 
+
                 boton.className =
                     "alert-search-suggestion";
+
 
                 boton.innerHTML = `
                     <div class="alert-search-suggestion-icon">
@@ -461,12 +549,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
 
+
                 boton.addEventListener(
                     "click",
                     () => {
 
                         inputPaciente.value =
-                            alerta.patientName || "";
+                            alerta.patientName ||
+                            "";
 
                         cerrarSugerencias();
 
@@ -474,27 +564,34 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 );
 
+
                 sugerencias.appendChild(
                     boton
                 );
             }
         );
 
+
         sugerencias.hidden = false;
     }
+
 
     /* Filtros */
 
     function obtenerAlertasFiltradas() {
+
         let resultado =
             [...alertas];
+
 
         const busqueda =
             normalizar(
                 inputPaciente.value
             );
 
+
         if (busqueda) {
+
             resultado =
                 resultado.filter(
                     (alerta) =>
@@ -505,9 +602,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
         }
 
+
         if (
             selectPrioridad.value
         ) {
+
             resultado =
                 resultado.filter(
                     (alerta) =>
@@ -518,9 +617,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
         }
 
+
         if (
             selectEstado.value
         ) {
+
             resultado =
                 resultado.filter(
                     (alerta) =>
@@ -531,117 +632,298 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
         }
 
+
         return resultado;
     }
+
 
     /* Modal */
 
     function abrirDetalle(alerta) {
+
         alertaActual =
             alerta;
 
+
         const prioridad =
-            prioridadInfo(alerta);
+            prioridadInfo(
+                alerta
+            );
+
 
         const estado =
             estadoInfo(
                 alerta.status
             );
 
+
         detallePaciente.textContent =
             alerta.patientName ||
             "Paciente";
+
 
         detallePacienteInfo.textContent =
             alerta.patientIdentification ||
             alerta.identification ||
             "Paciente registrado en Nyvora";
 
+
         detalleTipo.textContent =
             alerta.alertType ||
             "Alerta clínica";
+
 
         detalleFecha.textContent =
             formatearFecha(
                 alerta.createdAt
             );
 
+
         detalleMensaje.textContent =
             alerta.message ||
             "Sin descripción disponible.";
 
+
         detallePrioridad.textContent =
             prioridad.texto;
+
 
         detallePrioridad.className =
             `alert-priority ${prioridad.clase}`;
 
+
         detalleEstado.textContent =
             estado.texto;
+
 
         detalleEstado.className =
             `alert-status ${estado.clase}`;
 
-        /* Acciones que requieren backend */
 
-        btnSeguimiento.disabled = true;
-        btnResolver.disabled = true;
+        actualizarBotonesEstado(
+            alerta.status
+        );
 
-        btnSeguimiento.title =
-            "Pendiente de integración con backend";
-
-        btnResolver.title =
-            "Pendiente de integración con backend";
 
         modal.classList.add(
             "active"
         );
+
 
         modal.setAttribute(
             "aria-hidden",
             "false"
         );
 
+
         document.body.classList.add(
             "alert-modal-open"
         );
     }
 
+
+    function actualizarBotonesEstado(
+        status
+    ) {
+
+        const estado =
+            estadoInfo(
+                status
+            );
+
+
+        const resuelta =
+            estado.texto ===
+            "Resuelta";
+
+
+        const seguimiento =
+            estado.texto ===
+            "En Seguimiento";
+
+
+        btnSeguimiento.disabled =
+            resuelta || seguimiento;
+
+
+        btnResolver.disabled =
+            resuelta;
+
+
+        if (seguimiento) {
+
+            btnSeguimiento.textContent =
+                "En Seguimiento";
+        } else {
+
+            btnSeguimiento.innerHTML = `
+                <i class="fa-solid fa-stethoscope"></i>
+                Iniciar Seguimiento
+            `;
+        }
+
+
+        if (resuelta) {
+
+            btnResolver.textContent =
+                "Resuelta";
+        } else {
+
+            btnResolver.innerHTML = `
+                <i class="fa-solid fa-circle-check"></i>
+                Marcar como Resuelta
+            `;
+        }
+    }
+
+
     function cerrarDetalle() {
+
         modal.classList.remove(
             "active"
         );
+
 
         modal.setAttribute(
             "aria-hidden",
             "true"
         );
 
+
         document.body.classList.remove(
             "alert-modal-open"
         );
 
+
         alertaActual = null;
     }
 
+
+    /* Actualizar estado en la base */
+
+    async function actualizarEstadoAlerta(
+        accion
+    ) {
+
+        if (!alertaActual) {
+            return;
+        }
+
+
+        try {
+
+            btnSeguimiento.disabled = true;
+            btnResolver.disabled = true;
+
+
+            const datos =
+                new URLSearchParams();
+
+
+            datos.append(
+                "alert_id",
+                alertaActual.id
+            );
+
+
+            datos.append(
+                "action",
+                accion
+            );
+
+
+            const respuesta =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded;charset=UTF-8"
+                        },
+                        body:
+                            datos.toString()
+                    }
+                );
+
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    `Error HTTP: ${respuesta.status}`
+                );
+            }
+
+
+            const resultado =
+                await respuesta.json();
+
+
+            if (!resultado.success) {
+
+                throw new Error(
+                    resultado.message ||
+                    "No se pudo actualizar la alerta."
+                );
+            }
+
+
+            await cargarAlertas();
+
+
+            cerrarDetalle();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error actualizando alerta:",
+                error
+            );
+
+
+            alert(
+                "No se pudo actualizar la alerta."
+            );
+
+
+            if (alertaActual) {
+
+                actualizarBotonesEstado(
+                    alertaActual.status
+                );
+            }
+        }
+    }
+
+
     /* Tabla */
 
-    function crearFilaAlerta(alerta) {
+    function crearFilaAlerta(
+        alerta
+    ) {
+
         const prioridad =
-            prioridadInfo(alerta);
+            prioridadInfo(
+                alerta
+            );
+
 
         const estado =
             estadoInfo(
                 alerta.status
             );
 
+
         const fila =
             document.createElement(
                 "tr"
             );
 
+
         fila.dataset.patientId =
             alerta.patientId;
+
 
         fila.innerHTML = `
             <td>
@@ -677,6 +959,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             </td>
 
+
             <td>
 
                 <div class="alert-message-cell">
@@ -699,6 +982,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             </td>
 
+
             <td>
 
                 <span
@@ -708,11 +992,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             </td>
 
+
             <td>
                 ${formatearFecha(
                     alerta.createdAt
                 )}
             </td>
+
 
             <td>
 
@@ -722,6 +1008,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </span>
 
             </td>
+
 
             <td>
 
@@ -737,6 +1024,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </td>
         `;
 
+
         fila
             .querySelector(
                 ".alert-detail-button"
@@ -744,27 +1032,40 @@ document.addEventListener("DOMContentLoaded", () => {
             .addEventListener(
                 "click",
                 () => {
-                    abrirDetalle(alerta);
+
+                    abrirDetalle(
+                        alerta
+                    );
                 }
             );
+
 
         return fila;
     }
 
+
     function renderTabla() {
+
         const filtradas =
             obtenerAlertasFiltradas();
 
+
         tbody.innerHTML = "";
 
-        contadorResultados.textContent =
-            `${filtradas.length} ${
-                filtradas.length === 1
-                    ? "resultado"
-                    : "resultados"
-            }`;
+
+        if (contadorResultados) {
+
+            contadorResultados.textContent =
+                `${filtradas.length} ${
+                    filtradas.length === 1
+                        ? "resultado"
+                        : "resultados"
+                }`;
+        }
+
 
         if (!filtradas.length) {
+
             tbody.innerHTML = `
                 <tr class="empty-alert-row">
 
@@ -795,8 +1096,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         filtradas.forEach(
             (alerta) => {
+
                 tbody.appendChild(
                     crearFilaAlerta(
                         alerta
@@ -806,9 +1109,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
+
     /* KPIs */
 
     function renderKpis() {
+
         const activas =
             alertas.filter(
                 (alerta) =>
@@ -817,6 +1122,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ).texto !==
                     "Resuelta"
             ).length;
+
 
         const altas =
             alertas.filter(
@@ -831,6 +1137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Resuelta"
             ).length;
 
+
         const seguimiento =
             alertas.filter(
                 (alerta) =>
@@ -840,6 +1147,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "En Seguimiento"
             ).length;
 
+
         const resueltas =
             alertas.filter(
                 (alerta) =>
@@ -848,6 +1156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ).texto ===
                     "Resuelta"
             ).length;
+
 
         kpiActivas.textContent =
             activas;
@@ -862,10 +1171,19 @@ document.addEventListener("DOMContentLoaded", () => {
             resueltas;
     }
 
+
     /* Actividad reciente */
 
     function renderActividadReciente() {
-        actividadReciente.innerHTML = "";
+
+        if (!actividadReciente) {
+            return;
+        }
+
+
+        actividadReciente.innerHTML =
+            "";
+
 
         const recientes =
             [...alertas]
@@ -883,6 +1201,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )
                             );
 
+
                         const fechaB =
                             new Date(
                                 String(
@@ -894,15 +1213,21 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )
                             );
 
+
                         return (
                             fechaB -
                             fechaA
                         );
                     }
                 )
-                .slice(0, 5);
+                .slice(
+                    0,
+                    5
+                );
+
 
         if (!recientes.length) {
+
             actividadReciente.innerHTML = `
                 <tr>
                     <td colspan="2">
@@ -914,6 +1239,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         recientes.forEach(
             (alerta) => {
 
@@ -922,10 +1248,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alerta.status
                     );
 
+
                 const fila =
                     document.createElement(
                         "tr"
                     );
+
 
                 fila.innerHTML = `
                     <td>
@@ -967,6 +1295,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                 `;
 
+
                 actividadReciente.appendChild(
                     fila
                 );
@@ -974,38 +1303,50 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* Render */
+
+    /* Actualizar pantalla */
 
     function renderTodo() {
+
         renderTabla();
+
         renderKpis();
+
         renderActividadReciente();
     }
+
 
     /* Eventos de búsqueda */
 
     inputPaciente.addEventListener(
         "input",
         () => {
+
             renderTabla();
+
             mostrarSugerencias();
         }
     );
 
+
     inputPaciente.addEventListener(
         "focus",
         () => {
+
             if (
                 inputPaciente.value.trim()
             ) {
+
                 mostrarSugerencias();
             }
         }
     );
 
+
     btnBuscar.addEventListener(
         "click",
         (event) => {
+
             event.preventDefault();
 
             cerrarSugerencias();
@@ -1014,15 +1355,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     selectPrioridad.addEventListener(
         "change",
         renderTabla
     );
 
+
     selectEstado.addEventListener(
         "change",
         renderTabla
     );
+
 
     document.addEventListener(
         "click",
@@ -1033,21 +1377,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     ".alert-search-field"
                 )
             ) {
+
                 cerrarSugerencias();
             }
         }
     );
 
+
     /* Modal */
 
     botonesCerrarModal.forEach(
         (boton) => {
+
             boton.addEventListener(
                 "click",
                 cerrarDetalle
             );
         }
     );
+
 
     btnAbrirPaciente.addEventListener(
         "click",
@@ -1056,13 +1404,42 @@ document.addEventListener("DOMContentLoaded", () => {
             if (
                 !alertaActual?.patientId
             ) {
+
                 return;
             }
+
 
             window.location.href =
                 `historial.html?patient_id=${alertaActual.patientId}`;
         }
     );
+
+
+    /* Seguimiento */
+
+    btnSeguimiento.addEventListener(
+        "click",
+        () => {
+
+            actualizarEstadoAlerta(
+                "follow_up"
+            );
+        }
+    );
+
+
+    /* Resolver */
+
+    btnResolver.addEventListener(
+        "click",
+        () => {
+
+            actualizarEstadoAlerta(
+                "resolve"
+            );
+        }
+    );
+
 
     document.addEventListener(
         "keydown",
@@ -1071,20 +1448,25 @@ document.addEventListener("DOMContentLoaded", () => {
             if (
                 event.key === "Escape"
             ) {
+
                 cerrarSugerencias();
+
 
                 if (
                     modal.classList.contains(
                         "active"
                     )
                 ) {
+
                     cerrarDetalle();
                 }
             }
         }
     );
 
+
     /* Inicialización */
 
     cargarAlertas();
+
 });

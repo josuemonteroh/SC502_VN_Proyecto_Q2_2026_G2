@@ -1,7 +1,7 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -21,11 +21,90 @@ try {
     $db = $conexion->conectar();
 
 
-    // Se obtiene también el nombre del paciente para mostrarlo en las alertas
+    // Cambiar el estado de una alerta
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        $alertId = filter_input(
+            INPUT_POST,
+            "alert_id",
+            FILTER_VALIDATE_INT
+        );
+
+        $action = trim(
+            $_POST["action"] ?? ""
+        );
+
+
+        if (!$alertId) {
+
+            echo json_encode([
+                "success" => false,
+                "message" => "El ID de la alerta no es válido."
+            ]);
+
+            exit;
+        }
+
+
+        if (
+            !in_array(
+                $action,
+                ["follow_up", "resolve"],
+                true
+            )
+        ) {
+
+            echo json_encode([
+                "success" => false,
+                "message" => "La acción no es válida."
+            ]);
+
+            exit;
+        }
+
+
+        if ($action === "follow_up") {
+
+            $sql = "UPDATE alerts
+                    SET status = 'FOLLOW_UP',
+                        resolved_at = NULL
+                    WHERE id = :id";
+
+        } else {
+
+            $sql = "UPDATE alerts
+                    SET status = 'RESOLVED',
+                        resolved_at = NOW()
+                    WHERE id = :id";
+        }
+
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute([
+            ":id" => $alertId
+        ]);
+
+
+        echo json_encode([
+            "success" => true,
+            "message" =>
+                $action === "follow_up"
+                    ? "La alerta ahora está en seguimiento."
+                    : "La alerta fue marcada como resuelta."
+        ]);
+
+        exit;
+    }
+
+
+    /* Consultar alertas */
+
     $sql = "SELECT
                 a.id,
                 a.patient_id AS patientId,
                 p.full_name AS patientName,
+                p.identification AS patientIdentification,
                 a.alert_type AS alertType,
                 a.message,
                 a.status,
@@ -40,8 +119,7 @@ try {
             ORDER BY a.created_at DESC";
 
 
-    $stmt =
-        $db->prepare($sql);
+    $stmt = $db->prepare($sql);
 
     $stmt->execute();
 
