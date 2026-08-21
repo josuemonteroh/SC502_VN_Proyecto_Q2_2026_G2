@@ -4,11 +4,7 @@ let currentLanguage = "es";
 
 const translations = {
 
-    /* Español */
-
     es: {
-
-        /* Login */
 
         platform_title:
             "Plataforma Inteligente<br>de Seguimiento Nutricional",
@@ -80,13 +76,20 @@ const translations = {
             "© 2026 Nyvora | Universidad Fidélitas",
 
 
-        /* Menú */
-
         dashboard:
             "Dashboard",
 
         patients:
             "Pacientes",
+
+        appointments:
+            "Citas",
+
+        medications:
+            "Medicamentos",
+
+        treatments:
+            "Tratamientos",
 
         metrics:
             "Métricas",
@@ -106,8 +109,6 @@ const translations = {
         change_language:
             "Cambiar idioma",
 
-
-        /* Generales */
 
         welcome:
             "Bienvenido",
@@ -173,13 +174,23 @@ const translations = {
             "Resuelta",
 
         no_data:
-            "No hay información disponible.",
+            "N/D",
 
         no_results:
             "No se encontraron resultados.",
 
+        years:
+            "años",
 
-        /* Dashboard */
+        undefined_condition:
+            "Sin definir",
+
+        no_checkups:
+            "Sin controles",
+
+        responsible:
+            "Responsable",
+
 
         dashboard_title:
             "Dashboard",
@@ -202,8 +213,6 @@ const translations = {
         latest_measurements:
             "Últimas Mediciones",
 
-
-        /* Pacientes */
 
         patients_title:
             "Pacientes",
@@ -244,8 +253,6 @@ const translations = {
         patient_deleted:
             "Paciente eliminado correctamente.",
 
-
-        /* Métricas */
 
         metrics_title:
             "Métricas Biométricas",
@@ -299,8 +306,6 @@ const translations = {
             "Hasta",
 
 
-        /* Historial */
-
         history_title:
             "Historial Clínico",
 
@@ -308,7 +313,10 @@ const translations = {
             "Consulta del historial y evolución del paciente.",
 
         patient_history:
-            "Historial del Paciente",
+            "Consultar Historial",
+
+        history_query_description:
+            "Seleccione un paciente y consulte su información clínica.",
 
         clinical_history:
             "Historial Clínico",
@@ -316,17 +324,35 @@ const translations = {
         patient_summary:
             "Resumen del Paciente",
 
+        patient_summary_description:
+            "Información general y estado actual del seguimiento.",
+
         last_control:
             "Último Control",
 
         evolution:
-            "Evolución",
+            "Evolución Biométrica",
+
+        evolution_description:
+            "Registro histórico de métricas y controles del paciente.",
 
         clinical_notes:
-            "Notas Clínicas",
+            "Observaciones Clínicas",
+
+        clinical_notes_description:
+            "Notas asociadas al seguimiento del paciente.",
 
         recent_records:
             "Registros Recientes",
+
+        recent_activity:
+            "Actividad Reciente",
+
+        recent_activity_description:
+            "Últimos controles registrados.",
+
+        activity:
+            "Actividad",
 
         first_record:
             "Primer Registro",
@@ -343,20 +369,73 @@ const translations = {
         no_records:
             "No hay registros para este paciente.",
 
+        no_records_period:
+            "No hay registros para este paciente en el período seleccionado.",
+
         no_notes:
             "Sin observaciones registradas.",
 
+        no_observations:
+            "Sin observaciones registradas.",
 
-        /* Alertas */
+        no_activity:
+            "Sin actividad registrada.",
+
+        select_patient_history:
+            "Seleccione un paciente para consultar su historial.",
+
+        select_patient_notes:
+            "Seleccione un paciente para consultar sus observaciones.",
+
+        measurement_activity:
+            "Se registró un control biométrico.",
+
+        period:
+            "Período",
+
+        start:
+            "Inicio",
+
+        current:
+            "Actualidad",
+
+        generated_by:
+            "Generado desde Nyvora.",
+
+
+        activity_positive:
+            "Paciente mantiene buenos niveles de actividad física.",
+
+        activity_follow_up:
+            "Paciente en seguimiento preventivo.",
+
+        weight_follow_up:
+            "Paciente con seguimiento de peso y hábitos de sueño.",
+
+        favorable_progress:
+            "El paciente muestra una evolución favorable en peso y actividad física.",
+
+        heart_rate_follow_up:
+            "Se recomienda seguimiento de frecuencia cardíaca y hábitos de sueño.",
+
+        weight_heart_rate:
+            "Se recomienda controlar peso y frecuencia cardíaca.",
+
+        sleep_activity_follow_up:
+            "Seguimiento de hábitos de sueño y actividad.",
+
 
         alerts_title:
-            "Alertas",
+            "Alertas Clínicas",
 
         alerts_subtitle:
-            "Supervisión y seguimiento de alertas preventivas.",
+            "Monitoreo y seguimiento de alertas clínicas de los pacientes.",
+
+        search_alert:
+            "Buscar paciente, tipo de alerta o condición...",
 
         search_patient:
-            "Buscar paciente",
+            "Buscar paciente...",
 
         all_priorities:
             "Todas las prioridades",
@@ -374,13 +453,13 @@ const translations = {
             "Baja",
 
         alert_type:
-            "Tipo de Alerta",
+            "Tipo de alerta",
 
         alert_message:
-            "Mensaje",
+            "Alerta",
 
         created_at:
-            "Fecha de Creación",
+            "Fecha de detección",
 
         alert_pending:
             "Pendiente",
@@ -388,11 +467,153 @@ const translations = {
         alert_resolved:
             "Resuelta",
 
+        registered_alerts:
+            "Alertas Registradas",
+
+        registered_alerts_description:
+            "Alertas generadas a partir del seguimiento clínico de los pacientes.",
+
+        alert_summary:
+            "Resumen de Alertas",
+
+        total_alerts:
+            "Total de Alertas",
+
+        pending_alerts_summary:
+            "Alertas Pendientes",
+
+        follow_up:
+            "En Seguimiento",
+
+        follow_up_description:
+            "Actualmente bajo revisión",
+
+        resolved_alerts:
+            "Resueltas",
+
+        resolved_alerts_description:
+            "Alertas cerradas",
+
+        active_alerts:
+            "Alertas Activas",
+
+        active_alerts_description:
+            "Requieren atención o seguimiento",
+
+        high_priority:
+            "Alta Prioridad",
+
+        high_priority_description:
+            "Requieren revisión prioritaria",
+
         no_alerts:
             "No se encontraron alertas con los filtros seleccionados.",
 
+        no_alert_results:
+            "No se encontraron alertas",
 
-        /* Configuración */
+        no_alerts_description:
+            "Las alertas clínicas aparecerán aquí cuando sean detectadas por el sistema.",
+
+        change_alert_filters:
+            "Cambie los filtros o consulte otro paciente.",
+
+        no_alert_matches:
+            "No se encontraron coincidencias.",
+
+        alert_clinical:
+            "Alerta clínica",
+
+        no_description:
+            "Sin descripción",
+
+        no_description_available:
+            "Sin información disponible.",
+
+        registered_patient:
+            "Paciente registrado",
+
+        registered_patient_ny:
+            "Paciente registrado en Nyvora",
+
+        results_one:
+            "resultado",
+
+        results_many:
+            "resultados",
+
+        cannot_load_alerts:
+            "No se pudieron cargar las alertas",
+
+        cannot_get_alerts:
+            "No fue posible obtener la información desde el servidor.",
+
+        alert_detail:
+            "Detalle de la Alerta",
+
+        alert_detail_description:
+            "Información clínica y estado de seguimiento.",
+
+        patient_alert_description:
+            "Paciente asociado a esta alerta.",
+
+        alert_information:
+            "Información de la alerta",
+
+        alert_condition_description:
+            "Condición detectada durante el seguimiento.",
+
+        clinical_description:
+            "Descripción clínica",
+
+        alert_description_information:
+            "Información asociada a la condición detectada.",
+
+        open_record:
+            "Abrir Expediente",
+
+        start_follow_up:
+            "Iniciar Seguimiento",
+
+        follow_up_active:
+            "En Seguimiento",
+
+        mark_resolved:
+            "Marcar como Resuelta",
+
+        resolved_state:
+            "Resuelta",
+
+        alert_updated:
+            "Alerta actualizada correctamente.",
+
+        alert_update_error:
+            "No se pudo actualizar la alerta.",
+
+        follow_up_success:
+            "La alerta ahora está en seguimiento.",
+
+        resolve_success:
+            "La alerta fue marcada como resuelta.",
+
+        alert_weight:
+            "Peso",
+
+        alert_sleep:
+            "Sueño",
+
+        alert_heart_rate:
+            "Frecuencia cardíaca",
+
+        alert_follow_up_type:
+            "Seguimiento",
+
+        alert_physical_activity:
+            "Actividad física",
+
+        alert_activity_description:
+            "Últimos eventos relacionados con las alertas clínicas.",
+
 
         settings_title:
             "Configuración",
@@ -425,57 +646,11 @@ const translations = {
             "Guardar Cambios",
 
         settings_saved:
-            "Configuración guardada correctamente.",
-
-
-        /* Recuperar contraseña */
-
-        recovery_platform_title:
-            "Recupera el acceso<br>a tu cuenta Nyvora",
-
-        recovery_platform_description:
-            "Ingresa tu correo electrónico para continuar con el proceso de recuperación de acceso.",
-
-        recovery_feature_1:
-            "Verificación mediante correo electrónico",
-
-        recovery_feature_2:
-            "Proceso seguro de recuperación",
-
-        recovery_feature_3:
-            "Protección de credenciales",
-
-        recovery_feature_4:
-            "Regreso al inicio de sesión",
-
-        recovery_title:
-            "Recuperar contraseña",
-
-        recovery_subtitle:
-            "Ingrese el correo electrónico asociado a su cuenta.",
-
-        recovery_button:
-            "Continuar",
-
-        remember_password:
-            "¿Recordó su contraseña?",
-
-        back_to_login:
-            "Volver al inicio de sesión",
-
-        recovery_success_title:
-            "Solicitud recibida",
-
-        recovery_success_message:
-            "Los pasos para restablecer su contraseña serán enviados al correo electrónico asociado a su cuenta."
+            "Configuración guardada correctamente."
     },
 
 
-    /* Inglés */
-
     en: {
-
-        /* Login */
 
         platform_title:
             "Intelligent Nutrition<br>Monitoring Platform",
@@ -547,13 +722,20 @@ const translations = {
             "© 2026 Nyvora | Fidélitas University",
 
 
-        /* Menu */
-
         dashboard:
             "Dashboard",
 
         patients:
             "Patients",
+
+        appointments:
+            "Appointments",
+
+        medications:
+            "Medications",
+
+        treatments:
+            "Treatments",
 
         metrics:
             "Metrics",
@@ -573,8 +755,6 @@ const translations = {
         change_language:
             "Change Language",
 
-
-        /* General */
 
         welcome:
             "Welcome",
@@ -640,133 +820,23 @@ const translations = {
             "Resolved",
 
         no_data:
-            "No information available.",
+            "N/A",
 
         no_results:
             "No results found.",
 
+        years:
+            "years",
 
-        /* Dashboard */
+        undefined_condition:
+            "Not defined",
 
-        dashboard_title:
-            "Dashboard",
+        no_checkups:
+            "No checkups",
 
-        dashboard_subtitle:
-            "General overview of patient nutritional monitoring.",
+        responsible:
+            "Responsible",
 
-        total_patients:
-            "Total Patients",
-
-        active_patients:
-            "Active Patients",
-
-        pending_alerts:
-            "Pending Alerts",
-
-        recent_activity:
-            "Recent Activity",
-
-        latest_measurements:
-            "Latest Measurements",
-
-
-        /* Patients */
-
-        patients_title:
-            "Patients",
-
-        patients_subtitle:
-            "Management and monitoring of registered patients.",
-
-        register_patient:
-            "Register Patient",
-
-        patient_name:
-            "Full Name",
-
-        identification:
-            "Identification",
-
-        age:
-            "Age",
-
-        phone:
-            "Phone",
-
-        general_condition:
-            "General Condition",
-
-        observations:
-            "Observations",
-
-        patient_information:
-            "Patient Information",
-
-        patient_registered:
-            "Patient registered successfully.",
-
-        patient_updated:
-            "Patient updated successfully.",
-
-        patient_deleted:
-            "Patient deleted successfully.",
-
-
-        /* Metrics */
-
-        metrics_title:
-            "Biometric Metrics",
-
-        metrics_subtitle:
-            "Record and consult patient biometric metrics.",
-
-        register_metrics:
-            "Register Metrics",
-
-        save_metrics:
-            "Save Metrics",
-
-        historical_metrics:
-            "Metrics History",
-
-        weight:
-            "Weight",
-
-        weight_kg:
-            "Weight (kg)",
-
-        bmi:
-            "BMI",
-
-        body_fat:
-            "Body Fat (%)",
-
-        heart_rate:
-            "Heart Rate",
-
-        heart_rate_bpm:
-            "Heart Rate (bpm)",
-
-        sleep:
-            "Sleep Hours",
-
-        sleep_hours:
-            "Sleep Hours",
-
-        steps:
-            "Daily Steps",
-
-        measurement_date:
-            "Measurement Date",
-
-        from:
-            "From",
-
-        to:
-            "To",
-
-
-        /* History */
 
         history_title:
             "Clinical History",
@@ -777,23 +847,35 @@ const translations = {
         patient_history:
             "Patient History",
 
-        clinical_history:
-            "Clinical History",
-
         patient_summary:
             "Patient Summary",
+
+        patient_summary_description:
+            "General information and current follow-up status.",
 
         last_control:
             "Last Checkup",
 
         evolution:
-            "Progress",
+            "Biometric Progress",
+
+        evolution_description:
+            "Historical record of patient metrics and checkups.",
 
         clinical_notes:
             "Clinical Notes",
 
-        recent_records:
-            "Recent Records",
+        clinical_notes_description:
+            "Notes associated with the patient's follow-up.",
+
+        recent_activity:
+            "Recent Activity",
+
+        recent_activity_description:
+            "Latest recorded checkups.",
+
+        activity:
+            "Activity",
 
         first_record:
             "First Record",
@@ -810,26 +892,75 @@ const translations = {
         no_records:
             "There are no records for this patient.",
 
-        no_notes:
+        no_records_period:
+            "There are no records for this patient in the selected period.",
+
+        no_observations:
             "No observations recorded.",
 
+        no_activity:
+            "No activity recorded.",
 
-        /* Alerts */
+        select_patient_history:
+            "Select a patient to view their history.",
+
+        select_patient_notes:
+            "Select a patient to view their observations.",
+
+        measurement_activity:
+            "A biometric checkup was recorded.",
+
+        period:
+            "Period",
+
+        start:
+            "Start",
+
+        current:
+            "Current",
+
+        generated_by:
+            "Generated from Nyvora.",
+
+        activity_positive:
+            "Patient maintains good levels of physical activity.",
+
+        activity_follow_up:
+            "Patient under preventive follow-up.",
+
+        weight_follow_up:
+            "Patient under follow-up for weight and sleep habits.",
+
+        favorable_progress:
+            "The patient shows positive progress in weight and physical activity.",
+
+        heart_rate_follow_up:
+            "Heart rate and sleep habits follow-up is recommended.",
+
+        weight_heart_rate:
+            "Weight and heart rate monitoring is recommended.",
+
+        sleep_activity_follow_up:
+            "Follow-up of sleep habits and physical activity.",
+
 
         alerts_title:
-            "Alerts",
+            "Clinical Alerts",
 
         alerts_subtitle:
-            "Monitoring and management of preventive alerts.",
+            "Monitor patients with clinical indicators that require attention or follow-up.",
+
+        search_alert:
+            "Search patient, alert type or condition...",
 
         search_patient:
-            "Search patient",
+            "Search patient...",
 
         all_priorities:
-            "All priorities",
+            "All Priorities",
 
         all_status:
-            "All statuses",
+            "All Statuses",
 
         high:
             "High",
@@ -844,10 +975,10 @@ const translations = {
             "Alert Type",
 
         alert_message:
-            "Message",
+            "Alert",
 
         created_at:
-            "Created Date",
+            "Detection Date",
 
         alert_pending:
             "Pending",
@@ -855,11 +986,153 @@ const translations = {
         alert_resolved:
             "Resolved",
 
+        registered_alerts:
+            "Registered Alerts",
+
+        registered_alerts_description:
+            "Alerts generated from patient clinical follow-up.",
+
+        alert_summary:
+            "Alert Summary",
+
+        total_alerts:
+            "Total Alerts",
+
+        pending_alerts_summary:
+            "Pending Alerts",
+
+        follow_up:
+            "Under Follow-up",
+
+        follow_up_description:
+            "Currently under review",
+
+        resolved_alerts:
+            "Resolved",
+
+        resolved_alerts_description:
+            "Closed alerts",
+
+        active_alerts:
+            "Active Alerts",
+
+        active_alerts_description:
+            "Require attention or follow-up",
+
+        high_priority:
+            "High Priority",
+
+        high_priority_description:
+            "Require priority review",
+
         no_alerts:
             "No alerts found with the selected filters.",
 
+        no_alert_results:
+            "No alerts found",
 
-        /* Settings */
+        no_alerts_description:
+            "Clinical alerts will appear here when detected by the system.",
+
+        change_alert_filters:
+            "Change the filters or search for another patient.",
+
+        no_alert_matches:
+            "No matches found.",
+
+        alert_clinical:
+            "Clinical alert",
+
+        no_description:
+            "No description",
+
+        no_description_available:
+            "No information available.",
+
+        registered_patient:
+            "Registered patient",
+
+        registered_patient_ny:
+            "Patient registered in Nyvora",
+
+        results_one:
+            "result",
+
+        results_many:
+            "results",
+
+        cannot_load_alerts:
+            "Alerts could not be loaded",
+
+        cannot_get_alerts:
+            "The information could not be retrieved from the server.",
+
+        alert_detail:
+            "Alert Details",
+
+        alert_detail_description:
+            "Clinical information and follow-up status.",
+
+        patient_alert_description:
+            "Patient associated with this alert.",
+
+        alert_information:
+            "Alert Information",
+
+        alert_condition_description:
+            "Condition detected during follow-up.",
+
+        clinical_description:
+            "Clinical Description",
+
+        alert_description_information:
+            "Information associated with the detected condition.",
+
+        open_record:
+            "Open Record",
+
+        start_follow_up:
+            "Start Follow-up",
+
+        follow_up_active:
+            "Under Follow-up",
+
+        mark_resolved:
+            "Mark as Resolved",
+
+        resolved_state:
+            "Resolved",
+
+        alert_updated:
+            "Alert updated successfully.",
+
+        alert_update_error:
+            "The alert could not be updated.",
+
+        follow_up_success:
+            "The alert is now under follow-up.",
+
+        resolve_success:
+            "The alert was marked as resolved.",
+
+        alert_weight:
+            "Weight",
+
+        alert_sleep:
+            "Sleep",
+
+        alert_heart_rate:
+            "Heart Rate",
+
+        alert_follow_up_type:
+            "Follow-up",
+
+        alert_physical_activity:
+            "Physical Activity",
+
+        alert_activity_description:
+            "Latest events related to clinical alerts.",
+
 
         settings_title:
             "Settings",
@@ -892,154 +1165,191 @@ const translations = {
             "Save Changes",
 
         settings_saved:
-            "Settings saved successfully.",
-
-
-        /* Password recovery */
-
-        recovery_platform_title:
-            "Recover access<br>to your Nyvora account",
-
-        recovery_platform_description:
-            "Enter your email address to continue with the account recovery process.",
-
-        recovery_feature_1:
-            "Email verification",
-
-        recovery_feature_2:
-            "Secure recovery process",
-
-        recovery_feature_3:
-            "Credential protection",
-
-        recovery_feature_4:
-            "Return to sign in",
-
-        recovery_title:
-            "Recover password",
-
-        recovery_subtitle:
-            "Enter the email address associated with your account.",
-
-        recovery_button:
-            "Continue",
-
-        remember_password:
-            "Remembered your password?",
-
-        back_to_login:
-            "Back to sign in",
-
-        recovery_success_title:
-            "Request received",
-
-        recovery_success_message:
-            "Password recovery instructions will be sent to the email address associated with your account."
+            "Settings saved successfully."
     }
 };
 
 
-/* Cambiar idioma */
+function applyTranslations(
+    root = document
+) {
 
-function changeLanguage(language) {
-
-    if (!translations[language]) {
-        return;
-    }
-
-    currentLanguage = language;
-
-    document
+    root
         .querySelectorAll("[data-lang]")
-        .forEach((element) => {
+        .forEach(
+            (element) => {
 
-            const key = element.dataset.lang;
+                const key =
+                    element.dataset.lang;
 
-            if (translations[language][key]) {
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        translations[currentLanguage],
+                        key
+                    )
+                ) {
 
-                const value = translations[language][key];
+                    const value =
+                        translations[currentLanguage][key];
 
-                if (value.includes("<br>")) {
-                    element.innerHTML = value;
-                } else {
-                    element.textContent = value;
+                    if (
+                        typeof value === "string" &&
+                        value.includes("<br>")
+                    ) {
+
+                        element.innerHTML =
+                            value;
+
+                    } else {
+
+                        element.textContent =
+                            value;
+                    }
                 }
             }
-        });
+        );
 
-    document
+
+    root
         .querySelectorAll("[data-placeholder]")
-        .forEach((element) => {
+        .forEach(
+            (element) => {
 
-            const key = element.dataset.placeholder;
+                const key =
+                    element.dataset.placeholder;
 
-            if (translations[language][key]) {
-                element.placeholder =
-                    translations[language][key];
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        translations[currentLanguage],
+                        key
+                    )
+                ) {
+
+                    element.placeholder =
+                        translations[currentLanguage][key];
+                }
             }
-        });
+        );
 
-    document
+
+    root
         .querySelectorAll("[data-title]")
-        .forEach((element) => {
+        .forEach(
+            (element) => {
 
-            const key = element.dataset.title;
+                const key =
+                    element.dataset.title;
 
-            if (translations[language][key]) {
-                element.title =
-                    translations[language][key];
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        translations[currentLanguage],
+                        key
+                    )
+                ) {
+
+                    element.title =
+                        translations[currentLanguage][key];
+                }
             }
-        });
+        );
 }
 
 
-/* Guardar idioma */
+function changeLanguage(
+    language
+) {
 
-function setLanguage(language) {
-
-    if (!translations[language]) {
+    if (
+        !translations[language]
+    ) {
         return;
     }
 
-    currentLanguage = language;
+
+    currentLanguage =
+        language;
+
+
+    applyTranslations(
+        document
+    );
+
+
+    document.documentElement.lang =
+        language;
+
+
+    document.dispatchEvent(
+        new CustomEvent(
+            "languageChanged",
+            {
+                detail: {
+                    language:
+                        language
+                }
+            }
+        )
+    );
+}
+
+
+function setLanguage(
+    language
+) {
+
+    if (
+        !translations[language]
+    ) {
+        return;
+    }
+
 
     localStorage.setItem(
         "nyvora-language",
         language
     );
 
+
     const selector =
         document.getElementById(
             "language-select"
         );
 
+
     if (selector) {
-        selector.value = language;
+
+        selector.value =
+            language;
     }
 
-    changeLanguage(language);
+
+    changeLanguage(
+        language
+    );
 }
 
-
-/* Inicializar idioma */
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        const savedLanguage =
+        currentLanguage =
             localStorage.getItem(
                 "nyvora-language"
             ) || "es";
+
 
         const selector =
             document.getElementById(
                 "language-select"
             );
 
+
         if (selector) {
 
-            selector.value = savedLanguage;
+            selector.value =
+                currentLanguage;
+
 
             selector.addEventListener(
                 "change",
@@ -1052,8 +1362,51 @@ document.addEventListener(
             );
         }
 
-        changeLanguage(
-            savedLanguage
+
+        applyTranslations(
+            document
+        );
+    }
+);
+
+
+const observer =
+    new MutationObserver(
+        (mutations) => {
+
+            mutations.forEach(
+                (mutation) => {
+
+                    mutation.addedNodes.forEach(
+                        (node) => {
+
+                            if (
+                                node.nodeType ===
+                                Node.ELEMENT_NODE
+                            ) {
+
+                                applyTranslations(
+                                    node
+                                );
+                            }
+                        }
+                    );
+                }
+            );
+        }
+    );
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        observer.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true
+            }
         );
     }
 );

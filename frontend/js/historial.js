@@ -2,9 +2,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const API_URL = "http://localhost:8081/historial.php";
-
-    /* Controles */
+    const API_URL =
+        "http://localhost:8081/historial.php";
 
     const inputPaciente =
         document.getElementById("paciente-search");
@@ -30,8 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnExportExcel =
         document.getElementById("btn-export-excel");
 
-    /* Contenido */
-
     const resumen =
         document.querySelector(".patient-summary");
 
@@ -53,16 +50,187 @@ document.addEventListener("DOMContentLoaded", () => {
             )[1]
             ?.querySelector("tbody");
 
-    /* Estado */
-
     let pacientes = [];
     let pacienteActual = null;
     let medicionesActuales = [];
     let notasActuales = [];
 
-    /* Utilidades */
+    function traducir(
+        clave,
+        valorDefault = ""
+    ) {
 
-    function formatearFecha(fecha) {
+        if (
+            typeof translations !== "undefined" &&
+            typeof currentLanguage !== "undefined" &&
+            translations[currentLanguage] &&
+            translations[currentLanguage][clave] !== undefined
+        ) {
+            return translations[currentLanguage][clave];
+        }
+
+        return valorDefault;
+    }
+
+    function traducirCondicion(
+        condicion
+    ) {
+
+        if (!condicion) {
+            return traducir(
+                "undefined_condition",
+                "Sin definir"
+            );
+        }
+
+        const valor =
+            normalizar(condicion);
+
+        if (valor === "condicion estable") {
+
+            return currentLanguage === "en"
+                ? "Stable condition"
+                : "Condición estable";
+        }
+
+        if (valor === "requiere seguimiento") {
+
+            return currentLanguage === "en"
+                ? "Requires follow-up"
+                : "Requiere seguimiento";
+        }
+
+        if (valor === "condicion inestable") {
+
+            return currentLanguage === "en"
+                ? "Unstable condition"
+                : "Condición inestable";
+        }
+
+        if (valor === "en seguimiento") {
+
+            return currentLanguage === "en"
+                ? "Under follow-up"
+                : "En seguimiento";
+        }
+
+        return condicion;
+    }
+
+    function traducirNota(nota) {
+
+        const texto =
+            normalizar(nota);
+
+        const traducciones = {
+
+            "se recomienda seguimiento de frecuencia cardiaca y habitos de sueno.":
+                "Heart rate and sleep habits follow-up is recommended.",
+
+            "el paciente muestra una evolucion favorable en peso y actividad fisica.":
+                "The patient shows positive progress in weight and physical activity.",
+
+            "se recomienda controlar peso y frecuencia cardiaca.":
+                "Weight and heart rate monitoring is recommended.",
+
+            "paciente con seguimiento de peso y habitos de sueno.":
+                "Patient under follow-up for weight and sleep habits.",
+
+            "paciente en seguimiento preventivo.":
+                "Patient under preventive follow-up.",
+
+            "seguimiento de habitos de sueno y actividad.":
+                "Follow-up of sleep habits and physical activity."
+        };
+
+        if (
+            currentLanguage === "en" &&
+            traducciones[texto]
+        ) {
+            return traducciones[texto];
+        }
+
+        return nota;
+    }
+
+    function actualizarResumenInicial() {
+
+        if (!resumen) {
+            return;
+        }
+
+        const elementos =
+            resumen.querySelectorAll(
+                ".summary-content strong"
+            );
+
+        if (
+            elementos[0] &&
+            !pacienteActual
+        ) {
+            elementos[0].textContent =
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
+        }
+
+        if (
+            elementos[1] &&
+            !pacienteActual
+        ) {
+            elementos[1].textContent =
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
+        }
+
+        if (
+            elementos[3] &&
+            !pacienteActual
+        ) {
+            elementos[3].textContent =
+                traducir(
+                    "undefined_condition",
+                    "Sin definir"
+                );
+        }
+
+        const badgeEstado =
+            resumen.querySelector(
+                ".summary-item:nth-child(5) .badge"
+            );
+
+        if (
+            badgeEstado &&
+            !pacienteActual
+        ) {
+            badgeEstado.textContent =
+                traducir(
+                    "no_data",
+                    "N/D"
+                );
+
+            badgeEstado.className =
+                "badge warning";
+        }
+
+        if (
+            elementos[4] &&
+            !pacienteActual
+        ) {
+            elementos[4].textContent =
+                traducir(
+                    "no_checkups",
+                    "Sin controles"
+                );
+        }
+    }
+
+    function formatearFecha(
+        fecha
+    ) {
 
         if (!fecha) {
             return "N/D";
@@ -70,7 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const fechaConvertida =
             new Date(
-                String(fecha).replace(" ", "T")
+                String(fecha).replace(
+                    " ",
+                    "T"
+                )
             );
 
         if (
@@ -82,11 +253,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return fechaConvertida.toLocaleDateString(
-            "es-CR"
+            currentLanguage === "en"
+                ? "en-US"
+                : "es-CR"
         );
     }
 
-    function escaparHTML(texto) {
+    function escaparHTML(
+        texto
+    ) {
 
         const div =
             document.createElement("div");
@@ -97,9 +272,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return div.innerHTML;
     }
 
-    function normalizar(texto) {
+    function normalizar(
+        texto
+    ) {
 
-        return String(texto || "")
+        return String(
+            texto || ""
+        )
             .toLowerCase()
             .normalize("NFD")
             .replace(
@@ -169,8 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return registros;
     }
 
-    /* Pacientes */
-
     async function cargarPacientes() {
 
         try {
@@ -202,11 +379,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             pacientes =
-                Array.isArray(datos.data)
+                Array.isArray(
+                    datos.data
+                )
                     ? datos.data
                     : [];
-
-            /* Paciente recibido por URL */
 
             const parametros =
                 new URLSearchParams(
@@ -222,8 +399,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pacienteEncontrado =
                     pacientes.find(
                         (paciente) =>
-                            String(paciente.id) ===
-                            String(patientId)
+                            String(
+                                paciente.id
+                            ) ===
+                            String(
+                                patientId
+                            )
                     );
 
                 if (pacienteEncontrado) {
@@ -247,11 +428,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             inputPaciente.placeholder =
-                "Error al cargar pacientes";
+                traducir(
+                    "no_results",
+                    "Error al cargar pacientes"
+                );
         }
     }
-
-    /* Búsqueda inteligente */
 
     function mostrarResultadosPacientes(
         termino = ""
@@ -294,15 +476,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         coincidencias =
-            coincidencias.slice(0, 8);
+            coincidencias.slice(
+                0,
+                8
+            );
 
-        resultadosPaciente.innerHTML = "";
+        resultadosPaciente.innerHTML =
+            "";
 
-        if (coincidencias.length === 0) {
+        if (
+            coincidencias.length === 0
+        ) {
 
             resultadosPaciente.innerHTML = `
                 <div class="patient-search-empty">
-                    No se encontraron pacientes.
+                    ${traducir(
+                        "no_results",
+                        "No se encontraron pacientes."
+                    )}
                 </div>
             `;
 
@@ -332,7 +523,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         ? escaparHTML(
                             paciente.identification
                         )
-                        : "Sin identificación";
+                        : traducir(
+                            "no_data",
+                            "N/D"
+                        );
 
                 boton.innerHTML = `
                     <div
@@ -344,6 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div
                         class="patient-search-result-info"
                     >
+
                         <strong>
                             ${escaparHTML(
                                 paciente.fullName
@@ -353,6 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span>
                             ${identificacion}
                         </span>
+
                     </div>
                 `;
 
@@ -387,12 +583,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
 
         inputPaciente.value =
-            paciente.fullName || "";
+            paciente.fullName ||
+            "";
 
         inputPacienteId.value =
             paciente.id;
 
-        if (cerrarResultados) {
+        if (
+            cerrarResultados
+        ) {
 
             resultadosPaciente.classList.remove(
                 "active"
@@ -402,18 +601,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function limpiarPacienteSeleccionado() {
 
-        inputPacienteId.value = "";
+        inputPacienteId.value =
+            "";
 
-        pacienteActual = null;
-        medicionesActuales = [];
-        notasActuales = [];
+        pacienteActual =
+            null;
+
+        medicionesActuales =
+            [];
+
+        notasActuales =
+            [];
+
+        mostrarResumen();
+        mostrarMediciones();
+        mostrarNotas(
+            notasActuales
+        );
+        mostrarActividad();
 
         actualizarExportacion();
     }
 
-    /* Historial */
-
-    async function cargarHistorial(patientId) {
+    async function cargarHistorial(
+        patientId
+    ) {
 
         if (!patientId) {
             return;
@@ -460,20 +672,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     : [];
 
             notasActuales =
-                Array.isArray(datos.notes)
+                Array.isArray(
+                    datos.notes
+                )
                     ? datos.notes
                     : [];
 
             mostrarResumen();
-
             mostrarMediciones();
-
             mostrarNotas(
                 notasActuales
             );
-
             mostrarActividad();
-
             actualizarExportacion();
 
         } catch (error) {
@@ -485,14 +695,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* Resumen */
-
     function mostrarResumen() {
 
-        if (
-            !resumen ||
-            !pacienteActual
-        ) {
+        if (!resumen) {
             return;
         }
 
@@ -504,29 +709,62 @@ document.addEventListener("DOMContentLoaded", () => {
         if (elementos[0]) {
 
             elementos[0].textContent =
-                pacienteActual.fullName ||
-                "N/D";
+                pacienteActual
+                    ? (
+                        pacienteActual.fullName ||
+                        traducir(
+                            "no_data",
+                            "N/D"
+                        )
+                    )
+                    : traducir(
+                        "no_data",
+                        "N/D"
+                    );
         }
 
         if (elementos[1]) {
 
-            elementos[1].textContent =
+            if (
+                pacienteActual &&
                 pacienteActual.age
-                    ? `${pacienteActual.age} años`
-                    : "N/D";
-        }
+            ) {
 
-        /*
-         * elementos[2] corresponde al responsable.
-         * common.js coloca automáticamente el usuario
-         * real de la sesión mediante data-current-user-name.
-         */
+                elementos[1].textContent =
+                    `${pacienteActual.age} ${
+                        traducir(
+                            "years",
+                            "años"
+                        )
+                    }`;
+
+            } else {
+
+                elementos[1].textContent =
+                    traducir(
+                        "no_data",
+                        "N/D"
+                    );
+            }
+        }
 
         if (elementos[3]) {
 
-            elementos[3].textContent =
-                pacienteActual.conditionGeneral ||
-                "Sin definir";
+            if (pacienteActual) {
+
+                elementos[3].textContent =
+                    traducirCondicion(
+                        pacienteActual.conditionGeneral
+                    );
+
+            } else {
+
+                elementos[3].textContent =
+                    traducir(
+                        "undefined_condition",
+                        "Sin definir"
+                    );
+            }
         }
 
         const badgeEstado =
@@ -536,14 +774,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (badgeEstado) {
 
-            if (
+            if (!pacienteActual) {
+
+                badgeEstado.textContent =
+                    traducir(
+                        "no_data",
+                        "N/D"
+                    );
+
+                badgeEstado.className =
+                    "badge warning";
+
+            } else if (
                 Number(
                     pacienteActual.isActive
                 ) === 1
             ) {
 
                 badgeEstado.textContent =
-                    "Activo";
+                    traducir(
+                        "active",
+                        "Activo"
+                    );
 
                 badgeEstado.className =
                     "badge success";
@@ -551,7 +803,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
 
                 badgeEstado.textContent =
-                    "Inactivo";
+                    traducir(
+                        "inactive",
+                        "Inactivo"
+                    );
 
                 badgeEstado.className =
                     "badge danger";
@@ -560,17 +815,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (elementos[4]) {
 
-            elementos[4].textContent =
+            if (
+                pacienteActual &&
                 medicionesActuales.length > 0
-                    ? formatearFecha(
+            ) {
+
+                elementos[4].textContent =
+                    formatearFecha(
                         medicionesActuales[0]
                             .measurementDate
-                    )
-                    : "Sin controles";
+                    );
+
+            } else {
+
+                elementos[4].textContent =
+                    traducir(
+                        "no_checkups",
+                        "Sin controles"
+                    );
+            }
         }
     }
-
-    /* Mediciones */
 
     function mostrarMediciones() {
 
@@ -581,20 +846,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const registros =
             obtenerMedicionesFiltradas();
 
-        tbodyEvolucion.innerHTML = "";
+        tbodyEvolucion.innerHTML =
+            "";
 
-        if (registros.length === 0) {
+        if (
+            registros.length === 0
+        ) {
 
             tbodyEvolucion.innerHTML = `
                 <tr>
+
                     <td
                         colspan="8"
                         class="history-empty"
                     >
-                        No hay registros para
-                        este paciente en el período
-                        seleccionado.
+                        ${traducir(
+                            "no_records_period",
+                            "No hay registros para este paciente en el período seleccionado."
+                        )}
                     </td>
+
                 </tr>
             `;
 
@@ -605,10 +876,15 @@ document.addEventListener("DOMContentLoaded", () => {
             (registro, indice) => {
 
                 const anterior =
-                    registros[indice + 1];
+                    registros[
+                        indice + 1
+                    ];
 
                 let observacion =
-                    "Estable";
+                    traducir(
+                        "stable",
+                        "Estable"
+                    );
 
                 let clase =
                     "success";
@@ -616,7 +892,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!anterior) {
 
                     observacion =
-                        "Primer Registro";
+                        traducir(
+                            "first_record",
+                            "Primer Registro"
+                        );
 
                 } else if (
                     Number(
@@ -628,7 +907,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
 
                     observacion =
-                        "Evolución Positiva";
+                        traducir(
+                            "positive_evolution",
+                            "Evolución Positiva"
+                        );
 
                 } else if (
                     Number(
@@ -640,7 +922,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
 
                     observacion =
-                        "Requiere Atención";
+                        traducir(
+                            "needs_attention",
+                            "Requiere Atención"
+                        );
 
                     clase =
                         "danger";
@@ -664,7 +949,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? `${escaparHTML(
                                     registro.weightKg
                                 )} kg`
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -674,7 +962,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? escaparHTML(
                                     registro.bmi
                                 )
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -684,7 +975,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? `${escaparHTML(
                                     registro.bodyFatPercentage
                                 )} %`
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -694,7 +988,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? `${escaparHTML(
                                     registro.heartRate
                                 )} bpm`
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -704,7 +1001,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? `${escaparHTML(
                                     registro.sleepHours
                                 )} h`
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -714,9 +1014,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? Number(
                                     registro.steps
                                 ).toLocaleString(
-                                    "es-CR"
+                                    currentLanguage === "en"
+                                        ? "en-US"
+                                        : "es-CR"
                                 )
-                                : "N/D"
+                                : traducir(
+                                    "no_data",
+                                    "N/D"
+                                )
                         }
                     </td>
 
@@ -736,17 +1041,20 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* Notas */
-
-    function mostrarNotas(notas) {
+    function mostrarNotas(
+        notas
+    ) {
 
         if (!notasContenedor) {
             return;
         }
 
-        notasContenedor.innerHTML = "";
+        notasContenedor.innerHTML =
+            "";
 
-        if (notas.length === 0) {
+        if (
+            notas.length === 0
+        ) {
 
             notasContenedor.innerHTML = `
                 <div class="note-item">
@@ -754,7 +1062,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <i class="fa-solid fa-notes-medical"></i>
 
                     <p>
-                        Sin observaciones registradas.
+                        ${traducir(
+                            "no_observations",
+                            "Sin observaciones registradas."
+                        )}
                     </p>
 
                 </div>
@@ -779,7 +1090,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <p>
                         ${escaparHTML(
-                            nota.note
+                            traducirNota(
+                                nota.note
+                            )
                         )}
                     </p>
                 `;
@@ -791,15 +1104,14 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* Actividad */
-
     function mostrarActividad() {
 
         if (!actividadReciente) {
             return;
         }
 
-        actividadReciente.innerHTML = "";
+        actividadReciente.innerHTML =
+            "";
 
         const recientes =
             medicionesActuales.slice(
@@ -807,13 +1119,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 5
             );
 
-        if (recientes.length === 0) {
+        if (
+            recientes.length === 0
+        ) {
 
             actividadReciente.innerHTML = `
                 <tr>
+
                     <td colspan="2">
-                        Sin actividad registrada.
+                        ${traducir(
+                            "no_activity",
+                            "Sin actividad registrada."
+                        )}
                     </td>
+
                 </tr>
             `;
 
@@ -836,8 +1155,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
 
                     <td>
-                        Se registró un
-                        control biométrico.
+                        ${traducir(
+                            "measurement_activity",
+                            "Se registró un control biométrico."
+                        )}
                     </td>
                 `;
 
@@ -848,18 +1169,22 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* Exportación */
-
     function actualizarExportacion() {
 
         const disponible =
-            Boolean(pacienteActual);
+            Boolean(
+                pacienteActual
+            );
 
-        btnExportPdf.disabled =
-            !disponible;
+        if (btnExportPdf) {
+            btnExportPdf.disabled =
+                !disponible;
+        }
 
-        btnExportExcel.disabled =
-            !disponible;
+        if (btnExportExcel) {
+            btnExportExcel.disabled =
+                !disponible;
+        }
     }
 
     function obtenerNombreArchivo(
@@ -871,12 +1196,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pacienteActual?.fullName ||
                 "paciente"
             )
-                .replace(/\s+/g, "_");
+                .replace(
+                    /\s+/g,
+                    "_"
+                );
 
         return `historial_${nombre}.${extension}`;
     }
-
-    /* PDF */
 
     function exportarPDF() {
 
@@ -896,7 +1222,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!ventana) {
 
             alert(
-                "El navegador bloqueó la ventana de impresión."
+                currentLanguage === "en"
+                    ? "The browser blocked the print window."
+                    : "El navegador bloqueó la ventana de impresión."
             );
 
             return;
@@ -907,6 +1235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? registros.map(
                     (registro) => `
                         <tr>
+
                             <td>
                                 ${formatearFecha(
                                     registro.measurementDate
@@ -915,61 +1244,95 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             <td>
                                 ${escaparHTML(
-                                    registro.weightKg ?? "N/D"
+                                    registro.weightKg ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
 
                             <td>
                                 ${escaparHTML(
-                                    registro.bmi ?? "N/D"
+                                    registro.bmi ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
 
                             <td>
                                 ${escaparHTML(
-                                    registro.bodyFatPercentage ?? "N/D"
+                                    registro.bodyFatPercentage ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
 
                             <td>
                                 ${escaparHTML(
-                                    registro.heartRate ?? "N/D"
+                                    registro.heartRate ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
 
                             <td>
                                 ${escaparHTML(
-                                    registro.sleepHours ?? "N/D"
+                                    registro.sleepHours ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
 
                             <td>
                                 ${escaparHTML(
-                                    registro.steps ?? "N/D"
+                                    registro.steps ??
+                                    traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                                 )}
                             </td>
+
                         </tr>
                     `
                 ).join("")
                 : `
                     <tr>
+
                         <td colspan="7">
-                            Sin registros en el período seleccionado.
+                            ${traducir(
+                                "no_records_period",
+                                "No hay registros para este paciente en el período seleccionado."
+                            )}
                         </td>
+
                     </tr>
                 `;
 
         ventana.document.write(`
             <!DOCTYPE html>
 
-            <html lang="es">
+            <html lang="${currentLanguage}">
 
             <head>
 
                 <meta charset="UTF-8">
 
                 <title>
-                    Historial Clínico
+                    Nyvora |
+                    ${traducir(
+                        "history_title",
+                        "Historial Clínico"
+                    )}
                 </title>
 
                 <style>
@@ -1033,14 +1396,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         font-size: 11px;
                     }
 
-                    @media print {
-
-                        body {
-                            margin: 20px;
-                        }
-
-                    }
-
                 </style>
 
             </head>
@@ -1048,58 +1403,110 @@ document.addEventListener("DOMContentLoaded", () => {
             <body>
 
                 <h1>
-                    Nyvora | Historial Clínico
+                    Nyvora |
+                    ${traducir(
+                        "history_title",
+                        "Historial Clínico"
+                    )}
                 </h1>
 
                 <div class="subtitle">
-                    Reporte de seguimiento biométrico
+                    ${traducir(
+                        "history_subtitle",
+                        "Consulta del historial y evolución del paciente."
+                    )}
                 </div>
 
                 <div class="summary">
 
                     <div>
-                        <span>Paciente</span>
+
+                        <span>
+                            ${traducir(
+                                "patient",
+                                "Paciente"
+                            )}
+                        </span>
+
                         <strong>
                             ${escaparHTML(
                                 pacienteActual.fullName
                             )}
                         </strong>
+
                     </div>
 
                     <div>
-                        <span>Edad</span>
+
+                        <span>
+                            ${traducir(
+                                "age",
+                                "Edad"
+                            )}
+                        </span>
+
                         <strong>
                             ${
                                 pacienteActual.age
-                                    ? `${pacienteActual.age} años`
-                                    : "N/D"
+                                    ? `${pacienteActual.age} ${traducir(
+                                        "years",
+                                        "años"
+                                    )}`
+                                    : traducir(
+                                        "no_data",
+                                        "N/D"
+                                    )
                             }
                         </strong>
+
                     </div>
 
                     <div>
-                        <span>Condición general</span>
+
+                        <span>
+                            ${traducir(
+                                "general_condition",
+                                "Condición General"
+                            )}
+                        </span>
+
                         <strong>
                             ${escaparHTML(
-                                pacienteActual.conditionGeneral ||
-                                "Sin definir"
+                                traducirCondicion(
+                                    pacienteActual.conditionGeneral
+                                )
                             )}
                         </strong>
+
                     </div>
 
                     <div>
-                        <span>Período</span>
+
+                        <span>
+                            ${traducir(
+                                "period",
+                                "Período"
+                            )}
+                        </span>
+
                         <strong>
                             ${
                                 inputDesde.value ||
-                                "Inicio"
+                                traducir(
+                                    "start",
+                                    "Inicio"
+                                )
                             }
                             —
                             ${
                                 inputHasta.value ||
-                                "Actualidad"
+                                traducir(
+                                    "current",
+                                    "Actualidad"
+                                )
                             }
                         </strong>
+
                     </div>
 
                 </div>
@@ -1107,15 +1514,60 @@ document.addEventListener("DOMContentLoaded", () => {
                 <table>
 
                     <thead>
+
                         <tr>
-                            <th>Fecha</th>
-                            <th>Peso</th>
-                            <th>IMC</th>
-                            <th>Grasa %</th>
-                            <th>FC</th>
-                            <th>Sueño</th>
-                            <th>Pasos</th>
+
+                            <th>
+                                ${traducir(
+                                    "date",
+                                    "Fecha"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "weight",
+                                    "Peso"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "bmi",
+                                    "IMC"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "body_fat",
+                                    "Grasa Corporal"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "heart_rate",
+                                    "Frecuencia Cardíaca"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "sleep_hours",
+                                    "Horas de Sueño"
+                                )}
+                            </th>
+
+                            <th>
+                                ${traducir(
+                                    "steps",
+                                    "Pasos"
+                                )}
+                            </th>
+
                         </tr>
+
                     </thead>
 
                     <tbody>
@@ -1125,13 +1577,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 </table>
 
                 <div class="footer">
-                    Generado desde Nyvora.
+                    ${traducir(
+                        "generated_by",
+                        "Generado desde Nyvora."
+                    )}
                 </div>
 
                 <script>
+
                     window.onload = function () {
                         window.print();
                     };
+
                 <\/script>
 
             </body>
@@ -1141,8 +1598,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ventana.document.close();
     }
-
-    /* Excel */
 
     function exportarExcel() {
 
@@ -1154,13 +1609,41 @@ document.addEventListener("DOMContentLoaded", () => {
             obtenerMedicionesFiltradas();
 
         const encabezados = [
-            "Fecha",
-            "Peso (kg)",
-            "IMC",
-            "Grasa Corporal (%)",
-            "Frecuencia Cardíaca (bpm)",
-            "Horas de Sueño",
-            "Pasos"
+
+            traducir(
+                "date",
+                "Fecha"
+            ),
+
+            traducir(
+                "weight_kg",
+                "Peso (kg)"
+            ),
+
+            traducir(
+                "bmi",
+                "IMC"
+            ),
+
+            traducir(
+                "body_fat",
+                "Grasa Corporal (%)"
+            ),
+
+            traducir(
+                "heart_rate_bpm",
+                "Frecuencia Cardíaca (bpm)"
+            ),
+
+            traducir(
+                "sleep_hours",
+                "Horas de Sueño"
+            ),
+
+            traducir(
+                "steps",
+                "Pasos"
+            )
         ];
 
         const filas =
@@ -1171,39 +1654,67 @@ document.addEventListener("DOMContentLoaded", () => {
                         registro.measurementDate
                     ),
 
-                    registro.weightKg ?? "",
+                    registro.weightKg ??
+                    "",
 
-                    registro.bmi ?? "",
+                    registro.bmi ??
+                    "",
 
-                    registro.bodyFatPercentage ?? "",
+                    registro.bodyFatPercentage ??
+                    "",
 
-                    registro.heartRate ?? "",
+                    registro.heartRate ??
+                    "",
 
-                    registro.sleepHours ?? "",
+                    registro.sleepHours ??
+                    "",
 
-                    registro.steps ?? ""
+                    registro.steps ??
+                    ""
                 ]
             );
 
         const contenido = [
+
             [
-                `Paciente: ${pacienteActual.fullName}`
+                `${traducir(
+                    "patient",
+                    "Paciente"
+                )}: ${pacienteActual.fullName}`
             ],
+
             [
-                `Edad: ${
+                `${traducir(
+                    "age",
+                    "Edad"
+                )}: ${
                     pacienteActual.age
-                        ? `${pacienteActual.age} años`
-                        : "N/D"
+                        ? `${pacienteActual.age} ${traducir(
+                            "years",
+                            "años"
+                        )}`
+                        : traducir(
+                            "no_data",
+                            "N/D"
+                        )
                 }`
             ],
+
             [
-                `Condición: ${
-                    pacienteActual.conditionGeneral ||
-                    "Sin definir"
+                `${traducir(
+                    "general_condition",
+                    "Condición General"
+                )}: ${
+                    traducirCondicion(
+                        pacienteActual.conditionGeneral
+                    )
                 }`
             ],
+
             [],
+
             encabezados,
+
             ...filas
         ];
 
@@ -1256,11 +1767,6 @@ document.addEventListener("DOMContentLoaded", () => {
         enlace.href =
             url;
 
-        /*
-         * Excel abre este CSV directamente.
-         * Se usa CSV porque no requiere librerías
-         * externas en el frontend.
-         */
         enlace.download =
             obtenerNombreArchivo(
                 "csv"
@@ -1278,8 +1784,6 @@ document.addEventListener("DOMContentLoaded", () => {
             url
         );
     }
-
-    /* Eventos de búsqueda */
 
     inputPaciente.addEventListener(
         "focus",
@@ -1313,15 +1817,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
             ) {
 
-                resultadosPaciente
-                    .classList.remove(
-                        "active"
-                    );
+                resultadosPaciente.classList.remove(
+                    "active"
+                );
             }
         }
     );
-
-    /* Consultar */
 
     btnConsultar.addEventListener(
         "click",
@@ -1349,8 +1850,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    /* Fechas */
-
     inputDesde.addEventListener(
         "change",
         () => {
@@ -1371,8 +1870,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    /* Exportación */
-
     btnExportPdf.addEventListener(
         "click",
         exportarPDF
@@ -1383,9 +1880,43 @@ document.addEventListener("DOMContentLoaded", () => {
         exportarExcel
     );
 
-    /* Inicialización */
+    document.addEventListener(
+        "languageChanged",
+        () => {
+
+            if (pacienteActual) {
+
+                mostrarResumen();
+                mostrarMediciones();
+                mostrarNotas(
+                    notasActuales
+                );
+                mostrarActividad();
+
+            } else {
+
+                actualizarResumenInicial();
+                mostrarMediciones();
+                mostrarNotas(
+                    notasActuales
+                );
+                mostrarActividad();
+            }
+        }
+    );
 
     actualizarExportacion();
 
+    actualizarResumenInicial();
+
+    mostrarMediciones();
+
+    mostrarNotas(
+        notasActuales
+    );
+
+    mostrarActividad();
+
     cargarPacientes();
+
 });

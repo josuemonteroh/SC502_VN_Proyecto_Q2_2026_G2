@@ -7,15 +7,17 @@
 
     <title>Nyvora | Alertas</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/components/card.css">
@@ -28,18 +30,22 @@
 
     <div class="dashboard">
 
-        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
-        <!-- Contenido -->
         <main class="content">
 
-            <!-- Header -->
             <div class="header">
 
                 <div>
-                    <h1>Alertas</h1>
-                    <p>Monitoreo y seguimiento de alertas clínicas de los pacientes.</p>
+
+                    <h1 data-lang="alerts_title">
+                        Alertas
+                    </h1>
+
+                    <p data-lang="alerts_subtitle">
+                        Monitoreo y seguimiento de alertas clínicas de los pacientes.
+                    </p>
+
                 </div>
 
                 <div class="user-card">
@@ -49,15 +55,22 @@
                     </div>
 
                     <div>
-                        <strong data-current-user-name>Usuario Nyvora</strong>
-                        <span data-current-user-role>Usuario</span>
+
+                        <strong data-current-user-name>
+                            Usuario Nyvora
+                        </strong>
+
+                        <span data-current-user-role>
+                            Usuario
+                        </span>
+
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- Filtros -->
+
             <section class="panel alert-actions">
 
                 <div class="alert-search-wrapper">
@@ -69,6 +82,7 @@
                         <input
                             id="buscarPaciente"
                             type="text"
+                            data-placeholder="search_alert"
                             placeholder="Buscar paciente, tipo de alerta o condición..."
                             autocomplete="off">
 
@@ -80,19 +94,64 @@
 
                     </div>
 
+
                     <select id="prioridad">
-                        <option value="">Todas las prioridades</option>
-                        <option value="Alta">Alta</option>
-                        <option value="Media">Media</option>
-                        <option value="Baja">Baja</option>
+
+                        <option
+                            value=""
+                            data-lang="all_priorities">
+                            Todas las prioridades
+                        </option>
+
+                        <option
+                            value="Alta"
+                            data-lang="high">
+                            Alta
+                        </option>
+
+                        <option
+                            value="Media"
+                            data-lang="medium">
+                            Media
+                        </option>
+
+                        <option
+                            value="Baja"
+                            data-lang="low">
+                            Baja
+                        </option>
+
                     </select>
 
+
                     <select id="estado">
-                        <option value="">Todos los estados</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En Seguimiento">En Seguimiento</option>
-                        <option value="Resuelta">Resuelta</option>
+
+                        <option
+                            value=""
+                            data-lang="all_status">
+                            Todos los estados
+                        </option>
+
+                        <option
+                            value="Pendiente"
+                            data-lang="pending">
+                            Pendiente
+                        </option>
+
+                        <option
+                            value="En Seguimiento"
+                            data-lang="follow_up">
+                            En Seguimiento
+                        </option>
+
+                        <option
+                            value="Resuelta"
+                            data-lang="resolved">
+                            Resuelta
+                        </option>
+
                     </select>
+
 
                     <button
                         type="button"
@@ -100,14 +159,18 @@
                         id="btn-search-alerts">
 
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        Buscar
+
+                        <span data-lang="search">
+                            Buscar
+                        </span>
+
                     </button>
 
                 </div>
 
             </section>
 
-            <!-- KPIs -->
+
             <section class="kpi-cards alert-kpis">
 
                 <div class="card">
@@ -118,14 +181,22 @@
                             <i class="fa-solid fa-bell"></i>
                         </div>
 
-                        <h2 id="kpi-alerts-active">0</h2>
+                        <h2 id="kpi-alerts-active">
+                            0
+                        </h2>
 
                     </div>
 
-                    <p>Alertas Activas</p>
-                    <small>Requieren atención o seguimiento</small>
+                    <p data-lang="active_alerts">
+                        Alertas Activas
+                    </p>
+
+                    <small data-lang="active_alerts_description">
+                        Requieren atención o seguimiento
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
@@ -135,14 +206,22 @@
                             <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
 
-                        <h2 id="kpi-alerts-high">0</h2>
+                        <h2 id="kpi-alerts-high">
+                            0
+                        </h2>
 
                     </div>
 
-                    <p>Alta Prioridad</p>
-                    <small>Requieren revisión prioritaria</small>
+                    <p data-lang="high_priority">
+                        Alta Prioridad
+                    </p>
+
+                    <small data-lang="high_priority_description">
+                        Requieren revisión prioritaria
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
@@ -152,14 +231,22 @@
                             <i class="fa-solid fa-stethoscope"></i>
                         </div>
 
-                        <h2 id="kpi-alerts-following">0</h2>
+                        <h2 id="kpi-alerts-following">
+                            0
+                        </h2>
 
                     </div>
 
-                    <p>En Seguimiento</p>
-                    <small>Actualmente bajo revisión</small>
+                    <p data-lang="follow_up">
+                        En Seguimiento
+                    </p>
+
+                    <small data-lang="follow_up_description">
+                        Actualmente bajo revisión
+                    </small>
 
                 </div>
+
 
                 <div class="card">
 
@@ -169,18 +256,25 @@
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
 
-                        <h2 id="kpi-alerts-resolved">0</h2>
+                        <h2 id="kpi-alerts-resolved">
+                            0
+                        </h2>
 
                     </div>
 
-                    <p>Resueltas</p>
-                    <small>Alertas cerradas</small>
+                    <p data-lang="resolved_alerts">
+                        Resueltas
+                    </p>
+
+                    <small data-lang="resolved_alerts_description">
+                        Alertas cerradas
+                    </small>
 
                 </div>
 
             </section>
 
-            <!-- Alertas registradas -->
+
             <section class="panel alert-list-panel">
 
                 <div class="panel-heading">
@@ -188,11 +282,16 @@
                     <div>
 
                         <h2>
+
                             <i class="fa-solid fa-bell"></i>
-                            Alertas Registradas
+
+                            <span data-lang="registered_alerts">
+                                Alertas Registradas
+                            </span>
+
                         </h2>
 
-                        <p>
+                        <p data-lang="registered_alerts_description">
                             Alertas generadas a partir del seguimiento clínico
                             de los pacientes.
                         </p>
@@ -205,24 +304,48 @@
 
                 </div>
 
+
                 <div class="table-responsive">
 
                     <table id="alerts-table">
 
                         <thead>
+
                             <tr>
-                                <th>Paciente</th>
-                                <th>Alerta</th>
-                                <th>Prioridad</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Acción</th>
+
+                                <th data-lang="patient">
+                                    Paciente
+                                </th>
+
+                                <th data-lang="alert_message">
+                                    Alerta
+                                </th>
+
+                                <th data-lang="priority">
+                                    Prioridad
+                                </th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th data-lang="status">
+                                    Estado
+                                </th>
+
+                                <th data-lang="actions">
+                                    Acción
+                                </th>
+
                             </tr>
+
                         </thead>
+
 
                         <tbody id="alerts-table-body">
 
                             <tr class="empty-alert-row">
+
                                 <td colspan="6">
 
                                     <div class="alert-empty-state">
@@ -231,11 +354,11 @@
                                             <i class="fa-regular fa-bell"></i>
                                         </div>
 
-                                        <strong>
+                                        <strong data-lang="no_alert_results">
                                             No hay alertas para mostrar
                                         </strong>
 
-                                        <p>
+                                        <p data-lang="no_alerts_description">
                                             Las alertas clínicas aparecerán aquí
                                             cuando sean detectadas por el sistema.
                                         </p>
@@ -243,6 +366,7 @@
                                     </div>
 
                                 </td>
+
                             </tr>
 
                         </tbody>
@@ -253,7 +377,7 @@
 
             </section>
 
-            <!-- Actividad reciente -->
+
             <section class="panel alert-activity-panel">
 
                 <div class="panel-heading">
@@ -261,11 +385,16 @@
                     <div>
 
                         <h2>
+
                             <i class="fa-solid fa-clock-rotate-left"></i>
-                            Actividad Reciente
+
+                            <span data-lang="recent_activity">
+                                Actividad Reciente
+                            </span>
+
                         </h2>
 
-                        <p>
+                        <p data-lang="alert_activity_description">
                             Últimos eventos relacionados con las alertas clínicas.
                         </p>
 
@@ -273,15 +402,25 @@
 
                 </div>
 
+
                 <div class="table-responsive">
 
                     <table id="alert-activity-table">
 
                         <thead>
+
                             <tr>
-                                <th>Fecha</th>
-                                <th>Actividad</th>
+
+                                <th data-lang="date">
+                                    Fecha
+                                </th>
+
+                                <th data-lang="activity">
+                                    Actividad
+                                </th>
+
                             </tr>
+
                         </thead>
 
                         <tbody id="alert-activity-body"></tbody>
@@ -296,7 +435,7 @@
 
     </div>
 
-    <!-- Modal detalle -->
+
     <div
         class="alert-modal"
         id="alert-modal"
@@ -307,9 +446,9 @@
             data-close-alert-modal>
         </div>
 
+
         <div class="alert-modal-card">
 
-            <!-- Header modal -->
             <div class="alert-modal-header">
 
                 <div class="alert-modal-title">
@@ -319,19 +458,25 @@
                     </div>
 
                     <div>
-                        <h2>Detalle de la Alerta</h2>
-                        <p>
+
+                        <h2 data-lang="alert_detail">
+                            Detalle de la Alerta
+                        </h2>
+
+                        <p data-lang="alert_detail_description">
                             Información clínica y estado de seguimiento.
                         </p>
+
                     </div>
 
                 </div>
+
 
                 <button
                     type="button"
                     class="alert-modal-close"
                     data-close-alert-modal
-                    aria-label="Cerrar">
+                    data-title="close">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -339,20 +484,29 @@
 
             </div>
 
-            <!-- Contenido modal -->
+
             <div class="alert-modal-body">
 
-                <!-- Paciente -->
                 <section class="alert-detail-section">
 
                     <div class="alert-detail-section-title">
+
                         <i class="fa-regular fa-user"></i>
 
                         <div>
-                            <strong>Paciente</strong>
-                            <span>Paciente asociado a esta alerta.</span>
+
+                            <strong data-lang="patient">
+                                Paciente
+                            </strong>
+
+                            <span data-lang="patient_alert_description">
+                                Paciente asociado a esta alerta.
+                            </span>
+
                         </div>
+
                     </div>
+
 
                     <div class="alert-patient-card">
 
@@ -361,6 +515,7 @@
                         </div>
 
                         <div>
+
                             <strong id="alert-detail-patient">
                                 Paciente
                             </strong>
@@ -368,13 +523,14 @@
                             <span id="alert-detail-patient-info">
                                 Información del paciente
                             </span>
+
                         </div>
 
                     </div>
 
                 </section>
 
-                <!-- Información -->
+
                 <section class="alert-detail-section">
 
                     <div class="alert-detail-section-title">
@@ -382,55 +538,90 @@
                         <i class="fa-solid fa-notes-medical"></i>
 
                         <div>
-                            <strong>Información de la alerta</strong>
-                            <span>
+
+                            <strong data-lang="alert_information">
+                                Información de la alerta
+                            </strong>
+
+                            <span data-lang="alert_condition_description">
                                 Condición detectada durante el seguimiento.
                             </span>
+
                         </div>
 
                     </div>
 
+
                     <div class="alert-detail-grid">
 
                         <div class="alert-detail-item">
-                            <span>Tipo de alerta</span>
-                            <strong id="alert-detail-type">N/D</strong>
+
+                            <span data-lang="alert_type">
+                                Tipo de alerta
+                            </span>
+
+                            <strong id="alert-detail-type">
+                                N/D
+                            </strong>
+
                         </div>
 
-                        <div class="alert-detail-item">
-                            <span>Fecha de detección</span>
-                            <strong id="alert-detail-date">N/D</strong>
-                        </div>
 
                         <div class="alert-detail-item">
-                            <span>Prioridad</span>
+
+                            <span data-lang="created_at">
+                                Fecha de detección
+                            </span>
+
+                            <strong id="alert-detail-date">
+                                N/D
+                            </strong>
+
+                        </div>
+
+
+                        <div class="alert-detail-item">
+
+                            <span data-lang="priority">
+                                Prioridad
+                            </span>
 
                             <div>
+
                                 <span
                                     id="alert-detail-priority"
                                     class="badge warning">
                                     N/D
                                 </span>
+
                             </div>
+
                         </div>
 
+
                         <div class="alert-detail-item">
-                            <span>Estado</span>
+
+                            <span data-lang="status">
+                                Estado
+                            </span>
 
                             <div>
+
                                 <span
                                     id="alert-detail-status"
                                     class="badge warning">
                                     N/D
                                 </span>
+
                             </div>
+
                         </div>
 
                     </div>
 
                 </section>
 
-                <!-- Descripción -->
+
                 <section class="alert-detail-section">
 
                     <div class="alert-detail-section-title">
@@ -438,25 +629,35 @@
                         <i class="fa-regular fa-message"></i>
 
                         <div>
-                            <strong>Descripción clínica</strong>
-                            <span>
+
+                            <strong data-lang="clinical_description">
+                                Descripción clínica
+                            </strong>
+
+                            <span data-lang="alert_description_information">
                                 Información asociada a la condición detectada.
                             </span>
+
                         </div>
 
                     </div>
 
+
                     <div class="alert-message-box">
-                        <p id="alert-detail-message">
+
+                        <p
+                            id="alert-detail-message"
+                            data-lang="no_description_available">
                             Sin información disponible.
                         </p>
+
                     </div>
 
                 </section>
 
             </div>
 
-            <!-- Footer modal -->
+
             <div class="alert-modal-footer">
 
                 <button
@@ -465,8 +666,13 @@
                     id="alert-open-patient">
 
                     <i class="fa-solid fa-folder-open"></i>
-                    Abrir Expediente
+
+                    <span data-lang="open_record">
+                        Abrir Expediente
+                    </span>
+
                 </button>
+
 
                 <div class="alert-modal-actions">
 
@@ -476,8 +682,13 @@
                         id="alert-follow-up">
 
                         <i class="fa-solid fa-stethoscope"></i>
-                        Iniciar Seguimiento
+
+                        <span data-lang="start_follow_up">
+                            Iniciar Seguimiento
+                        </span>
+
                     </button>
+
 
                     <button
                         type="button"
@@ -485,7 +696,11 @@
                         id="alert-resolve">
 
                         <i class="fa-solid fa-circle-check"></i>
-                        Marcar como Resuelta
+
+                        <span data-lang="mark_resolved">
+                            Marcar como Resuelta
+                        </span>
+
                     </button>
 
                 </div>
@@ -496,9 +711,10 @@
 
     </div>
 
-    <!-- JavaScript -->
+
     <script src="../js/data.js" defer></script>
     <script src="../js/common.js" defer></script>
+    <script src="../js/language.js" defer></script>
     <script src="../js/alertas.js" defer></script>
 
 </body>
