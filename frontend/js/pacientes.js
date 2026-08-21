@@ -3,133 +3,53 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const controls = {
-
-        search:
-            document.getElementById(
-                "patient-search"
-            ),
-
-        results:
-            document.getElementById(
-                "patient-search-results"
-            ),
-
-        statusFilter:
-            document.getElementById(
-                "patient-status-filter"
-            ),
-
-        orderFilter:
-            document.getElementById(
-                "patient-order-filter"
-            ),
-
-        open:
-            document.getElementById(
-                "open-patient-modal"
-            ),
-
-        table:
-            document.querySelector(
-                "#patients-table tbody"
-            ),
-
-        modal:
-            document.getElementById(
-                "patient-modal"
-            ),
-
-        form:
-            document.getElementById(
-                "patient-form"
-            ),
-
-        appointments:
-            document.getElementById(
-                "patients-appointments-list"
-            )
+        search: document.getElementById("patient-search"),
+        results: document.getElementById("patient-search-results"),
+        statusFilter: document.getElementById("patient-status-filter"),
+        orderFilter: document.getElementById("patient-order-filter"),
+        open: document.getElementById("open-patient-modal"),
+        table: document.querySelector("#patients-table tbody"),
+        modal: document.getElementById("patient-modal"),
+        form: document.getElementById("patient-form"),
+        appointments: document.getElementById("patients-appointments-list")
     };
-
 
     const fields = {
-
         id: null,
-
-        name:
-            document.getElementById(
-                "patient-full-name"
-            ),
-
-        identification:
-            document.getElementById(
-                "patient-identification"
-            ),
-
-        age:
-            document.getElementById(
-                "patient-age"
-            ),
-
-        phone:
-            document.getElementById(
-                "patient-phone"
-            ),
-
-        height:
-            document.getElementById(
-                "patient-height"
-            ),
-
-        status:
-            document.getElementById(
-                "patient-status"
-            ),
-
-        condition:
-            document.getElementById(
-                "patient-condition"
-            ),
-
-        observations:
-            document.getElementById(
-                "patient-observations"
-            )
+        name: document.getElementById("patient-full-name"),
+        identification: document.getElementById("patient-identification"),
+        age: document.getElementById("patient-age"),
+        phone: document.getElementById("patient-phone"),
+        height: document.getElementById("patient-height"),
+        status: document.getElementById("patient-status"),
+        condition: document.getElementById("patient-condition"),
+        observations: document.getElementById("patient-observations")
     };
-
 
     let patients = [];
     let upcomingAppointments = [];
 
 
-    function traducir(
-        clave,
-        valorDefault = ""
-    ) {
+    function t(key, fallback = "") {
 
         if (
             typeof translations !== "undefined" &&
             typeof currentLanguage !== "undefined" &&
             translations[currentLanguage] &&
-            translations[currentLanguage][clave] !== undefined
+            translations[currentLanguage][key] !== undefined
         ) {
-
-            return translations[currentLanguage][clave];
+            return translations[currentLanguage][key];
         }
 
-        return valorDefault;
+        return fallback;
     }
 
 
     function normalize(value) {
 
-        return String(
-            value || ""
-        )
+        return String(value || "")
             .normalize("NFD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            )
+            .replace(/[\u0300-\u036f]/g, "")
             .toLowerCase()
             .trim();
     }
@@ -137,41 +57,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function statusInfo(status) {
 
-        return {
-
+        const labels = {
             ACTIVO: [
-                traducir(
-                    "active",
-                    "Activo"
-                ),
+                t("active", "Active"),
                 "success"
             ],
 
             SEGUIMIENTO: [
-                traducir(
-                    "follow_up",
-                    "Seguimiento"
-                ),
+                t("follow_up", "Under Follow-up"),
                 "warning"
             ],
 
             INACTIVO: [
-                traducir(
-                    "inactive",
-                    "Inactivo"
-                ),
+                t("inactive", "Inactive"),
                 "danger"
             ]
+        };
 
-        }[status] || [
-
-            traducir(
-                "undefined_status",
-                "Sin estado"
-            ),
-
+        return labels[status] || [
+            t("undefined_status", "No status"),
             "warning"
         ];
+    }
+
+
+    function appointmentTypeLabel(type) {
+
+        const labels = {
+            VALORACION_INICIAL:
+                t("initial_assessment", "Initial Assessment"),
+
+            CONTROL_NUTRICIONAL:
+                t("nutritional_control", "Nutritional Control"),
+
+            SEGUIMIENTO_BIOMETRICO:
+                t("biometric_followup", "Biometric Follow-up"),
+
+            REVISION_CLINICA:
+                t("clinical_review", "Clinical Review"),
+
+            OTRO:
+                t("other", "Other")
+        };
+
+        return labels[type] ||
+            String(type || "")
+                .replaceAll("_", " ");
     }
 
 
@@ -188,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const query =
             new URLSearchParams();
 
-
         if (
             controls.search.value.trim()
         ) {
@@ -202,12 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (
             controls.statusFilter.value !==
-            "Estado" &&
-            controls.statusFilter.value !==
-            traducir(
-                "status",
-                "Estado"
-            )
+            "Estado"
         ) {
 
             query.set(
@@ -228,7 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
             "Último control":
                 "lastMeasurement",
 
-            "Last checkup":
+            Name:
+                "name",
+
+            Age:
+                "age",
+
+            "Last Checkup":
                 "lastMeasurement"
 
         }[
@@ -254,18 +185,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             patients =
-                result.data ||
-                [];
+                result.data || [];
 
 
             upcomingAppointments =
-                result.upcomingAppointments ||
-                [];
+                result.upcomingAppointments || [];
 
 
             render(
-                result.kpis ||
-                {}
+                result.kpis || {}
             );
 
 
@@ -278,7 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             controls.table.innerHTML = `
                 <tr>
-
                     <td
                         colspan="6"
                         class="patients-empty-row">
@@ -288,7 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         )}
 
                     </td>
-
                 </tr>
             `;
         }
@@ -312,8 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (element) {
 
                     element.textContent =
-                        value ??
-                        0;
+                        value ?? 0;
                 }
             };
 
@@ -384,21 +309,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             controls.table.innerHTML = `
                 <tr>
-
                     <td
                         colspan="6"
                         class="patients-empty-row">
 
-                        ${traducir(
+                        ${t(
                             "no_patients_filter",
-                            "No se encontraron pacientes con los filtros seleccionados."
+                            "No patients were found with the selected filters."
                         )}
 
                     </td>
-
                 </tr>
             `;
-
 
             return;
         }
@@ -439,9 +361,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         ${
                             patient.age ??
-                            traducir(
+                            t(
                                 "no_data",
-                                "N/D"
+                                "N/A"
                             )
                         }
 
@@ -453,9 +375,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${
                             patient.initialWeightKg != null
                                 ? `${patient.initialWeightKg} kg`
-                                : traducir(
+                                : t(
                                     "no_record",
-                                    "Sin registro"
+                                    "No record"
                                 )
                         }
 
@@ -469,9 +391,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? nyvoraFormatDate(
                                     patient.lastMeasurementDate
                                 )
-                                : traducir(
+                                : t(
                                     "no_checkups",
-                                    "Sin controles"
+                                    "No checkups"
                                 )
                         }
 
@@ -482,7 +404,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         <span
                             class="badge ${className}">
+
                             ${label}
+
                         </span>
 
                     </td>
@@ -493,16 +417,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         <a
                             href="historial.html?id=${patient.id}"
                             class="action-link"
-                            title="${traducir(
+                            title="${t(
                                 "open_record",
-                                "Abrir expediente"
+                                "Open Record"
                             )}">
 
                             <i class="fa-solid fa-eye"></i>
 
-                            ${traducir(
+                            ${t(
                                 "open_record",
-                                "Abrir Expediente"
+                                "Open Record"
                             )}
 
                         </a>
@@ -511,9 +435,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <button
                             type="button"
                             class="action-link patient-edit"
-                            title="${traducir(
+                            title="${t(
                                 "edit_patient",
-                                "Editar paciente"
+                                "Edit Patient"
                             )}">
 
                             <i class="fa-solid fa-pen"></i>
@@ -564,11 +488,16 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
 
             controls.appointments.innerHTML = `
-                <div class="patients-empty-state">
 
-                    <div class="patients-empty-state-icon">
+                <div
+                    class="patients-empty-state">
 
-                        <i class="fa-regular fa-calendar"></i>
+                    <div
+                        class="patients-empty-state-icon">
+
+                        <i
+                            class="fa-regular fa-calendar">
+                        </i>
 
                     </div>
 
@@ -576,25 +505,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>
 
                         <strong>
-                            ${traducir(
+
+                            ${t(
                                 "no_appointments",
-                                "No hay citas programadas."
+                                "No appointments scheduled."
                             )}
+
                         </strong>
 
 
                         <span>
-                            ${traducir(
+
+                            ${t(
                                 "appointments_empty_description",
-                                "Las próximas citas aparecerán aquí cuando se programen."
+                                "Upcoming appointments will appear here when scheduled."
                             )}
+
                         </span>
 
                     </div>
 
                 </div>
             `;
-
 
             return;
         }
@@ -618,17 +550,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>
 
                         <strong>
+
                             ${nyvoraEscapeHtml(
                                 appointment.patientName
                             )}
+
                         </strong>
+
 
                         <span>
 
                             ${nyvoraEscapeHtml(
-                                appointment.type.replaceAll(
-                                    "_",
-                                    " "
+                                appointmentTypeLabel(
+                                    appointment.type
                                 )
                             )}
 
@@ -694,14 +628,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             patient.phone,
                             patient.status
                         ]
-                            .some(
-                                (value) =>
-                                    normalize(
-                                        value
-                                    ).includes(
-                                        term
-                                    )
-                            )
+                        .some(
+                            (value) =>
+                                normalize(
+                                    value
+                                ).includes(
+                                    term
+                                )
+                        )
                 )
                 .slice(
                     0,
@@ -713,11 +647,12 @@ document.addEventListener("DOMContentLoaded", () => {
             matches.length
                 ? ""
                 : `
-                    <div class="patient-search-empty">
+                    <div
+                        class="patient-search-empty">
 
-                        ${traducir(
-                            "no_patients",
-                            "No se encontraron pacientes."
+                        ${t(
+                            "no_patients_found",
+                            "No patients found."
                         )}
 
                     </div>
@@ -743,14 +678,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 option.innerHTML = `
 
-                    <div class="patient-search-option-icon">
+                    <div
+                        class="patient-search-option-icon">
 
-                        <i class="fa-regular fa-user"></i>
+                        <i
+                            class="fa-regular fa-user">
+                        </i>
 
                     </div>
 
 
-                    <div class="patient-search-option-info">
+                    <div
+                        class="patient-search-option-info">
 
                         <strong>
 
@@ -768,16 +707,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                     patient.identification,
                                     patient.phone
                                 ]
-                                    .filter(
-                                        Boolean
-                                    )
-                                    .join(
-                                        " · "
-                                    ) ||
+                                .filter(Boolean)
+                                .join(" · ") ||
 
-                                traducir(
+                                t(
                                     "registered_patient",
-                                    "Paciente registrado"
+                                    "Registered patient"
                                 )
                             )}
 
@@ -884,7 +819,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         clearErrors();
 
-
         let result =
             true;
 
@@ -907,12 +841,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             fieldError(
                 fields.name,
-                traducir(
+                t(
                     "name_required",
-                    "Ingrese el nombre completo."
+                    "Enter the full name."
                 )
             );
-
 
             result =
                 false;
@@ -920,21 +853,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (
-            !Number.isFinite(
-                age
-            ) ||
+            !Number.isFinite(age) ||
             age < 0 ||
             age > 120
         ) {
 
             fieldError(
                 fields.age,
-                traducir(
+                t(
                     "age_invalid",
-                    "Ingrese una edad válida."
+                    "Enter a valid age."
                 )
             );
-
 
             result =
                 false;
@@ -942,21 +872,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (
-            !Number.isFinite(
-                height
-            ) ||
+            !Number.isFinite(height) ||
             height < 0.5 ||
             height > 2.5
         ) {
 
             fieldError(
                 fields.height,
-                traducir(
+                t(
                     "height_invalid",
-                    "Ingrese una estatura válida."
+                    "Enter a valid height."
                 )
             );
-
 
             result =
                 false;
@@ -978,21 +905,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         controls.form.reset();
 
-
         clearErrors();
 
 
         document.getElementById(
             "patient-modal-title"
         ).textContent =
+
             patient
-                ? traducir(
+                ? t(
                     "edit_patient",
-                    "Editar Paciente"
+                    "Edit Patient"
                 )
-                : traducir(
-                    "register_patient",
-                    "Registrar Paciente"
+                : t(
+                    "save_patient",
+                    "Register Patient"
                 );
 
 
@@ -1154,7 +1081,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ? "PUT"
                                 : "POST",
 
-                        body
+                        body:
+                            body
                     }
                 );
 
@@ -1284,37 +1212,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "languageChanged",
         () => {
 
-            render(
-                {}
-            );
-
-
             loadPatients();
-
-
-            if (
-                controls.modal.classList.contains(
-                    "is-open"
-                )
-            ) {
-
-                document.getElementById(
-                    "patient-modal-title"
-                ).textContent =
-                    fields.id
-                        ? traducir(
-                            "edit_patient",
-                            "Editar Paciente"
-                        )
-                        : traducir(
-                            "register_patient",
-                            "Registrar Paciente"
-                        );
-            }
         }
     );
 
 
     loadPatients();
-
 });
