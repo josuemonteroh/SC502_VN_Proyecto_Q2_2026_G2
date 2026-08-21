@@ -47,6 +47,22 @@
     font-weight: 500;
 }
 
+/* Paneles */
+
+.panel h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.panel h2 i {
+    font-size: 18px;
+}
+
 /* Perfil y preferencias */
 
 .settings-grid {
@@ -59,6 +75,7 @@
 .settings-grid > div {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .settings-label {
@@ -79,6 +96,7 @@
     color: var(--color-text-heading);
     font-family: var(--font-base);
     font-size: 14px;
+    outline: none;
     transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease;
@@ -89,7 +107,6 @@
 }
 
 .settings-input:focus {
-    outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(14, 122, 110, 0.10);
 }
@@ -106,8 +123,6 @@
     box-shadow: none;
 }
 
-/* Selectores */
-
 select.settings-input {
     cursor: pointer;
 }
@@ -116,6 +131,7 @@ select.settings-input {
 
 .checkbox-label {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 9px;
     min-height: 46px;
@@ -129,6 +145,7 @@ select.settings-input {
     width: 17px;
     height: 17px;
     margin: 0;
+    flex-shrink: 0;
     accent-color: var(--color-primary);
     cursor: pointer;
 }
@@ -160,7 +177,8 @@ select.settings-input {
     cursor: pointer;
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 .settings-actions .btn-primary:hover {
@@ -194,8 +212,15 @@ select.settings-input {
     font-size: 18px;
 }
 
+.system-info-header > div:last-child {
+    min-width: 0;
+}
+
 .system-info-header h2 {
     margin: 0;
+    color: var(--color-primary);
+    font-size: 22px;
+    font-weight: 700;
 }
 
 .system-info-header p {
@@ -233,6 +258,10 @@ select.settings-input {
     font-size: 16px;
 }
 
+.system-info-description > div:last-child {
+    min-width: 0;
+}
+
 .system-info-description strong {
     display: block;
     margin-bottom: 6px;
@@ -259,6 +288,7 @@ select.settings-input {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    min-height: 48px;
     padding: 14px 16px;
     border: 1px solid #E5E7EB;
     border-radius: 12px;
@@ -311,6 +341,10 @@ select.settings-input {
 }
 
 @media (max-width: 600px) {
+    .user-card {
+        min-width: 0;
+    }
+
     .system-info-item {
         flex-direction: column;
         align-items: flex-start;
