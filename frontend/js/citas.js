@@ -616,6 +616,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             cita.patientId
                         );
 
+                    const citaId =
+                        normalizar(cita.id);
+
+                    const pacienteId =
+                        normalizar(cita.patientId);
+
                     const nombre =
                         normalizar(
                             paciente?.fullName
@@ -623,8 +629,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const identificacion =
                         normalizar(
-                            paciente
-                                ?.identification
+                            paciente?.identification
                         );
 
                     const tipo =
@@ -634,16 +639,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             )
                         );
 
+                    const fecha =
+                        normalizar(cita.date);
+
+                    const estado =
+                        normalizar(
+                            estadoInfo(
+                                cita.status
+                            ).texto
+                        );
+
                     return (
-                        nombre.includes(
-                            busqueda
-                        ) ||
-                        identificacion.includes(
-                            busqueda
-                        ) ||
-                        tipo.includes(
-                            busqueda
-                        )
+                        citaId.includes(busqueda) ||
+                        pacienteId.includes(busqueda) ||
+                        nombre.includes(busqueda) ||
+                        identificacion.includes(busqueda) ||
+                        tipo.includes(busqueda) ||
+                        fecha.includes(busqueda) ||
+                        estado.includes(busqueda)
                     );
                 });
         }
@@ -687,7 +700,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
     }
-
     function renderTabla() {
         const citas =
             obtenerCitasFiltradas();

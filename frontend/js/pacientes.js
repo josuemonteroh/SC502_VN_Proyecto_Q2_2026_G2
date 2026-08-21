@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Búsqueda inteligente */
 
-    function obtenerCoincidencias() {
+        function obtenerCoincidencias() {
         const termino =
             normalizar(inputBuscar.value);
 
@@ -357,6 +357,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return nyvoraGetPatients()
             .filter((paciente) => {
+
+                const id =
+                    normalizar(paciente.id);
 
                 const nombre =
                     normalizar(paciente.fullName);
@@ -375,6 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                 return (
+                    id.includes(termino) ||
                     nombre.includes(termino) ||
                     identificacion.includes(termino) ||
                     telefono.includes(termino) ||
@@ -527,7 +531,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             ).texto
                         );
 
+                    const id =
+                        normalizar(paciente.id);
+
                     return (
+                        id.includes(busqueda) ||
                         nombre.includes(busqueda) ||
                         identificacion.includes(busqueda) ||
                         telefono.includes(busqueda) ||
