@@ -700,6 +700,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
     }
+    
     function renderTabla() {
         const citas =
             obtenerCitasFiltradas();
