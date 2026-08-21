@@ -8,6 +8,7 @@ $origenesPermitidos = [
 
 if (in_array($origin, $origenesPermitidos, true)) {
     header("Access-Control-Allow-Origin: " . $origin);
+    header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Max-Age: 86400");
@@ -32,7 +33,7 @@ try {
     $db = $conexion->conectar();
 
 
-    // Si no se recibe un paciente, devuelve la lista para llenar el select
+    // Si no se recibe un paciente, devuelve la lista para llenar el buscador
     if (!isset($_GET["patient_id"])) {
 
         $sql = "SELECT
@@ -41,7 +42,9 @@ try {
                     age,
                     condition_general AS conditionGeneral,
                     observations,
-                    is_active AS isActive
+                    is_active AS isActive,
+                    identification,
+                    phone
                 FROM patients
                 WHERE is_active = 1
                 ORDER BY full_name ASC";
@@ -85,7 +88,9 @@ try {
                         age,
                         condition_general AS conditionGeneral,
                         observations,
-                        is_active AS isActive
+                        is_active AS isActive,
+                        identification,
+                        phone
                     FROM patients
                     WHERE id = :patient_id";
 
