@@ -49,8 +49,7 @@ services:
       - ./database/scripts/config1_database.sql:/docker-entrypoint-initdb.d/01_database.sql:ro
       - ./database/scripts/config2_tables.sql:/docker-entrypoint-initdb.d/02_tables.sql:ro
       - ./database/scripts/config3_indexes.sql:/docker-entrypoint-initdb.d/03_indexes.sql:ro
-      - ./database/seed/roles.sql:/docker-entrypoint-initdb.d/04_roles.sql:ro
-      - ./database/seed/data.sql:/docker-entrypoint-initdb.d/05_data.sql:ro
+      - ./database/seed/restore_nyvora.sql:/docker-entrypoint-initdb.d/04_restore_nyvora.sql:ro
 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
