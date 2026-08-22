@@ -21,9 +21,9 @@ INSERT INTO roles (id, name, description) VALUES
 (3, 'USER', 'Usuario del sistema');
 
 INSERT INTO users (id, role_id, full_name, email, password_hash, is_active) VALUES
-(1, 1, 'Administrador Nyvora', 'admin@nyvora.com', '$2y$12$gV/ikbUl9PECqRzydQ7oX.I0oqh0q4z.r9/bEZPXvdX0SMKGy6Rci', TRUE),
-(2, 2, 'Dr. Hernandez C.', 'doctor@nyvora.com', '$2y$12$gV/ikbUl9PECqRzydQ7oX.I0oqh0q4z.r9/bEZPXvdX0SMKGy6Rci', TRUE),
-(3, 3, 'Usuario de Prueba', 'usuario@nyvora.com', '$2y$12$gV/ikbUl9PECqRzydQ7oX.I0oqh0q4z.r9/bEZPXvdX0SMKGy6Rci', TRUE);
+(1, 1, 'Administrador Nyvora', 'admin@nyvora.com', '$2y$10$SP0qE78/1nRYD7j22Vv1nedoieYrWC.mz6biAG9LOdIaWw7kWs8Hm', TRUE),
+(2, 2, 'Dr. Hernandez C.', 'doctor@nyvora.com', '$2y$10$WuB1Kck.mr6DZpAs9jOJx.R5tt7QJasEg1cVZR/osZPBL9pvTIPnC', TRUE),
+(3, 3, 'Usuario de Prueba', 'usuario@nyvora.com', '$2y$10$ucD/n39mZeM17K9hPOMNX.VW/E4wZHA2/R0lALHJLWWYTaKuHkgSG', TRUE);
 
 INSERT INTO patients (id, user_id, full_name, identification, age, phone, height_m, condition_general, observations, status, is_active) VALUES
 (1, 1, 'Carlos Rodriguez', '1-1001-1001', 28, '8888-1001', 1.78, 'Sobrepeso moderado', 'Seguimiento preventivo de peso y actividad.', 'ACTIVO', TRUE),
